@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
   detailsframe: {
     height: 618,
     marginTop: 15,
-    alignItems: "center",
+
   },
   main: {
     height: 733,
