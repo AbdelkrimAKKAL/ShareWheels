@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import ContainerInput from "../components/ContainerInput";
@@ -35,7 +35,7 @@ const Details = () => {
             </View>
           </View>
         </View>
-        <View style={styles.detailsframe}>
+        <ScrollView style={styles.detailsframe}>
           <View style={styles.inputinfoLayout}>
             <Text style={[styles.amineemailcon, styles.maleTypo]}>
               Amine@email.con
@@ -195,7 +195,7 @@ const Details = () => {
             buttonfirstPosition="unset"
             buttonfirstMarginTop={10}
           />
-        </View>
+        </ScrollView>
       </View>
       <FooterSearch
         dimensionCode={require("../assets/search1.png")}
