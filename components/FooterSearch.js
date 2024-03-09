@@ -16,7 +16,7 @@ const FooterSearch = () => {
         <Image
           style={styles.searchIcon}
           contentFit="cover"
-          source={require("../assets/search1.png")}
+          source={require("../assets/search.png")}
         />
         <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
       </Pressable>
@@ -49,7 +49,7 @@ const FooterSearch = () => {
         <Image
           style={styles.searchIcon}
           contentFit="cover"
-          source={require("../assets/sharecircle-svgrepocom.png")}
+          source={require("../assets/sharecircle-svgrepocom5.png")}
         />
         <Text style={[styles.yourRides1, styles.search1Typo]}>Carpool</Text>
       </Pressable>
@@ -60,7 +60,7 @@ const FooterSearch = () => {
         <Image
           style={styles.profileIcon}
           contentFit="cover"
-          source={require("../assets/profile1.png")}
+          source={require("../assets/profile.png")}
         />
         <Text style={[styles.yourRides1, styles.search1Typo]}>Profile</Text>
       </Pressable>

@@ -2,29 +2,27 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import GenreInputContainer from "../components/GenreInputContainer";
-import FooterSearch from "../components/FooterSearch";
-import { FontFamily, FontSize, Color, Padding, Border } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 
 const SignUp = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.signUp}>
+    <View style={[styles.signUp, styles.signUpFlexBox]}>
       <View style={styles.bar}>
         <View style={[styles.rectangle, styles.textPosition]} />
       </View>
       <Text style={styles.createAccount}>Create Account</Text>
       <View style={styles.main}>
-        <View style={styles.inputShadowBox}>
+        <View style={styles.inputShadowBox1}>
           <Image
-            style={styles.userIcon}
+            style={[styles.userIcon, styles.iconLayout1]}
             contentFit="cover"
             source={require("../assets/user.png")}
           />
           <Text style={[styles.number, styles.numberTypo]}>Nom</Text>
         </View>
-        <View style={[styles.input1, styles.inputShadowBox]}>
+        <View style={[styles.input1, styles.inputShadowBox1]}>
           <Image
             style={styles.stylestrokeIcon}
             contentFit="cover"
@@ -32,7 +30,7 @@ const SignUp = () => {
           />
           <Text style={[styles.number, styles.numberTypo]}>Mail</Text>
         </View>
-        <View style={[styles.input2, styles.inputShadowBox]}>
+        <View style={[styles.input2, styles.inputShadowBox1]}>
           <View style={styles.parent}>
             <Text style={[styles.text, styles.textTypo]}>+213</Text>
             <Image
@@ -45,21 +43,60 @@ const SignUp = () => {
             Numero de Telephone
           </Text>
         </View>
-        <GenreInputContainer
-          dimensionCode={require("../assets/group4.png")}
-          categoryOrPassword="Genre"
-          specificDimensions={require("../assets/down-arrow.png")}
-        />
-        <GenreInputContainer
-          dimensionCode={require("../assets/password.png")}
-          categoryOrPassword="mot de passe"
-          specificDimensions={require("../assets/hidden.png")}
-          propWidth={22}
-          propHeight={22}
-          propWidth1={24}
-        />
+        <View style={[styles.input3, styles.inputShadowBox1]}>
+          <Image
+            style={styles.groupIcon}
+            contentFit="cover"
+            source={require("../assets/group1.png")}
+          />
+          <Text style={[styles.number3, styles.numberTypo]}>Genre</Text>
+          <Image
+            style={styles.downArrowIcon}
+            contentFit="cover"
+            source={require("../assets/down-arrow2.png")}
+          />
+        </View>
+        <View style={[styles.input4, styles.inputShadowBox1]}>
+          <Image
+            style={styles.iconLayout}
+            contentFit="cover"
+            source={require("../assets/password.png")}
+          />
+          <Text style={[styles.number3, styles.numberTypo]}>mot de passe</Text>
+          <Image
+            style={[styles.hiddenIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../assets/hidden.png")}
+          />
+        </View>
         <Pressable
-          style={styles.buttonfirst}
+          style={styles.inputShadowBox}
+          onPress={() => navigation.navigate("Voiture")}
+        >
+          <Image
+            style={[styles.mapPinIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/mappin6.png")}
+          />
+          <Text style={[styles.number5, styles.numberTypo]}>
+            Voiture (optionnel)
+          </Text>
+        </Pressable>
+        <Pressable
+          style={styles.inputShadowBox}
+          onPress={() => navigation.navigate("DatailsAjouter")}
+        >
+          <Image
+            style={[styles.userIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../assets/addellipse-svgrepocom.png")}
+          />
+          <Text style={[styles.number6, styles.numberTypo]}>
+            Details a ajouter (optionnel)
+          </Text>
+        </Pressable>
+        <Pressable
+          style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
           onPress={() => navigation.navigate("MonProfil")}
         >
           <Text style={[styles.signUp1, styles.textTypo]}>Sign up</Text>
@@ -75,34 +112,82 @@ const SignUp = () => {
           </Text>
         </Pressable>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile.png")}
-        propColor="#9d9fa0"
-        propColor1="#9d9fa0"
-        propColor2="#9d9fa0"
-        propColor3="#9d9fa0"
-        propColor4="#0075fd"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footerprofile, styles.buttonfirstFlexBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={[styles.userIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../assets/search1.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={[styles.userIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={[styles.userIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={[styles.userIcon, styles.iconLayout1]}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom5.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.iconLayout}
+            contentFit="cover"
+            source={require("../assets/profile1.png")}
+          />
+          <Text style={[styles.profile1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  signUpFlexBox: {
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   textPosition: {
     left: "0%",
     top: "0%",
     height: "100%",
     position: "absolute",
     width: "100%",
+  },
+  iconLayout1: {
+    width: 24,
+    height: 24,
   },
   numberTypo: {
     height: 19,
@@ -112,12 +197,12 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
     color: Color.colorGray_100,
   },
-  inputShadowBox: {
+  inputShadowBox1: {
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
     width: 292,
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     borderStyle: "solid",
     elevation: 30,
     shadowRadius: 30,
@@ -138,6 +223,33 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: FontSize.subheadLgSHLgMedium_size,
   },
+  iconLayout: {
+    height: 22,
+    width: 22,
+  },
+  buttonfirstFlexBox: {
+    flexDirection: "row",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    alignItems: "center",
+  },
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
+  },
   rectangle: {
     right: "0%",
     bottom: "0%",
@@ -146,8 +258,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
   },
   createAccount: {
@@ -159,7 +271,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   userIcon: {
-    width: 24,
     height: 24,
     overflow: "hidden",
   },
@@ -171,7 +282,7 @@ const styles = StyleSheet.create({
     height: 23,
   },
   input1: {
-    marginTop: 23,
+    marginTop: 20,
   },
   text: {
     lineHeight: 24,
@@ -203,7 +314,59 @@ const styles = StyleSheet.create({
     width: 181,
   },
   input2: {
-    marginTop: 23,
+    marginTop: 20,
+  },
+  groupIcon: {
+    width: 21,
+    height: 24,
+  },
+  number3: {
+    width: 198,
+  },
+  downArrowIcon: {
+    width: 22,
+    height: 24,
+  },
+  input3: {
+    marginTop: 20,
+  },
+  hiddenIcon: {
+    height: 24,
+  },
+  input4: {
+    marginTop: 20,
+  },
+  mapPinIcon: {
+    overflow: "hidden",
+  },
+  number5: {
+    width: 223,
+  },
+  inputShadowBox: {
+    height: 57,
+    marginTop: 20,
+    paddingVertical: Padding.p_base,
+    paddingHorizontal: Padding.p_mini,
+    flexDirection: "row",
+    width: 292,
+    borderWidth: 1,
+    borderColor: Color.colorGray_300,
+    borderStyle: "solid",
+    shadowOpacity: 1,
+    elevation: 30,
+    shadowRadius: 30,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowColor: "rgba(80, 85, 136, 0.1)",
+    borderRadius: Border.br_base,
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
+  },
+  number6: {
+    width: 224,
   },
   signUp1: {
     lineHeight: 24,
@@ -219,15 +382,8 @@ const styles = StyleSheet.create({
     elevation: 14,
     width: 317,
     height: 58,
-    marginTop: 23,
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
+    marginTop: 20,
     justifyContent: "center",
-    alignItems: "center",
   },
   alreadyHaveAn: {
     color: Color.colorGray_100,
@@ -245,21 +401,37 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   alreadyHaveAnContainer: {
-    marginTop: 23,
+    marginTop: 20,
   },
   main: {
-    height: 558,
+    height: 647,
     justifyContent: "center",
     alignItems: "center",
+  },
+  search1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  profile1: {
+    color: Color.colorRoyalblue_100,
+  },
+  footerprofile: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    width: 375,
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
   },
   signUp: {
     flex: 1,
     height: 834,
-    justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
     overflow: "hidden",
-    backgroundColor: Color.neutralWhite,
+    width: "100%",
+    justifyContent: "space-between",
   },
 });
 

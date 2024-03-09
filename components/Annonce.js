@@ -1,40 +1,19 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import { Image } from "expo-image";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  ImageSourcePropType,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 
-const getStyleValue = (key, value) => {
-  if (value === undefined) return;
-  return { [key]: value === "unset" ? undefined : value };
-};
-const Annonce = ({
-  profilePicture,
-  vector,
-  group,
-  annoncePosition,
-  annonceMarginTop,
-  onDetailsPress,
-}) => {
-  const annonceStyle = useMemo(() => {
-    return {
-      ...getStyleValue("position", annoncePosition),
-      ...getStyleValue("marginTop", annonceMarginTop),
-    };
-  }, [annoncePosition, annonceMarginTop]);
+const Annonce = () => {
+  const navigation = useNavigation();
 
   return (
-    <View style={[styles.annonce, styles.dateFlexBox, annonceStyle]}>
+    <View style={[styles.annonce, styles.dateFlexBox]}>
       <View style={styles.infos}>
         <Image
           style={styles.profilepictureIcon}
           contentFit="cover"
-          source={profilePicture}
+          source={require("../assets/profilepicture1.png")}
         />
         <View style={[styles.infosprofil, styles.trajetPosition]}>
           <Text style={[styles.amineMeddouri, styles.textTypo]}>
@@ -44,13 +23,17 @@ const Annonce = ({
             <Image
               style={styles.vectorIcon}
               contentFit="cover"
-              source={vector}
+              source={require("../assets/vector4.png")}
             />
             <Text style={[styles.text, styles.textTypo]}>4.7(1)</Text>
           </View>
         </View>
         <View style={[styles.trajet, styles.trajetFlexBox]}>
-          <Image style={styles.groupIcon} contentFit="cover" source={group} />
+          <Image
+            style={styles.groupIcon}
+            contentFit="cover"
+            source={require("../assets/group2.png")}
+          />
           <View style={styles.bejaiaParent}>
             <Text style={[styles.bejaia, styles.algerTypo]}>Bejaia</Text>
             <Text style={[styles.alger, styles.algerTypo]}>Alger</Text>
@@ -85,7 +68,7 @@ const Annonce = ({
       <View style={styles.buttons}>
         <Pressable
           style={[styles.details, styles.detailsFlexBox]}
-          onPress={onDetailsPress}
+          onPress={() => navigation.navigate("Details")}
         >
           <Text style={[styles.details1, styles.details1Typo]}>Details</Text>
         </Pressable>

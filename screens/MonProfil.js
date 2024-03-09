@@ -2,9 +2,7 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import ContainerInput from "../components/ContainerInput";
-import FooterSearch from "../components/FooterSearch";
-import { FontSize, FontFamily, Border, Color, Padding } from "../GlobalStyles";
+import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
 
 const MonProfil = () => {
   const navigation = useNavigation();
@@ -12,36 +10,68 @@ const MonProfil = () => {
   return (
     <View style={styles.monprofil}>
       <View style={styles.bar}>
-        <View style={styles.rectangle} />
+        <View style={[styles.rectangle, styles.text1Position]} />
       </View>
       <View style={styles.main}>
-        <Text style={[styles.title, styles.titleFlexBox]}>Mon Profile</Text>
-        <Image
-          style={styles.imageIcon}
-          contentFit="cover"
-          source={require("../assets/image2.png")}
-        />
-        <Text style={styles.amineMeddouri}>Amine Meddouri</Text>
-        <View style={styles.vectorParent}>
+        <Text style={[styles.title, styles.nomFlexBox]}>Mon Profile</Text>
+        <View style={[styles.userprofile, styles.inputsFlexBox]}>
           <Image
-            style={styles.vectorIcon}
+            style={styles.imageIcon}
             contentFit="cover"
-            source={require("../assets/vector3.png")}
+            source={require("../assets/image1.png")}
           />
-          <Text style={styles.note}>4.7</Text>
-        </View>
-        <View style={[styles.inputs, styles.titleFlexBox]}>
-          <View style={styles.inputinfo}>
-            <Text style={styles.amineemailcon}>Amine@email.con</Text>
+          <View style={[styles.nom, styles.nomFlexBox]}>
+            <Text style={[styles.amineMeddouri, styles.titleTypo]}>
+              Amine Meddouri
+            </Text>
+            <View style={[styles.vectorParent, styles.nomFlexBox]}>
+              <Image
+                style={styles.vectorIcon}
+                contentFit="cover"
+                source={require("../assets/vector3.png")}
+              />
+              <Text style={styles.text}>4.7 (1)</Text>
+            </View>
           </View>
-          <ContainerInput
-            productCode={require("../assets/flagforflagalgeria-svgrepocom1.png")}
-            propMarginTop={17}
-            propColor="#a4a4a4"
-          />
+        </View>
+        <View style={[styles.inputs, styles.inputsFlexBox]}>
+          <View style={[styles.inputinfo, styles.inputLayout1]}>
+            <Text style={[styles.amineemailcon, styles.numeroFlexBox]}>
+              Amine@email.con
+            </Text>
+          </View>
+          <View style={[styles.input, styles.inputLayout]}>
+            <View style={styles.parent}>
+              <Text style={[styles.text1, styles.text1Typo]}>+213</Text>
+              <Image
+                style={[
+                  styles.flagForFlagAlgeriaSvgrepoIcon,
+                  styles.iconLayout,
+                ]}
+                contentFit="cover"
+                source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
+              />
+            </View>
+            <Text style={[styles.numero, styles.numeroFlexBox]}>
+              06 78 89 56 45
+            </Text>
+          </View>
+          <View style={[styles.inputinfo1, styles.inputLayout]}>
+            <Text style={[styles.voitures, styles.text1Typo]}>Voitures</Text>
+            <Image
+              style={styles.downArrowIcon}
+              contentFit="cover"
+              source={require("../assets/down-arrow.png")}
+            />
+          </View>
+          <View style={[styles.inputinfo1, styles.inputLayout]}>
+            <Text style={[styles.detailsAAjouter, styles.text1Typo]}>
+              Details a ajouter
+            </Text>
+          </View>
         </View>
         <Pressable
-          style={styles.buttonfirst}
+          style={[styles.buttonfirst, styles.buttonfirstShadowBox]}
           onPress={() => navigation.navigate("Modifier")}
         >
           <Text style={[styles.signUp, styles.signTypo]}>Modifier</Text>
@@ -55,30 +85,122 @@ const MonProfil = () => {
           <Text style={[styles.signUp2, styles.signTypo]}>Supprimer</Text>
         </View>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom4.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile.png")}
-        propColor="#9d9fa0"
-        propColor1="#9d9fa0"
-        propColor2="#9d9fa0"
-        propColor3="#9d9fa0"
-        propColor4="#0075fd"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footerprofile, styles.buttonfirstShadowBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={[styles.searchIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/search1.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={[styles.searchIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={[styles.searchIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={[styles.searchIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.profileIcon}
+            contentFit="cover"
+            source={require("../assets/profile1.png")}
+          />
+          <Text style={[styles.profile1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  titleFlexBox: {
+  text1Position: {
+    left: "0%",
+    top: "0%",
+    position: "absolute",
+    width: "100%",
+  },
+  nomFlexBox: {
     justifyContent: "center",
+    alignItems: "center",
+  },
+  inputsFlexBox: {
+    marginTop: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleTypo: {
+    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontWeight: "500",
+    textAlign: "center",
+  },
+  inputLayout1: {
+    height: 60,
+    borderColor: Color.colorSilver_100,
+  },
+  numeroFlexBox: {
+    textAlign: "left",
+    lineHeight: 23,
+  },
+  inputLayout: {
+    marginTop: 10,
+    width: 328,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: Border.br_5xs,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text1Typo: {
+    color: Color.titleText,
+    fontSize: FontSize.subheadLgSHLgMedium_size,
+    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontWeight: "500",
+  },
+  iconLayout: {
+    width: 24,
+    overflow: "hidden",
+  },
+  buttonfirstShadowBox: {
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    flexDirection: "row",
     alignItems: "center",
   },
   signTypo: {
@@ -102,19 +224,30 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(236, 95, 95, 0.25)",
     borderWidth: 1,
     borderStyle: "solid",
+    marginTop: 5,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
+  search1Typo: {
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    marginTop: 5,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    backgroundColor: Color.neutralWhite,
+    alignItems: "center",
+  },
   rectangle: {
     height: "100%",
-    top: "0%",
     right: "0%",
     bottom: "0%",
-    left: "0%",
     backgroundColor: Color.neutralWhite,
-    position: "absolute",
-    width: "100%",
   },
   bar: {
     height: 33,
@@ -127,36 +260,33 @@ const styles = StyleSheet.create({
     color: Color.textColorContentPrimary,
     height: 25,
     display: "flex",
-    justifyContent: "center",
     textAlign: "center",
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
     width: 375,
   },
   imageIcon: {
-    width: 138,
-    height: 138,
+    width: 95,
+    height: 95,
   },
   amineMeddouri: {
-    fontSize: FontSize.titleLgTLgMedium_size,
+    fontSize: 23,
     lineHeight: 34,
     color: Color.textColorContentTertiary,
-    width: 295,
+    width: 229,
     textAlign: "center",
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
     height: 33,
   },
   vectorIcon: {
     width: 12,
     height: 12,
   },
-  note: {
+  text: {
     fontSize: FontSize.size_mini,
     fontWeight: "700",
     fontFamily: FontFamily.nunitoBold,
     color: Color.colorDarkslategray_100,
-    width: 36,
+    width: 49,
     height: 20,
     marginLeft: 2,
     textAlign: "center",
@@ -165,33 +295,107 @@ const styles = StyleSheet.create({
     width: 90,
     height: 30,
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+  },
+  nom: {
+    width: 231,
+    height: 93,
+  },
+  userprofile: {
+    width: 340,
+    height: 142,
+    flexDirection: "row",
+    paddingTop: Padding.p_xl,
   },
   amineemailcon: {
+    height: "38.33%",
     width: "88.41%",
     top: "32.17%",
     left: "5.64%",
-    lineHeight: 23,
     color: Color.colorDarkgray_100,
-    textAlign: "left",
     fontSize: FontSize.subheadLgSHLgMedium_size,
-    display: "flex",
+    textAlign: "left",
+    lineHeight: 23,
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
+    display: "flex",
     position: "absolute",
     alignItems: "center",
   },
   inputinfo: {
-    borderRadius: Border.br_5xs,
-    borderColor: Color.colorSilver_100,
     width: 328,
-    height: 60,
     borderWidth: 1,
     borderStyle: "solid",
+    borderRadius: Border.br_5xs,
+    height: 60,
+    borderColor: Color.colorSilver_100,
+  },
+  text1: {
+    lineHeight: 24,
+    textAlign: "right",
+    left: "0%",
+    top: "0%",
+    position: "absolute",
+    width: "100%",
+  },
+  flagForFlagAlgeriaSvgrepoIcon: {
+    top: 1,
+    left: 0,
+    height: 23,
+    position: "absolute",
+  },
+  parent: {
+    width: 64,
+    height: 24,
+  },
+  numero: {
+    width: 201,
+    marginLeft: 28,
+    color: Color.colorDarkgray_100,
+    fontSize: FontSize.subheadLgSHLgMedium_size,
+    textAlign: "left",
+    lineHeight: 23,
+    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontWeight: "500",
+  },
+  input: {
+    paddingHorizontal: Padding.p_xs,
+    paddingVertical: Padding.p_lg,
+    height: 60,
+    borderColor: Color.colorSilver_100,
+    marginTop: 10,
+    justifyContent: "center",
+    overflow: "hidden",
+  },
+  voitures: {
+    width: 262,
+    height: 23,
+    textAlign: "left",
+    lineHeight: 23,
+    color: Color.titleText,
+    display: "flex",
+    alignItems: "center",
+  },
+  downArrowIcon: {
+    width: 22,
+    height: 24,
+  },
+  inputinfo1: {
+    borderColor: Color.titleText,
+    paddingHorizontal: Padding.p_lg,
+    paddingVertical: Padding.p_mid,
+    justifyContent: "space-between",
+  },
+  detailsAAjouter: {
+    width: 285,
+    height: 23,
+    textAlign: "left",
+    lineHeight: 23,
+    color: Color.titleText,
+    display: "flex",
+    alignItems: "center",
   },
   inputs: {
-    height: 199,
+    height: 333,
   },
   signUp: {
     color: Color.neutralWhite,
@@ -202,17 +406,16 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorRoyalblue_100,
     width: 317,
     height: 58,
-    shadowOpacity: 1,
     elevation: 14,
     shadowRadius: 14,
+    shadowColor: "rgba(236, 95, 95, 0.25)",
+    shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 5,
     },
-    shadowColor: "rgba(236, 95, 95, 0.25)",
-    flexDirection: "row",
+    marginTop: 5,
     justifyContent: "center",
-    alignItems: "center",
   },
   signUp1: {
     color: Color.colorRoyalblue_100,
@@ -227,14 +430,42 @@ const styles = StyleSheet.create({
     borderColor: Color.colorTomato,
   },
   main: {
-    paddingTop: Padding.p_xl,
     paddingBottom: 24,
+    paddingTop: Padding.p_xl,
     backgroundColor: Color.neutralWhite,
     width: 375,
-    justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
     flex: 1,
+  },
+  searchIcon: {
+    height: 24,
+  },
+  search1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  profileIcon: {
+    height: 22,
+    width: 22,
+  },
+  profile1: {
+    color: Color.colorRoyalblue_100,
+  },
+  footerprofile: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    backgroundColor: Color.neutralWhite,
+    width: 375,
+    justifyContent: "space-between",
   },
   monprofil: {
     height: 834,

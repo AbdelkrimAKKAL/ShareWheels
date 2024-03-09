@@ -1,15 +1,14 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import FooterSearch from "../components/FooterSearch";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 
 const Dates = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.dates}>
+    <View style={[styles.dates, styles.datesFlexBox]}>
       <View style={styles.bar}>
         <View style={styles.rectangle} />
       </View>
@@ -19,9 +18,9 @@ const Dates = () => {
           <View style={styles.frameFlexBox}>
             <View style={styles.inputShadowBox}>
               <Image
-                style={styles.mapPinIcon}
+                style={[styles.mapPinIcon, styles.iconLayout]}
                 contentFit="cover"
-                source={require("../assets/mappin.png")}
+                source={require("../assets/mappin2.png")}
               />
               <Text style={[styles.number, styles.numberTypo]}>Date</Text>
             </View>
@@ -29,7 +28,7 @@ const Dates = () => {
               <Image
                 style={styles.clock3Icon}
                 contentFit="cover"
-                source={require("../assets/clock3.png")}
+                source={require("../assets/clock31.png")}
               />
               <Text style={[styles.number1, styles.numberTypo]}>Heure</Text>
             </View>
@@ -37,9 +36,9 @@ const Dates = () => {
           <View style={[styles.frame1, styles.frameFlexBox]}>
             <View style={styles.inputShadowBox}>
               <Image
-                style={styles.mapPinIcon}
+                style={[styles.mapPinIcon, styles.iconLayout]}
                 contentFit="cover"
-                source={require("../assets/mappin.png")}
+                source={require("../assets/mappin2.png")}
               />
               <Text style={[styles.number, styles.numberTypo]}>Date</Text>
             </View>
@@ -47,7 +46,7 @@ const Dates = () => {
               <Image
                 style={styles.clock3Icon}
                 contentFit="cover"
-                source={require("../assets/clock3.png")}
+                source={require("../assets/clock31.png")}
               />
               <Text style={[styles.number1, styles.numberTypo]}>Heure</Text>
             </View>
@@ -56,34 +55,82 @@ const Dates = () => {
         <Image
           style={styles.addCircleSvgrepocomIcon}
           contentFit="cover"
-          source={require("../assets/addcircle-svgrepocom.png")}
+          source={require("../assets/addcircle-svgrepocom1.png")}
         />
-        <View style={styles.buttonfirst}>
+        <View style={[styles.buttonfirst, styles.buttonfirstShadowBox]}>
           <Text style={styles.signUp}>Confirmer</Text>
         </View>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline1.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom3.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile1.png")}
-        propColor="#9d9fa0"
-        propColor1="#9d9fa0"
-        propColor2="#0075fd"
-        propColor3="#9d9fa0"
-        propColor4="#9d9fa0"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footerpublish, styles.buttonfirstShadowBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/search1.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline1.png")}
+          />
+          <Text style={[styles.publish1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom3.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.iconLayout}
+            contentFit="cover"
+            source={require("../assets/profile.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  datesFlexBox: {
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
+  iconLayout: {
+    height: 22,
+    width: 22,
+  },
   numberTypo: {
     height: 19,
     textAlign: "left",
@@ -98,6 +145,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  buttonfirstShadowBox: {
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
+  },
   rectangle: {
     position: "absolute",
     height: "100%",
@@ -109,8 +179,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
   },
   dates1: {
@@ -122,8 +192,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   mapPinIcon: {
-    width: 22,
-    height: 22,
     overflow: "hidden",
   },
   number: {
@@ -134,7 +202,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_mini,
     width: 201,
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     borderStyle: "solid",
     elevation: 30,
     shadowRadius: 30,
@@ -166,7 +234,7 @@ const styles = StyleSheet.create({
     paddingLeft: Padding.p_5xs,
     width: 84,
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     borderStyle: "solid",
     shadowOpacity: 1,
     elevation: 30,
@@ -213,28 +281,41 @@ const styles = StyleSheet.create({
     width: 317,
     height: 58,
     marginTop: 20,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
   },
   main: {
     height: 678,
     justifyContent: "center",
     alignItems: "center",
   },
+  searchIcon: {
+    width: 24,
+    height: 24,
+    overflow: "hidden",
+  },
+  search1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  publish1: {
+    color: Color.colorRoyalblue_100,
+  },
+  footerpublish: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    width: 375,
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   dates: {
     flex: 1,
     height: 834,
-    justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
-    backgroundColor: Color.neutralWhite,
   },
 });
 

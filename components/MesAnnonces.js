@@ -10,7 +10,7 @@ const MesAnnonces = () => {
         <Image
           style={styles.profilepictureIcon}
           contentFit="cover"
-          source={require("../assets/profilepicture2.png")}
+          source={require("../assets/profilepicture1.png")}
         />
         <View style={[styles.infosprofil, styles.trajetPosition]}>
           <Text style={[styles.amineMeddouri, styles.textTypo]}>
@@ -20,7 +20,7 @@ const MesAnnonces = () => {
             <Image
               style={styles.vectorIcon}
               contentFit="cover"
-              source={require("../assets/vector6.png")}
+              source={require("../assets/vector4.png")}
             />
             <Text style={[styles.text, styles.textTypo]}>4.7(1)</Text>
           </View>
@@ -29,7 +29,7 @@ const MesAnnonces = () => {
           <Image
             style={styles.groupIcon}
             contentFit="cover"
-            source={require("../assets/group32.png")}
+            source={require("../assets/group2.png")}
           />
           <View style={styles.bejaiaParent}>
             <Text style={[styles.bejaia, styles.algerTypo]}>Bejaia</Text>

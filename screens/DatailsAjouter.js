@@ -2,79 +2,70 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Padding, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 
-const Signaler = () => {
+const DatailsAjouter = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={[styles.signaler, styles.signalerFlexBox]}>
+    <View style={[styles.datailsajouter, styles.footerpublishFlexBox]}>
       <View style={styles.bar}>
         <View style={styles.rectangle} />
       </View>
+      <Text style={styles.detailsAAjouter}>Details a ajouter</Text>
       <View style={styles.main}>
-        <Text style={styles.signaler1}>Signaler</Text>
         <View style={styles.inputs}>
-          <Text style={styles.number}>Pourquoi</Text>
-          <View style={[styles.input, styles.inputShadowBox]}>
+          <View style={styles.input}>
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
+              source={require("../assets/radiobuttonunchecked-svgrepocom1.png")}
             />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              fausse informations personnels
-            </Text>
+            <Text style={styles.number}>Fumeurs</Text>
           </View>
-          <View style={[styles.input1, styles.inputShadowBox]}>
+          <View style={styles.inputShadowBox}>
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
+              source={require("../assets/radiobuttonunchecked-svgrepocom1.png")}
             />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              irrespectueux
-            </Text>
+            <Text style={styles.number}>Bagages</Text>
           </View>
-          <View style={[styles.input2, styles.inputShadowBox]}>
+          <View style={styles.inputShadowBox}>
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
+              source={require("../assets/radiobuttonunchecked-svgrepocom1.png")}
             />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              conduite dangereuse
-            </Text>
+            <Text style={styles.number}>Ouvert à la conversation</Text>
           </View>
-          <View style={[styles.input3, styles.inputShadowBox]}>
+          <View style={styles.inputShadowBox}>
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
+              source={require("../assets/radiobuttonunchecked-svgrepocom1.png")}
             />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              Véhicule en mauvais état
-            </Text>
+            <Text style={styles.number}>Passagers de différents sexes</Text>
           </View>
-          <View style={[styles.input4, styles.inputShadowBox]}>
+          <View style={styles.inputShadowBox}>
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
+              source={require("../assets/radiobuttonunchecked-svgrepocom1.png")}
             />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              Utilisation du téléphone portable
-            </Text>
-          </View>
-          <View style={[styles.input5, styles.inputShadowBox]}>
-            <Text style={[styles.number6, styles.numberTypo]}>Autre</Text>
+            <Text style={styles.number}>Arrêts supplémentaires</Text>
           </View>
         </View>
+        <Image
+          style={styles.addCircleSvgrepocomIcon}
+          contentFit="cover"
+          source={require("../assets/addcircle-svgrepocom.png")}
+        />
         <View style={[styles.buttonfirst, styles.buttonfirstFlexBox]}>
-          <Text style={styles.signUp}>Signaler</Text>
+          <Text style={styles.signUp}>Confirmer</Text>
         </View>
       </View>
-      <View style={[styles.footercarpool, styles.buttonfirstFlexBox]}>
+      <View style={[styles.footerpublish, styles.buttonfirstFlexBox]}>
         <Pressable
           style={styles.searchLayout}
           onPress={() => navigation.navigate("Recherche")}
@@ -104,9 +95,9 @@ const Signaler = () => {
           <Image
             style={styles.radioButtonUncheckedSvgrepoIcon}
             contentFit="cover"
-            source={require("../assets/add-circle-outline.png")}
+            source={require("../assets/add-circle-outline1.png")}
           />
-          <Text style={[styles.search1, styles.search1Typo]}>Publish</Text>
+          <Text style={[styles.publish1, styles.search1Typo]}>Publish</Text>
         </Pressable>
         <Pressable
           style={styles.searchLayout}
@@ -115,9 +106,9 @@ const Signaler = () => {
           <Image
             style={styles.radioButtonUncheckedSvgrepoIcon}
             contentFit="cover"
-            source={require("../assets/sharecircle-svgrepocom2.png")}
+            source={require("../assets/sharecircle-svgrepocom3.png")}
           />
-          <Text style={[styles.carpool1, styles.search1Typo]}>Carpool</Text>
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
         </Pressable>
         <Pressable
           style={styles.searchLayout}
@@ -136,38 +127,9 @@ const Signaler = () => {
 };
 
 const styles = StyleSheet.create({
-  signalerFlexBox: {
+  footerpublishFlexBox: {
     justifyContent: "space-between",
     backgroundColor: Color.neutralWhite,
-  },
-  inputShadowBox: {
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  numberTypo: {
-    width: 227,
-    color: Color.colorGray_100,
-    fontSize: FontSize.size_mini,
-    textAlign: "left",
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
   },
   buttonfirstFlexBox: {
     flexDirection: "row",
@@ -179,10 +141,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   search1Typo: {
-    marginTop: 5,
     fontFamily: FontFamily.poppinsRegular,
     lineHeight: 15,
     fontSize: FontSize.size_3xs,
+    marginTop: 5,
     textAlign: "center",
   },
   searchLayout: {
@@ -207,7 +169,7 @@ const styles = StyleSheet.create({
     width: 375,
     overflow: "hidden",
   },
-  signaler1: {
+  detailsAAjouter: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",
     fontFamily: FontFamily.nunitoBold,
@@ -215,28 +177,24 @@ const styles = StyleSheet.create({
     width: 359,
     textAlign: "center",
   },
-  number: {
-    fontSize: FontSize.size_mid,
-    color: Color.colorBlack,
-    width: 289,
-    height: 19,
-    textAlign: "left",
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-  },
   radioButtonUncheckedSvgrepoIcon: {
     width: 24,
     height: 24,
     overflow: "hidden",
   },
-  number1: {
+  number: {
+    fontSize: FontSize.size_mini,
+    lineHeight: 22,
+    fontFamily: FontFamily.nunitoRegular,
+    color: Color.colorGray_100,
+    textAlign: "left",
+    width: 227,
     height: 19,
   },
   input: {
+    paddingVertical: Padding.p_base,
+    paddingHorizontal: Padding.p_mini,
     width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
     borderWidth: 1,
     borderColor: Color.colorGray_300,
     borderStyle: "solid",
@@ -244,81 +202,47 @@ const styles = StyleSheet.create({
     shadowRadius: 30,
     shadowColor: "rgba(80, 85, 136, 0.1)",
     borderRadius: Border.br_base,
+    flexDirection: "row",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
   },
-  input1: {
+  inputShadowBox: {
+    marginTop: 20,
+    paddingVertical: Padding.p_base,
+    paddingHorizontal: Padding.p_mini,
+    flexDirection: "row",
     width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
     borderWidth: 1,
     borderColor: Color.colorGray_300,
     borderStyle: "solid",
+    shadowOpacity: 1,
     elevation: 30,
     shadowRadius: 30,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
     shadowColor: "rgba(80, 85, 136, 0.1)",
     borderRadius: Border.br_base,
-  },
-  input2: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  input3: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  input4: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  number6: {
-    height: 112,
-  },
-  input5: {
-    width: 290,
-    height: 139,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
   },
   inputs: {
-    width: 295,
-    height: 527,
-    marginTop: 30,
+    height: 541,
     alignItems: "center",
+  },
+  addCircleSvgrepocomIcon: {
+    width: 60,
+    height: 60,
+    marginTop: 5,
+    overflow: "hidden",
   },
   signUp: {
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -337,11 +261,11 @@ const styles = StyleSheet.create({
     elevation: 14,
     width: 317,
     height: 58,
-    marginTop: 30,
+    marginTop: 5,
     justifyContent: "center",
   },
   main: {
-    height: 729,
+    height: 684,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -351,14 +275,14 @@ const styles = StyleSheet.create({
   yourRides: {
     padding: Padding.p_3xs,
   },
-  carpool1: {
+  publish1: {
     color: Color.colorRoyalblue_100,
   },
   profileIcon: {
     width: 22,
     height: 22,
   },
-  footercarpool: {
+  footerpublish: {
     shadowColor: "rgba(0, 0, 0, 0.08)",
     shadowRadius: 20,
     elevation: 20,
@@ -366,7 +290,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: Color.neutralWhite,
   },
-  signaler: {
+  datailsajouter: {
     flex: 1,
     height: 834,
     alignItems: "center",
@@ -375,4 +299,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signaler;
+export default DatailsAjouter;

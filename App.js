@@ -7,7 +7,7 @@ import Details from "./screens/Details";
 import Modifier from "./screens/Modifier";
 import Voiture from "./screens/Voiture";
 import Signaler from "./screens/Signaler";
-import Aajouter from "./screens/Aajouter";
+import DatailsAjouter from "./screens/DatailsAjouter";
 import Dates from "./screens/Dates";
 import CarpoolPasses from "./screens/CarpoolPasses";
 import MonProfil from "./screens/MonProfil";
@@ -17,7 +17,6 @@ import YourRides from "./screens/YourRides";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
 import ResultatRecherche from "./screens/ResultatRecherche";
-import Profile from "./screens/Profile";
 import Annonce from "./components/Annonce";
 import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
@@ -27,8 +26,7 @@ import FooterPublish from "./components/FooterPublish";
 import FooterYourRides from "./components/FooterYourRides";
 import FooterSearch from "./components/FooterSearch";
 import ButtonsSwitch from "./components/ButtonsSwitch";
-import ButtonSecondary from "./components/ButtonSecondary";
-import Buttonfirst from "./components/Buttonfirst";
+import Profile from "./screens/Profile";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -82,8 +80,8 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Aajouter"
-              component={Aajouter}
+              name="DatailsAjouter"
+              component={DatailsAjouter}
               options={{ headerShown: false }}
             />
             <Stack.Screen

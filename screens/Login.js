@@ -2,21 +2,19 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import FooterSearch from "../components/FooterSearch";
-import { Padding, Border, Color, FontFamily, FontSize } from "../GlobalStyles";
+import { Color, Padding, Border, FontFamily, FontSize } from "../GlobalStyles";
 
 const Login = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.login}>
+    <View style={[styles.login, styles.loginFlexBox]}>
       <View style={styles.bar}>
         <View style={[styles.rectangle, styles.textPosition]} />
       </View>
       <View style={styles.loginpage}>
         <Text style={styles.login1}>Login</Text>
         <View style={styles.main}>
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
           <View style={styles.inputs}>
             <View style={[styles.input, styles.inputShadowBox]}>
               <View style={styles.dz}>
@@ -42,8 +40,9 @@ const Login = () => {
               </Text>
             </View>
           </View>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
           <Pressable
-            style={styles.buttonfirst}
+            style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("MonProfil")}
           >
             <Text style={[styles.signUp, styles.textTypo]}>Login</Text>
@@ -60,28 +59,72 @@ const Login = () => {
           </Pressable>
         </View>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom4.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile.png")}
-        propColor="#9d9fa0"
-        propColor1="#9d9fa0"
-        propColor2="#9d9fa0"
-        propColor3="#9d9fa0"
-        propColor4="#0075fd"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footerprofile, styles.buttonfirstFlexBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/search1.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.iconlylightlock}
+            contentFit="cover"
+            source={require("../assets/profile1.png")}
+          />
+          <Text style={[styles.profile1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  loginFlexBox: {
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   textPosition: {
     left: "0%",
     top: "0%",
@@ -118,11 +161,34 @@ const styles = StyleSheet.create({
   },
   numberTypo: {
     height: 19,
-    fontFamily: FontFamily.nunitoRegular,
     textAlign: "left",
-    color: Color.colorGray_100,
+    fontFamily: FontFamily.nunitoRegular,
     lineHeight: 22,
     fontSize: FontSize.size_mini,
+    color: Color.colorGray_100,
+  },
+  buttonfirstFlexBox: {
+    flexDirection: "row",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    alignItems: "center",
+  },
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
   },
   rectangle: {
     right: "0%",
@@ -132,8 +198,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
   },
   login1: {
@@ -141,15 +207,6 @@ const styles = StyleSheet.create({
     color: Color.colorDarkslategray_100,
     width: 359,
     textAlign: "center",
-    fontFamily: FontFamily.nunitoBold,
-    fontWeight: "700",
-  },
-  forgotPassword: {
-    width: 127,
-    textAlign: "left",
-    lineHeight: 22,
-    fontSize: FontSize.size_mini,
-    color: Color.colorGray_100,
     fontFamily: FontFamily.nunitoBold,
     fontWeight: "700",
   },
@@ -195,12 +252,21 @@ const styles = StyleSheet.create({
   },
   input1: {
     top: 71,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
   },
   inputs: {
     width: 291,
     height: 125,
-    marginTop: 35,
+  },
+  forgotPassword: {
+    width: 299,
+    marginTop: 25,
+    lineHeight: 22,
+    fontSize: FontSize.size_mini,
+    color: Color.colorGray_100,
+    textAlign: "center",
+    fontFamily: FontFamily.nunitoBold,
+    fontWeight: "700",
   },
   signUp: {
     lineHeight: 24,
@@ -216,15 +282,8 @@ const styles = StyleSheet.create({
     elevation: 14,
     width: 317,
     height: 58,
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    marginTop: 35,
+    marginTop: 25,
     justifyContent: "center",
-    alignItems: "center",
   },
   dontYouHave: {
     color: Color.colorGray_100,
@@ -242,7 +301,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.subheadLgSHLgMedium_size,
   },
   dontYouHaveContainer: {
-    marginTop: 35,
+    marginTop: 25,
   },
   main: {
     width: 321,
@@ -255,16 +314,37 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  searchIcon: {
+    width: 24,
+    height: 24,
+    overflow: "hidden",
+  },
+  search1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  profile1: {
+    color: Color.colorRoyalblue_100,
+  },
+  footerprofile: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    width: 375,
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   login: {
     flex: 1,
     height: 834,
     paddingHorizontal: Padding.p_5xs,
     paddingVertical: 0,
-    justifyContent: "space-between",
-    width: "100%",
     alignItems: "center",
     overflow: "hidden",
-    backgroundColor: Color.neutralWhite,
+    width: "100%",
+    justifyContent: "space-between",
   },
 });
 

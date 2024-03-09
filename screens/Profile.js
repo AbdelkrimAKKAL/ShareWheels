@@ -2,14 +2,13 @@ import * as React from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import FooterSearch from "../components/FooterSearch";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Border, Padding } from "../GlobalStyles";
 
 const Profile = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.profile1}>
+    <View style={[styles.profile1, styles.profile1FlexBox]}>
       <View style={styles.bar}>
         <View style={styles.rectangle} />
       </View>
@@ -18,9 +17,9 @@ const Profile = () => {
           ShareWheels
         </Text>
         <Image
-          style={styles.imageIcon}
+          style={styles.image2Icon}
           contentFit="cover"
-          source={require("../assets/image.png")}
+          source={require("../assets/image-2.png")}
         />
         <View style={styles.introtext}>
           <Text
@@ -35,56 +34,96 @@ const Profile = () => {
         </View>
         <View style={styles.buttons}>
           <Pressable
-            style={[styles.buttonfirst, styles.buttonfirstShadowBox]}
+            style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("Login")}
           >
             <Text style={[styles.signUp, styles.signTypo]}>Login</Text>
           </Pressable>
           <Pressable
-            style={[styles.buttonsecondary, styles.buttonfirstShadowBox]}
+            style={[styles.buttonsecondary, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("SignUp")}
           >
             <Text style={[styles.signUp1, styles.signTypo]}>Sign up</Text>
           </Pressable>
         </View>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile.png")}
-        propColor="#9d9fa0"
-        propColor1="#9d9fa0"
-        propColor2="#9d9fa0"
-        propColor3="#9d9fa0"
-        propColor4="#0075fd"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footerprofile, styles.buttonfirstFlexBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/search1.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={styles.searchIcon}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom5.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.profileIcon}
+            contentFit="cover"
+            source={require("../assets/profile1.png")}
+          />
+          <Text style={[styles.profile2, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  profile1FlexBox: {
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   sharewheelsFlexBox: {
     textAlign: "center",
     color: Color.colorRoyalblue_100,
   },
-  buttonfirstShadowBox: {
+  buttonfirstFlexBox: {
     flexDirection: "row",
-    elevation: 14,
-    shadowRadius: 14,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 6,
     },
-    justifyContent: "center",
     alignItems: "center",
   },
   signTypo: {
@@ -93,6 +132,20 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontSize: FontSize.subheadLgSHLgMedium_size,
     textAlign: "center",
+  },
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
   },
   rectangle: {
     position: "absolute",
@@ -105,8 +158,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
   },
   sharewheels: {
@@ -115,8 +168,8 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.nunitoExtraBold,
     width: 286,
   },
-  imageIcon: {
-    width: 274,
+  image2Icon: {
+    width: 275,
     height: 248,
     marginTop: 15,
   },
@@ -151,12 +204,14 @@ const styles = StyleSheet.create({
     backgroundColor: Color.colorRoyalblue_100,
     width: 317,
     height: 58,
+    elevation: 14,
+    shadowRadius: 14,
+    shadowColor: "rgba(236, 95, 95, 0.25)",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   signUp1: {
     color: Color.colorRoyalblue_100,
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-    lineHeight: 24,
   },
   buttonsecondary: {
     borderRadius: Border.br_3xs,
@@ -166,6 +221,11 @@ const styles = StyleSheet.create({
     width: 318,
     height: 59,
     marginTop: 10,
+    elevation: 14,
+    shadowRadius: 14,
+    shadowColor: "rgba(236, 95, 95, 0.25)",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   buttons: {
     borderRadius: 20,
@@ -192,14 +252,39 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  searchIcon: {
+    width: 24,
+    height: 24,
+    overflow: "hidden",
+  },
+  search1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  profileIcon: {
+    width: 22,
+    height: 22,
+  },
+  profile2: {
+    color: Color.colorRoyalblue_100,
+  },
+  footerprofile: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    width: 375,
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   profile1: {
     flex: 1,
     height: 834,
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
     overflow: "hidden",
     width: "100%",
-    backgroundColor: Color.neutralWhite,
   },
 });
 

@@ -1,12 +1,8 @@
 import * as React from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import ContainerInput from "../components/ContainerInput";
-import ButtonSecondary from "../components/ButtonSecondary";
-import Buttonfirst from "../components/Buttonfirst";
-import FooterSearch from "../components/FooterSearch";
-import { FontSize, FontFamily, Color, Border, Padding } from "../GlobalStyles";
+import { FontSize, Color, FontFamily, Border, Padding } from "../GlobalStyles";
 
 const Details = () => {
   const navigation = useNavigation();
@@ -17,15 +13,15 @@ const Details = () => {
         <View style={styles.rectangle} />
       </View>
       <View style={styles.main}>
-        <View style={[styles.userprofile, styles.input4FlexBox]}>
+        <View style={[styles.userprofile, styles.inputFlexBox]}>
           <Image
             style={styles.imageIcon}
             contentFit="cover"
-            source={require("../assets/image1.png")}
+            source={require("../assets/image.png")}
           />
           <View style={styles.nom}>
             <Text style={styles.amineMeddouri}>Amine Meddouri</Text>
-            <View style={[styles.vectorParent, styles.input4FlexBox]}>
+            <View style={[styles.vectorParent, styles.inputFlexBox]}>
               <Image
                 style={styles.vectorIcon}
                 contentFit="cover"
@@ -37,26 +33,39 @@ const Details = () => {
         </View>
         <ScrollView style={styles.detailsframe}>
           <View style={styles.inputinfoLayout}>
-            <Text style={[styles.amineemailcon, styles.maleTypo]}>
+            <Text style={[styles.amineemailcon, styles.numeroTypo]}>
               Amine@email.con
             </Text>
           </View>
-          <ContainerInput
-            productCode={require("../assets/flagforflagalgeria-svgrepocom.png")}
-          />
-          <View style={[styles.inputinfo1, styles.inputinfoLayout]}>
-            <Text style={[styles.male, styles.maleTypo]}>Male</Text>
+          <View style={styles.input}>
+            <View style={styles.parent}>
+              <Text style={styles.text1}>+213</Text>
+              <Image
+                style={[
+                  styles.flagForFlagAlgeriaSvgrepoIcon,
+                  styles.flagIconLayout,
+                ]}
+                contentFit="cover"
+                source={require("../assets/flagforflagalgeria-svgrepocom.png")}
+              />
+            </View>
+            <Text style={[styles.numero, styles.numeroTypo]}>
+              06 78 89 56 45
+            </Text>
           </View>
-          <Text style={[styles.dateEtHeure, styles.maleTypo]}>
+          <View style={[styles.inputinfo1, styles.inputinfoLayout]}>
+            <Text style={[styles.amineemailcon, styles.numeroTypo]}>Male</Text>
+          </View>
+          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>
             Date et heure
           </Text>
           <View style={styles.dates}>
             <View style={[styles.frame, styles.frameFlexBox]}>
-              <View style={[styles.input, styles.inputShadowBox2]}>
+              <View style={[styles.input1, styles.inputShadowBox2]}>
                 <Image
-                  style={styles.mapPinIcon}
+                  style={[styles.mapPinIcon, styles.iconLayout]}
                   contentFit="cover"
-                  source={require("../assets/mappin.png")}
+                  source={require("../assets/mappin2.png")}
                 />
                 <Text style={[styles.number, styles.numberTypo1]}>Date</Text>
               </View>
@@ -64,17 +73,17 @@ const Details = () => {
                 <Image
                   style={styles.clock3Icon}
                   contentFit="cover"
-                  source={require("../assets/clock3.png")}
+                  source={require("../assets/clock31.png")}
                 />
                 <Text style={[styles.number1, styles.numberTypo1]}>Heure</Text>
               </View>
             </View>
             <View style={[styles.frame1, styles.frameFlexBox]}>
-              <View style={[styles.input2, styles.inputShadowBox2]}>
+              <View style={[styles.input3, styles.inputShadowBox2]}>
                 <Image
-                  style={styles.mapPinIcon}
+                  style={[styles.mapPinIcon, styles.iconLayout]}
                   contentFit="cover"
-                  source={require("../assets/mappin.png")}
+                  source={require("../assets/mappin2.png")}
                 />
                 <Text style={[styles.number, styles.numberTypo1]}>Date</Text>
               </View>
@@ -82,78 +91,87 @@ const Details = () => {
                 <Image
                   style={styles.clock3Icon}
                   contentFit="cover"
-                  source={require("../assets/clock3.png")}
+                  source={require("../assets/clock31.png")}
                 />
                 <Text style={[styles.number1, styles.numberTypo1]}>Heure</Text>
               </View>
             </View>
           </View>
-          <Text style={[styles.dateEtHeure, styles.maleTypo]}>Voiture</Text>
+          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>Voiture</Text>
           <View style={styles.voiture1ShadowBox}>
             <Text style={styles.numberLayout}>Model</Text>
-            <View style={[styles.input4, styles.inputShadowBox2]}>
+            <View style={[styles.input5, styles.inputShadowBox2]}>
               <Text style={[styles.number5, styles.numberTypo1]}>Model</Text>
             </View>
             <Text style={[styles.number6, styles.numberLayout]}>Matricule</Text>
-            <View style={[styles.input5, styles.inputShadowBox1]}>
+            <View style={[styles.input6, styles.inputShadowBox1]}>
               <Text style={[styles.number5, styles.numberTypo1]}>
                 Matricule
               </Text>
             </View>
             <Text style={[styles.number6, styles.numberLayout]}>Couleur</Text>
             <View style={[styles.frame1, styles.frameFlexBox]}>
-              <View style={[styles.input6, styles.inputShadowBox2]}>
+              <View style={[styles.input7, styles.inputShadowBox2]}>
                 <Text style={[styles.number9, styles.numberTypo1]}>
                   Couleur
                 </Text>
               </View>
             </View>
-            <View style={[styles.nmbrplaces, styles.input4FlexBox]}>
+            <View style={[styles.nmbrplaces, styles.inputFlexBox]}>
               <Text style={[styles.number10, styles.numberTypo]}>Places</Text>
-              <View style={[styles.input7, styles.inputShadowBox]}>
+              <View style={[styles.input8, styles.inputShadowBox]}>
                 <Image
-                  style={styles.mapPinIcon}
+                  style={[styles.mapPinIcon, styles.iconLayout]}
                   contentFit="cover"
-                  source={require("../assets/clock31.png")}
+                  source={require("../assets/clock32.png")}
                 />
                 <Text style={[styles.number11, styles.numberClr]}>1</Text>
               </View>
               <Text style={[styles.number12, styles.numberTypo]}>
                 Disponible
               </Text>
-              <View style={[styles.input8, styles.inputShadowBox]}>
+              <View style={[styles.input9, styles.inputShadowBox]}>
                 <Image
-                  style={styles.mapPinIcon}
+                  style={[styles.mapPinIcon, styles.iconLayout]}
                   contentFit="cover"
-                  source={require("../assets/clock31.png")}
+                  source={require("../assets/clock32.png")}
                 />
                 <Text style={[styles.number11, styles.numberClr]}>1</Text>
               </View>
             </View>
           </View>
-          <Text style={[styles.dateEtHeure, styles.maleTypo]}>
+          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>
             Plus de details
           </Text>
           <View style={[styles.moredetails, styles.voiture1ShadowBox]}>
             <View style={styles.inputShadowBox1}>
               <Image
-                style={styles.radioButtonUncheckedSvgrepoIcon}
+                style={[
+                  styles.radioButtonUncheckedSvgrepoIcon,
+                  styles.flagIconLayout,
+                ]}
                 contentFit="cover"
                 source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
               />
               <Text style={[styles.number5, styles.numberTypo1]}>Fumeurs</Text>
             </View>
-            <View style={[styles.input10, styles.inputShadowBox1]}>
+            <View style={[styles.input11, styles.inputShadowBox1]}>
               <Image
-                style={styles.radioButtonUncheckedSvgrepoIcon}
+                style={[
+                  styles.radioButtonUncheckedSvgrepoIcon,
+                  styles.flagIconLayout,
+                ]}
                 contentFit="cover"
                 source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
               />
               <Text style={[styles.number5, styles.numberTypo1]}>Bagages</Text>
             </View>
-            <View style={[styles.input11, styles.inputShadowBox1]}>
+            <View style={[styles.input12, styles.inputShadowBox1]}>
               <Image
-                style={styles.radioButtonUncheckedSvgrepoIcon}
+                style={[
+                  styles.radioButtonUncheckedSvgrepoIcon,
+                  styles.flagIconLayout,
+                ]}
                 contentFit="cover"
                 source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
               />
@@ -161,9 +179,12 @@ const Details = () => {
                 Ouvert à la conversation
               </Text>
             </View>
-            <View style={[styles.input12, styles.inputShadowBox1]}>
+            <View style={[styles.input13, styles.inputShadowBox1]}>
               <Image
-                style={styles.radioButtonUncheckedSvgrepoIcon}
+                style={[
+                  styles.radioButtonUncheckedSvgrepoIcon,
+                  styles.flagIconLayout,
+                ]}
                 contentFit="cover"
                 source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
               />
@@ -171,9 +192,12 @@ const Details = () => {
                 Passagers de différents sexes
               </Text>
             </View>
-            <View style={[styles.input13, styles.inputShadowBox1]}>
+            <View style={[styles.input14, styles.inputShadowBox1]}>
               <Image
-                style={styles.radioButtonUncheckedSvgrepoIcon}
+                style={[
+                  styles.radioButtonUncheckedSvgrepoIcon,
+                  styles.flagIconLayout,
+                ]}
                 contentFit="cover"
                 source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
               />
@@ -181,54 +205,109 @@ const Details = () => {
                 Arrêts supplémentaires
               </Text>
             </View>
-            <View style={[styles.input14, styles.inputShadowBox2]}>
+            <View style={[styles.input15, styles.inputShadowBox2]}>
               <Text style={[styles.number19, styles.numberClr]}>A ajouter</Text>
             </View>
           </View>
-          <ButtonSecondary
-            signUp="Afficher Map"
-            buttonSecondaryPosition="unset"
-            buttonSecondaryMarginTop={10}
-          />
-          <Buttonfirst
-            signUp="Participer"
-            buttonfirstPosition="unset"
-            buttonfirstMarginTop={10}
-          />
+          <View style={[styles.buttonsecondary, styles.buttonfirstShadowBox]}>
+            <Text style={[styles.signUp, styles.signTypo]}>Afficher Map</Text>
+          </View>
+          <View style={[styles.buttonfirst, styles.buttonfirstShadowBox]}>
+            <Text style={[styles.signUp1, styles.signTypo]}>Participer</Text>
+          </View>
         </ScrollView>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search1.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom1.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile1.png")}
-        propColor="#0075fd"
-        propColor1="#9d9fa0"
-        propColor2="#9d9fa0"
-        propColor3="#9d9fa0"
-        propColor4="#9d9fa0"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={styles.footersearch}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={[
+              styles.radioButtonUncheckedSvgrepoIcon,
+              styles.flagIconLayout,
+            ]}
+            contentFit="cover"
+            source={require("../assets/search.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={[
+              styles.radioButtonUncheckedSvgrepoIcon,
+              styles.flagIconLayout,
+            ]}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>
+            Your rides
+          </Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={[
+              styles.radioButtonUncheckedSvgrepoIcon,
+              styles.flagIconLayout,
+            ]}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={[
+              styles.radioButtonUncheckedSvgrepoIcon,
+              styles.flagIconLayout,
+            ]}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom1.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={[styles.profileIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/profile.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input4FlexBox: {
+  inputFlexBox: {
     flexDirection: "row",
     alignItems: "center",
   },
-  maleTypo: {
+  numeroTypo: {
     lineHeight: 23,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
     textAlign: "left",
+    fontSize: FontSize.subheadLgSHLgMedium_size,
+    color: Color.textColorContentTertiary,
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
+  },
+  flagIconLayout: {
+    width: 24,
+    overflow: "hidden",
   },
   inputinfoLayout: {
     height: 60,
@@ -246,19 +325,23 @@ const styles = StyleSheet.create({
   inputShadowBox2: {
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    shadowOpacity: 1,
+    borderColor: Color.colorGray_300,
     elevation: 30,
     shadowRadius: 30,
+    shadowColor: "rgba(80, 85, 136, 0.1)",
+    borderRadius: Border.br_base,
+    shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 8,
     },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
     borderWidth: 1,
     borderStyle: "solid",
     backgroundColor: Color.neutralWhite,
+  },
+  iconLayout: {
+    width: 22,
+    height: 22,
   },
   numberTypo1: {
     height: 19,
@@ -281,7 +364,7 @@ const styles = StyleSheet.create({
     width: 292,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     shadowOpacity: 1,
     elevation: 30,
     shadowRadius: 30,
@@ -310,7 +393,7 @@ const styles = StyleSheet.create({
     width: 57,
     marginLeft: 5,
     paddingVertical: Padding.p_base,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     shadowOpacity: 1,
     elevation: 30,
     shadowRadius: 30,
@@ -342,26 +425,61 @@ const styles = StyleSheet.create({
       height: 8,
     },
     padding: Padding.p_mini,
-    borderColor: Color.colorGray_300,
+    borderColor: Color.colorGray_200,
     borderRadius: Border.br_mini,
     marginTop: 10,
     borderWidth: 1,
     borderStyle: "solid",
     alignItems: "center",
   },
+  buttonfirstShadowBox: {
+    elevation: 14,
+    shadowRadius: 14,
+    shadowColor: "rgba(236, 95, 95, 0.25)",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    marginTop: 10,
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  signTypo: {
+    lineHeight: 24,
+    fontSize: FontSize.subheadLgSHLgMedium_size,
+    textAlign: "center",
+    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontWeight: "500",
+  },
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
+  },
   rectangle: {
     height: "100%",
-    top: "0%",
     right: "0%",
     bottom: "0%",
     left: "0%",
+    top: "0%",
     position: "absolute",
     width: "100%",
     backgroundColor: Color.neutralWhite,
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
   },
   imageIcon: {
@@ -409,20 +527,51 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   amineemailcon: {
-    color: Color.colorLightgray,
-    textAlign: "left",
-    left: "5.52%",
     top: "31.67%",
-    fontSize: FontSize.subheadLgSHLgMedium_size,
+    left: "5.52%",
+    textAlign: "left",
     position: "absolute",
   },
-  male: {
-    textAlign: "left",
-    left: "5.52%",
-    top: "31.67%",
+  text1: {
+    lineHeight: 24,
+    color: Color.titleText,
+    textAlign: "right",
     fontSize: FontSize.subheadLgSHLgMedium_size,
+    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontWeight: "500",
+    left: "0%",
+    top: "0%",
     position: "absolute",
-    color: Color.textColorContentTertiary,
+    width: "100%",
+  },
+  flagForFlagAlgeriaSvgrepoIcon: {
+    top: 1,
+    left: 0,
+    height: 23,
+    position: "absolute",
+  },
+  parent: {
+    width: 64,
+    height: 24,
+  },
+  numero: {
+    marginLeft: 28,
+    width: 201,
+    textAlign: "left",
+  },
+  input: {
+    paddingHorizontal: Padding.p_xs,
+    paddingVertical: Padding.p_lg,
+    marginTop: 10,
+    width: 328,
+    borderColor: Color.colorSilver_100,
+    borderRadius: Border.br_5xs,
+    borderWidth: 1,
+    borderStyle: "solid",
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    overflow: "hidden",
   },
   inputinfo1: {
     marginTop: 10,
@@ -432,34 +581,20 @@ const styles = StyleSheet.create({
     width: 316,
     marginTop: 10,
     textAlign: "left",
-    color: Color.textColorContentTertiary,
     alignItems: "center",
   },
   mapPinIcon: {
-    width: 22,
     height: 22,
     overflow: "hidden",
   },
   number: {
     width: 138,
   },
-  input: {
+  input1: {
     width: 201,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   clock3Icon: {
     width: 20,
@@ -476,7 +611,7 @@ const styles = StyleSheet.create({
     paddingTop: Padding.p_base,
     paddingLeft: Padding.p_5xs,
     width: 84,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     shadowOpacity: 1,
     elevation: 30,
     shadowRadius: 30,
@@ -496,23 +631,11 @@ const styles = StyleSheet.create({
   frame: {
     justifyContent: "center",
   },
-  input2: {
+  input3: {
     width: 201,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   frame1: {
     marginTop: 10,
@@ -520,7 +643,7 @@ const styles = StyleSheet.create({
   },
   dates: {
     padding: Padding.p_mini,
-    borderColor: Color.colorGray_300,
+    borderColor: Color.colorGray_200,
     borderRadius: Border.br_mini,
     marginTop: 10,
     borderWidth: 1,
@@ -531,20 +654,8 @@ const styles = StyleSheet.create({
   number5: {
     width: 227,
   },
-  input4: {
+  input5: {
     width: 284,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
     marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -553,25 +664,13 @@ const styles = StyleSheet.create({
   number6: {
     marginTop: 10,
   },
-  input5: {
+  input6: {
     marginTop: 10,
   },
   number9: {
     width: 224,
   },
-  input6: {
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
+  input7: {
     width: 290,
     flexDirection: "row",
     alignItems: "center",
@@ -588,15 +687,15 @@ const styles = StyleSheet.create({
     height: 22,
     textAlign: "center",
   },
-  input7: {
+  input8: {
     marginLeft: 5,
   },
   number12: {
-    textAlign: "right",
     width: 88,
     marginLeft: 5,
+    textAlign: "right",
   },
-  input8: {
+  input9: {
     marginLeft: 5,
   },
   nmbrplaces: {
@@ -605,12 +704,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   radioButtonUncheckedSvgrepoIcon: {
-    width: 24,
     height: 24,
-    overflow: "hidden",
-  },
-  input10: {
-    marginTop: 10,
   },
   input11: {
     marginTop: 10,
@@ -621,41 +715,83 @@ const styles = StyleSheet.create({
   input13: {
     marginTop: 10,
   },
+  input14: {
+    marginTop: 10,
+  },
   number19: {
     width: 265,
     height: 143,
     textAlign: "left",
     fontSize: FontSize.size_mini,
   },
-  input14: {
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
+  input15: {
     marginTop: 10,
   },
   moredetails: {
     justifyContent: "center",
   },
+  signUp: {
+    color: Color.colorRoyalblue_100,
+  },
+  buttonsecondary: {
+    borderRadius: Border.br_3xs,
+    borderColor: Color.colorRoyalblue_100,
+    width: 318,
+    height: 59,
+    shadowRadius: 14,
+    shadowColor: "rgba(236, 95, 95, 0.25)",
+    borderWidth: 1,
+    borderStyle: "solid",
+  },
+  signUp1: {
+    color: Color.neutralWhite,
+    width: 235,
+  },
+  buttonfirst: {
+    backgroundColor: Color.colorRoyalblue_100,
+    width: 317,
+    height: 58,
+    borderRadius: Border.br_mini,
+    shadowRadius: 14,
+    shadowColor: "rgba(236, 95, 95, 0.25)",
+  },
   detailsframe: {
-    height: 618,
+    height: 605,
     marginTop: 15,
-
   },
   main: {
-    height: 733,
+    height: 735,
     paddingHorizontal: Padding.p_base,
     paddingBottom: Padding.p_3xs,
     alignItems: "center",
     overflow: "hidden",
+    backgroundColor: Color.neutralWhite,
+  },
+  search1: {
+    color: Color.colorRoyalblue_100,
+  },
+  yourRides1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  profileIcon: {
+    height: 22,
+  },
+  footersearch: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    flexDirection: "row",
+    width: 375,
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
   details: {

@@ -2,9 +2,7 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import CarPictureContainer from "../components/CarPictureContainer";
-import FooterSearch from "../components/FooterSearch";
-import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
+import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 
 const Recherche = () => {
   const navigation = useNavigation();
@@ -14,15 +12,22 @@ const Recherche = () => {
       <View style={styles.bar}>
         <View style={styles.rectangle} />
       </View>
-      <CarPictureContainer />
+      <View style={styles.carpic}>
+        <View style={styles.carpicChild} />
+        <Image
+          style={styles.image1Icon}
+          contentFit="cover"
+          source={require("../assets/image-1.png")}
+        />
+      </View>
       <Text style={styles.sharewheels}>ShareWheels</Text>
-      <View style={[styles.main, styles.mainFlexBox]}>
+      <View style={styles.main}>
         <Text style={[styles.heading, styles.headingTypo]}>où vas-tu</Text>
         <View style={[styles.input, styles.inputShadowBox]}>
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
-            source={require("../assets/mappin5.png")}
+            source={require("../assets/mappin.png")}
           />
           <Text style={[styles.number, styles.numberTypo]}>Depart</Text>
         </View>
@@ -30,7 +35,7 @@ const Recherche = () => {
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
-            source={require("../assets/mappin5.png")}
+            source={require("../assets/mappin.png")}
           />
           <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
         </View>
@@ -38,9 +43,9 @@ const Recherche = () => {
         <View style={[styles.quand, styles.quandFlexBox]}>
           <View style={[styles.input2, styles.inputShadowBox]}>
             <Image
-              style={styles.mapPinIcon2}
+              style={[styles.mapPinIcon2, styles.iconLayout1]}
               contentFit="cover"
-              source={require("../assets/mappin6.png")}
+              source={require("../assets/mappin1.png")}
             />
             <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
           </View>
@@ -48,24 +53,26 @@ const Recherche = () => {
             <Image
               style={styles.clock3Icon}
               contentFit="cover"
-              source={require("../assets/clock33.png")}
+              source={require("../assets/clock3.png")}
             />
             <Text style={[styles.number3, styles.numberTypo]}>Heure</Text>
           </View>
         </View>
-        <View style={[styles.places, styles.mainFlexBox]}>
-          <Text style={styles.headingTypo}>Combien Places ?</Text>
+        <View style={styles.places}>
+          <Text style={[styles.heading2, styles.headingTypo]}>
+            Combien Places ?
+          </Text>
           <View style={styles.nmbrplaces}>
-            <Text style={styles.heading3}>1</Text>
             <Image
-              style={[styles.moinsIcon, styles.iconLayout]}
+              style={styles.iconLayout}
               contentFit="cover"
-              source={require("../assets/moins2.png")}
+              source={require("../assets/moins.png")}
             />
+            <Text style={[styles.heading3, styles.headingTypo]}>1</Text>
             <Image
               style={[styles.plusIcon, styles.iconLayout]}
               contentFit="cover"
-              source={require("../assets/plus2.png")}
+              source={require("../assets/plus.png")}
             />
           </View>
         </View>
@@ -76,33 +83,72 @@ const Recherche = () => {
       >
         <Text style={styles.signUp}>Rechercher</Text>
       </Pressable>
-      <FooterSearch
-        dimensionCode={require("../assets/search1.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom4.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile1.png")}
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footersearch, styles.quandFlexBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/search.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>
+            Your rides
+          </Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.iconLayout1}
+            contentFit="cover"
+            source={require("../assets/profile.png")}
+          />
+          <Text style={[styles.yourRides1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  mainFlexBox: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
   headingTypo: {
     textAlign: "left",
-    color: Color.gray1,
-    fontFamily: FontFamily.headingH2,
-    fontWeight: "600",
-    lineHeight: 25,
     fontSize: FontSize.headingH2_size,
   },
   inputShadowBox: {
@@ -110,17 +156,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_mini,
     flexDirection: "row",
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
-    borderStyle: "solid",
-    shadowOpacity: 1,
+    borderColor: Color.colorGray_300,
     elevation: 30,
     shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
     shadowColor: "rgba(80, 85, 136, 0.1)",
     borderRadius: Border.br_base,
+    borderStyle: "solid",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
@@ -137,11 +183,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  iconLayout1: {
+    height: 22,
+    width: 22,
+  },
   iconLayout: {
-    width: 21,
-    top: 0,
     height: 21,
-    position: "absolute",
+    width: 21,
+  },
+  search1Typo: {
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    marginTop: 5,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
   },
   rectangle: {
     height: "100%",
@@ -154,20 +216,60 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
+  },
+  carpicChild: {
+    borderBottomRightRadius: Border.br_31xl,
+    borderBottomLeftRadius: Border.br_31xl,
+    shadowColor: "rgba(0, 0, 0, 0.2)",
+    shadowRadius: 9,
+    elevation: 9,
+    borderColor: Color.colorRoyalblue_100,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    height: 239,
+    borderStyle: "solid",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    left: 0,
+    top: 0,
+    width: 377,
+    position: "absolute",
+    backgroundColor: Color.neutralWhite,
+  },
+  image1Icon: {
+    left: 0,
+    top: 0,
+    height: 258,
+    position: "absolute",
+    width: 375,
+  },
+  carpic: {
+    height: 258,
+    width: 377,
   },
   sharewheels: {
     fontSize: 30,
     fontWeight: "800",
     fontFamily: FontFamily.nunitoExtraBold,
-    color: Color.colorRoyalblue_100,
     width: 286,
     textAlign: "center",
+    color: Color.colorRoyalblue_100,
   },
   heading: {
     width: 326,
+    color: Color.gray1,
+    fontFamily: FontFamily.headingH2,
+    fontWeight: "600",
+    lineHeight: 25,
+    textAlign: "left",
+    fontSize: FontSize.headingH2_size,
   },
   mapPinIcon: {
     width: 24,
@@ -192,10 +294,14 @@ const styles = StyleSheet.create({
   heading1: {
     width: 322,
     marginTop: 15,
+    color: Color.gray1,
+    fontFamily: FontFamily.headingH2,
+    fontWeight: "600",
+    lineHeight: 25,
+    textAlign: "left",
+    fontSize: FontSize.headingH2_size,
   },
   mapPinIcon2: {
-    width: 22,
-    height: 22,
     overflow: "hidden",
   },
   number2: {
@@ -219,17 +325,17 @@ const styles = StyleSheet.create({
     paddingRight: Padding.p_9xs,
     paddingBottom: Padding.p_base,
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
-    borderStyle: "solid",
+    borderColor: Color.colorGray_300,
     elevation: 30,
     shadowRadius: 30,
     shadowColor: "rgba(80, 85, 136, 0.1)",
     borderRadius: Border.br_base,
     flexDirection: "row",
+    borderStyle: "solid",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 4,
     },
     justifyContent: "space-between",
     backgroundColor: Color.neutralWhite,
@@ -239,34 +345,43 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: "space-between",
   },
-  heading3: {
-    left: 47,
-    fontFamily: FontFamily.robotoMedium,
-    color: Color.colorBlack,
-    fontWeight: "500",
-    top: 0,
+  heading2: {
+    color: Color.gray1,
+    fontFamily: FontFamily.headingH2,
+    fontWeight: "600",
+    lineHeight: 25,
     textAlign: "left",
     fontSize: FontSize.headingH2_size,
-    position: "absolute",
   },
-  moinsIcon: {
-    left: 0,
+  heading3: {
+    fontFamily: FontFamily.robotoMedium,
+    color: Color.colorBlack,
+    marginLeft: 28,
+    fontWeight: "500",
+    textAlign: "left",
+    fontSize: FontSize.headingH2_size,
   },
   plusIcon: {
-    left: 88,
+    marginLeft: 28,
   },
   nmbrplaces: {
-    width: 109,
     marginTop: 5,
-    height: 21,
+    height: 24,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   places: {
     marginTop: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
   main: {
     height: 377,
     paddingHorizontal: Padding.p_9xs,
     paddingVertical: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
   signUp: {
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -285,22 +400,45 @@ const styles = StyleSheet.create({
     elevation: 14,
     width: 317,
     height: 58,
+    justifyContent: "center",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 4,
     },
     flexDirection: "row",
-    justifyContent: "center",
+  },
+  search1: {
+    color: Color.colorRoyalblue_100,
+  },
+  yourRides1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  footersearch: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    flexDirection: "row",
+    width: 375,
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
   },
   recherche: {
     flex: 1,
     height: 834,
     justifyContent: "space-between",
     alignItems: "center",
+    overflow: "hidden",
     width: "100%",
     backgroundColor: Color.neutralWhite,
-    overflow: "hidden",
   },
 });
 

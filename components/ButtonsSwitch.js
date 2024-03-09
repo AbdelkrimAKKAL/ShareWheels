@@ -1,68 +1,15 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { Padding, Border, FontFamily, FontSize, Color } from "../GlobalStyles";
 
-const getStyleValue = (key, value) => {
-  if (value === undefined) return;
-  return { [key]: value === "unset" ? undefined : value };
-};
-const ButtonsSwitch = ({
-  buttonsSwitchPosition,
-  aVenirBackgroundColor,
-  aVenirColor,
-  passesBackgroundColor,
-  passsColor,
-  onAVenirPress,
-  onPassesPress,
-}) => {
-  const buttonsSwitchStyle = useMemo(() => {
-    return {
-      ...getStyleValue("position", buttonsSwitchPosition),
-    };
-  }, [buttonsSwitchPosition]);
-
-  const aVenirStyle = useMemo(() => {
-    return {
-      ...getStyleValue("backgroundColor", aVenirBackgroundColor),
-    };
-  }, [aVenirBackgroundColor]);
-
-  const aVenir1Style = useMemo(() => {
-    return {
-      ...getStyleValue("color", aVenirColor),
-    };
-  }, [aVenirColor]);
-
-  const passesStyle = useMemo(() => {
-    return {
-      ...getStyleValue("backgroundColor", passesBackgroundColor),
-    };
-  }, [passesBackgroundColor]);
-
-  const passsStyle = useMemo(() => {
-    return {
-      ...getStyleValue("color", passsColor),
-    };
-  }, [passsColor]);
-
+const ButtonsSwitch = () => {
   return (
-    <View style={[styles.buttonsswitch, buttonsSwitchStyle]}>
-      <View
-        style={[styles.avenir, styles.avenirShadowBox, aVenirStyle]}
-        onPress={onAVenirPress}
-      >
-        <Text style={[styles.aVenir, styles.passsTypo, aVenir1Style]}>
-          A venir
-        </Text>
+    <View style={styles.buttonsswitch}>
+      <View style={[styles.avenir, styles.avenirShadowBox]}>
+        <Text style={[styles.aVenir, styles.passsTypo]}>A venir</Text>
       </View>
-      <View
-        style={[styles.passes, styles.avenirShadowBox, passesStyle]}
-        onPress={onPassesPress}
-      >
-        <Text style={[styles.passs, styles.passsTypo, passsStyle]}>
-          {" "}
-          Passés
-        </Text>
+      <View style={[styles.passes, styles.avenirShadowBox]}>
+        <Text style={[styles.passs, styles.passsTypo]}> Passés</Text>
       </View>
     </View>
   );

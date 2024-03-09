@@ -2,33 +2,32 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import FooterSearch from "../components/FooterSearch";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.ajouterannonce}>
+    <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
       <View style={styles.bar}>
         <View style={styles.rectangle} />
       </View>
       <View style={styles.main}>
         <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
         <View style={styles.inputs}>
-          <View style={styles.inputShadowBox1}>
+          <View style={styles.input}>
             <Image
               style={styles.mapPinIcon}
               contentFit="cover"
-              source={require("../assets/mappin1.png")}
+              source={require("../assets/mappin3.png")}
             />
             <Text style={[styles.number, styles.numberTypo]}>Depart</Text>
           </View>
-          <View style={styles.inputShadowBox1}>
+          <View style={[styles.input1, styles.inputShadowBox1]}>
             <Image
               style={styles.mapPinIcon}
               contentFit="cover"
-              source={require("../assets/mappin2.png")}
+              source={require("../assets/mappin3.png")}
             />
             <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
           </View>
@@ -37,61 +36,99 @@ const AjouterAnnonce = () => {
             onPress={() => navigation.navigate("Dates")}
           >
             <Image
-              style={styles.mapPinIcon2}
-              contentFit="cover"
-              source={require("../assets/mappin3.png")}
-            />
-            <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
-          </Pressable>
-          <Pressable
-            style={styles.inputShadowBox}
-            onPress={() => navigation.navigate("Voiture")}
-          >
-            <Image
-              style={styles.mapPinIcon2}
+              style={[styles.mapPinIcon2, styles.iconLayout]}
               contentFit="cover"
               source={require("../assets/mappin4.png")}
             />
-            <Text style={[styles.number2, styles.numberTypo]}>Voiture</Text>
+            <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
           </Pressable>
-          <Pressable
-            style={styles.inputShadowBox}
-            onPress={() => navigation.navigate("Aajouter")}
-          >
+          <View style={styles.inputShadowBox}>
             <Image
-              style={styles.mapPinIcon}
+              style={[styles.mapPinIcon2, styles.iconLayout]}
               contentFit="cover"
-              source={require("../assets/addellipse-svgrepocom.png")}
+              source={require("../assets/mappin5.png")}
             />
-            <Text style={[styles.number2, styles.numberTypo]}>A ajouter</Text>
-          </Pressable>
+            <Text style={[styles.number3, styles.numberTypo]}>Voiture</Text>
+            <Image
+              style={styles.downArrowIcon}
+              contentFit="cover"
+              source={require("../assets/down-arrow1.png")}
+            />
+          </View>
+          <View style={[styles.input4, styles.inputShadowBox1]}>
+            <Text style={styles.number4}>A ajouter</Text>
+          </View>
         </View>
-        <View style={styles.buttonfirst}>
+        <View style={[styles.buttonfirst, styles.input1FlexBox]}>
           <Text style={styles.signUp}>Ajouter</Text>
         </View>
       </View>
-      <FooterSearch
-        dimensionCode={require("../assets/search.png")}
-        dimensionCodeText={require("../assets/format-list-bulleted.png")}
-        dimensionCodeIdentifier={require("../assets/add-circle-outline1.png")}
-        dimensionCodeIdentifierTe={require("../assets/sharecircle-svgrepocom4.png")}
-        dimensionCodeIdentifierTe2={require("../assets/profile1.png")}
-        propColor="#9d9fa0"
-        propColor1="#9d9fa0"
-        propColor2="#0075fd"
-        propColor3="#9d9fa0"
-        propColor4="#9d9fa0"
-        onSearchPress={() => navigation.navigate("Recherche")}
-        onYourRidesPress={() => navigation.navigate("YourRides")}
-        onPublishPress={() => navigation.navigate("AjouterAnnonce")}
-        onCarpoolPress={() => navigation.navigate("CarpoolVenir")}
-        onProfilePress={() => navigation.navigate("MonProfil")}
-      />
+      <View style={[styles.footerpublish, styles.input1FlexBox]}>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("Recherche")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/search1.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.yourRides, styles.searchLayout]}
+          onPress={() => navigation.navigate("YourRides")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/format-list-bulleted.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("AjouterAnnonce")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/add-circle-outline1.png")}
+          />
+          <Text style={[styles.publish1, styles.search1Typo]}>Publish</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("CarpoolVenir")}
+        >
+          <Image
+            style={styles.mapPinIcon}
+            contentFit="cover"
+            source={require("../assets/sharecircle-svgrepocom.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
+        </Pressable>
+        <Pressable
+          style={styles.searchLayout}
+          onPress={() => navigation.navigate("MonProfil")}
+        >
+          <Image
+            style={styles.iconLayout}
+            contentFit="cover"
+            source={require("../assets/profile.png")}
+          />
+          <Text style={[styles.search1, styles.search1Typo]}>Profile</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  footerpublishFlexBox: {
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
+  },
   numberTypo: {
     height: 19,
     textAlign: "left",
@@ -99,6 +136,46 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.nunitoRegular,
     lineHeight: 22,
     fontSize: FontSize.size_mini,
+  },
+  inputShadowBox1: {
+    marginTop: 15,
+    paddingVertical: Padding.p_base,
+    paddingHorizontal: Padding.p_mini,
+    borderWidth: 1,
+    borderColor: Color.colorGray_300,
+    borderStyle: "solid",
+    shadowOpacity: 1,
+    elevation: 30,
+    shadowRadius: 30,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowColor: "rgba(80, 85, 136, 0.1)",
+    borderRadius: Border.br_base,
+    backgroundColor: Color.neutralWhite,
+  },
+  iconLayout: {
+    height: 22,
+    width: 22,
+  },
+  input1FlexBox: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
   },
   rectangle: {
     position: "absolute",
@@ -111,8 +188,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
   bar: {
-    width: 375,
     height: 33,
+    width: 375,
     overflow: "hidden",
   },
   ajouterAnnonce: {
@@ -131,18 +208,18 @@ const styles = StyleSheet.create({
   number: {
     width: 227,
   },
-  inputShadowBox1: {
+  input: {
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
-    width: 292,
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     borderStyle: "solid",
     elevation: 30,
     shadowRadius: 30,
     shadowColor: "rgba(80, 85, 136, 0.1)",
     borderRadius: Border.br_base,
     flexDirection: "row",
+    width: 292,
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
@@ -152,9 +229,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
+  input1: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: 292,
+    marginTop: 15,
+    justifyContent: "space-between",
+  },
   mapPinIcon2: {
-    width: 22,
-    height: 22,
     overflow: "hidden",
   },
   number2: {
@@ -162,12 +244,13 @@ const styles = StyleSheet.create({
   },
   inputShadowBox: {
     height: 57,
+    marginTop: 15,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
     flexDirection: "row",
     width: 292,
     borderWidth: 1,
-    borderColor: Color.colorGray_200,
+    borderColor: Color.colorGray_300,
     borderStyle: "solid",
     shadowOpacity: 1,
     elevation: 30,
@@ -182,10 +265,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
+  number3: {
+    width: 201,
+  },
+  downArrowIcon: {
+    width: 22,
+    height: 24,
+  },
+  number4: {
+    width: 265,
+    height: 229,
+    textAlign: "left",
+    color: Color.colorGray_100,
+    fontFamily: FontFamily.nunitoRegular,
+    lineHeight: 22,
+    fontSize: FontSize.size_mini,
+  },
+  input4: {
+    height: 261,
+  },
   inputs: {
-    height: 342,
-    marginTop: 70,
-    justifyContent: "space-between",
+    height: 544,
+    marginTop: 20,
     alignItems: "center",
   },
   signUp: {
@@ -211,23 +312,43 @@ const styles = StyleSheet.create({
       width: 0,
       height: 8,
     },
-    marginTop: 70,
+    marginTop: 20,
+    justifyContent: "center",
+  },
+  main: {
+    height: 728,
     justifyContent: "center",
     alignItems: "center",
   },
-  main: {
-    height: 673,
-    justifyContent: "center",
-    alignItems: "center",
+  search1: {
+    color: Color.colorDarkgray_200,
+  },
+  yourRides: {
+    padding: Padding.p_3xs,
+  },
+  publish1: {
+    color: Color.colorRoyalblue_100,
+  },
+  footerpublish: {
+    shadowColor: "rgba(0, 0, 0, 0.08)",
+    shadowRadius: 20,
+    elevation: 20,
+    flexDirection: "row",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    width: 375,
+    justifyContent: "space-between",
+    backgroundColor: Color.neutralWhite,
   },
   ajouterannonce: {
     flex: 1,
     height: 834,
-    justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
-    backgroundColor: Color.neutralWhite,
   },
 });
 

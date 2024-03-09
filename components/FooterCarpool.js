@@ -16,7 +16,7 @@ const FooterCarpool = () => {
         <Image
           style={styles.searchIcon}
           contentFit="cover"
-          source={require("../assets/search.png")}
+          source={require("../assets/search1.png")}
         />
         <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
       </Pressable>
@@ -49,7 +49,7 @@ const FooterCarpool = () => {
         <Image
           style={styles.searchIcon}
           contentFit="cover"
-          source={require("../assets/sharecircle-svgrepocom5.png")}
+          source={require("../assets/sharecircle-svgrepocom4.png")}
         />
         <Text style={[styles.carpool1, styles.search1Typo]}>Carpool</Text>
       </Pressable>
@@ -60,7 +60,7 @@ const FooterCarpool = () => {
         <Image
           style={styles.profileIcon}
           contentFit="cover"
-          source={require("../assets/profile1.png")}
+          source={require("../assets/profile.png")}
         />
         <Text style={[styles.search1, styles.search1Typo]}>Profile</Text>
       </Pressable>
