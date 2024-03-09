@@ -76,9 +76,10 @@ const MonProfil = () => {
         >
           <Text style={[styles.signUp, styles.signTypo]}>Modifier</Text>
         </Pressable>
-        <View style={[styles.buttonsecondary, styles.buttonsecondaryShadowBox]}>
+        <Pressable style={[styles.buttonsecondary, styles.buttonsecondaryShadowBox]}
+        onPress={() => navigation.navigate("Profile")}>
           <Text style={[styles.signUp1, styles.signTypo]}>Logout</Text>
-        </View>
+        </Pressable>
         <View
           style={[styles.buttonsecondary1, styles.buttonsecondaryShadowBox]}
         >
