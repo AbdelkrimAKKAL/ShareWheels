@@ -1,6 +1,9 @@
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
+
 import { useFonts } from "expo-font";
 import Recherche from "./screens/Recherche";
 import Details from "./screens/Details";
@@ -29,7 +32,15 @@ import ButtonsSwitch from "./components/ButtonsSwitch";
 import Profile from "./screens/Profile";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Padding } from "./GlobalStyles";
+
+const SearchName = "Search";
+const YourRidesName = "Your Rides";
+const PublishName = "Publish";
+const CarpoolsName = "Carpools";
+const ProfileName = "Profile";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
@@ -54,6 +65,7 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="TabNavigator" component={TabNavigator} />
             <Stack.Screen
               name="Recherche"
               component={Recherche}
@@ -140,4 +152,120 @@ const App = () => {
     </>
   );
 };
+
+const TabNavigator = () => (
+  <Tab.Navigator
+    initialRouteName={SearchName}
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+        let rn = route.name;
+
+        if (rn === SearchName) {
+          iconName = focused ? (
+            <Image contentFit="cover" source={require("./assets/search.png")} />
+          ) : (
+            <Image
+              contentFit="cover"
+              source={require("./assets/search1.png")}
+            />
+          );
+        } else if (rn === YourRidesName) {
+          iconName = focused ? (
+            <Image
+              contentFit="cover"
+              source={require("./assets/format-list-bulleted1.png")}
+            />
+          ) : (
+            <Image
+              contentFit="cover"
+              source={require("./assets/format-list-bulleted.png")}
+            />
+          );
+        } else if (rn === PublishName) {
+          iconName = focused ? (
+            <Image
+              contentFit="cover"
+              source={require("./assets/add-circle-outline1.png")}
+            />
+          ) : (
+            <Image
+              contentFit="cover"
+              source={require("./assets/add-circle-outline.png")}
+            />
+          );
+        } else if (rn === CarpoolsName) {
+          iconName = focused ? (
+            <Image
+              contentFit="cover"
+              source={require("./assets/sharecircle-svgrepocom2.png")}
+            />
+          ) : (
+            <Image
+              contentFit="cover"
+              source={require("./assets/sharecircle-svgrepocom5.png")}
+            />
+          );
+        } else if (rn === ProfileName) {
+          iconName = focused ? (
+            <Image
+              contentFit="cover"
+              source={require("./assets/profile1.png")}
+            />
+          ) : (
+            <Image
+              contentFit="cover"
+              source={require("./assets/profile.png")}
+              
+            />
+          );
+        }
+
+        return iconName;
+      },
+
+      tabBarStyle: {
+        alignContent: "center",
+        justifyContent: "center",
+        height: 60,
+        flexDirection: 'row'
+
+      },
+      tabBarLabelStyle: {
+        fontSize: 11, 
+        marginBottom: 9,
+        marginTop: -8,
+
+      },
+    
+    })}
+
+  >
+    <Tab.Screen
+      name={SearchName}
+      component={Recherche}
+      options={{ headerShown: false }}
+    />
+    <Tab.Screen
+      name={YourRidesName}
+      component={YourRides}
+      options={{ headerShown: false }}
+    />
+    <Tab.Screen
+      name={PublishName}
+      component={AjouterAnnonce}
+      options={{ headerShown: false }}
+    />
+    <Tab.Screen
+      name={CarpoolsName}
+      component={CarpoolVenir}
+      options={{ headerShown: false }}
+    />
+    <Tab.Screen
+      name={ProfileName}
+      component={MonProfil}
+      options={{ headerShown: false }}
+    />
+  </Tab.Navigator>
+);
 export default App;
