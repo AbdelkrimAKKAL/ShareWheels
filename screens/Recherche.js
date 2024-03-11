@@ -352,29 +352,11 @@ const styles = StyleSheet.create({
   search1: {
     color: Color.colorRoyalblue_100,
   },
-  yourRides1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides: {
-    padding: Padding.p_3xs,
-  },
-  footersearch: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowRadius: 20,
-    elevation: 20,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    flexDirection: "row",
-    width: 375,
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
+
+
   recherche: {
     flex: 1,
-    height: 834,
+    height: '100%',
     justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",

@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 import { StyleSheet, Text, View } from "react-native";
 import { Border, Color, FontFamily, FontSize, Padding } from "../GlobalStyles";
 
-const MesAnnonces = () => {
+const MesAnnonces = (Props) => {
   return (
     <View style={[styles.mesannonces, styles.dateFlexBox]}>
       <View style={styles.infos}>
@@ -14,7 +14,7 @@ const MesAnnonces = () => {
         />
         <View style={[styles.infosprofil, styles.trajetPosition]}>
           <Text style={[styles.amineMeddouri, styles.textTypo]}>
-            Amine Meddouri
+            {Props.name}
           </Text>
           <View style={[styles.vectorParent, styles.trajetFlexBox]}>
             <Image
@@ -22,7 +22,7 @@ const MesAnnonces = () => {
               contentFit="cover"
               source={require("../assets/vector4.png")}
             />
-            <Text style={[styles.text, styles.textTypo]}>4.7(1)</Text>
+            <Text style={[styles.text, styles.textTypo]}>{Props.rating}</Text>
           </View>
         </View>
         <View style={[styles.trajet, styles.trajetFlexBox]}>
@@ -32,8 +32,8 @@ const MesAnnonces = () => {
             source={require("../assets/group2.png")}
           />
           <View style={styles.bejaiaParent}>
-            <Text style={[styles.bejaia, styles.algerTypo]}>Bejaia</Text>
-            <Text style={[styles.alger, styles.algerTypo]}>Alger</Text>
+            <Text style={[styles.bejaia, styles.algerTypo]}>{Props.startLocation}</Text>
+            <Text style={[styles.alger, styles.algerTypo]}>{Props.endLocation}</Text>
           </View>
         </View>
       </View>
@@ -41,30 +41,30 @@ const MesAnnonces = () => {
         <View style={[styles.prix, styles.dateFlexBox]}>
           <Text style={[styles.titre, styles.titreClr]}>Prix</Text>
           <Text style={styles.infoTypo1}>
-            <Text style={styles.infoTypo}>200 DA</Text>
+            <Text style={styles.infoTypo}>{Props.price}</Text>
             <Text style={styles.text1}>{` `}</Text>
           </Text>
         </View>
         <View style={[styles.vehicule, styles.dateFlexBox]}>
           <Text style={[styles.titre, styles.titreClr]}>Véhicule</Text>
-          <Text style={[styles.info1, styles.infoTypo]}>{`Suzuki Alto `}</Text>
+          <Text style={[styles.info1, styles.infoTypo]}>{Props.vehicle}</Text>
         </View>
         <View style={[styles.prix, styles.dateFlexBox]}>
           <Text style={[styles.titre, styles.titreClr]}>Heure</Text>
-          <Text style={[styles.info2, styles.infoTypo1]}>{`5:20pm `}</Text>
+          <Text style={[styles.info2, styles.infoTypo1]}>{Props.time}</Text>
         </View>
         <View style={[styles.date, styles.dateFlexBox]}>
           <Text style={[styles.titre, styles.titreClr]}>Date</Text>
-          <Text style={[styles.info3, styles.infoTypo]}>22 DEC 23</Text>
+          <Text style={[styles.info3, styles.infoTypo]}>{Props.date}</Text>
         </View>
         <View style={[styles.date1, styles.dateFlexBox]}>
           <Text style={[styles.titre, styles.titreClr]}>Places</Text>
-          <Text style={[styles.info3, styles.infoTypo]}>2/6</Text>
+          <Text style={[styles.info3, styles.infoTypo]}>{Props.availableSeats}</Text>
         </View>
       </View>
       <View style={[styles.buttons, styles.buttonsFlexBox]}>
         <View style={[styles.participer, styles.buttonsFlexBox]}>
-          <Text style={styles.supprimer}>Supprimer</Text>
+          <Text style={styles.supprimer}>{Props.btnText}</Text>
         </View>
       </View>
     </View>

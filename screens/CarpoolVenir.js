@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
+import MesAnnonces from "../components/MesAnnonces";
 
 const CarpoolVenir = () => {
   const navigation = useNavigation();
@@ -25,201 +26,31 @@ const CarpoolVenir = () => {
         </Pressable>
       </View>
       <View style={styles.main}>
-        <View style={styles.mesannonces}>
-          <View style={styles.infos}>
-            <Image
-              style={styles.profilepictureIcon}
-              contentFit="cover"
-              source={require("../assets/profilepicture.png")}
-            />
-            <View style={styles.infosprofil}>
-              <Text style={[styles.amineMeddouri, styles.carpoolsTypo]}>
-                Amine Meddouri
-              </Text>
-              <View style={[styles.vectorParent, styles.trajetFlexBox]}>
-                <Image
-                  style={styles.vectorIcon}
-                  contentFit="cover"
-                  source={require("../assets/vector1.png")}
-                />
-                <Text style={styles.text}>4.7(1)</Text>
-              </View>
-            </View>
-            <View style={[styles.trajet, styles.trajetFlexBox]}>
-              <Image
-                style={styles.groupIcon}
-                contentFit="cover"
-                source={require("../assets/group.png")}
-              />
-              <View style={styles.bejaiaParent}>
-                <Text style={[styles.bejaia, styles.algerTypo]}>Bejaia</Text>
-                <Text style={[styles.alger, styles.algerTypo]}>Alger</Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.infostrajet, styles.trajetFlexBox]}>
-            <View style={styles.prix}>
-              <Text style={[styles.titre, styles.passsTypo]}>Prix</Text>
-              <Text style={styles.infoTypo1}>
-                <Text style={styles.infoTypo}>200 DA</Text>
-                <Text style={styles.text1}>{` `}</Text>
-              </Text>
-            </View>
-            <View style={styles.vehicule}>
-              <Text style={[styles.titre, styles.passsTypo]}>Véhicule</Text>
-              <Text
-                style={[styles.info1, styles.infoTypo]}
-              >{`Suzuki Alto `}</Text>
-            </View>
-            <View style={styles.prix}>
-              <Text style={[styles.titre, styles.passsTypo]}>Heure</Text>
-              <Text style={[styles.info2, styles.infoTypo1]}>{`5:20pm `}</Text>
-            </View>
-            <View style={styles.date}>
-              <Text style={[styles.titre, styles.passsTypo]}>Date</Text>
-              <Text style={[styles.info3, styles.infoTypo]}>3 jours</Text>
-            </View>
-            <View style={styles.date1}>
-              <Text style={[styles.titre, styles.passsTypo]}>Places</Text>
-              <Text style={[styles.info3, styles.infoTypo]}>2/6</Text>
-            </View>
-          </View>
-          <View style={[styles.buttons, styles.buttonsFlexBox]}>
-            <View style={[styles.participer, styles.buttonsFlexBox]}>
-              <Text style={styles.supprimer}>Annuler</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.mesannoncesShadowBox}>
-          <View style={styles.infos}>
-            <Image
-              style={styles.profilepictureIcon}
-              contentFit="cover"
-              source={require("../assets/profilepicture.png")}
-            />
-            <View style={styles.infosprofil}>
-              <Text style={[styles.amineMeddouri, styles.carpoolsTypo]}>
-                Amine Meddouri
-              </Text>
-              <View style={[styles.vectorParent, styles.trajetFlexBox]}>
-                <Image
-                  style={styles.vectorIcon}
-                  contentFit="cover"
-                  source={require("../assets/vector1.png")}
-                />
-                <Text style={styles.text}>4.7(1)</Text>
-              </View>
-            </View>
-            <View style={[styles.trajet, styles.trajetFlexBox]}>
-              <Image
-                style={styles.groupIcon}
-                contentFit="cover"
-                source={require("../assets/group.png")}
-              />
-              <View style={styles.bejaiaParent}>
-                <Text style={[styles.bejaia, styles.algerTypo]}>Bejaia</Text>
-                <Text style={[styles.alger, styles.algerTypo]}>Alger</Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.infostrajet, styles.trajetFlexBox]}>
-            <View style={styles.prix}>
-              <Text style={[styles.titre, styles.passsTypo]}>Prix</Text>
-              <Text style={styles.infoTypo1}>
-                <Text style={styles.infoTypo}>200 DA</Text>
-                <Text style={styles.text1}>{` `}</Text>
-              </Text>
-            </View>
-            <View style={styles.vehicule}>
-              <Text style={[styles.titre, styles.passsTypo]}>Véhicule</Text>
-              <Text
-                style={[styles.info1, styles.infoTypo]}
-              >{`Suzuki Alto `}</Text>
-            </View>
-            <View style={styles.prix}>
-              <Text style={[styles.titre, styles.passsTypo]}>Heure</Text>
-              <Text style={[styles.info2, styles.infoTypo1]}>{`5:20pm `}</Text>
-            </View>
-            <View style={styles.date}>
-              <Text style={[styles.titre, styles.passsTypo]}>Date</Text>
-              <Text style={[styles.info3, styles.infoTypo]}>22 DEC 23</Text>
-            </View>
-            <View style={styles.date1}>
-              <Text style={[styles.titre, styles.passsTypo]}>Places</Text>
-              <Text style={[styles.info3, styles.infoTypo]}>2/6</Text>
-            </View>
-          </View>
-          <View style={[styles.buttons, styles.buttonsFlexBox]}>
-            <View style={[styles.participer, styles.buttonsFlexBox]}>
-              <Text style={styles.supprimer}>Annuler</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.mesannoncesShadowBox}>
-          <View style={styles.infos}>
-            <Image
-              style={styles.profilepictureIcon}
-              contentFit="cover"
-              source={require("../assets/profilepicture.png")}
-            />
-            <View style={styles.infosprofil}>
-              <Text style={[styles.amineMeddouri, styles.carpoolsTypo]}>
-                Amine Meddouri
-              </Text>
-              <View style={[styles.vectorParent, styles.trajetFlexBox]}>
-                <Image
-                  style={styles.vectorIcon}
-                  contentFit="cover"
-                  source={require("../assets/vector1.png")}
-                />
-                <Text style={styles.text}>4.7(1)</Text>
-              </View>
-            </View>
-            <View style={[styles.trajet, styles.trajetFlexBox]}>
-              <Image
-                style={styles.groupIcon}
-                contentFit="cover"
-                source={require("../assets/group.png")}
-              />
-              <View style={styles.bejaiaParent}>
-                <Text style={[styles.bejaia, styles.algerTypo]}>Bejaia</Text>
-                <Text style={[styles.alger, styles.algerTypo]}>Alger</Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.infostrajet, styles.trajetFlexBox]}>
-            <View style={styles.prix}>
-              <Text style={[styles.titre, styles.passsTypo]}>Prix</Text>
-              <Text style={styles.infoTypo1}>
-                <Text style={styles.infoTypo}>200 DA</Text>
-                <Text style={styles.text1}>{` `}</Text>
-              </Text>
-            </View>
-            <View style={styles.vehicule}>
-              <Text style={[styles.titre, styles.passsTypo]}>Véhicule</Text>
-              <Text
-                style={[styles.info1, styles.infoTypo]}
-              >{`Suzuki Alto `}</Text>
-            </View>
-            <View style={styles.prix}>
-              <Text style={[styles.titre, styles.passsTypo]}>Heure</Text>
-              <Text style={[styles.info2, styles.infoTypo1]}>{`5:20pm `}</Text>
-            </View>
-            <View style={styles.date}>
-              <Text style={[styles.titre, styles.passsTypo]}>Date</Text>
-              <Text style={[styles.info3, styles.infoTypo]}>22 DEC 23</Text>
-            </View>
-            <View style={styles.date1}>
-              <Text style={[styles.titre, styles.passsTypo]}>Places</Text>
-              <Text style={[styles.info3, styles.infoTypo]}>2/6</Text>
-            </View>
-          </View>
-          <View style={[styles.buttons, styles.buttonsFlexBox]}>
-            <View style={[styles.participer, styles.buttonsFlexBox]}>
-              <Text style={styles.supprimer}>Annuler</Text>
-            </View>
-          </View>
-        </View>
+        <MesAnnonces
+          name="Amine Meddouri" 
+          rating="4.5(2)" 
+          startLocation="Bejaia"
+          endLocation="Alger"
+          price="250 DA"
+          vehicle="Toyota Corolla"
+          time="6:30pm"
+          date="25 DEC 23"
+          availableSeats="3/4"
+          btnText= 'Annuler'
+          />
+
+        <MesAnnonces
+          name="Amine Meddouri" 
+          rating="4.5(2)" 
+          startLocation="Bejaia"
+          endLocation="Alger"
+          price="250 DA"
+          vehicle="Toyota Corolla"
+          time="6:30pm"
+          date="25 DEC 23"
+          availableSeats="3/4"
+          btnText= 'Annuler'
+          />
       </View>
     </View>
   );

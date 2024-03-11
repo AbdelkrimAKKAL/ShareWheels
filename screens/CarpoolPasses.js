@@ -26,9 +26,29 @@ const CarpoolPasses = () => {
         </View>
       </View>
       <View style={styles.main}>
-        <Evaluer/>
-        <Evaluer/>
-        <Evaluer/>
+      <Evaluer
+          name="Amine Meddouri" 
+          rating="4.5(2)" 
+          startLocation="Bejaia"
+          endLocation="Alger"
+          price="250 DA"
+          vehicle="Toyota Corolla"
+          time="6:30pm"
+          date="25 DEC 23"
+          availableSeats="3/4"
+          />
+
+        <Evaluer
+          name="Amine Meddouri" 
+          rating="4.5(2)" 
+          startLocation="Bejaia"
+          endLocation="Alger"
+          price="250 DA"
+          vehicle="Toyota Corolla"
+          time="6:30pm"
+          date="25 DEC 23"
+          availableSeats="3/4"
+          />
 
       </View>
 
