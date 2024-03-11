@@ -3,7 +3,6 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding } from "../GlobalStyles";
-import FooterYourRides from "../components/FooterYourRides";
 
 const YourRides = () => {
   const navigation = useNavigation();
@@ -211,7 +210,6 @@ const YourRides = () => {
           </View>
         </View>
       </View>
-      <FooterYourRides/>
       </View>
   );
 };

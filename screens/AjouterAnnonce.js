@@ -63,63 +63,7 @@ const AjouterAnnonce = () => {
           <Text style={styles.signUp}>Ajouter</Text>
         </View>
       </View>
-      <View style={[styles.footerpublish, styles.input1FlexBox]}>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("Recherche")}
-        >
-          <Image
-            style={styles.mapPinIcon}
-            contentFit="cover"
-            source={require("../assets/search1.png")}
-          />
-          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.yourRides, styles.searchLayout]}
-          onPress={() => navigation.navigate("YourRides")}
-        >
-          <Image
-            style={styles.mapPinIcon}
-            contentFit="cover"
-            source={require("../assets/format-list-bulleted.png")}
-          />
-          <Text style={[styles.search1, styles.search1Typo]}>Your rides</Text>
-        </Pressable>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("AjouterAnnonce")}
-        >
-          <Image
-            style={styles.mapPinIcon}
-            contentFit="cover"
-            source={require("../assets/add-circle-outline1.png")}
-          />
-          <Text style={[styles.publish1, styles.search1Typo]}>Publish</Text>
-        </Pressable>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("CarpoolVenir")}
-        >
-          <Image
-            style={styles.mapPinIcon}
-            contentFit="cover"
-            source={require("../assets/sharecircle-svgrepocom.png")}
-          />
-          <Text style={[styles.search1, styles.search1Typo]}>Carpool</Text>
-        </Pressable>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("MonProfil")}
-        >
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/profile.png")}
-          />
-          <Text style={[styles.search1, styles.search1Typo]}>Profile</Text>
-        </Pressable>
-      </View>
+
     </View>
   );
 };

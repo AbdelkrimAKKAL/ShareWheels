@@ -233,65 +233,6 @@ const ResultatRecherche = () => {
           </View>
         </View>
       </View>
-      <View style={[styles.footersearch, styles.trajetFlexBox]}>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("Recherche")}
-        >
-          <Image
-            style={styles.searchIcon}
-            contentFit="cover"
-            source={require("../assets/search.png")}
-          />
-          <Text style={[styles.search1, styles.search1Typo]}>Search</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.yourRides, styles.searchLayout]}
-          onPress={() => navigation.navigate("YourRides")}
-        >
-          <Image
-            style={styles.searchIcon}
-            contentFit="cover"
-            source={require("../assets/format-list-bulleted.png")}
-          />
-          <Text style={[styles.yourRides1, styles.search1Typo]}>
-            Your rides
-          </Text>
-        </Pressable>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("AjouterAnnonce")}
-        >
-          <Image
-            style={styles.searchIcon}
-            contentFit="cover"
-            source={require("../assets/add-circle-outline.png")}
-          />
-          <Text style={[styles.yourRides1, styles.search1Typo]}>Publish</Text>
-        </Pressable>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("CarpoolVenir")}
-        >
-          <Image
-            style={styles.searchIcon}
-            contentFit="cover"
-            source={require("../assets/sharecircle-svgrepocom.png")}
-          />
-          <Text style={[styles.yourRides1, styles.search1Typo]}>Carpool</Text>
-        </Pressable>
-        <Pressable
-          style={styles.searchLayout}
-          onPress={() => navigation.navigate("MonProfil")}
-        >
-          <Image
-            style={styles.profileIcon}
-            contentFit="cover"
-            source={require("../assets/profile.png")}
-          />
-          <Text style={[styles.yourRides1, styles.search1Typo]}>Profile</Text>
-        </Pressable>
-      </View>
     </View>
   );
 };

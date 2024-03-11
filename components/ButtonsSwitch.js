@@ -1,17 +1,24 @@
 import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Pressable} from "react-native";
 import { Padding, Border, FontFamily, FontSize, Color } from "../GlobalStyles";
+import { useNavigation } from "@react-navigation/native";
 
 const ButtonsSwitch = () => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.buttonsswitch}>
-      <View style={[styles.avenir, styles.avenirShadowBox]}>
-        <Text style={[styles.aVenir, styles.passsTypo]}>A venir</Text>
-      </View>
-      <View style={[styles.passes, styles.avenirShadowBox]}>
-        <Text style={[styles.passs, styles.passsTypo]}> Passés</Text>
-      </View>
-    </View>
+    
+    <View style={[styles.buttonsswitch, styles.rateFlexBox]}>
+    <Pressable
+      style={[styles.avenir, styles.avenirShadowBox]}
+      onPress={() => navigation.navigate("CarpoolVenir")}
+    >
+      <Text style={[styles.aVenir, styles.passsTypo]}>A venir</Text>
+    </Pressable>
+
+    <Pressable onPress={() => navigation.navigate("CarpoolPassees")}>
+      <Text style={[styles.passs, styles.passsTypo]}> Passés</Text>
+    </Pressable>
+  </View>
   );
 };
 

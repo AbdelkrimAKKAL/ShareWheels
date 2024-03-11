@@ -23,11 +23,6 @@ import ResultatRecherche from "./screens/ResultatRecherche";
 import Annonce from "./components/Annonce";
 import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
-import FooterProfile from "./components/FooterProfile";
-import FooterCarpool from "./components/FooterCarpool";
-import FooterPublish from "./components/FooterPublish";
-import FooterYourRides from "./components/FooterYourRides";
-import FooterSearch from "./components/FooterSearch";
 import ButtonsSwitch from "./components/ButtonsSwitch";
 import Profile from "./screens/Profile";
 
@@ -182,7 +177,7 @@ const TabNavigator = () => (
               source={require("./assets/format-list-bulleted.png")}
             />
           );
-        } else if (rn === PublishName) {
+        } else if (rn === PublishName || rn === CarpoolPasses) {
           iconName = focused ? (
             <Image
               contentFit="cover"
@@ -216,7 +211,6 @@ const TabNavigator = () => (
             <Image
               contentFit="cover"
               source={require("./assets/profile.png")}
-              
             />
           );
         }
@@ -228,44 +222,87 @@ const TabNavigator = () => (
         alignContent: "center",
         justifyContent: "center",
         height: 60,
-        flexDirection: 'row'
-
+        flexDirection: "row",
       },
       tabBarLabelStyle: {
-        fontSize: 11, 
+        fontSize: 11,
         marginBottom: 9,
         marginTop: -8,
-
       },
-    
     })}
-
   >
     <Tab.Screen
       name={SearchName}
-      component={Recherche}
+      component={SearchStackScreen}
       options={{ headerShown: false }}
     />
     <Tab.Screen
       name={YourRidesName}
-      component={YourRides}
+      component={YourRidesStackScreen}
       options={{ headerShown: false }}
     />
     <Tab.Screen
       name={PublishName}
-      component={AjouterAnnonce}
+      component={PublishStackScreen}
       options={{ headerShown: false }}
     />
     <Tab.Screen
       name={CarpoolsName}
-      component={CarpoolVenir}
+      component={CarpoolsStackScreen}
       options={{ headerShown: false }}
     />
     <Tab.Screen
       name={ProfileName}
-      component={MonProfil}
+      component={ProfileScreen}
       options={{ headerShown: false }}
     />
+
+    
   </Tab.Navigator>
 );
+
+const SearchStackScreen = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Recherche" component={Recherche} />
+    <Stack.Screen name="ResultatRecherche" component={ResultatRecherche} />
+    <Stack.Screen name="Details" component={Details} />
+  </Stack.Navigator>
+);
+
+const YourRidesStackScreen = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="YourRides" component={YourRides} />
+  </Stack.Navigator>
+);
+
+const PublishStackScreen = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="AjouterAnnonce" component={AjouterAnnonce} />
+    <Stack.Screen name="Dates" component={Dates} />
+    <Stack.Screen name="Voiture" component={Voiture} />
+
+    
+
+  </Stack.Navigator>
+);
+
+const CarpoolsStackScreen = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="CarpoolVenir" component={CarpoolVenir} />
+    <Stack.Screen name="CarpoolPasses" component={CarpoolPasses} />
+    <Stack.Screen name="Signaler" component={Signaler} />
+  </Stack.Navigator>
+);
+
+const ProfileScreen = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="MonProfil" component={MonProfil} />
+    <Stack.Screen name="Modifier" component={Modifier} />
+    <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="Login" component={Login} />
+
+  </Stack.Navigator>
+);
+
 export default App;
