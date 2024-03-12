@@ -321,6 +321,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   evaluer: {
+    marginBottom: 10,
     backgroundColor: Color.neutralWhite,
     shadowColor: "rgba(0, 0, 0, 0.2)",
     shadowOffset: {

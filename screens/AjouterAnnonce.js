@@ -4,17 +4,21 @@ import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker from "react-native-dropdown-picker";
+
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
+
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' }]);
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+  ]);
+
   return (
     <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
-      <View>
-        <View/>
+      <View style={styles.bar}>
+        <View style={styles.rectangle} />
       </View>
       <View style={styles.main}>
         <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
@@ -26,55 +30,73 @@ const AjouterAnnonce = () => {
               source={require("../assets/mappin3.png")}
             />
             <TextInput
-              placeholder="Départ"
+              placeholder="Depart"
+              style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
             />
           </View>
-          <View style={styles.input}>
+          <View style={[styles.input1, styles.inputShadowBox1]}>
             <Image
               style={styles.mapPinIcon}
               contentFit="cover"
               source={require("../assets/mappin3.png")}
             />
-            <TextInput
-              placeholder="Destination"
-            />
+            <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
           </View>
           <Pressable
             style={styles.inputShadowBox}
             onPress={() => navigation.navigate("Dates")}
           >
             <Image
-              style={ styles.iconLayout}
+              style={[styles.mapPinIcon2, styles.iconLayout]}
               contentFit="cover"
               source={require("../assets/mappin4.png")}
             />
-            <Text>Date</Text>
+            <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
           </Pressable>
-          <View >
-            <DropDownPicker style={styles.inputShadowBox}
-              placeholder="Voiture"
-              ArrowDownIconComponent={({style}) =>  <Image
-              style={ styles.iconLayout}
+          <View style={styles.inputShadowBox}>
+            <Image
+              style={[styles.mapPinIcon2, styles.iconLayout]}
               contentFit="cover"
               source={require("../assets/mappin5.png")}
-            />}
+            />
+
+            <DropDownPicker
+              style={{ zIndex: 9999, borderWidth: 0, borderColor: 'transparent', width: '95%' }}
+              placeholder="Voiture"
+              ArrowDownIconComponent={({ style }) => (
+                <Image
+                  style={[styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/down-arrow.png")}
+                />
+              )}
               open={open}
               value={"value"}
               items={items}
               setOpen={setOpen}
               setValue={"setValu"}
               setItems={setItems}
+              dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '100%', PaddingLeft: '-10' }}
+              dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
             />
           </View>
-          <View >
-            <Text >A ajouter</Text>
+          <View style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}>
+            <TextInput
+              placeholder="A ajouter"
+              style={[
+                styles.number4,
+                {
+                  textAlign: "left",
+                  height: 40,
+                },
+              ]}
+            />
           </View>
         </View>
         <View style={[styles.buttonfirst, styles.input1FlexBox]}>
           <Text style={styles.signUp}>Ajouter</Text>
         </View>
       </View>
-
     </View>
   );
 };
@@ -84,7 +106,32 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: Color.neutralWhite,
   },
-
+  numberTypo: {
+    height: 19,
+    textAlign: "left",
+    color: Color.colorGray_100,
+    fontFamily: FontFamily.nunitoRegular,
+    lineHeight: 22,
+    fontSize: FontSize.size_mini,
+  },
+  inputShadowBox1: {
+    marginTop: 15,
+    paddingVertical: Padding.p_base,
+    paddingHorizontal: Padding.p_mini,
+    borderWidth: 1,
+    borderColor: Color.colorGray_300,
+    borderStyle: "solid",
+    shadowOpacity: 1,
+    elevation: 30,
+    shadowRadius: 30,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowColor: "rgba(80, 85, 136, 0.1)",
+    borderRadius: Border.br_base,
+    backgroundColor: Color.neutralWhite,
+  },
   iconLayout: {
     height: 22,
     width: 22,
@@ -93,7 +140,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  
+  search1Typo: {
+    marginTop: 5,
+    fontFamily: FontFamily.poppinsRegular,
+    lineHeight: 15,
+    fontSize: FontSize.size_3xs,
+    textAlign: "center",
+  },
+  searchLayout: {
+    height: 64,
+    width: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Color.neutralWhite,
+  },
+  rectangle: {
+    position: "absolute",
+    height: "100%",
+    top: "0%",
+    right: "0%",
+    bottom: "0%",
+    left: "0%",
+    width: "100%",
+    backgroundColor: Color.neutralWhite,
+  },
+  bar: {
+    height: 33,
+    width: 375,
+    overflow: "hidden",
+  },
   ajouterAnnonce: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",
@@ -107,7 +182,9 @@ const styles = StyleSheet.create({
     height: 24,
     overflow: "hidden",
   },
- 
+  number: {
+    width: 227,
+  },
   input: {
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
@@ -125,11 +202,23 @@ const styles = StyleSheet.create({
       width: 0,
       height: 8,
     },
-  
+    justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
- 
+  input1: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: 292,
+    marginTop: 15,
+    justifyContent: "space-between",
+  },
+  mapPinIcon2: {
+    overflow: "hidden",
+  },
+  number2: {
+    width: 220,
+  },
   inputShadowBox: {
     height: 57,
     marginTop: 15,
@@ -153,7 +242,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
- 
+  number3: {
+    width: 201,
+  },
+  downArrowIcon: {
+    width: 22,
+    height: 24,
+  },
+  number4: {
+    width: 265,
+    height: 229,
+    textAlign: "left",
+    color: Color.colorGray_100,
+    fontFamily: FontFamily.nunitoRegular,
+    lineHeight: 22,
+    fontSize: FontSize.size_mini,
+  },
+  input4: {
+    height: 241,
+  },
   inputs: {
     height: 544,
     marginTop: 20,
@@ -182,18 +289,20 @@ const styles = StyleSheet.create({
       width: 0,
       height: 8,
     },
-    marginTop: 20,
+    marginTop: 0,
     justifyContent: "center",
   },
   main: {
-    height: 728,
+    height: 700,
     justifyContent: "center",
     alignItems: "center",
   },
+
   ajouterannonce: {
     flex: 1,
-    height: 834,
+    height: 824,
     alignItems: "center",
+    justifyContent: "center",
     overflow: "hidden",
     width: "100%",
   },

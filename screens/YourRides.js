@@ -40,6 +40,8 @@ const YourRides = () => {
           availableSeats="3/4"
           btnText="Supprimer"
         />
+
+        
       </View>
     </View>
   );
@@ -47,7 +49,7 @@ const YourRides = () => {
 
 const styles = StyleSheet.create({
   yourRidesTypo: {
-    textAlign: "left",
+    textAlign: "center",
     color: Color.colorDarkslategray_100,
     fontFamily: FontFamily.nunitoBold,
     fontWeight: "700",
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_5xl,
     height: 27,
     marginTop: 15,
-    width: 119,
+    width: '100%',
   },
   profilepictureIcon: {
     top: 3,

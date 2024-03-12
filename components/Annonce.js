@@ -294,6 +294,7 @@ const styles = StyleSheet.create({
     paddingVertical: Padding.p_sm,
     borderRadius: Border.br_mini,
     alignItems: "center",
+    marginBottom: 10,
   },
 });
 

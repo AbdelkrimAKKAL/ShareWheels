@@ -3,17 +3,15 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const Recherche = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.recherche}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <View style={styles.carpic}>
-        <View style={styles.carpicChild} />
         <Image
           style={styles.image1Icon}
           contentFit="cover"
@@ -146,54 +144,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    position: "absolute",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
-  carpicChild: {
-    borderBottomRightRadius: Border.br_31xl,
-    borderBottomLeftRadius: Border.br_31xl,
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    shadowRadius: 9,
-    elevation: 9,
-    borderColor: Color.colorRoyalblue_100,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
-    borderLeftWidth: 1,
-    height: 239,
-    borderStyle: "solid",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    left: 0,
-    top: 0,
-    width: 377,
-    position: "absolute",
-    backgroundColor: Color.neutralWhite,
-  },
+  
   image1Icon: {
     left: 0,
     top: 0,
-    height: 258,
+    height: '100%',
     position: "absolute",
-    width: 375,
+    width: '100%',
+    resizeMode: 'stretch'
   },
   carpic: {
-    height: 258,
-    width: 377,
+    height: '34%',
+    width: '100%',
   },
   sharewheels: {
     fontSize: 30,
@@ -221,13 +183,13 @@ const styles = StyleSheet.create({
     width: 227,
   },
   input: {
-    marginTop: 15,
+    marginTop: '2%',
     width: 292,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
   },
   input1: {
-    marginTop: 15,
+    marginTop: '2%',
     width: 292,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
@@ -283,7 +245,7 @@ const styles = StyleSheet.create({
   },
   quand: {
     width: 291,
-    marginTop: 15,
+    marginTop: '2%',
     justifyContent: "space-between",
   },
   heading2: {
@@ -318,11 +280,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   main: {
-    height: 377,
+    height: '50%',
     paddingHorizontal: Padding.p_9xs,
     paddingVertical: 0,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: "-5%"
   },
   signUp: {
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -357,7 +320,7 @@ const styles = StyleSheet.create({
   recherche: {
     flex: 1,
     height: '100%',
-    justifyContent: "space-between",
+    justifyContent: "",
     alignItems: "center",
     overflow: "hidden",
     width: "100%",

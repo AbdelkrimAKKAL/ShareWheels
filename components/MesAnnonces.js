@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
     padding: Padding.p_3xs,
   },
   mesannonces: {
+    marginBottom: 10,
     backgroundColor: Color.neutralWhite,
     shadowColor: "rgba(0, 0, 0, 0.2)",
     shadowOffset: {
