@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, Border, FontFamily, FontSize } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const Voiture = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.voiture, styles.voitureLayout]}>
-      <View style={styles.bar}>
-        <View style={[styles.rectangle, styles.voitureLayout]} />
-      </View>
+      <TopBar/>
       <View style={styles.main}>
         <Text style={styles.voiture1}>Voiture</Text>
         <View style={styles.inputs}>
@@ -111,19 +110,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    position: "absolute",
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   voiture1: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",

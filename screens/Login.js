@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, Border, FontFamily, FontSize } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const Login = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.login, styles.loginFlexBox]}>
-      <View style={styles.bar}>
-        <View style={[styles.rectangle, styles.textPosition]} />
-      </View>
+      <TopBar/>
       <View style={styles.loginpage}>
         <Text style={styles.login1}>Login</Text>
         <View style={styles.main}>
@@ -133,18 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    right: "0%",
-    bottom: "0%",
-    backgroundColor: Color.neutralWhite,
-    top: "0%",
-    height: "100%",
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   login1: {
     fontSize: FontSize.size_13xl,
     color: Color.colorDarkslategray_100,

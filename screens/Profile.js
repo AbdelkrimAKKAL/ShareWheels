@@ -3,15 +3,14 @@ import { View, StyleSheet, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border, Padding } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const Profile = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.profile1, styles.profile1FlexBox]}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <View style={styles.main}>
         <Text style={[styles.sharewheels, styles.sharewheelsFlexBox]}>
           ShareWheels
@@ -90,21 +89,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    position: "absolute",
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   sharewheels: {
     fontSize: 44,
     fontWeight: "800",

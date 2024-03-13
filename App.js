@@ -297,7 +297,7 @@ const ProfileScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="MonProfil" component={MonProfil} />
     <Stack.Screen name="Modifier" component={Modifier} />
-    <Stack.Screen name="ProfileDetails" component={Profile} />
+    <Stack.Screen name="Profile" component={Profile} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Login" component={Login} />
 

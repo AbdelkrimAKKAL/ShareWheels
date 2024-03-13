@@ -4,15 +4,14 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
 import Evaluer from "../components/Evaluer";
+import TopBar from "../components/TopBar";
 
 const CarpoolPasses = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.carpoolpasses, styles.rectangleLayout]}>
-      <View style={styles.bar}>
-        <View style={[styles.rectangle, styles.rectangleLayout]} />
-      </View>
+      <TopBar/>
       <Text style={[styles.carpools, styles.carpoolsTypo]}>Carpools</Text>
       <View style={[styles.buttonsswitch, styles.rateFlexBox]}>
         <Pressable
@@ -99,19 +98,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
-  },
-  rectangle: {
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    position: "absolute",
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
   },
   carpools: {
     fontSize: FontSize.size_5xl,

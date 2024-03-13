@@ -5,21 +5,20 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import DropDownPicker from "react-native-dropdown-picker";
+import TopBar from "../components/TopBar";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
+    { label: "POLO", value: "POLO" },
+    { label: "Maruti", value: "Maruti" },
   ]);
 
   return (
     <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <View style={styles.main}>
         <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
         <View style={styles.inputs}>
@@ -76,7 +75,7 @@ const AjouterAnnonce = () => {
               setOpen={setOpen}
               setValue={"setValu"}
               setItems={setItems}
-              dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '100%', PaddingLeft: '-10' }}
+              dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '95%', PaddingLeft: '-10' }}
               dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
             />
           </View>
@@ -140,35 +139,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  search1Typo: {
-    marginTop: 5,
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    fontSize: FontSize.size_3xs,
-    textAlign: "center",
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  rectangle: {
-    position: "absolute",
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
+
   ajouterAnnonce: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",
@@ -242,13 +214,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  number3: {
-    width: 201,
-  },
-  downArrowIcon: {
-    width: 22,
-    height: 24,
-  },
+
+
   number4: {
     width: 265,
     height: 229,
@@ -293,7 +260,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   main: {
-    height: 700,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

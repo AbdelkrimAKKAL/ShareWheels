@@ -4,15 +4,14 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
 import MesAnnonces from "../components/MesAnnonces";
+import TopBar from "../components/TopBar";
 
 const CarpoolVenir = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.carpoolvenir, styles.rectangleLayout]}>
-      <View style={styles.bar}>
-        <View style={[styles.rectangle, styles.rectangleLayout]} />
-      </View>
+      <TopBar/>
       <Text style={[styles.carpools, styles.carpoolsTypo]}>Carpools</Text>
       <View style={[styles.buttonsswitch, styles.trajetFlexBox]}>
         <View style={[styles.avenir, styles.avenirShadowBox]}>

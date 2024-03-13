@@ -1,16 +1,30 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 
+
 const Recherche = () => {
   const navigation = useNavigation();
+  const [nbPlaces, click] = React.useState(1);
+
+  const add = () => {
+    if (nbPlaces < 6) {
+      click(nbPlaces + 1);
+    }
+  };
+
+  const sub = () => {
+    if (nbPlaces > 1) {
+      click(nbPlaces - 1);
+    }
+  };
 
   return (
     <View style={styles.recherche}>
-      <TopBar/>
+      <TopBar />
       <View style={styles.carpic}>
         <Image
           style={styles.image1Icon}
@@ -27,7 +41,10 @@ const Recherche = () => {
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>Depart</Text>
+          <TextInput
+            style={[styles.number, styles.numberTypo]}
+            placeholder="Depart"
+          />
         </View>
         <View style={[styles.input1, styles.inputShadowBox]}>
           <Image
@@ -61,17 +78,23 @@ const Recherche = () => {
             Combien Places ?
           </Text>
           <View style={styles.nmbrplaces}>
-            <Image
-              style={styles.iconLayout}
-              contentFit="cover"
-              source={require("../assets/moins.png")}
-            />
-            <Text style={[styles.heading3, styles.headingTypo]}>1</Text>
-            <Image
-              style={[styles.plusIcon, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../assets/plus.png")}
-            />
+            <Pressable onPress={sub}>
+              <Image
+                style={styles.iconLayout}
+                contentFit="cover"
+                source={require("../assets/moins.png")}
+              />
+            </Pressable>
+            <Text style={[styles.heading3, styles.headingTypo]}>
+              {nbPlaces}
+            </Text>
+            <Pressable onPress={add}>
+              <Image
+                style={[styles.plusIcon, styles.iconLayout]}
+                contentFit="cover"
+                source={require("../assets/plus.png")}
+              />
+            </Pressable>
           </View>
         </View>
       </View>
@@ -144,18 +167,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  
+
   image1Icon: {
     left: 0,
     top: 0,
-    height: '100%',
+    height: "100%",
     position: "absolute",
-    width: '100%',
-    resizeMode: 'stretch'
+    width: "100%",
+    resizeMode: "stretch",
   },
   carpic: {
-    height: '34%',
-    width: '100%',
+    height: "34%",
+    width: "100%",
   },
   sharewheels: {
     fontSize: 30,
@@ -183,13 +206,13 @@ const styles = StyleSheet.create({
     width: 227,
   },
   input: {
-    marginTop: '2%',
+    marginTop: "2%",
     width: 292,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
   },
   input1: {
-    marginTop: '2%',
+    marginTop: "2%",
     width: 292,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
@@ -245,7 +268,7 @@ const styles = StyleSheet.create({
   },
   quand: {
     width: 291,
-    marginTop: '2%',
+    marginTop: "2%",
     justifyContent: "space-between",
   },
   heading2: {
@@ -280,12 +303,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   main: {
-    height: '50%',
+    height: "50%",
     paddingHorizontal: Padding.p_9xs,
     paddingVertical: 0,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "-5%"
+    marginTop: "-5%",
   },
   signUp: {
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -316,10 +339,9 @@ const styles = StyleSheet.create({
     color: Color.colorRoyalblue_100,
   },
 
-
   recherche: {
     flex: 1,
-    height: '100%',
+    height: "100%",
     justifyContent: "",
     alignItems: "center",
     overflow: "hidden",

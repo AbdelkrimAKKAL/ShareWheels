@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const MonProfil = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.monprofil}>
-      <View style={styles.bar}>
-        <View style={[styles.rectangle, styles.text1Position]} />
-      </View>
+      <TopBar/>
       <View style={styles.main}>
         <Text style={[styles.title, styles.nomFlexBox]}>Mon Profile</Text>
         <View style={[styles.userprofile, styles.inputsFlexBox]}>
@@ -76,8 +75,10 @@ const MonProfil = () => {
         >
           <Text style={[styles.signUp, styles.signTypo]}>Modifier</Text>
         </Pressable>
-        <Pressable style={[styles.buttonsecondary, styles.buttonsecondaryShadowBox]}
-        onPress={() => navigation.navigate("Profile")}>
+        <Pressable
+          style={[styles.buttonsecondary, styles.buttonsecondaryShadowBox]}
+          onPress={() => navigation.navigate("Profile")}
+        >
           <Text style={[styles.signUp1, styles.signTypo]}>Logout</Text>
         </Pressable>
         <View
@@ -86,7 +87,6 @@ const MonProfil = () => {
           <Text style={[styles.signUp2, styles.signTypo]}>Supprimer</Text>
         </View>
       </View>
-
     </View>
   );
 };
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 5,
     },
-    shadowColor: "rgba(236, 95, 95, 0.25)",
+    shadowColor: Color.neutralWhite,
     borderWidth: 1,
     borderStyle: "solid",
     marginTop: 5,
@@ -188,17 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
     alignItems: "center",
   },
-  rectangle: {
-    height: "100%",
-    right: "0%",
-    bottom: "0%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   title: {
     fontSize: FontSize.headingH2_size,
     lineHeight: 25,
@@ -247,7 +237,7 @@ const styles = StyleSheet.create({
   },
   userprofile: {
     width: 340,
-    height: 142,
+    height: "15%",
     flexDirection: "row",
     paddingTop: Padding.p_xl,
   },
@@ -381,6 +371,7 @@ const styles = StyleSheet.create({
     width: 375,
     alignItems: "center",
     overflow: "hidden",
+    justifyContent: "space-between",
     flex: 1,
   },
   searchIcon: {
@@ -413,12 +404,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   monprofil: {
-    height: 834,
+    flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
-    flex: 1,
   },
 });
 

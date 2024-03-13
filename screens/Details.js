@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border, Padding } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const Details = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.details}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <View style={styles.main}>
         <View style={[styles.userprofile, styles.inputFlexBox]}>
           <Image
@@ -396,21 +395,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    height: "100%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    top: "0%",
-    position: "absolute",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   imageIcon: {
     width: 95,
     height: 95,

@@ -314,6 +314,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   buttons: {
+    alignContent: "center",
     width: 310,
     padding: Padding.p_3xs,
     height: 35,

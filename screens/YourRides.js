@@ -4,15 +4,14 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding } from "../GlobalStyles";
 import MesAnnonces from "../components/MesAnnonces";
+import TopBar from "../components/TopBar";
 
 const YourRides = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.yourrides}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <Text style={[styles.yourRides, styles.yourRidesTypo]}>Your Rides</Text>
       <View style={styles.main}>
         <MesAnnonces
@@ -104,21 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    position: "absolute",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   yourRides: {
     fontSize: FontSize.size_5xl,
     height: 27,

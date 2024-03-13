@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const DatailsAjouter = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.datailsajouter, styles.footerpublishFlexBox]}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <Text style={styles.detailsAAjouter}>Details a ajouter</Text>
       <View style={styles.main}>
         <View style={styles.inputs}>
@@ -97,21 +96,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    position: "absolute",
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   detailsAAjouter: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",

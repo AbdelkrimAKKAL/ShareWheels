@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, Border, FontSize, FontFamily } from "../GlobalStyles";
+import TopBar from "../components/TopBar";
 
 const Signaler = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.signaler, styles.signalerFlexBox]}>
-      <View style={styles.bar}>
-        <View style={styles.rectangle} />
-      </View>
+      <TopBar/>
       <View style={styles.main}>
         <Text style={styles.signaler1}>Signaler</Text>
         <View style={styles.inputs}>
@@ -135,21 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    position: "absolute",
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   signaler1: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",

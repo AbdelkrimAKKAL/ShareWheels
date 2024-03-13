@@ -4,15 +4,14 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
+import TopBar from "../components/TopBar";
 
 const ResultatRecherche = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.resultatrecherche, styles.dateFlexBox]}>
-      <View style={styles.bar}>
-        <View style={[styles.rectangle, styles.rectangleLayout]} />
-      </View>
+      <TopBar/>
       <View style={styles.headerTopActionBar}>
         <View style={[styles.frame, styles.frameFlexBox]}>
           <Text style={styles.heading}>Bejaia a Alger</Text>
@@ -21,6 +20,18 @@ const ResultatRecherche = () => {
       </View>
       <View style={styles.main}>
         <Annonce
+        name="Amine Meddouri" 
+        rating="4.5(2)" 
+        startLocation="StartLocation"
+        endLocation="EndLocation"
+        price="250 DA"
+        vehicle="Toyota Corolla"
+        time="6:30pm"
+        date="25 DEC 23"
+        availableSeats="3/4"
+        />
+
+      <Annonce
         name="Amine Meddouri" 
         rating="4.5(2)" 
         startLocation="StartLocation"
@@ -107,19 +118,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  rectangle: {
-    height: "100%",
-    top: "0%",
-    right: "0%",
-    bottom: "0%",
-    left: "0%",
-    position: "absolute",
-  },
-  bar: {
-    height: 33,
-    width: 375,
-    overflow: "hidden",
-  },
+
   heading: {
     fontSize: FontSize.subheadLgSHLgMedium_size,
     fontWeight: "500",
