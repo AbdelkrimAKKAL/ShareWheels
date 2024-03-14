@@ -4,8 +4,7 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
-import ShowCalendar from "../components/calendrier";
-import { useState, useEffect } from 'react';
+
 
 const Recherche = () => {
   const navigation = useNavigation();
@@ -64,14 +63,6 @@ const Recherche = () => {
               source={require("../assets/mappin1.png")}
             />
             <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
-            <Pressable onPress={() => navigation.navigate("calendrier")}>
-              <Image
-                style={[styles.mapPinIcon2, styles.iconLayout1]}
-                contentFit="cover"
-                source={require("../assets/mappin1.png")}
-              />
-            </Pressable>
-
           </View>
           <View style={[styles.input3, styles.quandFlexBox]}>
             <Image

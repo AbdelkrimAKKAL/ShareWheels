@@ -25,7 +25,7 @@ import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
 import ButtonsSwitch from "./components/ButtonsSwitch";
 import Profile from "./screens/Profile";
-import ShowCalendar from "./components/calendrier";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -36,7 +36,6 @@ const YourRidesName = "Your Rides";
 const PublishName = "Publish";
 const CarpoolsName = "Carpools";
 const ProfileName = "Profile";
-const calendrier = "";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
@@ -62,11 +61,6 @@ const App = () => {
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
-            <Stack.Screen
-              name="calendrier"
-              component={ShowCalendar}
-              options={{ headerShown: false }}
-            />
             <Stack.Screen
               name="Recherche"
               component={Recherche}
@@ -266,14 +260,11 @@ const TabNavigator = () => (
   </Tab.Navigator>
 );
 
-
-
 const SearchStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Recherche" component={Recherche} />
     <Stack.Screen name="ResultatRecherche" component={ResultatRecherche} />
     <Stack.Screen name="Details" component={Details} />
-    <Stack.Screen name="calendrier" component={ShowCalendar} />
   </Stack.Navigator>
 );
 
