@@ -1,25 +1,30 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SignUp = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={[styles.signUp, styles.signUpFlexBox]}>
-      <TopBar/>
+    <View style={[styles.signUp]}>
+      <TopBar />
       <Text style={styles.createAccount}>Create Account</Text>
-      <View style={styles.main}>
+
+      <ScrollView contentContainerStyle={styles.main}>
         <View style={styles.inputShadowBox1}>
           <Image
-            style={[styles.userIcon, styles.iconLayout1]}
+            style={[styles.iconLayout, styles.iconLayout1]}
             contentFit="cover"
             source={require("../assets/user.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>Nom</Text>
+          <TextInput
+            style={[styles.number, styles.numberTypo]}
+            placeholder="Nom"
+          />
         </View>
         <View style={[styles.input1, styles.inputShadowBox1]}>
           <Image
@@ -27,9 +32,12 @@ const SignUp = () => {
             contentFit="cover"
             source={require("../assets/stylestroke.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>Mail</Text>
+          <TextInput
+            style={[styles.number, styles.numberTypo]}
+            placeholder="Mail"
+          />
         </View>
-        <View style={[styles.input2, styles.inputShadowBox1]}>
+        <View style={[styles.input1, styles.inputShadowBox1]}>
           <View style={styles.parent}>
             <Text style={[styles.text, styles.textTypo]}>+213</Text>
             <Image
@@ -38,11 +46,13 @@ const SignUp = () => {
               source={require("../assets/flagforflagalgeria-svgrepocom2.png")}
             />
           </View>
-          <Text style={[styles.number2, styles.numberTypo]}>
-            Numero de Telephone
-          </Text>
+          <TextInput
+          style={[styles.number2, styles.numberTypo]}
+          placeholder="Numero de Telephone"
+          />
+
         </View>
-        <View style={[styles.input3, styles.inputShadowBox1]}>
+        <View style={[styles.input1, styles.inputShadowBox1]}>
           <Image
             style={styles.groupIcon}
             contentFit="cover"
@@ -55,13 +65,16 @@ const SignUp = () => {
             source={require("../assets/down-arrow2.png")}
           />
         </View>
-        <View style={[styles.input4, styles.inputShadowBox1]}>
+        <View style={[styles.input1, styles.inputShadowBox1]}>
           <Image
             style={styles.iconLayout}
             contentFit="cover"
             source={require("../assets/password.png")}
           />
-          <Text style={[styles.number3, styles.numberTypo]}>mot de passe</Text>
+          <TextInput
+          style={[styles.number3, styles.numberTypo]}
+          placeholder="mot de passe"
+          />
           <Image
             style={[styles.hiddenIcon, styles.iconLayout1]}
             contentFit="cover"
@@ -86,7 +99,7 @@ const SignUp = () => {
           onPress={() => navigation.navigate("DatailsAjouter")}
         >
           <Image
-            style={[styles.userIcon, styles.iconLayout1]}
+            style={[styles.iconLayout, styles.iconLayout1]}
             contentFit="cover"
             source={require("../assets/addellipse-svgrepocom.png")}
           />
@@ -95,7 +108,7 @@ const SignUp = () => {
           </Text>
         </Pressable>
         <Pressable
-          style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
+          style={[styles.buttonfirst]}
           onPress={() => navigation.navigate("MonProfil")}
         >
           <Text style={[styles.signUp1, styles.textTypo]}>Sign up</Text>
@@ -105,28 +118,18 @@ const SignUp = () => {
           onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.text1}>
-            <Text style={styles.alreadyHaveAn}>Already have an account?</Text>
-            <Text style={styles.text2}>{` `}</Text>
+            <Text style={styles.alreadyHaveAn}>
+              Already have an account?{` `}
+            </Text>
             <Text style={styles.signIn}>Sign In</Text>
           </Text>
         </Pressable>
-      </View>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  signUpFlexBox: {
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
-  textPosition: {
-    left: "0%",
-    top: "0%",
-    height: "100%",
-    position: "absolute",
-    width: "100%",
-  },
   iconLayout1: {
     width: 24,
     height: 24,
@@ -140,6 +143,7 @@ const styles = StyleSheet.create({
     color: Color.colorGray_100,
   },
   inputShadowBox1: {
+    marginTop: "3%",
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
     width: 292,
@@ -166,34 +170,13 @@ const styles = StyleSheet.create({
     fontSize: FontSize.subheadLgSHLgMedium_size,
   },
   iconLayout: {
+    overflow: "hidden",
     height: 22,
     width: 22,
   },
-  buttonfirstFlexBox: {
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    alignItems: "center",
-  },
-  search1Typo: {
-    marginTop: 5,
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    fontSize: FontSize.size_3xs,
-    textAlign: "center",
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
 
   createAccount: {
+    marginTop: "5%",
     fontSize: FontSize.size_13xl,
     fontWeight: "700",
     fontFamily: FontFamily.nunitoBold,
@@ -201,10 +184,7 @@ const styles = StyleSheet.create({
     width: 359,
     textAlign: "center",
   },
-  userIcon: {
-    height: 24,
-    overflow: "hidden",
-  },
+
   number: {
     width: 227,
   },
@@ -228,25 +208,19 @@ const styles = StyleSheet.create({
   flagForFlagAlgeriaSvgrepoIcon: {
     height: "96%",
     width: "33.33%",
-    top: "0.4%",
     right: "59.42%",
-    bottom: "3.6%",
     left: "7.25%",
-    maxWidth: "100%",
-    maxHeight: "100%",
     position: "absolute",
     overflow: "hidden",
   },
   parent: {
     width: 69,
-    height: 25,
+    height: 24,
   },
   number2: {
     width: 181,
   },
-  input2: {
-    marginTop: 20,
-  },
+
   groupIcon: {
     width: 21,
     height: 24,
@@ -258,15 +232,11 @@ const styles = StyleSheet.create({
     width: 22,
     height: 24,
   },
-  input3: {
-    marginTop: 20,
-  },
+
   hiddenIcon: {
     height: 24,
   },
-  input4: {
-    marginTop: 20,
-  },
+
   mapPinIcon: {
     overflow: "hidden",
   },
@@ -275,7 +245,7 @@ const styles = StyleSheet.create({
   },
   inputShadowBox: {
     height: 57,
-    marginTop: 20,
+    marginTop: "3%",
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
     flexDirection: "row",
@@ -306,6 +276,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   buttonfirst: {
+    flexDirection: "row",
+    shadowOpacity: 1,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    alignItems: "center",
     borderRadius: Border.br_mini,
     backgroundColor: Color.colorRoyalblue_100,
     shadowColor: "rgba(236, 95, 95, 0.25)",
@@ -313,15 +290,14 @@ const styles = StyleSheet.create({
     elevation: 14,
     width: 317,
     height: 58,
-    marginTop: 20,
+    marginTop: "5%",
     justifyContent: "center",
   },
+
   alreadyHaveAn: {
     color: Color.colorGray_100,
   },
-  text2: {
-    color: Color.colorBlack,
-  },
+
   signIn: {
     color: Color.colorRoyalblue_100,
   },
@@ -332,37 +308,24 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   alreadyHaveAnContainer: {
-    marginTop: 20,
+    marginTop: "2%",
+    marginBottom: "3%",
   },
   main: {
-    height: 647,
-    justifyContent: "center",
+    flex: 1,
+    marginTop: "3%",
     alignItems: "center",
+    alignContent: "flex-start"
   },
-  search1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides: {
-    padding: Padding.p_3xs,
-  },
-  profile1: {
-    color: Color.colorRoyalblue_100,
-  },
-  footerprofile: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowRadius: 20,
-    elevation: 20,
-    width: 375,
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
+
   signUp: {
     flex: 1,
-    height: 834,
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    justifyContent: "center",
+    backgroundColor: Color.neutralWhite,
   },
 });
 

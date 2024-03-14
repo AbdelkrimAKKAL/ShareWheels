@@ -1,5 +1,12 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable, TextInput, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  ScrollView,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
@@ -10,7 +17,7 @@ const Modifier = () => {
 
   return (
     <View style={[styles.modifier, styles.modifierFlexBox]}>
-      <TopBar/>
+      <TopBar />
       <View style={styles.main}>
         <Text style={styles.title}>Modifer profil</Text>
         <Image
@@ -20,31 +27,22 @@ const Modifier = () => {
         />
         <ScrollView contentContainerStyle={styles.inputs}>
           <Text style={styles.plusTypo}>Modifier Nom</Text>
-          <View style={styles.inputinfo}>
-            <Text style={[styles.TextStyle]}>
-              Amine Meddouri
-            </Text>
+          <View style={[styles.inputinfo]}>
+          <TextInput style={[styles.TextStyle]} placeholder="Amine Meddouri" />
           </View>
-          <Text style={[styles.plusTypo]}>
-            Modifier mot de passe
-          </Text>
+          
+          <Text style={[styles.plusTypo]}>Modifier mot de passe</Text>
           <View style={styles.inputinfo}>
-            <Text style={[styles.TextStyle]}>
-              Nouveau mot de passe
-            </Text>
+            <Text style={[styles.TextStyle]}>Nouveau mot de passe</Text>
           </View>
-          <Text style={[styles.plusTypo]}>
-            Modifier mail
-          </Text>
+          <Text style={[styles.plusTypo]}>Modifier mail</Text>
           <View style={styles.inputinfo}>
             <TextInput
-            style={[styles.TextStyle]}
-            placeholder="Amine@email.con"
+              style={[styles.TextStyle]}
+              placeholder="Amine@email.con"
             />
           </View>
-          <Text style={[styles.plusTypo]}>
-            Modifier numero de telephone
-          </Text>
+          <Text style={[styles.plusTypo]}>Modifier numero de telephone</Text>
           <View style={styles.input}>
             <View style={styles.parent}>
               <Text style={[styles.text, styles.textTypo]}>+213</Text>
@@ -58,9 +56,9 @@ const Modifier = () => {
               />
             </View>
             <TextInput
-            style={[styles.numero, styles.numeroTypo]}
-            placeholder="06 78 89 56 45"
-            keyboardType="numeric"
+              style={[styles.numero, styles.numeroTypo]}
+              placeholder="06 78 89 56 45"
+              keyboardType="numeric"
             />
           </View>
           <View style={[styles.buttonfirst, styles.buttonfirstShadowBox]}>
@@ -68,7 +66,6 @@ const Modifier = () => {
           </View>
         </ScrollView>
       </View>
-     
     </View>
   );
 };
@@ -103,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.subheadLgSHLgMedium_size,
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
-    width: "100%"
+    width: "100%",
   },
   plusTypo: {
     paddingTop: "4%",
@@ -162,7 +159,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: 375,
     alignItems: "center",
-    marginTop: 20
+    marginTop: 20,
   },
   photoprofilIcon: {
     width: 128,
@@ -180,8 +177,6 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_5xs,
     marginTop: "0.6%",
   },
-
-
 
   text: {
     lineHeight: 24,
@@ -240,9 +235,8 @@ const styles = StyleSheet.create({
   },
   inputs: {
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
     flexGrow: 1,
-
   },
 
   main: {
@@ -253,7 +247,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: Color.neutralWhite,
   },
- 
+
   profileIcon: {
     width: 22,
     height: 22,

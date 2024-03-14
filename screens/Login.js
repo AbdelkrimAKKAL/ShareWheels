@@ -10,23 +10,18 @@ const Login = () => {
 
   return (
     <View style={[styles.login, styles.loginFlexBox]}>
-      <TopBar/>
+      <TopBar />
       <View style={styles.loginpage}>
         <Text style={styles.login1}>Login</Text>
         <View style={styles.main}>
           <View style={styles.inputs}>
             <View style={[styles.input, styles.inputShadowBox]}>
-              <View style={styles.dz}>
-                <Text style={[styles.text, styles.textTypo]}>+213</Text>
-                <Image
-                  style={styles.flagForFlagAlgeriaSvgrepoIcon}
-                  contentFit="cover"
-                  source={require("../assets/flagforflagalgeria-svgrepocom3.png")}
-                />
-              </View>
-              <Text style={[styles.number, styles.numberTypo]}>
-                Numero de Telephone
-              </Text>
+              <Image
+                style={styles.iconlylightlock}
+                contentFit="cover"
+                source={require("../assets/stylestroke.png")}
+              />
+              <Text style={[styles.number1, styles.numberTypo]}>Mail</Text>
             </View>
             <View style={[styles.input1, styles.inputShadowBox]}>
               <Image
