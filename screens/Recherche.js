@@ -1,10 +1,10 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Recherche = () => {
   const navigation = useNavigation();
@@ -22,8 +22,29 @@ const Recherche = () => {
     }
   };
 
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePicked, setDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hideDatePicker();
+    setDate(date);
+    console.log("A date has been picked: ", date);
+    setDatePicker(true);
+
+  };
+
   return (
     <View style={styles.recherche}>
+    
       <TopBar />
       <View style={styles.carpic}>
         <Image
@@ -56,13 +77,26 @@ const Recherche = () => {
         </View>
         <Text style={[styles.heading1, styles.headingTypo]}>Quand?</Text>
         <View style={[styles.quand, styles.quandFlexBox]}>
-          <View style={[styles.input2, styles.inputShadowBox]}>
-            <Image
-              style={[styles.mapPinIcon2, styles.iconLayout1]}
-              contentFit="cover"
-              source={require("../assets/mappin1.png")}
+          <View>
+            <Pressable
+              onPress={showDatePicker}
+              style={[styles.input2, styles.inputShadowBox]}
+            >
+              <Image
+                style={[styles.mapPinIcon2, styles.iconLayout1]}
+                contentFit="cover"
+                source={require("../assets/mappin1.png")}
+              />
+            <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString(): "Date"} </Text>
+            </Pressable>
+
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="datetime"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              date={new Date(date)} // Pass current selected date to the date picker
             />
-            <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
           </View>
           <View style={[styles.input3, styles.quandFlexBox]}>
             <Image
@@ -70,7 +104,7 @@ const Recherche = () => {
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[styles.number3, styles.numberTypo]}>Heure</Text>
+            <Text style={[styles.number3, styles.numberTypo]}>{isDatePicked ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }): "Heure"} </Text>
           </View>
         </View>
         <View style={styles.places}>
@@ -137,7 +171,6 @@ const styles = StyleSheet.create({
     height: 19,
     color: Color.colorGray_100,
     fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
     fontSize: FontSize.size_mini,
     textAlign: "left",
   },
