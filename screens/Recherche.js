@@ -44,7 +44,7 @@ const Recherche = () => {
 
   return (
     <View style={styles.recherche}>
-    
+
       <TopBar />
       <View style={styles.carpic}>
         <Image
@@ -87,7 +87,7 @@ const Recherche = () => {
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
-            <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString(): "Date"} </Text>
+              <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"} </Text>
             </Pressable>
 
             <DateTimePickerModal
@@ -104,7 +104,7 @@ const Recherche = () => {
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[styles.number3, styles.numberTypo]}>{isDatePicked ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }): "Heure"} </Text>
+            <Text style={[styles.number3, styles.numberTypo]}>{isDatePicked ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : "Heure"} </Text>
           </View>
         </View>
         <View style={styles.places}>

@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import DropDownPicker from "react-native-dropdown-picker";
 import TopBar from "../components/TopBar";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
@@ -15,88 +16,167 @@ const AjouterAnnonce = () => {
     { label: "POLO", value: "POLO" },
     { label: "Maruti", value: "Maruti" },
   ]);
+  const [selectedValue, setSelectedValue] = useState(null);
+
+
+  // date
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePicked, setDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [isTimePicked, setTimePicker] = useState(false);
+  const [time, setTime] = useState(new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+    setTimePickerVisibility(false); // Hide time picker when showing date picker
+  };
+
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+    setDatePickerVisibility(false); // Hide date picker when showing time picker
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
+  const handleDateConfirm = (selectedDate) => {
+    hideDatePicker();
+    setDate(selectedDate);
+    console.log("A date has been picked: ", selectedDate);
+    setDatePicker(true);
+  };
+
+  const handleTimeConfirm = (selectedTime) => {
+    hideTimePicker();
+    setTime(selectedTime);
+    console.log("A time has been picked: ", selectedTime);
+    setTimePicker(true);
+  };
 
   return (
-    <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
-      <TopBar/>
-      <View style={styles.main}>
-        <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
-        <View style={styles.inputs}>
-          <View style={styles.input}>
-            <Image
-              style={styles.mapPinIcon}
-              contentFit="cover"
-              source={require("../assets/mappin3.png")}
-            />
-            <TextInput
-              placeholder="Depart"
-              style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
-            />
-          </View>
-          <View style={[styles.input1, styles.inputShadowBox1]}>
-            <Image
-              style={styles.mapPinIcon}
-              contentFit="cover"
-              source={require("../assets/mappin3.png")}
-            />
-            <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
-          </View>
-          <Pressable
-            style={styles.inputShadowBox}
-            onPress={() => navigation.navigate("Dates")}
-          >
-            <Image
-              style={[styles.mapPinIcon2, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../assets/mappin4.png")}
-            />
-            <Text style={[styles.number2, styles.numberTypo]}>Date</Text>
-          </Pressable>
-          <View style={styles.inputShadowBox}>
-            <Image
-              style={[styles.mapPinIcon2, styles.iconLayout]}
-              contentFit="cover"
-              source={require("../assets/mappin5.png")}
-            />
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
+        <TopBar />
+        <View style={styles.main}>
+          <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
+          <View style={styles.inputs}>
+            <View style={styles.input}>
+              <Image
+                style={styles.mapPinIcon}
+                contentFit="cover"
+                source={require("../assets/mappin3.png")}
+              />
+              <TextInput
+                placeholder="Depart"
+                style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
+              />
+            </View>
+            <View style={[styles.input1, styles.inputShadowBox1]}>
+              <Image
+                style={styles.mapPinIcon}
+                contentFit="cover"
+                source={require("../assets/mappin3.png")}
+              />
+              <TextInput
+                placeholder="Destination"
+                style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
+              />
+            </View>
 
-            <DropDownPicker
-              style={{ zIndex: 9999, borderWidth: 0, borderColor: 'transparent', width: '95%' }}
-              placeholder="Voiture"
-              ArrowDownIconComponent={({ style }) => (
+            <View>
+              <Pressable // Date
+                style={styles.inputShadowBox}
+                onPress={showDatePicker}
+              >
                 <Image
-                  style={[styles.iconLayout]}
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
                   contentFit="cover"
-                  source={require("../assets/down-arrow.png")}
+                  source={require("../assets/mappin4.png")}
                 />
-              )}
-              open={open}
-              value={"value"}
-              items={items}
-              setOpen={setOpen}
-              setValue={"setValu"}
-              setItems={setItems}
-              dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '95%', PaddingLeft: '-10' }}
-              dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-            />
+                <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"}</Text>
+              </Pressable>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleDateConfirm}
+                onCancel={hideDatePicker}
+                date={new Date(date)} // Pass current selected date to the date picker
+              />
+
+              <Pressable // Heure
+                style={styles.inputShadowBox}
+                onPress={showTimePicker}
+              >
+                <Image
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/clock3.png")}
+                />
+                <Text style={[styles.number2, styles.numberTypo]}>{isTimePicked ? time.toLocaleTimeString() : "Heure"}</Text>
+              </Pressable>
+              <DateTimePickerModal
+                isVisible={isTimePickerVisible}
+                mode="time"
+                onConfirm={handleTimeConfirm}
+                onCancel={hideTimePicker}
+                date={new Date(time)} // Pass current selected time to the time picker
+              />
+            </View>
+
+            <View style={styles.inputShadowBox}>
+              <Image
+                style={[styles.mapPinIcon2, styles.iconLayout]}
+                contentFit="cover"
+                source={require("../assets/mappin5.png")}
+              />
+
+              <DropDownPicker
+                style={{ zIndex: 9999, borderWidth: 0, borderColor: 'transparent', width: '95%' }}
+                placeholder="Voiture"
+                ArrowDownIconComponent={({ style }) => (
+                  <Image
+                    style={[styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/down-arrow.png")}
+                  />
+                )}
+                open={open}
+                value={selectedValue} // Use selectedValue as the value prop
+                items={items}
+                setOpen={setOpen}
+                setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
+                setItems={setItems}
+                dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '95%', PaddingLeft: '-10' }}
+                dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+              />
+            </View>
+            <View style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}>
+              <TextInput
+                placeholder="Autre.."
+                style={[
+                  styles.number4,
+                  {
+                    textAlign: "left",
+                    height: 40,
+                    marginBottom: 0,
+                  },
+                ]}
+              />
+            </View>
           </View>
-          <View style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}>
-            <TextInput
-              placeholder="A ajouter"
-              style={[
-                styles.number4,
-                {
-                  textAlign: "left",
-                  height: 40,
-                },
-              ]}
-            />
+          <View style={[styles.buttonfirst, styles.input1FlexBox]}>
+            <Text style={styles.signUp}>Ajouter</Text>
           </View>
-        </View>
-        <View style={[styles.buttonfirst, styles.input1FlexBox]}>
-          <Text style={styles.signUp}>Ajouter</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -215,6 +295,8 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
 
+  
+
 
   number4: {
     width: 265,
@@ -226,7 +308,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
   },
   input4: {
-    height: 241,
+    height: 120,
   },
   inputs: {
     height: 544,
