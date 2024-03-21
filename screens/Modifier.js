@@ -11,6 +11,7 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontSize, FontFamily, Border, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
+import { me } from "./MonProfil.js";
 
 const Modifier = () => {
   const navigation = useNavigation();
@@ -28,18 +29,18 @@ const Modifier = () => {
         <ScrollView contentContainerStyle={styles.inputs}>
           <Text style={styles.plusTypo}>Modifier Nom</Text>
           <View style={[styles.inputinfo]}>
-          <TextInput style={[styles.TextStyle]} placeholder="Amine Meddouri" />
+            <TextInput style={[styles.TextStyle]} value={me.name} />
           </View>
-          
+
           <Text style={[styles.plusTypo]}>Modifier mot de passe</Text>
           <View style={styles.inputinfo}>
-            <Text style={[styles.TextStyle]}>Nouveau mot de passe</Text>
+            <TextInput style={[styles.TextStyle]} value={me.password} />
           </View>
           <Text style={[styles.plusTypo]}>Modifier mail</Text>
           <View style={styles.inputinfo}>
             <TextInput
               style={[styles.TextStyle]}
-              placeholder="Amine@email.con"
+              value={me.email}
             />
           </View>
           <Text style={[styles.plusTypo]}>Modifier numero de telephone</Text>
@@ -57,7 +58,7 @@ const Modifier = () => {
             </View>
             <TextInput
               style={[styles.numero, styles.numeroTypo]}
-              placeholder="06 78 89 56 45"
+              value={me.phone}
               keyboardType="numeric"
             />
           </View>
