@@ -1,18 +1,54 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
+export const me = {
+  name: '',
+  bdate: Date,
+  phone: 1133333,
+  email: 'jimmy@gmail.com',
+  stars: 4.7,
+  avis: 2,
+  password: 'dzdzdzdz',
+  greet: function () {
+    console.log(`Hello, my name is ${this.name}`);
+  },
+  setname: function (nom) {
+    this.name = nom;
+  },
+  setemail: function (x) {
+    this.email = x;
+  },
+  setpassword: function (x, old) {
+    if  ((x.length >= 8) && (old === this.password || this.password==='')) {
+      this.password = x;
+    };
+  },
+  setphone: function (x) {
+    if (x > 500000000 && x < 800000000) {
+      this.phone = x;
+    };
+  },
+};
+me.setname('jimmy');
+
+const mycars = {
+  coulor: 'Gris',
+  id: '0117110606',
+  model: 'Hyundai Atos'
+}
 
 const MonProfil = () => {
   const navigation = useNavigation();
-
+  me.greet();
   return (
+
     <View style={styles.monprofil}>
-      <TopBar/>
+      <TopBar />
       <View style={styles.main}>
-        <Text style={[styles.title, styles.nomFlexBox]}>Mon Profile</Text>
+        <Text >Mon Profile</Text>
         <View style={[styles.userprofile, styles.inputsFlexBox]}>
           <Image
             style={styles.imageIcon}
@@ -21,7 +57,7 @@ const MonProfil = () => {
           />
           <View style={[styles.nom, styles.nomFlexBox]}>
             <Text style={[styles.amineMeddouri, styles.titleTypo]}>
-              Amine Meddouri
+              {me.name}
             </Text>
             <View style={[styles.vectorParent, styles.nomFlexBox]}>
               <Image
@@ -29,14 +65,14 @@ const MonProfil = () => {
                 contentFit="cover"
                 source={require("../assets/vector3.png")}
               />
-              <Text style={styles.text}>4.7 (1)</Text>
+              <Text style={styles.text}>{me.stars + ' (' + me.avis + ')'} </Text>
             </View>
           </View>
         </View>
         <View style={[styles.inputs, styles.inputsFlexBox]}>
           <View style={[styles.inputinfo, styles.inputLayout1]}>
             <Text style={[styles.amineemailcon, styles.numeroFlexBox]}>
-              Amine@email.con
+              {me.email}
             </Text>
           </View>
           <View style={[styles.input, styles.inputLayout]}>
@@ -52,7 +88,7 @@ const MonProfil = () => {
               />
             </View>
             <Text style={[styles.numero, styles.numeroFlexBox]}>
-              06 78 89 56 45
+              {me.phone}
             </Text>
           </View>
           <View style={[styles.inputinfo1, styles.inputLayout]}>
@@ -63,29 +99,25 @@ const MonProfil = () => {
               source={require("../assets/down-arrow.png")}
             />
           </View>
-          <View style={[styles.inputinfo1, styles.inputLayout]}>
-            <Text style={[styles.detailsAAjouter, styles.text1Typo]}>
-              Details a ajouter
-            </Text>
-          </View>
+
         </View>
-        <Pressable
+        <TouchableOpacity
           style={[styles.buttonfirst, styles.buttonfirstShadowBox]}
           onPress={() => navigation.navigate("Modifier")}
         >
           <Text style={[styles.signUp, styles.signTypo]}>Modifier</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.buttonsecondary, styles.buttonsecondaryShadowBox]}
           onPress={() => navigation.navigate("Profile")}
         >
           <Text style={[styles.signUp1, styles.signTypo]}>Logout</Text>
-        </Pressable>
-        <View
+        </TouchableOpacity>
+        <TouchableOpacity
           style={[styles.buttonsecondary1, styles.buttonsecondaryShadowBox]}
         >
           <Text style={[styles.signUp2, styles.signTypo]}>Supprimer</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -221,7 +253,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontFamily: FontFamily.nunitoBold,
     color: Color.colorDarkslategray_100,
-    width: 49,
+    width: 55,
     height: 20,
     marginLeft: 2,
     textAlign: "center",
