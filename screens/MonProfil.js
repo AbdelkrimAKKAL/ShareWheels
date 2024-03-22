@@ -1,9 +1,10 @@
 import * as React from "react";
-import { StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
+import { color } from "react-native-reanimated";
 export const me = {
   name: '',
   bdate: Date,
@@ -22,7 +23,7 @@ export const me = {
     this.email = x;
   },
   setpassword: function (x, old) {
-    if  ((x.length >= 8) && (old === this.password || this.password==='')) {
+    if ((x.length >= 8) && (old === this.password || this.password === '')) {
       this.password = x;
     };
   },
@@ -32,8 +33,8 @@ export const me = {
     };
   },
 };
-me.setname('jimmy');
-
+// me.setname('jimmy');
+console.log(me.nom);
 const mycars = {
   coulor: 'Gris',
   id: '0117110606',
@@ -70,8 +71,8 @@ const MonProfil = () => {
           </View>
         </View>
         <View style={[styles.inputs, styles.inputsFlexBox]}>
-          <View style={[styles.inputinfo, styles.inputLayout1]}>
-            <Text style={[styles.amineemailcon, styles.numeroFlexBox]}>
+          <View style={[styles.inputinfo,]}>
+            <Text style={[styles.amineemailcon,]}>
               {me.email}
             </Text>
           </View>
@@ -87,7 +88,7 @@ const MonProfil = () => {
                 source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
               />
             </View>
-            <Text style={[styles.numero, styles.numeroFlexBox]}>
+            <Text style={[styles.numero,]}>
               {me.phone}
             </Text>
           </View>
@@ -102,21 +103,21 @@ const MonProfil = () => {
 
         </View>
         <TouchableOpacity
-          style={[styles.buttonfirst, styles.buttonfirstShadowBox]}
+          style={[styles.buttons, styles.blue]}
           onPress={() => navigation.navigate("Modifier")}
         >
-          <Text style={[styles.signUp, styles.signTypo]}>Modifier</Text>
+          <Text style={[ styles.signTypo]}>Modifier</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.buttonsecondary, styles.buttonsecondaryShadowBox]}
+          style={[styles.blue, styles.buttons]}
           onPress={() => navigation.navigate("Profile")}
         >
-          <Text style={[styles.signUp1, styles.signTypo]}>Logout</Text>
+          <Text style={[styles.blue, styles.signTypo]}>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.buttonsecondary1, styles.buttonsecondaryShadowBox]}
+          style={[styles.red, styles.buttons]}
         >
-          <Text style={[styles.signUp2, styles.signTypo]}>Supprimer</Text>
+          <Text style={[styles.red, styles.signTypo]}>Supprimer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -124,12 +125,7 @@ const MonProfil = () => {
 };
 
 const styles = StyleSheet.create({
-  text1Position: {
-    left: "0%",
-    top: "0%",
-    position: "absolute",
-    width: "100%",
-  },
+
   nomFlexBox: {
     justifyContent: "center",
     alignItems: "center",
@@ -144,14 +140,8 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
-  inputLayout1: {
-    height: 60,
-    borderColor: Color.colorSilver_100,
-  },
-  numeroFlexBox: {
-    textAlign: "left",
-    lineHeight: 23,
-  },
+
+
   inputLayout: {
     marginTop: 10,
     width: 328,
@@ -171,15 +161,7 @@ const styles = StyleSheet.create({
     width: 24,
     overflow: "hidden",
   },
-  buttonfirstShadowBox: {
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    flexDirection: "row",
-    alignItems: "center",
-  },
+
   signTypo: {
     lineHeight: 24,
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -187,17 +169,10 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
   },
-  buttonsecondaryShadowBox: {
+  buttons: {
     height: 59,
     width: 318,
     borderRadius: Border.br_3xs,
-    shadowOpacity: 1,
-    elevation: 14,
-    shadowRadius: 14,
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
     shadowColor: Color.neutralWhite,
     borderWidth: 1,
     borderStyle: "solid",
@@ -206,32 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  search1Typo: {
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    fontSize: FontSize.size_3xs,
-    marginTop: 5,
-    textAlign: "center",
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    backgroundColor: Color.neutralWhite,
-    alignItems: "center",
-  },
 
-  title: {
-    fontSize: FontSize.headingH2_size,
-    lineHeight: 25,
-    color: Color.textColorContentPrimary,
-    height: 25,
-    display: "flex",
-    textAlign: "center",
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-    width: 375,
-  },
   imageIcon: {
     width: 95,
     height: 95,
@@ -252,10 +202,9 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
     fontWeight: "700",
     fontFamily: FontFamily.nunitoBold,
-    color: Color.colorDarkslategray_100,
-    width: 55,
-    height: 20,
-    marginLeft: 2,
+
+
+    marginLeft: 5,
     textAlign: "center",
   },
   vectorParent: {
@@ -263,10 +212,7 @@ const styles = StyleSheet.create({
     height: 30,
     flexDirection: "row",
   },
-  nom: {
-    width: 231,
-    height: 93,
-  },
+
   userprofile: {
     width: 340,
     height: "15%",
@@ -352,95 +298,44 @@ const styles = StyleSheet.create({
     paddingVertical: Padding.p_mid,
     justifyContent: "space-between",
   },
-  detailsAAjouter: {
-    width: 285,
-    height: 23,
-    textAlign: "left",
-    lineHeight: 23,
-    color: Color.titleText,
-    display: "flex",
-    alignItems: "center",
-  },
+
   inputs: {
     height: 333,
   },
-  signUp: {
-    color: Color.neutralWhite,
-    width: 235,
-  },
+
   buttonfirst: {
     borderRadius: Border.br_mini,
     backgroundColor: Color.colorRoyalblue_100,
     width: 317,
     height: 58,
-    elevation: 14,
-    shadowRadius: 14,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
     marginTop: 5,
     justifyContent: "center",
   },
-  signUp1: {
-    color: Color.colorRoyalblue_100,
+  blue: {
+    color: "#0075fd",
+    borderColor: "#0075fd",
   },
-  buttonsecondary: {
-    borderColor: Color.colorRoyalblue_100,
-  },
-  signUp2: {
-    color: Color.colorTomato,
-  },
-  buttonsecondary1: {
-    borderColor: Color.colorTomato,
+  red: {
+    color: "#ff4444",
+    borderColor: "#ff4444",
   },
   main: {
     paddingBottom: 24,
-    paddingTop: Padding.p_xl,
-    backgroundColor: Color.neutralWhite,
-    width: 375,
+    paddingTop: 20,
+    backgroundColor: "#fff",
+    width: '100%',
     alignItems: "center",
-    overflow: "hidden",
     justifyContent: "space-between",
     flex: 1,
   },
-  searchIcon: {
-    height: 24,
-  },
-  search1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides: {
-    padding: Padding.p_3xs,
-  },
-  profileIcon: {
-    height: 22,
-    width: 22,
-  },
-  profile1: {
-    color: Color.colorRoyalblue_100,
-  },
-  footerprofile: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowRadius: 20,
-    elevation: 20,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    backgroundColor: Color.neutralWhite,
-    width: 375,
-    justifyContent: "space-between",
-  },
+
+
+
   monprofil: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    overflow: "hidden",
-    width: "100%",
+
   },
 });
 
