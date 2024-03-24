@@ -1,10 +1,12 @@
 import * as React from "react";
+import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
-import { color } from "react-native-reanimated";
+import DropDownPicker from "react-native-dropdown-picker";
+
 export const me = {
   name: '',
   bdate: Date,
@@ -33,7 +35,7 @@ export const me = {
     };
   },
 };
-// me.setname('jimmy');
+
 console.log(me.nom);
 const mycars = {
   coulor: 'Gris',
@@ -42,25 +44,33 @@ const mycars = {
 }
 
 const MonProfil = () => {
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { label: "POLO", value: "POLO" },
+    { label: "Maruti", value: "Maruti" },
+  ]);
+  const [selectedValue, setSelectedValue] = useState(null);
   const navigation = useNavigation();
   me.greet();
+
+
   return (
 
     <View style={styles.monprofil}>
       <TopBar />
       <View style={styles.main}>
         <Text >Mon Profile</Text>
-        <View style={[styles.userprofile, styles.inputsFlexBox]}>
+        <View style={[styles.userprofile, styles.centrer]}>
           <Image
             style={styles.imageIcon}
             contentFit="cover"
             source={require("../assets/image1.png")}
           />
-          <View style={[styles.nom, styles.nomFlexBox]}>
+          <View style={[styles.nom, styles.centrer]}>
             <Text style={[styles.amineMeddouri, styles.titleTypo]}>
               {me.name}
             </Text>
-            <View style={[styles.vectorParent, styles.nomFlexBox]}>
+            <View style={[styles.vectorParent, styles.centrer]}>
               <Image
                 style={styles.vectorIcon}
                 contentFit="cover"
@@ -70,13 +80,13 @@ const MonProfil = () => {
             </View>
           </View>
         </View>
-        <View style={[styles.inputs, styles.inputsFlexBox]}>
-          <View style={[styles.inputinfo,]}>
-            <Text style={[styles.amineemailcon,]}>
+        <View style={[styles.inputs, styles.centrer]}>
+          <View style={[styles.input]}>
+            <Text style={[]}>
               {me.email}
             </Text>
           </View>
-          <View style={[styles.input, styles.inputLayout]}>
+          <View style={[styles.input]}>
             <View style={styles.parent}>
               <Text style={[styles.text1, styles.text1Typo]}>+213</Text>
               <Image
@@ -92,21 +102,32 @@ const MonProfil = () => {
               {me.phone}
             </Text>
           </View>
-          <View style={[styles.inputinfo1, styles.inputLayout]}>
-            <Text style={[styles.voitures, styles.text1Typo]}>Voitures</Text>
-            <Image
-              style={styles.downArrowIcon}
-              contentFit="cover"
-              source={require("../assets/down-arrow.png")}
-            />
+          <View style={{flexDirection:"row"}}>
+            <DropDownPicker
+              style={[styles.input,{ zIndex: 9, width: "60%"} ]}
+              placeholder="Voitures"
+              open={open}
+              items={items}
+              setOpen={setOpen}
+              setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
+              setItems={setItems}
+              dropDownContainerStyle={{ backgroundColor: 'ffffff', width: '60%',marginTop:10, }}
+            /><TouchableOpacity
+              style={[ styles.input,styles.addbtn]}>
+              <Image
+                style={[
+                ]}
+                contentFit="cover"
+                source={require("../assets/vector3.png")}
+              />
+            </TouchableOpacity>
           </View>
-
         </View>
         <TouchableOpacity
-          style={[styles.buttons, styles.blue]}
+          style={[styles.buttons, { backgroundColor: "#0075fd" }]}
           onPress={() => navigation.navigate("Modifier")}
         >
-          <Text style={[ styles.signTypo]}>Modifier</Text>
+          <Text style={[styles.signTypo, { color: "#ffffff" }]}>Modifier</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.blue, styles.buttons]}
@@ -125,31 +146,20 @@ const MonProfil = () => {
 };
 
 const styles = StyleSheet.create({
-
-  nomFlexBox: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputsFlexBox: {
-    marginTop: 5,
+  centrer: {
     justifyContent: "center",
     alignItems: "center",
   },
   titleTypo: {
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
+
+    fontSize: 23,
+
+    color: Color.textColorContentTertiary,
+    width: 229,
     textAlign: "center",
-  },
-
-
-  inputLayout: {
-    marginTop: 10,
-    width: 328,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderRadius: Border.br_5xs,
-    flexDirection: "row",
-    alignItems: "center",
+    height: 33,
   },
   text1Typo: {
     color: Color.titleText,
@@ -186,14 +196,7 @@ const styles = StyleSheet.create({
     width: 95,
     height: 95,
   },
-  amineMeddouri: {
-    fontSize: 23,
-    lineHeight: 34,
-    color: Color.textColorContentTertiary,
-    width: 229,
-    textAlign: "center",
-    height: 33,
-  },
+
   vectorIcon: {
     width: 12,
     height: 12,
@@ -219,29 +222,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: Padding.p_xl,
   },
-  amineemailcon: {
-    height: "38.33%",
-    width: "88.41%",
-    top: "32.17%",
-    left: "5.64%",
-    color: Color.colorDarkgray_100,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    textAlign: "left",
-    lineHeight: 23,
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-    display: "flex",
-    position: "absolute",
-    alignItems: "center",
-  },
-  inputinfo: {
-    width: 328,
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderRadius: Border.br_5xs,
-    height: 60,
-    borderColor: Color.colorSilver_100,
-  },
+ 
+
   text1: {
     lineHeight: 24,
     textAlign: "right",
@@ -262,10 +244,9 @@ const styles = StyleSheet.create({
   },
   numero: {
     width: 201,
-    marginLeft: 28,
+     marginLeft: 28,
     color: Color.colorDarkgray_100,
     fontSize: FontSize.subheadLgSHLgMedium_size,
-    textAlign: "left",
     lineHeight: 23,
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
@@ -274,43 +255,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: Padding.p_xs,
     paddingVertical: Padding.p_lg,
     height: 60,
+    borderWidth: 1,
     borderColor: Color.colorSilver_100,
+    marginTop: 5,
+    width: '80%',
     marginTop: 10,
-    justifyContent: "center",
-    overflow: "hidden",
+    borderRadius: 8,
+    flexDirection: "row",
   },
-  voitures: {
-    width: 262,
-    height: 23,
-    textAlign: "left",
-    lineHeight: 23,
-    color: Color.titleText,
-    display: "flex",
-    alignItems: "center",
-  },
-  downArrowIcon: {
-    width: 22,
-    height: 24,
-  },
-  inputinfo1: {
-    borderColor: Color.titleText,
-    paddingHorizontal: Padding.p_lg,
-    paddingVertical: Padding.p_mid,
-    justifyContent: "space-between",
-  },
+
+
 
   inputs: {
     height: 333,
+    width:"100%"
   },
 
-  buttonfirst: {
-    borderRadius: Border.br_mini,
-    backgroundColor: Color.colorRoyalblue_100,
-    width: 317,
-    height: 58,
-    marginTop: 5,
-    justifyContent: "center",
-  },
   blue: {
     color: "#0075fd",
     borderColor: "#0075fd",
@@ -329,14 +289,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-
-
   monprofil: {
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-
   },
+
+  addbtn: {
+    height: 55,
+    width: 55,
+marginLeft:"-34%",
+    marginTop: 13,
+  }
 });
 
 export default MonProfil;
