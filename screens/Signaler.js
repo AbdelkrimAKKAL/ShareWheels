@@ -9,14 +9,38 @@ import { useState } from "react";
 
 const Signaler = () => {
   const navigation = useNavigation();
-  const [isChecked, setIsChecked] = useState(false);
-  const handlePress = () => {
-    setIsChecked(!isChecked);
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked3, setIsChecked3] = useState(false);
+  const [isChecked4, setIsChecked4] = useState(false);
+  const [isChecked5, setIsChecked5] = useState(false);
+
+  const handlePress = (buttonNumber) => {
+    switch (buttonNumber) {
+      case 1:
+        setIsChecked1(!isChecked1);
+        break;
+      case 2:
+        setIsChecked2(!isChecked2);
+        break;
+      case 3:
+        setIsChecked3(!isChecked3);
+        break;
+      case 4:
+        setIsChecked4(!isChecked4);
+        break;
+      case 5:
+        setIsChecked5(!isChecked5);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSignaler = ()=>{
     Alert.alert('Rapport envoyè')
   }
+
 
   return (
   <ScrollView
@@ -30,13 +54,13 @@ const Signaler = () => {
           <Text style={styles.number}>Pourquoi</Text>
 
           <Pressable style={[styles.input, styles.inputShadowBox]} 
-            onPress={handlePress}
+            onPress={() => handlePress(1)}
           >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
               source={
-                isChecked ? require("../assets/radiobuttonunchecked-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+                isChecked1 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
               }
             />
             <Text style={[styles.number1, styles.numberTypo]}>
@@ -45,52 +69,56 @@ const Signaler = () => {
           </Pressable>
 
           <Pressable style={[styles.input1, styles.inputShadowBox]}
-            onPress={()=>{}}
+            onPress={() => handlePress(2)}
           >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-            />
+              source={
+                isChecked2 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+              }            />
             <Text style={[styles.number1, styles.numberTypo]}>
               irrespectueux
             </Text>
           </Pressable>
 
           <Pressable style={[styles.input2, styles.inputShadowBox]}
-            onPress={()=>{}}
+            onPress={() => handlePress(3)}
           >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-            />
+              source={
+                isChecked3 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+              }            />
             <Text style={[styles.number1, styles.numberTypo]}>
               conduite dangereuse
             </Text>
           </Pressable>
 
           <Pressable style={[styles.input3, styles.inputShadowBox]}
-            onPress={()=>{}}
+            onPress={() => handlePress(4)}
           >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-            />
+              source={
+                isChecked4 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+              }            />
             <Text style={[styles.number1, styles.numberTypo]}>
               Véhicule en mauvais état
             </Text>
           </Pressable>
 
           <Pressable style={[styles.input4, styles.inputShadowBox]}
-            onPress={()=>{}}
+            onPress={() => handlePress(5)}
           >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-            />
+              source={
+                isChecked5 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+              }            />
             <Text style={[styles.number1, styles.numberTypo]}>
               Utilisation du téléphone portable
             </Text>
