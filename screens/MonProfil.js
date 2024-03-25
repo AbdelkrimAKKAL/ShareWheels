@@ -4,7 +4,6 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
-import { color } from "react-native-reanimated";
 export const me = {
   name: '',
   bdate: Date,

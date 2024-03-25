@@ -39,12 +39,10 @@ const Recherche = () => {
     setDate(date);
     console.log("A date has been picked: ", date);
     setDatePicker(true);
-
   };
 
   return (
     <View style={styles.recherche}>
-
       <TopBar />
       <View style={styles.carpic}>
         <Image
@@ -56,25 +54,29 @@ const Recherche = () => {
       <Text style={styles.sharewheels}>ShareWheels</Text>
       <View style={styles.main}>
         <Text style={[styles.heading, styles.headingTypo]}>où vas-tu</Text>
-        <View style={[styles.input, styles.inputShadowBox]}>
+        <Pressable
+          style={[styles.input1, styles.inputShadowBox]}
+          onPress={() => navigation.navigate("SearchBar", { type: "Depart" })}
+          
+        >
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <TextInput
-            style={[styles.number, styles.numberTypo]}
-            placeholder="Depart"
-          />
-        </View>
-        <View style={[styles.input1, styles.inputShadowBox]}>
+          <Text style={[styles.number, styles.numberTypo]}>Depart</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.input1, styles.inputShadowBox]}
+          onPress={() => navigation.navigate("SearchBar", { type: "Destination" })}
+        >
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
           <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
-        </View>
+        </Pressable>
         <Text style={[styles.heading1, styles.headingTypo]}>Quand?</Text>
         <View style={[styles.quand, styles.quandFlexBox]}>
           <View>
@@ -87,7 +89,9 @@ const Recherche = () => {
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
-              <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"} </Text>
+              <Text style={[styles.number2, styles.numberTypo]}>
+                {isDatePicked ? date.toLocaleDateString() : "Date"}{" "}
+              </Text>
             </Pressable>
 
             <DateTimePickerModal
@@ -104,7 +108,15 @@ const Recherche = () => {
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[styles.number3, styles.numberTypo]}>{isDatePicked ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : "Heure"} </Text>
+            <Text style={[styles.number3, styles.numberTypo]}>
+              {isDatePicked
+                ? date.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })
+                : "Heure"}{" "}
+            </Text>
           </View>
         </View>
         <View style={styles.places}>

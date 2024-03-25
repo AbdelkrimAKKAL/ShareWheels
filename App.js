@@ -20,6 +20,7 @@ import YourRides from "./screens/YourRides";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
 import ResultatRecherche from "./screens/ResultatRecherche";
+import SearchBar from "./screens/SearchBar";
 import Annonce from "./components/Annonce";
 import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
@@ -141,6 +142,12 @@ const App = () => {
               component={Profile}
               options={{ headerShown: false }}
             />
+
+            <Stack.Screen
+              name="SearchBar"
+              component={SearchBar}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
@@ -255,8 +262,6 @@ const TabNavigator = () => (
       component={ProfileScreen}
       options={{ headerShown: false }}
     />
-
-    
   </Tab.Navigator>
 );
 
@@ -265,6 +270,8 @@ const SearchStackScreen = () => (
     <Stack.Screen name="Recherche" component={Recherche} />
     <Stack.Screen name="ResultatRecherche" component={ResultatRecherche} />
     <Stack.Screen name="Details" component={Details} />
+    <Stack.Screen name="SearchBar" component={SearchBar} />
+
   </Stack.Navigator>
 );
 
@@ -279,9 +286,6 @@ const PublishStackScreen = () => (
     <Stack.Screen name="AjouterAnnonce" component={AjouterAnnonce} />
     <Stack.Screen name="Dates" component={Dates} />
     <Stack.Screen name="Voiture" component={Voiture} />
-
-    
-
   </Stack.Navigator>
 );
 
@@ -300,7 +304,6 @@ const ProfileScreen = () => (
     <Stack.Screen name="Profile" component={Profile} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Login" component={Login} />
-
   </Stack.Navigator>
 );
 
