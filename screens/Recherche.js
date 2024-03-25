@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Alert } from "react-native";
 
 const Recherche = () => {
   const navigation = useNavigation();
   const [nbPlaces, click] = React.useState(1);
+
+  const route = useRoute();
+  const id = route.params?.type;
+
+  const [departLocation, setDepartLocation] = useState(null);
+  const [destinationLocation, setDestinationLocation] = useState(null);
+
+  useEffect(() => {
+    if (id === "Destination") {
+      setDestinationLocation(route.params?.location);
+    } else if (id === "Depart") {
+      setDepartLocation(route.params?.location);
+    }
+  }, [id, route.params?.location]);
 
   const add = () => {
     if (nbPlaces < 6) {
@@ -41,6 +56,17 @@ const Recherche = () => {
     setDatePicker(true);
   };
 
+  const handleSearch = () => {
+    if (!departLocation || !destinationLocation || !isDatePicked) {
+      Alert.alert(
+        "Alert",
+        "Veuillez remplir les informations SVP."
+      );
+    } else {
+      navigation.navigate("ResultatRecherche");
+    }
+  };
+
   return (
     <View style={styles.recherche}>
       <TopBar />
@@ -57,25 +83,30 @@ const Recherche = () => {
         <Pressable
           style={[styles.input1, styles.inputShadowBox]}
           onPress={() => navigation.navigate("SearchBar", { type: "Depart" })}
-          
         >
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>Depart</Text>
+          <Text style={[styles.number, styles.numberTypo]}>
+          {departLocation ? departLocation : "Depart"}
+          </Text>
         </Pressable>
         <Pressable
           style={[styles.input1, styles.inputShadowBox]}
-          onPress={() => navigation.navigate("SearchBar", { type: "Destination" })}
+          onPress={() =>
+            navigation.navigate("SearchBar", { type: "Destination" })
+          }
         >
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
+          <Text style={[styles.number, styles.numberTypo]}>
+          {destinationLocation ? destinationLocation : "Destination"}
+          </Text>
         </Pressable>
         <Text style={[styles.heading1, styles.headingTypo]}>Quand?</Text>
         <View style={[styles.quand, styles.quandFlexBox]}>
@@ -146,7 +177,7 @@ const Recherche = () => {
       </View>
       <Pressable
         style={[styles.buttonfirst, styles.quandFlexBox]}
-        onPress={() => navigation.navigate("ResultatRecherche")}
+        onPress={handleSearch}
       >
         <Text style={styles.signUp}>Rechercher</Text>
       </Pressable>
