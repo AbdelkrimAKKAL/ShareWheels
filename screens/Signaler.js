@@ -1,31 +1,52 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, KeyboardAvoidingView, ScrollView, Alert } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, Border, FontSize, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
+import { TextInput } from "react-native-gesture-handler";
+import { useState } from "react";
 
 const Signaler = () => {
   const navigation = useNavigation();
+  const [isChecked, setIsChecked] = useState(false);
+  const handlePress = () => {
+    setIsChecked(!isChecked);
+  };
+
+  const handleSignaler = ()=>{
+    Alert.alert('Rapport envoyè')
+  }
 
   return (
+  <ScrollView
+    style={{ flex: 1 }}
+  >
     <View style={[styles.signaler, styles.signalerFlexBox]}>
       <TopBar/>
       <View style={styles.main}>
         <Text style={styles.signaler1}>Signaler</Text>
         <View style={styles.inputs}>
           <Text style={styles.number}>Pourquoi</Text>
-          <View style={[styles.input, styles.inputShadowBox]}>
+
+          <Pressable style={[styles.input, styles.inputShadowBox]} 
+            onPress={handlePress}
+          >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
-              source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
+              source={
+                isChecked ? require("../assets/radiobuttonunchecked-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+              }
             />
             <Text style={[styles.number1, styles.numberTypo]}>
               fausse informations personnels
             </Text>
-          </View>
-          <View style={[styles.input1, styles.inputShadowBox]}>
+          </Pressable>
+
+          <Pressable style={[styles.input1, styles.inputShadowBox]}
+            onPress={()=>{}}
+          >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
@@ -34,8 +55,11 @@ const Signaler = () => {
             <Text style={[styles.number1, styles.numberTypo]}>
               irrespectueux
             </Text>
-          </View>
-          <View style={[styles.input2, styles.inputShadowBox]}>
+          </Pressable>
+
+          <Pressable style={[styles.input2, styles.inputShadowBox]}
+            onPress={()=>{}}
+          >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
@@ -44,8 +68,11 @@ const Signaler = () => {
             <Text style={[styles.number1, styles.numberTypo]}>
               conduite dangereuse
             </Text>
-          </View>
-          <View style={[styles.input3, styles.inputShadowBox]}>
+          </Pressable>
+
+          <Pressable style={[styles.input3, styles.inputShadowBox]}
+            onPress={()=>{}}
+          >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
@@ -54,8 +81,11 @@ const Signaler = () => {
             <Text style={[styles.number1, styles.numberTypo]}>
               Véhicule en mauvais état
             </Text>
-          </View>
-          <View style={[styles.input4, styles.inputShadowBox]}>
+          </Pressable>
+
+          <Pressable style={[styles.input4, styles.inputShadowBox]}
+            onPress={()=>{}}
+          >
             <Image
               style={styles.radioButtonUncheckedSvgrepoIcon}
               contentFit="cover"
@@ -64,17 +94,26 @@ const Signaler = () => {
             <Text style={[styles.number1, styles.numberTypo]}>
               Utilisation du téléphone portable
             </Text>
-          </View>
+          </Pressable>
+
           <View style={[styles.input5, styles.inputShadowBox]}>
-            <Text style={[styles.number6, styles.numberTypo]}>Autre</Text>
+            <TextInput placeholder="Autre.." style={[styles.number6, styles.numberTypo]}></TextInput>
           </View>
+
         </View>
-        <View style={[styles.buttonfirst, styles.buttonfirstFlexBox]}>
+        
+        <Pressable 
+          style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
+          onPress={handleSignaler}  
+        >
           <Text style={styles.signUp}>Signaler</Text>
-        </View>
+        </Pressable>
+
       </View>
     </View>
+  </ScrollView>
   );
+  
 };
 
 const styles = StyleSheet.create({
@@ -230,7 +269,7 @@ const styles = StyleSheet.create({
   },
   input5: {
     width: 290,
-    height: 139,
+    height: 100,
     marginTop: 15,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
