@@ -280,6 +280,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   annonce: {
+    borderColor: "rgba(0, 0, 0, 0.15)",
+    borderWidth: 0.4,
     backgroundColor: Color.neutralWhite,
     shadowColor: "rgba(0, 0, 0, 0.15)",
     shadowOffset: {

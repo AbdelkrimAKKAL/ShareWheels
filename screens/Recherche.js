@@ -6,6 +6,7 @@ import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Recherche = () => {
   const navigation = useNavigation();
@@ -26,7 +27,7 @@ const Recherche = () => {
   }, [id, route.params?.location]);
 
   const add = () => {
-    if (nbPlaces < 6) {
+    if (nbPlaces < 4) {
       click(nbPlaces + 1);
     }
   };
@@ -58,14 +59,23 @@ const Recherche = () => {
 
   const handleSearch = () => {
     if (!departLocation || !destinationLocation || !isDatePicked) {
-      Alert.alert(
-        "Alert",
-        "Veuillez remplir les informations SVP."
-      );
+      Alert.alert("Alert", "Veuillez remplir les informations SVP.");
     } else {
-      navigation.navigate("ResultatRecherche");
+      navigation.navigate("ResultatRecherche", {
+        Date: date.toLocaleDateString(),
+        heure: date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+        depart: departLocation,
+        destination: destinationLocation,
+        nbPlc: nbPlaces,
+      });
     }
   };
+
+
 
   return (
     <View style={styles.recherche}>
@@ -90,7 +100,7 @@ const Recherche = () => {
             source={require("../assets/mappin.png")}
           />
           <Text style={[styles.number, styles.numberTypo]}>
-          {departLocation ? departLocation : "Depart"}
+            {departLocation ? departLocation : "Depart"}
           </Text>
         </Pressable>
         <Pressable
@@ -105,7 +115,7 @@ const Recherche = () => {
             source={require("../assets/mappin.png")}
           />
           <Text style={[styles.number, styles.numberTypo]}>
-          {destinationLocation ? destinationLocation : "Destination"}
+            {destinationLocation ? destinationLocation : "Destination"}
           </Text>
         </Pressable>
         <Text style={[styles.heading1, styles.headingTypo]}>Quand?</Text>
@@ -130,7 +140,7 @@ const Recherche = () => {
               mode="datetime"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
-              date={new Date(date)} // Pass current selected date to the date picker
+              date={new Date(date)}
             />
           </View>
           <View style={[styles.input3, styles.quandFlexBox]}>
