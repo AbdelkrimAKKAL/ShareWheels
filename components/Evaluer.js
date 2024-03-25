@@ -1,11 +1,31 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
+import { useState } from "react"
 
 const Evaluer = (Props) => {
   const navigation = useNavigation();
+  const [stars, setStars] = useState(1);
+  const [isSent, setIsSent] = useState(false)
+
+  const add = () => {
+    if (stars < 5) {
+      setStars(stars + 1);
+    }
+  };
+
+  const sub = () => {
+    if (stars > 1) {
+      setStars(stars - 1);
+    }
+  };
+
+  const setRating = (stars) => {
+    Alert.alert(`${stars} star sent`);
+    setIsSent(true);
+  }
 
   return (
     <View style={[styles.evaluer, styles.dateFlexBox]}>
@@ -67,26 +87,45 @@ const Evaluer = (Props) => {
       </View>
       <View style={styles.buttons}>
         <View style={[styles.rate, styles.rateFlexBox]}>
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/moins3.png")}
-          />
-          <Text style={styles.text2}>5</Text>
+          {!isSent && (
+            <Pressable onPress={sub}>
+              <Image
+                style={styles.iconLayout}
+                contentFit="cover"
+                source={require("../assets/moins3.png")}
+              />
+            </Pressable>
+          )}
+
+          <Text style={styles.rating}>{stars}</Text>
           <Image
             style={styles.vectorIcon1}
             contentFit="cover"
             source={require("../assets/vector5.png")}
           />
-          <Image
-            style={[styles.plusIcon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/plus3.png")}
-          />
+
+          {!isSent && (
+            <Pressable onPress={add}>
+              <Image
+                style={[styles.plusIcon, styles.iconLayout]}
+                contentFit="cover"
+                source={require("../assets/plus3.png")}
+              />
+            </Pressable>
+          )}
+
         </View>
-        <View style={[styles.participer, styles.participerLayout]}>
-          <Text style={[styles.supprimer, styles.signalerTypo]}>Evaluer</Text>
-        </View>
+
+        {!isSent && (
+          <Pressable
+            style={[styles.participer, styles.participerLayout]}
+            onPress={() => setRating(stars)}
+            disabled={isSent}
+          >
+            <Text style={[styles.supprimer, styles.signalerTypo]}>{isSent ? (<Text>{stars}</Text>) : 'Evaluer'}</Text>
+          </Pressable>
+        )}
+
         <Pressable
           style={[styles.participer1, styles.participerLayout]}
           onPress={() => navigation.navigate("Signaler")}
@@ -99,6 +138,16 @@ const Evaluer = (Props) => {
 };
 
 const styles = StyleSheet.create({
+  rating: {
+    fontSize: FontSize.headingH2_size,
+    fontWeight: "500",
+    fontFamily: FontFamily.robotoMedium,
+    color: Color.colorBlack,
+    width: 12,
+    marginLeft: 10,
+    marginTop: -5,
+    textAlign: "center",
+  },
   dateFlexBox: {
     justifyContent: "space-between",
     alignItems: "center",
@@ -284,6 +333,7 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     width: 12,
     marginLeft: 10,
+    marginBottom: -5,
     textAlign: "left",
   },
   vectorIcon1: {
