@@ -11,6 +11,25 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
 
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked3, setIsChecked3] = useState(false);
+  const handlePress = (buttonNumber) => {
+    switch (buttonNumber) {
+      case 1:
+        setIsChecked1(!isChecked1);
+        break;
+      case 2:
+        setIsChecked2(!isChecked2);
+        break;
+      case 3:
+        setIsChecked3(!isChecked3);
+        break;
+      default:
+        break;
+    }
+  };
+
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
@@ -59,136 +78,211 @@ const AjouterAnnonce = () => {
     console.log("A time has been picked: ", selectedTime);
     setTimePicker(true);
   };
+  
 
   return (
+
     <KeyboardAvoidingView
-    behavior="position" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      behavior="height" style={{ flex: 1 }}
     >
-      <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
+      <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, {zIndex: 1}]}>
         <TopBar />
         <View style={styles.main}>
           <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
+
           <View style={styles.inputs}>
-            <View style={styles.input}>
-              <Image
-                style={styles.mapPinIcon}
-                contentFit="cover"
-                source={require("../assets/mappin3.png")}
-              />
-              <TextInput
-                placeholder="Depart"
-                style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
-              />
-            </View>
-            <View style={[styles.input1, styles.inputShadowBox1]}>
-              <Image
-                style={styles.mapPinIcon}
-                contentFit="cover"
-                source={require("../assets/mappin3.png")}
-              />
-              <TextInput
-                placeholder="Destination"
-                style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
-              />
-            </View>
-
-            <View>
-              <Pressable // Date
-                style={styles.inputShadowBox}
-                onPress={showDatePicker}
-              >
+            <ScrollView>
+              <View style={styles.input}>
                 <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  style={styles.mapPinIcon}
                   contentFit="cover"
-                  source={require("../assets/mappin4.png")}
+                  source={require("../assets/mappin3.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"}</Text>
-              </Pressable>
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleDateConfirm}
-                onCancel={hideDatePicker}
-                date={new Date(date)} // Pass current selected date to the date picker
-              />
-
-              <Pressable // Heure
-                style={styles.inputShadowBox}
-                onPress={showTimePicker}
-              >
+                <TextInput
+                  placeholder="Depart"
+                  style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
+                />
+              </View>
+              <View style={[styles.input1, styles.inputShadowBox1]}>
                 <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  style={styles.mapPinIcon}
                   contentFit="cover"
-                  source={require("../assets/clock3.png")}
+                  source={require("../assets/mappin3.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>{isTimePicked ? time.toLocaleTimeString() : "Heure"}</Text>
-              </Pressable>
-              <DateTimePickerModal
-                isVisible={isTimePickerVisible}
-                mode="time"
-                onConfirm={handleTimeConfirm}
-                onCancel={hideTimePicker}
-                date={new Date(time)} // Pass current selected time to the time picker
-              />
-            </View>
+                <TextInput
+                  placeholder="Destination"
+                  style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
+                />
+              </View>
 
-            <View style={styles.inputShadowBox}>
-              <Image
-                style={[styles.mapPinIcon2, styles.iconLayout]}
-                contentFit="cover"
-                source={require("../assets/mappin5.png")}
-              />
-
-              <DropDownPicker
-                style={{ zIndex: 9999, borderWidth: 0, borderColor: 'transparent', width: '95%' }}
-                placeholder="Voiture"
-                ArrowDownIconComponent={({ style }) => (
+              <View>
+                <Pressable // Date
+                  style={styles.inputShadowBox}
+                  onPress={showDatePicker}
+                >
                   <Image
-                    style={[styles.iconLayout]}
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
                     contentFit="cover"
-                    source={require("../assets/down-arrow.png")}
+                    source={require("../assets/mappin4.png")}
                   />
-                )}
-                open={open}
-                value={selectedValue} // Use selectedValue as the value prop
-                items={items}
-                setOpen={setOpen}
-                setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
-                setItems={setItems}
-                dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '95%', PaddingLeft: '-10' }}
-                dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-              />
+                  <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"}</Text>
+                </Pressable>
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleDateConfirm}
+                  onCancel={hideDatePicker}
+                  date={new Date(date)} // Pass current selected date to the date picker
+                />
+
+                <Pressable // Heure
+                  style={styles.inputShadowBox}
+                  onPress={showTimePicker}
+                >
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/clock3.png")}
+                  />
+                  <Text style={[styles.number2, styles.numberTypo]}>{isTimePicked ? time.toLocaleTimeString() : "Heure"}</Text>
+                </Pressable>
+                <DateTimePickerModal
+                  isVisible={isTimePickerVisible}
+                  mode="time"
+                  onConfirm={handleTimeConfirm}
+                  onCancel={hideTimePicker}
+                  date={new Date(time)} // Pass current selected time to the time picker
+                />
+              </View>
+
+              <View style={styles.inputShadowBox}>
+                <Image
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/mappin5.png")}
+                />
+
+                <DropDownPicker
+                  style={{ zIndex: 10000, borderWidth: 0, borderColor: 'transparent', width: '95%' }}
+                  placeholder="Voiture"
+                  ArrowDownIconComponent={({ style }) => (
+                    <Image
+                      style={[styles.iconLayout]}
+                      contentFit="cover"
+                      source={require("../assets/down-arrow.png")}
+                    />
+                  )}
+                  open={open}
+                  value={selectedValue} // Use selectedValue as the value prop
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
+                  setItems={setItems}
+                  dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '95%', PaddingLeft: '-10',zIndex: 20000 }}
+                  dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+                />
+              </View>
+
+              <View style={{ zIndex: 1 }}>
+                <Pressable style={[styles.input, styles.inputShadowBox]}
+                  onPress={() => handlePress(1)}
+                >
+                  <Image
+                    style={styles.radioButtonUncheckedSvgrepoIcon}
+                    contentFit="cover"
+                    source={
+                      isChecked1 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+                    }
+                  />
+                  <Text style={[styles.number1, styles.numberTypo]}>
+                    Fummeur
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View>
+                <Pressable style={[styles.input, styles.inputShadowBox]}
+                  onPress={() => handlePress(2)}
+                >
+                  <Image
+                    style={styles.radioButtonUncheckedSvgrepoIcon}
+                    contentFit="cover"
+                    source={
+                      isChecked2 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+                    }
+                  />
+                  <Text style={[styles.number1, styles.numberTypo]}>
+                    Music
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View>
+              <Pressable style={[styles.input, styles.inputShadowBox]}
+                onPress={() => handlePress(3)}
+              >
+                <Image
+                  style={styles.radioButtonUncheckedSvgrepoIcon}
+                  contentFit="cover"
+                  source={
+                    isChecked3 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+                  }
+                />
+                <Text style={[styles.number1, styles.numberTypo]}>
+                  Avec bagages
+                </Text>
+              </Pressable>
             </View>
-            <View style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}>
-              <TextInput
-                placeholder="Autre.."
-                style={[
-                  styles.number4,
-                  {
-                    textAlign: "left",
-                    height: 40,
-                    marginBottom: 0,
-                  },
-                ]}
-              />
-            </View>
+
+              <View style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}>
+                <TextInput
+                  placeholder="Autre.."
+                  style={[
+                    styles.number4,
+                    {
+                      textAlign: "left",
+                      height: 40,
+                      marginBottom: 0,
+                    },
+                  ]}
+                />
+              </View>
+              <View style={styles.vide}>
+
+              </View>
+            </ScrollView>
           </View>
-          <View style={[styles.buttonfirst, styles.input1FlexBox]}>
-            <Text style={styles.signUp}>Ajouter</Text>
-          </View>
+
         </View>
+
+        <View>
+          <Pressable style={[styles.buttonfirst, styles.input1FlexBox]}>
+            <Text style={styles.signUp}>Ajouter</Text>
+          </Pressable>
+        </View>
+
       </View>
+
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  radioButtonUncheckedSvgrepoIcon: {
+    width: 24,
+    height: 24,
+    overflow: "hidden",
+  },
+  vide:{
+    height:100,
+  },
+
   footerpublishFlexBox: {
     justifyContent: "space-between",
     backgroundColor: Color.neutralWhite,
   },
   numberTypo: {
-    height: 19,
+    height: 25,
     textAlign: "left",
     color: Color.colorGray_100,
     fontFamily: FontFamily.nunitoRegular,
@@ -297,7 +391,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
 
-  
+
 
 
   number4: {
