@@ -67,7 +67,7 @@ const MonProfil = () => {
             source={require("../assets/image1.png")}
           />
           <View style={[styles.nom, styles.centrer]}>
-            <Text style={[styles.amineMeddouri, styles.titleTypo]}>
+            <Text style={[ styles.titleTypo]}>
               {me.name}
             </Text>
             <View style={[styles.vectorParent, styles.centrer]}>
@@ -86,19 +86,16 @@ const MonProfil = () => {
               {me.email}
             </Text>
           </View>
-          <View style={[styles.input]}>
-            <View style={styles.parent}>
-              <Text style={[styles.text1, styles.text1Typo]}>+213</Text>
-              <Image
+          <View style={[styles.input,{alignItems:"center"}]}>
+            <Image
                 style={[
-                  styles.flagForFlagAlgeriaSvgrepoIcon,
-                  styles.iconLayout,
+                  styles.alg,
                 ]}
                 contentFit="cover"
                 source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
               />
-            </View>
-            <Text style={[styles.numero,]}>
+              <Text style={[ styles.text1Typo]}>+213</Text>
+            <Text style={[styles.numero]}>
               {me.phone}
             </Text>
           </View>
@@ -113,12 +110,11 @@ const MonProfil = () => {
               setItems={setItems}
               dropDownContainerStyle={{ backgroundColor: 'ffffff', width: '60%',marginTop:10, }}
             /><TouchableOpacity
-              style={[ styles.input,styles.addbtn]}>
+              style={[ styles.input,styles.addbtn,styles.centrer]}>
               <Image
-                style={[
-                ]}
+                style={[styles.addicon ]}
                 contentFit="cover"
-                source={require("../assets/vector3.png")}
+                source={require("../assets/add.svg")}
               />
             </TouchableOpacity>
           </View>
@@ -146,6 +142,11 @@ const MonProfil = () => {
 };
 
 const styles = StyleSheet.create({
+  addicon:{
+
+    height:40,
+    width:40,
+  },
   centrer: {
     justifyContent: "center",
     alignItems: "center",
@@ -166,10 +167,6 @@ const styles = StyleSheet.create({
     fontSize: FontSize.subheadLgSHLgMedium_size,
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
-  },
-  iconLayout: {
-    width: 24,
-    overflow: "hidden",
   },
 
   signTypo: {
@@ -223,27 +220,12 @@ const styles = StyleSheet.create({
     paddingTop: Padding.p_xl,
   },
  
-
-  text1: {
-    lineHeight: 24,
-    textAlign: "right",
-    left: "0%",
-    top: "0%",
-    position: "absolute",
-    width: "100%",
-  },
-  flagForFlagAlgeriaSvgrepoIcon: {
-    top: 1,
-    left: 0,
+  alg: { 
     height: 23,
-    position: "absolute",
+    width: 24,
   },
-  parent: {
-    width: 64,
-    height: 24,
-  },
+ 
   numero: {
-    width: 201,
      marginLeft: 28,
     color: Color.colorDarkgray_100,
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -267,7 +249,7 @@ const styles = StyleSheet.create({
 
 
   inputs: {
-    height: 333,
+    height: "46%",
     width:"100%"
   },
 
