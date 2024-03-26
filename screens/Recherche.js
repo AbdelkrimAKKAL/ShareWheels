@@ -92,7 +92,7 @@ const Recherche = () => {
         <Text style={[styles.heading, styles.headingTypo]}>où vas-tu</Text>
         <Pressable
           style={[styles.input1, styles.inputShadowBox]}
-          onPress={() => navigation.navigate("SearchBar", { type: "Depart" })}
+          onPress={() => navigation.navigate("SearchBar", { type: "Depart", screen: "Recherche" })}
         >
           <Image
             style={styles.mapPinIcon}

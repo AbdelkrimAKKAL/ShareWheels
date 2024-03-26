@@ -294,6 +294,7 @@ const PublishStackScreen = () => (
     <Stack.Screen name="AjouterAnnonce" component={AjouterAnnonce} />
     <Stack.Screen name="Dates" component={Dates} />
     <Stack.Screen name="Voiture" component={Voiture} />
+    <Stack.Screen name="SearchBar" component={SearchBar} />
   </Stack.Navigator>
 );
 

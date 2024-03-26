@@ -29,8 +29,8 @@ const ResultatRecherche = () => {
         <Annonce
         name="Amine Meddouri" 
         rating="4.5(2)" 
-        startLocation="StartLocation"
-        endLocation="EndLocation"
+        startLocation="Alger Centre"
+        endLocation="Amizour"
         price="250 DA"
         vehicle="Toyota Corolla"
         time="6:30pm"

@@ -1,8 +1,17 @@
 import * as React from "react";
-import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, TextInput, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import DropDownPicker from "react-native-dropdown-picker";
 import TopBar from "../components/TopBar";
@@ -11,13 +20,28 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
 
+  const route = useRoute();
+  const id = route.params?.type;
+
+  const [departLocation, setDepartLocation] = useState(null);
+  const [destinationLocation, setDestinationLocation] = useState(null);
+
+  useEffect(() => {
+    if (id === "Destination") {
+      setDestinationLocation(route.params?.location);
+    } else if (id === "Depart") {
+      setDepartLocation(route.params?.location);
+    }
+  }, [id, route.params?.location]);
+
+
+
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
     { label: "Maruti", value: "Maruti" },
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
-
 
   // date
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -62,35 +86,52 @@ const AjouterAnnonce = () => {
 
   return (
     <KeyboardAvoidingView
-    behavior="position" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      behavior="position"
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
         <TopBar />
         <View style={styles.main}>
           <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
           <View style={styles.inputs}>
-            <View style={styles.input}>
+   
+            <Pressable
+              style={styles.input}
+              onPress={() =>
+                navigation.navigate("SearchBar", {
+                  type: "Depart",
+                  screen: "AjouterAnnonce",
+                })
+              }
+            >
               <Image
                 style={styles.mapPinIcon}
                 contentFit="cover"
                 source={require("../assets/mappin3.png")}
               />
-              <TextInput
-                placeholder="Depart"
-                style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
-              />
-            </View>
-            <View style={[styles.input1, styles.inputShadowBox1]}>
+              <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
+                {departLocation ? departLocation : "Depart"}
+              </Text>
+            </Pressable>
+
+            <Pressable
+               style={[styles.input1, styles.inputShadowBox1]}
+              onPress={() =>
+                navigation.navigate("SearchBar", {
+                  type: "Destination",
+                  screen: "AjouterAnnonce",
+                })
+              }
+            >
               <Image
                 style={styles.mapPinIcon}
                 contentFit="cover"
                 source={require("../assets/mappin3.png")}
               />
-              <TextInput
-                placeholder="Destination"
-                style={{ textAlign: "left", width: "100%", marginLeft: 5 }}
-              />
-            </View>
+              <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
+                {destinationLocation ? destinationLocation : "Destination"}
+              </Text>
+            </Pressable>
 
             <View>
               <Pressable // Date
@@ -102,7 +143,9 @@ const AjouterAnnonce = () => {
                   contentFit="cover"
                   source={require("../assets/mappin4.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"}</Text>
+                <Text style={[styles.number2, styles.numberTypo]}>
+                  {isDatePicked ? date.toLocaleDateString() : "Date"}
+                </Text>
               </Pressable>
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
@@ -121,7 +164,9 @@ const AjouterAnnonce = () => {
                   contentFit="cover"
                   source={require("../assets/clock3.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>{isTimePicked ? time.toLocaleTimeString() : "Heure"}</Text>
+                <Text style={[styles.number2, styles.numberTypo]}>
+                  {isTimePicked ? time.toLocaleTimeString() : "Heure"}
+                </Text>
               </Pressable>
               <DateTimePickerModal
                 isVisible={isTimePickerVisible}
@@ -140,7 +185,12 @@ const AjouterAnnonce = () => {
               />
 
               <DropDownPicker
-                style={{ zIndex: 9999, borderWidth: 0, borderColor: 'transparent', width: '95%' }}
+                style={{
+                  zIndex: 9999,
+                  borderWidth: 0,
+                  borderColor: "transparent",
+                  width: "95%",
+                }}
                 placeholder="Voiture"
                 ArrowDownIconComponent={({ style }) => (
                   <Image
@@ -155,11 +205,19 @@ const AjouterAnnonce = () => {
                 setOpen={setOpen}
                 setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
                 setItems={setItems}
-                dropDownContainerStyle={{ borderWidth: 0, borderColor: 'transparent', backgroundColor: '#A5A5A5', width: '95%', PaddingLeft: '-10' }}
-                dropDownStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+                dropDownContainerStyle={{
+                  borderWidth: 0,
+                  borderColor: "transparent",
+                  backgroundColor: "#A5A5A5",
+                  width: "95%",
+                  PaddingLeft: "-10",
+                }}
+                dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
               />
             </View>
-            <View style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}>
+            <View
+              style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}
+            >
               <TextInput
                 placeholder="Autre.."
                 style={[
@@ -221,7 +279,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-
 
   ajouterAnnonce: {
     fontSize: FontSize.size_13xl,
@@ -296,9 +353,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-
-  
-
 
   number4: {
     width: 265,
