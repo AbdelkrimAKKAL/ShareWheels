@@ -3,10 +3,15 @@ import { StyleSheet, View, Text, Pressable, TextInput, FlatList  } from "react-n
 import { Image } from "expo-image";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
-import { useRoute } from "@react-navigation/core";
 import algeria_cities from "../assets/algeria_cities.json";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Keyboard } from 'react-native';
+
+
 
 const SearchBar = () => {
+  const navigation = useNavigation();
+
   const route = useRoute();
   const id = route.params?.type;
 
@@ -23,7 +28,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     const filtered = algeria_cities.filter(city =>
-      `${city.commune_name_ascii}, ${city.daira_name_ascii}, ${city.wilaya_name_ascii}`
+      `${city.commune_name_ascii}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
     );
@@ -32,9 +37,7 @@ const SearchBar = () => {
 
   // Handle selection of a city
   const handleCitySelection = (city) => {
-    // Do something with the selected city
-    console.log("Selected city:", city);
-    // You can navigate to another screen or perform any other action here
+    navigation.navigate("Recherche", { location: city.commune_name_ascii.toString(), type:id })
   };
 
   return (
@@ -53,6 +56,11 @@ const SearchBar = () => {
           placeholder={id}
           value={searchQuery}
           onChangeText={setSearchQuery}
+          onSubmitEditing={() => {
+            if (searchQuery.trim() !== "") {
+              navigation.navigate("Recherche", { location: searchQuery.trim(), type: id });
+            }
+          }}
         />
       </View>
       {searchQuery.length > 0 && (

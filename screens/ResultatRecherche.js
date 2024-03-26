@@ -1,21 +1,28 @@
 import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const ResultatRecherche = () => {
   const navigation = useNavigation();
+
+  const route = useRoute();
+  const date = route.params?.Date;
+  const depart = route.params?.depart;
+  const destination = route.params?.destination;
+  const nmbrplaces = route.params?.nbPlc;
+
 
   return (
     <View style={[styles.resultatrecherche, styles.dateFlexBox]}>
       <TopBar/>
       <View style={styles.headerTopActionBar}>
         <View style={[styles.frame, styles.frameFlexBox]}>
-          <Text style={styles.heading}>Bejaia a Alger</Text>
-          <Text style={styles.heading1}>31 DEC 23, 2 Places</Text>
+          <Text style={styles.heading}>{depart} a {destination}</Text>
+          <Text style={styles.heading1}>{date}, {nmbrplaces} Places</Text>
         </View>
       </View>
       <View style={styles.main}>

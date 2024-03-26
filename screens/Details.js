@@ -30,7 +30,7 @@ const Details = () => {
             </View>
           </View>
         </View>
-        <ScrollView style={styles.detailsframe}>
+        <ScrollView Style={styles.detailsframe}>
           <View style={styles.inputinfoLayout}>
             <Text style={[styles.amineemailcon, styles.numeroTypo]}>
               Amine@email.con
@@ -208,9 +208,14 @@ const Details = () => {
               <Text style={[styles.number19, styles.numberClr]}>A ajouter</Text>
             </View>
           </View>
-          <View style={[styles.buttonsecondary, styles.buttonfirstShadowBox]}>
+  
+          <Pressable
+            style={[styles.buttonsecondary, styles.buttonfirstShadowBox]}
+            onPress={() => navigation.navigate("AfficherMap")}
+          >
             <Text style={[styles.signUp, styles.signTypo]}>Afficher Map</Text>
-          </View>
+          </Pressable>
+
           <View style={[styles.buttonfirst, styles.buttonfirstShadowBox]}>
             <Text style={[styles.signUp1, styles.signTypo]}>Participer</Text>
           </View>
@@ -346,7 +351,7 @@ const styles = StyleSheet.create({
   voiture1ShadowBox: {
     elevation: 4,
     shadowRadius: 4,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
+    shadowColor: "white",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
@@ -361,15 +366,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonfirstShadowBox: {
-    elevation: 14,
     shadowRadius: 14,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
+    shadowColor: "white",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 8,
     },
-    marginTop: 10,
+    marginBottom: 10,
+
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
@@ -436,9 +441,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userprofile: {
+    paddingBottom: "4%",
+    marginBottom: '1.5%',
     width: 340,
-    paddingTop: Padding.p_xl,
+    marginTop: Padding.p_xl,
     justifyContent: "center",
+    borderEndColor: '#000000',
+    borderBottomWidth: 0.5,
+    width: '100%'
   },
   amineemailcon: {
     top: "31.67%",
@@ -643,6 +653,8 @@ const styles = StyleSheet.create({
   },
   moredetails: {
     justifyContent: "center",
+    marginBottom: 10,
+
   },
   signUp: {
     color: Color.colorRoyalblue_100,
@@ -653,7 +665,7 @@ const styles = StyleSheet.create({
     width: 318,
     height: 59,
     shadowRadius: 14,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
+    shadowColor: "white",
     borderWidth: 1,
     borderStyle: "solid",
   },
@@ -670,16 +682,18 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(236, 95, 95, 0.25)",
   },
   detailsframe: {
-    height: 605,
-    marginTop: 15,
+    flex: 1,
+
   },
   main: {
-    height: 735,
+    flex: 1,
     paddingHorizontal: Padding.p_base,
-    paddingBottom: Padding.p_3xs,
+    marginTop: '2%',
     alignItems: "center",
     overflow: "hidden",
     backgroundColor: Color.neutralWhite,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   search1: {
     color: Color.colorRoyalblue_100,

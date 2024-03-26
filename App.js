@@ -21,6 +21,7 @@ import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
 import ResultatRecherche from "./screens/ResultatRecherche";
 import SearchBar from "./screens/SearchBar";
+import AfficherMap from "./screens/AfficherMap";
 import Annonce from "./components/Annonce";
 import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
@@ -148,6 +149,12 @@ const App = () => {
               component={SearchBar}
               options={{ headerShown: false }}
             />
+
+            <Stack.Screen
+              name="AfficherMap"
+              component={AfficherMap}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
@@ -271,6 +278,7 @@ const SearchStackScreen = () => (
     <Stack.Screen name="ResultatRecherche" component={ResultatRecherche} />
     <Stack.Screen name="Details" component={Details} />
     <Stack.Screen name="SearchBar" component={SearchBar} />
+    <Stack.Screen name="AfficherMap" component={AfficherMap} />
 
   </Stack.Navigator>
 );
