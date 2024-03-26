@@ -60,7 +60,7 @@ const SearchBar = () => {
           onChangeText={setSearchQuery}
           onSubmitEditing={() => {
             if (searchQuery.trim() !== "") {
-              navigation.navigate("Recherche", { location: searchQuery.trim(), type: id });
+              navigation.navigate(screen, { location: searchQuery.trim(), type: id });
             }
           }}
         />

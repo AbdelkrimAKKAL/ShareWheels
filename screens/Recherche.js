@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Recherche = () => {
   const navigation = useNavigation();
-  const [nbPlaces, click] = React.useState(1);
 
+  //SearchBar Screen par --------------------------------------------------------------------------------------------------
   const route = useRoute();
   const id = route.params?.type;
 
@@ -26,36 +25,6 @@ const Recherche = () => {
     }
   }, [id, route.params?.location]);
 
-  const add = () => {
-    if (nbPlaces < 4) {
-      click(nbPlaces + 1);
-    }
-  };
-
-  const sub = () => {
-    if (nbPlaces > 1) {
-      click(nbPlaces - 1);
-    }
-  };
-
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isDatePicked, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    hideDatePicker();
-    setDate(date);
-    console.log("A date has been picked: ", date);
-    setDatePicker(true);
-  };
 
   const handleSearch = () => {
     if (!departLocation || !destinationLocation || !isDatePicked) {
@@ -74,12 +43,50 @@ const Recherche = () => {
       });
     }
   };
+  //-----------------------------------------------------------------------------------------------------------------
 
+  //nombre places ---------------------------------------------------------------------------------------------------
+  const [nbPlaces, click] = React.useState(1);
+
+  const add = () => {
+    if (nbPlaces < 4) {
+      click(nbPlaces + 1);
+    }
+  };
+
+  const sub = () => {
+    if (nbPlaces > 1) {
+      click(nbPlaces - 1);
+    }
+  };
+  //-----------------------------------------------------------------------------------------------------------------
+
+  //Date------------------------------------------------------------------------------------------------------------
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePicked, setDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hideDatePicker();
+    setDate(date);
+    console.log("A date has been picked: ", date);
+    setDatePicker(true);
+  };
+//----------------------------------------------------------------------------------------------------------------
 
 
   return (
     <View style={styles.recherche}>
       <TopBar />
+
       <View style={styles.carpic}>
         <Image
           style={styles.image1Icon}
@@ -87,51 +94,62 @@ const Recherche = () => {
           source={require("../assets/image-1.png")}
         />
       </View>
+
       <Text style={styles.sharewheels}>ShareWheels</Text>
+
       <View style={styles.main}>
-        <Text style={[styles.heading, styles.headingTypo]}>où vas-tu</Text>
+    
+        <Text style={[styles.heading, {width: 326, marginTop: 10,}]}>où vas-tu</Text>
         <Pressable
-          style={[styles.input1, styles.inputShadowBox]}
-          onPress={() => navigation.navigate("SearchBar", { type: "Depart", screen: "Recherche" })}
-        >
-          <Image
-            style={styles.mapPinIcon}
-            contentFit="cover"
-            source={require("../assets/mappin.png")}
-          />
-          <Text style={[styles.number, styles.numberTypo]}>
-            {departLocation ? departLocation : "Depart"}
-          </Text>
-        </Pressable>
-        <Pressable
-          style={[styles.input1, styles.inputShadowBox]}
+          style={[styles.Inputs, {marginTop: "2%", width: 292,}]}
           onPress={() =>
-            navigation.navigate("SearchBar", { type: "Destination" })
+            navigation.navigate("SearchBar", {
+              type: "Depart",
+              screen: "Recherche",
+            })
           }
         >
           <Image
-            style={styles.mapPinIcon}
+            style={styles.Icon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>
+          <Text style={[styles.inputText]}>
+            {departLocation ? departLocation : "Depart"}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={[styles.Inputs, {marginTop: "2%", width: 292,}]}
+          onPress={() =>
+            navigation.navigate("SearchBar", { type: "Destination", screen: "Recherche", })
+          }
+        >
+          <Image
+            style={styles.Icon}
+            contentFit="cover"
+            source={require("../assets/mappin.png")}
+          />
+          <Text style={[styles.inputText]}>
             {destinationLocation ? destinationLocation : "Destination"}
           </Text>
         </Pressable>
-        <Text style={[styles.heading1, styles.headingTypo]}>Quand?</Text>
-        <View style={[styles.quand, styles.quandFlexBox]}>
+
+    
+        <Text style={[styles.heading, {width: 326, marginTop: 10,}]}>Quand?</Text>
+        <View style={[styles.DateHeure]}>
           <View>
             <Pressable
               onPress={showDatePicker}
-              style={[styles.input2, styles.inputShadowBox]}
+              style={[styles.Inputs, {width: 184,}]}
             >
               <Image
-                style={[styles.mapPinIcon2, styles.iconLayout1]}
+                style={[styles.Icon]}
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
-              <Text style={[styles.number2, styles.numberTypo]}>
-                {isDatePicked ? date.toLocaleDateString() : "Date"}{" "}
+              <Text style={[styles.inputText ,{marginLeft: 10}]}>
+                {isDatePicked ? date.toLocaleDateString() : "Date"}
               </Text>
             </Pressable>
 
@@ -143,25 +161,26 @@ const Recherche = () => {
               date={new Date(date)}
             />
           </View>
-          <View style={[styles.input3, styles.quandFlexBox]}>
+          <View style={[styles.Inputs, {width: 99,}]}>
             <Image
-              style={styles.clock3Icon}
+              style={[styles.Icon, {width: 20, height: 20}]}
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[styles.number3, styles.numberTypo]}>
+            <Text style={[styles.inputText, {marginLeft: 5}]}>
               {isDatePicked
                 ? date.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
                   })
-                : "Heure"}{" "}
+                : "Heure"}
             </Text>
           </View>
         </View>
+
         <View style={styles.places}>
-          <Text style={[styles.heading2, styles.headingTypo]}>
+          <Text style={[styles.heading]}>
             Combien Places ?
           </Text>
           <View style={styles.nmbrplaces}>
@@ -172,12 +191,12 @@ const Recherche = () => {
                 source={require("../assets/moins.png")}
               />
             </Pressable>
-            <Text style={[styles.heading3, styles.headingTypo]}>
+            <Text style={[styles.heading]}>
               {nbPlaces}
             </Text>
             <Pressable onPress={add}>
               <Image
-                style={[styles.plusIcon, styles.iconLayout]}
+                style={[styles.iconLayout]}
                 contentFit="cover"
                 source={require("../assets/plus.png")}
               />
@@ -185,22 +204,29 @@ const Recherche = () => {
           </View>
         </View>
       </View>
+
       <Pressable
-        style={[styles.buttonfirst, styles.quandFlexBox]}
+        style={[styles.buttonfirst, {alignItems: "center",}]}
         onPress={handleSearch}
       >
-        <Text style={styles.signUp}>Rechercher</Text>
+        <Text style={[styles.heading, {fontSize: 16, color: "white",}]}>Rechercher</Text>
       </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  headingTypo: {
+  heading: {
+    color: Color.gray1,
+    fontFamily: FontFamily.headingH2,
+    fontWeight: "600",
+    lineHeight: 25,
     textAlign: "left",
     fontSize: FontSize.headingH2_size,
+    textAlign: "left",
   },
-  inputShadowBox: {
+
+  Inputs: {
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
     flexDirection: "row",
@@ -220,38 +246,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
   },
-  numberTypo: {
-    height: 19,
+
+  
+  inputText: {
     color: Color.colorGray_100,
     fontFamily: FontFamily.nunitoRegular,
     fontSize: FontSize.size_mini,
     textAlign: "left",
+    width: "100%",
+    marginLeft: 6,
+
   },
-  quandFlexBox: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  iconLayout1: {
-    height: 22,
-    width: 22,
-  },
+
+  
   iconLayout: {
     height: 21,
     width: 21,
-  },
-  search1Typo: {
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    fontSize: FontSize.size_3xs,
-    marginTop: 5,
-    textAlign: "center",
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
   },
 
   image1Icon: {
@@ -270,117 +280,37 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "800",
     fontFamily: FontFamily.nunitoExtraBold,
-    width: 286,
     textAlign: "center",
     color: Color.colorRoyalblue_100,
   },
-  heading: {
-    width: 326,
-    color: Color.gray1,
-    fontFamily: FontFamily.headingH2,
-    fontWeight: "600",
-    lineHeight: 25,
-    textAlign: "left",
-    fontSize: FontSize.headingH2_size,
-  },
-  mapPinIcon: {
+
+  Icon: {
     width: 24,
     height: 24,
     overflow: "hidden",
   },
-  number: {
-    width: 227,
-  },
+ 
   input: {
     marginTop: "2%",
     width: 292,
     paddingVertical: Padding.p_base,
     paddingHorizontal: Padding.p_mini,
   },
-  input1: {
-    marginTop: "2%",
-    width: 292,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-  },
-  heading1: {
-    width: 322,
-    marginTop: 15,
-    color: Color.gray1,
-    fontFamily: FontFamily.headingH2,
-    fontWeight: "600",
-    lineHeight: 25,
-    textAlign: "left",
-    fontSize: FontSize.headingH2_size,
-  },
-  mapPinIcon2: {
-    overflow: "hidden",
-  },
-  number2: {
-    width: 123,
-  },
-  input2: {
-    width: 184,
-  },
-  clock3Icon: {
-    width: 20,
-    height: 20,
-    overflow: "hidden",
-  },
-  number3: {
-    width: 59,
-  },
-  input3: {
-    width: 99,
-    paddingLeft: Padding.p_3xs,
-    paddingTop: Padding.p_base,
-    paddingRight: Padding.p_9xs,
-    paddingBottom: Padding.p_base,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    flexDirection: "row",
-    borderStyle: "solid",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
-  quand: {
+
+  DateHeure: {
     width: 291,
     marginTop: "2%",
     justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
   },
-  heading2: {
-    color: Color.gray1,
-    fontFamily: FontFamily.headingH2,
-    fontWeight: "600",
-    lineHeight: 25,
-    textAlign: "left",
-    fontSize: FontSize.headingH2_size,
-  },
-  heading3: {
-    fontFamily: FontFamily.robotoMedium,
-    color: Color.colorBlack,
-    marginLeft: 28,
-    fontWeight: "500",
-    textAlign: "left",
-    fontSize: FontSize.headingH2_size,
-  },
-  plusIcon: {
-    marginLeft: 28,
-  },
+
   nmbrplaces: {
+    width: 110,
     marginTop: 5,
     height: 24,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent:"space-between",
     alignItems: "center",
   },
   places: {
@@ -388,6 +318,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
   main: {
     height: "50%",
     paddingHorizontal: Padding.p_9xs,
@@ -396,15 +327,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: "-5%",
   },
-  signUp: {
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    lineHeight: 24,
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    color: Color.neutralWhite,
-    width: 235,
-    fontWeight: "500",
-    textAlign: "center",
-  },
+
+
   buttonfirst: {
     borderRadius: Border.br_mini,
     backgroundColor: Color.colorRoyalblue_100,
@@ -414,21 +338,17 @@ const styles = StyleSheet.create({
     width: 317,
     height: 58,
     justifyContent: "center",
+    alignItems: 'center',
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    flexDirection: "row",
   },
-  search1: {
-    color: Color.colorRoyalblue_100,
-  },
+
 
   recherche: {
     flex: 1,
-    height: "100%",
-    justifyContent: "",
     alignItems: "center",
     overflow: "hidden",
     width: "100%",
