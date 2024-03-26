@@ -61,7 +61,9 @@ const AjouterAnnonce = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <KeyboardAvoidingView
+    behavior="position" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+    >
       <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
         <TopBar />
         <View style={styles.main}>
@@ -176,7 +178,7 @@ const AjouterAnnonce = () => {
           </View>
         </View>
       </View>
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

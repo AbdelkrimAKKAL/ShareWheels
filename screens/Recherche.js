@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Recherche = () => {
   const navigation = useNavigation();
   const [nbPlaces, click] = React.useState(1);
 
+  const route = useRoute();
+  const id = route.params?.type;
+
+  const [departLocation, setDepartLocation] = useState(null);
+  const [destinationLocation, setDestinationLocation] = useState(null);
+
+  useEffect(() => {
+    if (id === "Destination") {
+      setDestinationLocation(route.params?.location);
+    } else if (id === "Depart") {
+      setDepartLocation(route.params?.location);
+    }
+  }, [id, route.params?.location]);
+
   const add = () => {
-    if (nbPlaces < 6) {
+    if (nbPlaces < 4) {
       click(nbPlaces + 1);
     }
   };
@@ -39,12 +55,30 @@ const Recherche = () => {
     setDate(date);
     console.log("A date has been picked: ", date);
     setDatePicker(true);
-
   };
+
+  const handleSearch = () => {
+    if (!departLocation || !destinationLocation || !isDatePicked) {
+      Alert.alert("Alert", "Veuillez remplir les informations SVP.");
+    } else {
+      navigation.navigate("ResultatRecherche", {
+        Date: date.toLocaleDateString(),
+        heure: date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+        depart: departLocation,
+        destination: destinationLocation,
+        nbPlc: nbPlaces,
+      });
+    }
+  };
+
+
 
   return (
     <View style={styles.recherche}>
-
       <TopBar />
       <View style={styles.carpic}>
         <Image
@@ -56,25 +90,34 @@ const Recherche = () => {
       <Text style={styles.sharewheels}>ShareWheels</Text>
       <View style={styles.main}>
         <Text style={[styles.heading, styles.headingTypo]}>où vas-tu</Text>
-        <View style={[styles.input, styles.inputShadowBox]}>
+        <Pressable
+          style={[styles.input1, styles.inputShadowBox]}
+          onPress={() => navigation.navigate("SearchBar", { type: "Depart" })}
+        >
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <TextInput
-            style={[styles.number, styles.numberTypo]}
-            placeholder="Depart"
-          />
-        </View>
-        <View style={[styles.input1, styles.inputShadowBox]}>
+          <Text style={[styles.number, styles.numberTypo]}>
+            {departLocation ? departLocation : "Depart"}
+          </Text>
+        </Pressable>
+        <Pressable
+          style={[styles.input1, styles.inputShadowBox]}
+          onPress={() =>
+            navigation.navigate("SearchBar", { type: "Destination" })
+          }
+        >
           <Image
             style={styles.mapPinIcon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.number, styles.numberTypo]}>Destination</Text>
-        </View>
+          <Text style={[styles.number, styles.numberTypo]}>
+            {destinationLocation ? destinationLocation : "Destination"}
+          </Text>
+        </Pressable>
         <Text style={[styles.heading1, styles.headingTypo]}>Quand?</Text>
         <View style={[styles.quand, styles.quandFlexBox]}>
           <View>
@@ -87,7 +130,9 @@ const Recherche = () => {
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
-              <Text style={[styles.number2, styles.numberTypo]}>{isDatePicked ? date.toLocaleDateString() : "Date"} </Text>
+              <Text style={[styles.number2, styles.numberTypo]}>
+                {isDatePicked ? date.toLocaleDateString() : "Date"}{" "}
+              </Text>
             </Pressable>
 
             <DateTimePickerModal
@@ -95,7 +140,7 @@ const Recherche = () => {
               mode="datetime"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
-              date={new Date(date)} // Pass current selected date to the date picker
+              date={new Date(date)}
             />
           </View>
           <View style={[styles.input3, styles.quandFlexBox]}>
@@ -104,7 +149,15 @@ const Recherche = () => {
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[styles.number3, styles.numberTypo]}>{isDatePicked ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) : "Heure"} </Text>
+            <Text style={[styles.number3, styles.numberTypo]}>
+              {isDatePicked
+                ? date.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })
+                : "Heure"}{" "}
+            </Text>
           </View>
         </View>
         <View style={styles.places}>
@@ -134,7 +187,7 @@ const Recherche = () => {
       </View>
       <Pressable
         style={[styles.buttonfirst, styles.quandFlexBox]}
-        onPress={() => navigation.navigate("ResultatRecherche")}
+        onPress={handleSearch}
       >
         <Text style={styles.signUp}>Rechercher</Text>
       </Pressable>
