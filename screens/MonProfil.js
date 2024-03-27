@@ -8,7 +8,7 @@ import { } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 export const me = {
 
-  name: '',
+  name: 'jimm junl',
   bdate: Date,
   phone: 1133333,
   email: 'jimmy@gmail.com',
@@ -54,54 +54,55 @@ const MonProfil = () => {
   me.greet();
 
   return (
-    <View style={styles.main}>
-      <View style={[styles.userprofile, styles.centrer]}>
+    <View style={pstyles.main}>
+      <View style={[pstyles.userprofile, pstyles.centrer]}>
         <Image
-          style={styles.imageIcon}
+          style={pstyles.imageIcon}
+
           source={me.image}
         />
-        <View style={[styles.centrer]}>
-          <Text style={[styles.titleTypo]}>
+        <View style={[pstyles.centrer]}>
+          <Text style={[pstyles.titleTypo]}>
             {me.name}
           </Text>
-          <View style={[styles.centrer, { flexDirection: "row" }]}>
+          <View style={[pstyles.centrer, { flexDirection: "row" }]}>
             <Image
-              style={styles.vectorIcon}
+              style={pstyles.vectorIcon}
               contentFit="cover"
               source={require("../assets/vector3.png")}
             />
-            <Text style={styles.text}>{me.stars + ' (' + me.avis + ')'} </Text>
+            <Text style={pstyles.text}>{me.stars + ' (' + me.avis + ')'} </Text>
           </View>
         </View>
       </View>
-      <View style={[styles.inputs, styles.centrer]}>
-        <View style={[styles.rectangle]}>
-          <Text style={[styles.numero]}>
+      <View style={[pstyles.inputs, pstyles.centrer]}>
+        <View style={[pstyles.rectangle]}>
+          <Text style={[pstyles.numero]}>
             {me.email}
           </Text>
         </View>
-        <View style={[styles.rectangle, { alignItems: "center" }]}>
+        <View style={[pstyles.rectangle, { alignItems: "center" }]}>
           <Image
-            style={[styles.alg]}
+            style={[pstyles.alg]}
             contentFit="cover"
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
-          <Text style={[styles.signTypo]}>+213</Text>
-          <Text style={[styles.numero]}>
+          <Text style={[pstyles.signTypo]}>+213</Text>
+          <Text style={[pstyles.numero]}>
             {me.phone}
           </Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <DropDownPicker
-            style={[styles.rectangle, { zIndex: 9, width: "60%" }]}
+            style={[pstyles.rectangle, { zIndex: 9, width: "60%" }]}
             placeholder="Voitures"
-            placeholderStyle={styles.numero}
+            placeholderStyle={pstyles.numero}
             open={open}
             items={items}
             setOpen={setOpen}
             setValue={setSelectedValue}
             setItems={setItems}
-            dropDownContainerStyle={styles.drop}
+            dropDownContainerStyle={pstyles.drop}
           />
           <Modal
             animationType="slide"
@@ -109,54 +110,54 @@ const MonProfil = () => {
             visible={modalVisible}
             onRequestClose={() => { setModalVisible(!modalVisible); }}
           >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
+            <View style={pstyles.centeredView}>
+              <View style={pstyles.modalView}>
               <TextInput></TextInput>
               <TextInput></TextInput>
               <TextInput></TextInput>
                 <Pressable
-                  style={[styles.button, styles.buttonClose]}
+                  style={[pstyles.button, pstyles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={styles.textStyle}>Hide Modal</Text>
+                  <Text style={pstyles.textStyle}>Hide Modal</Text>
                 </Pressable>
               </View>
             </View>
           </Modal>
           <TouchableOpacity
             onPress={() => setModalVisible(true)}
-            style={[styles.rectangle, styles.addbtn, styles.centrer]}>
+            style={[pstyles.rectangle, pstyles.addbtn, pstyles.centrer]}>
             <Image
-              style={[styles.addicon]}
+              style={[pstyles.addicon]}
               contentFit="cover"
               source={require("../assets/add.svg")}
             />
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.btns}>
+      <View style={pstyles.btns}>
         <TouchableOpacity
-          style={[styles.buttons, { backgroundColor: "#0075fd" }]}
+          style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
           onPress={() => navigation.navigate("Modifier")}
         >
-          <Text style={[styles.signTypo, { color: "#ffffff" }]}>Modifier</Text>
+          <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>Modifier</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.blue, styles.buttons]}
+          style={[pstyles.blue, pstyles.buttons]}
           onPress={() => navigation.navigate("Profile")}
         >
-          <Text style={[styles.blue, styles.signTypo]}>Logout</Text>
+          <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.red, styles.buttons]}
+          style={[pstyles.red, pstyles.buttons]}
         >
-          <Text style={[styles.red, styles.signTypo]}>Supprimer</Text>
+          <Text style={[pstyles.red, pstyles.signTypo]}>Supprimer</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const pstyles = StyleSheet.create({
   addicon: {
     height: 40,
     width: 40,
@@ -170,11 +171,9 @@ const styles = StyleSheet.create({
     color: "#7d7d7d",
     fontSize: 17,
     fontFamily: "Poppins-Medium",
-    fontWeight: "500",
   },
   titleTypo: {
     fontFamily: "Poppins-Medium",
-    fontWeight: "500",
     fontSize: 23,
     color: "#5a5a5a",
     textAlign: "center",
@@ -184,7 +183,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     fontFamily: "Poppins-Medium",
-    fontWeight: "500",
   },
   text: {
     fontSize: 14,
@@ -192,17 +190,16 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     marginLeft: 5,
   },
-
   userprofile: {
     width: "100%",
-    paddingTop: "12%",
+    // paddingTop: "12%",
     height: "30%",
-    borderWidth: 1,
+
   },
   buttons: {
     height: 59,
-    width: 318,
-    borderRadius: 10,
+    width:"78%",
+    borderRadius: 13,
     shadowColor: "#fff",
     borderWidth: 1,
     borderStyle: "solid",
@@ -212,12 +209,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageIcon: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     borderWidth: 1,
     borderRadius: 100,
     borderColor: "#0075fd",
-
   },
   vectorIcon: {
     width: 12,
@@ -232,7 +228,6 @@ const styles = StyleSheet.create({
 
   rectangle: {
     alignItems: "center",
-    // paddingHorizontal: 18,
     height: 60,
     borderWidth: 1,
     borderColor: "#b8b8b8",
@@ -254,6 +249,7 @@ const styles = StyleSheet.create({
     borderColor: "#ff4444",
   },
   main: {
+    paddingTop:"12%",
     paddingBottom: "5%",
     backgroundColor: "#fff",
     width: '100%',
@@ -275,9 +271,9 @@ const styles = StyleSheet.create({
   btns: {
     height: "27%",
     justifyContent: "space-between",
+    alignItems:"center",
+    width:"100%"
   },
-
-
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -293,9 +289,5 @@ const styles = StyleSheet.create({
     elevation: 50,
   },
 
-
-
-
 });
-
 export default MonProfil;
