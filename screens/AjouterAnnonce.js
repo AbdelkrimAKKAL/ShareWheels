@@ -20,6 +20,25 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
 
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked3, setIsChecked3] = useState(false);
+  const handlePress = (buttonNumber) => {
+    switch (buttonNumber) {
+      case 1:
+        setIsChecked1(!isChecked1);
+        break;
+      case 2:
+        setIsChecked2(!isChecked2);
+        break;
+      case 3:
+        setIsChecked3(!isChecked3);
+        break;
+      default:
+        break;
+    }
+  };
+
   const route = useRoute();
   const id = route.params?.type;
 
@@ -40,6 +59,7 @@ const AjouterAnnonce = () => {
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
     { label: "Maruti", value: "Maruti" },
+    { label: "Tmax", value: "Tmax" },
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
 
@@ -89,158 +109,236 @@ const AjouterAnnonce = () => {
       behavior="position"
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
-        <TopBar />
-        <View style={styles.main}>
-          <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
-          <View style={styles.inputs}>
-   
-            <Pressable
-              style={styles.input}
-              onPress={() =>
-                navigation.navigate("SearchBar", {
-                  type: "Depart",
-                  screen: "AjouterAnnonce",
-                })
-              }
-            >
-              <Image
-                style={styles.mapPinIcon}
-                contentFit="cover"
-                source={require("../assets/mappin3.png")}
-              />
-              <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
-                {departLocation ? departLocation : "Depart"}
-              </Text>
-            </Pressable>
+      <ScrollView>
+        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
+          <TopBar />
 
-            <Pressable
-               style={[styles.input1, styles.inputShadowBox1]}
-              onPress={() =>
-                navigation.navigate("SearchBar", {
-                  type: "Destination",
-                  screen: "AjouterAnnonce",
-                })
-              }
-            >
-              <Image
-                style={styles.mapPinIcon}
-                contentFit="cover"
-                source={require("../assets/mappin3.png")}
-              />
-              <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
-                {destinationLocation ? destinationLocation : "Destination"}
-              </Text>
-            </Pressable>
+          <View style={styles.main}>
+            <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
 
-            <View>
-              <Pressable // Date
-                style={styles.inputShadowBox}
-                onPress={showDatePicker}
+            <View style={styles.inputs}>
+
+              <Pressable
+                style={styles.input}
+                onPress={() =>
+                  navigation.navigate("SearchBar", {
+                    type: "Depart",
+                    screen: "AjouterAnnonce",
+                  })
+                }
               >
                 <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  style={styles.mapPinIcon}
                   contentFit="cover"
-                  source={require("../assets/mappin4.png")}
+                  source={require("../assets/mappin3.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>
-                  {isDatePicked ? date.toLocaleDateString() : "Date"}
+                <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
+                  {departLocation ? departLocation : "Depart"}
                 </Text>
               </Pressable>
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleDateConfirm}
-                onCancel={hideDatePicker}
-                date={new Date(date)} // Pass current selected date to the date picker
-              />
 
-              <Pressable // Heure
-                style={styles.inputShadowBox}
-                onPress={showTimePicker}
+              <Pressable
+                style={[styles.input1, styles.inputShadowBox1]}
+                onPress={() =>
+                  navigation.navigate("SearchBar", {
+                    type: "Destination",
+                    screen: "AjouterAnnonce",
+                  })
+                }
               >
                 <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  style={styles.mapPinIcon}
                   contentFit="cover"
-                  source={require("../assets/clock3.png")}
+                  source={require("../assets/mappin3.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>
-                  {isTimePicked ? time.toLocaleTimeString() : "Heure"}
+                <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
+                  {destinationLocation ? destinationLocation : "Destination"}
                 </Text>
               </Pressable>
-              <DateTimePickerModal
-                isVisible={isTimePickerVisible}
-                mode="time"
-                onConfirm={handleTimeConfirm}
-                onCancel={hideTimePicker}
-                date={new Date(time)} // Pass current selected time to the time picker
-              />
-            </View>
 
-            <View style={styles.inputShadowBox}>
-              <Image
-                style={[styles.mapPinIcon2, styles.iconLayout]}
-                contentFit="cover"
-                source={require("../assets/mappin5.png")}
-              />
-
-              <DropDownPicker
-                style={{
-                  zIndex: 9999,
-                  borderWidth: 0,
-                  borderColor: "transparent",
-                  width: "95%",
-                }}
-                placeholder="Voiture"
-                ArrowDownIconComponent={({ style }) => (
+              <View>
+                <Pressable // Date
+                  style={styles.inputShadowBox}
+                  onPress={showDatePicker}
+                >
                   <Image
-                    style={[styles.iconLayout]}
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
                     contentFit="cover"
-                    source={require("../assets/down-arrow.png")}
+                    source={require("../assets/mappin4.png")}
                   />
-                )}
-                open={open}
-                value={selectedValue} // Use selectedValue as the value prop
-                items={items}
-                setOpen={setOpen}
-                setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
-                setItems={setItems}
-                dropDownContainerStyle={{
-                  borderWidth: 0,
-                  borderColor: "transparent",
-                  backgroundColor: "#A5A5A5",
-                  width: "95%",
-                  PaddingLeft: "-10",
-                }}
-                dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
-              />
+                  <Text style={[styles.number2, styles.numberTypo]}>
+                    {isDatePicked ? date.toLocaleDateString() : "Date"}
+                  </Text>
+                </Pressable>
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleDateConfirm}
+                  onCancel={hideDatePicker}
+                  date={new Date(date)} // Pass current selected date to the date picker
+                />
+
+                <Pressable // Heure
+                  style={styles.inputShadowBox}
+                  onPress={showTimePicker}
+                >
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/clock3.png")}
+                  />
+                  <Text style={[styles.number2, styles.numberTypo]}>
+                    {isTimePicked ? time.toLocaleTimeString() : "Heure"}
+                  </Text>
+                </Pressable>
+                <DateTimePickerModal
+                  isVisible={isTimePickerVisible}
+                  mode="time"
+                  onConfirm={handleTimeConfirm}
+                  onCancel={hideTimePicker}
+                  date={new Date(time)} // Pass current selected time to the time picker
+                />
+              </View>
+
+              <View style={styles.inputShadowBox}>
+                <Image
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/mappin5.png")}
+                />
+
+                <DropDownPicker
+                  style={{
+                    zIndex: 9999,
+                    borderWidth: 0,
+                    borderColor: "transparent",
+                    width: "95%",
+                  }}
+                  placeholder="Voiture"
+                  ArrowDownIconComponent={({ style }) => (
+                    <Image
+                      style={[styles.iconLayout]}
+                      contentFit="cover"
+                      source={require("../assets/down-arrow.png")}
+                    />
+                  )}
+                  open={open}
+                  value={selectedValue} // Use selectedValue as the value prop
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
+                  setItems={setItems}
+                  dropDownContainerStyle={{
+                    borderWidth: 0,
+                    borderColor: "transparent",
+                    backgroundColor: "#A5A5A5",
+                    width: "95%",
+                    PaddingLeft: "-10",
+                  }}
+                  dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
+                />
+              </View>
+              <View style={{ zIndex: -1 }}>
+                <View // Price
+                  style={styles.inputShadowBox}
+                  
+                >
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/money-icon.png")}
+                  />
+                  <TextInput
+                    style={[styles.number2, styles.numberTypo]}
+                    placeholder="Prix (DA)"
+                  />
+                </View>
+              </View>
+
+              <View style={{ zIndex: -1 }}>
+                <Pressable style={[styles.input, styles.inputShadowBox]}
+                  onPress={() => handlePress(1)}
+                >
+                  <Image
+                    style={styles.radioButtonUncheckedSvgrepoIcon}
+                    contentFit="cover"
+                    source={
+                      isChecked1 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+                    }
+                  />
+                  <Text style={[styles.number1, styles.numberTypo]}>
+                    Fumeur
+                  </Text>
+                </Pressable>
+              </View>
+              <View style={{ zIndex: -1 }}>
+                <Pressable style={[styles.input, styles.inputShadowBox]}
+                  onPress={() => handlePress(2)}
+                >
+                  <Image
+                    style={styles.radioButtonUncheckedSvgrepoIcon}
+                    contentFit="cover"
+                    source={
+                      isChecked2 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
+                    }
+                  />
+                  <Text style={[styles.number1, styles.numberTypo]}>
+                    Music
+                  </Text>
+                </Pressable>
+              </View>
+
+              <View
+                style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}
+              >
+                <TextInput
+                  placeholder="Autre.."
+                  style={[
+                    styles.number4,
+                    {
+                      textAlign: "left",
+                      height: 20,
+                      marginBottom: 0,
+                    },
+                  ]}
+                />
+              </View>
+
             </View>
-            <View
-              style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}
-            >
-              <TextInput
-                placeholder="Autre.."
-                style={[
-                  styles.number4,
-                  {
-                    textAlign: "left",
-                    height: 40,
-                    marginBottom: 0,
-                  },
-                ]}
-              />
-            </View>
+
           </View>
-          <View style={[styles.buttonfirst, styles.input1FlexBox]}>
-            <Text style={styles.signUp}>Ajouter</Text>
+          <View
+          style={{height:50}}>
+
           </View>
+
         </View>
+      </ScrollView>
+      <View style={styles.ajouter}>
+        <Pressable style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]}>
+          <Text style={styles.signUp}>Ajouter</Text>
+        </Pressable>
       </View>
+
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  btnAjouter:{
+    marginTop:10,
+    marginBottom:10
+  },
+  ajouter:{
+    backgroundColor:"white",
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  radioButtonUncheckedSvgrepoIcon: {
+    width: 24,
+    height: 24,
+    overflow: "hidden",
+  },
   footerpublishFlexBox: {
     justifyContent: "space-between",
     backgroundColor: Color.neutralWhite,
@@ -364,7 +462,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
   },
   input4: {
-    height: 120,
+    height: 50,
   },
   inputs: {
     height: 544,
