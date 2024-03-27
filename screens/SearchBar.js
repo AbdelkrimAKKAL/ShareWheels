@@ -14,6 +14,8 @@ const SearchBar = () => {
 
   const route = useRoute();
   const id = route.params?.type;
+  const screen = route.params?.screen;
+
 
   const textInputRef = useRef(null);
 
@@ -37,7 +39,7 @@ const SearchBar = () => {
 
   // Handle selection of a city
   const handleCitySelection = (city) => {
-    navigation.navigate("Recherche", { location: city.commune_name_ascii.toString(), type:id })
+    navigation.navigate(screen, { location: city.commune_name_ascii.toString(), type:id })
   };
 
   return (
@@ -58,7 +60,7 @@ const SearchBar = () => {
           onChangeText={setSearchQuery}
           onSubmitEditing={() => {
             if (searchQuery.trim() !== "") {
-              navigation.navigate("Recherche", { location: searchQuery.trim(), type: id });
+              navigation.navigate(screen, { location: searchQuery.trim(), type: id });
             }
           }}
         />

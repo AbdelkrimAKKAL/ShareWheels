@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Modal, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color, Border, FontSize, Padding } from "../GlobalStyles";
-import TopBar from "../components/TopBar";
 import DropDownPicker from "react-native-dropdown-picker";
-
+import { } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 export const me = {
+
   name: '',
   bdate: Date,
   phone: 1133333,
@@ -15,6 +15,7 @@ export const me = {
   stars: 4.7,
   avis: 2,
   password: 'dzdzdzdz',
+  image: require("../assets/image1.png"),
   greet: function () {
     console.log(`Hello, my name is ${this.name}`);
   },
@@ -35,15 +36,14 @@ export const me = {
     };
   },
 };
-
 console.log(me.nom);
 const mycars = {
   coulor: 'Gris',
   id: '0117110606',
   model: 'Hyundai Atos'
 }
-
 const MonProfil = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
@@ -53,76 +53,87 @@ const MonProfil = () => {
   const navigation = useNavigation();
   me.greet();
 
-
   return (
-
-    <View style={styles.monprofil}>
-      <TopBar />
-      <View style={styles.main}>
-        <Text >Mon Profile</Text>
-        <View style={[styles.userprofile, styles.centrer]}>
+    <View style={styles.main}>
+      <View style={[styles.userprofile, styles.centrer]}>
+        <Image
+          style={styles.imageIcon}
+          source={me.image}
+        />
+        <View style={[styles.centrer]}>
+          <Text style={[styles.titleTypo]}>
+            {me.name}
+          </Text>
+          <View style={[styles.centrer, { flexDirection: "row" }]}>
+            <Image
+              style={styles.vectorIcon}
+              contentFit="cover"
+              source={require("../assets/vector3.png")}
+            />
+            <Text style={styles.text}>{me.stars + ' (' + me.avis + ')'} </Text>
+          </View>
+        </View>
+      </View>
+      <View style={[styles.inputs, styles.centrer]}>
+        <View style={[styles.rectangle]}>
+          <Text style={[styles.numero]}>
+            {me.email}
+          </Text>
+        </View>
+        <View style={[styles.rectangle, { alignItems: "center" }]}>
           <Image
-            style={styles.imageIcon}
+            style={[styles.alg]}
             contentFit="cover"
-            source={require("../assets/image1.png")}
+            source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
-          <View style={[styles.nom, styles.centrer]}>
-            <Text style={[styles.amineMeddouri, styles.titleTypo]}>
-              {me.name}
-            </Text>
-            <View style={[styles.vectorParent, styles.centrer]}>
-              <Image
-                style={styles.vectorIcon}
-                contentFit="cover"
-                source={require("../assets/vector3.png")}
-              />
-              <Text style={styles.text}>{me.stars + ' (' + me.avis + ')'} </Text>
-            </View>
-          </View>
+          <Text style={[styles.signTypo]}>+213</Text>
+          <Text style={[styles.numero]}>
+            {me.phone}
+          </Text>
         </View>
-        <View style={[styles.inputs, styles.centrer]}>
-          <View style={[styles.input]}>
-            <Text style={[]}>
-              {me.email}
-            </Text>
-          </View>
-          <View style={[styles.input]}>
-            <View style={styles.parent}>
-              <Text style={[styles.text1, styles.text1Typo]}>+213</Text>
-              <Image
-                style={[
-                  styles.flagForFlagAlgeriaSvgrepoIcon,
-                  styles.iconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
-              />
+        <View style={{ flexDirection: "row" }}>
+          <DropDownPicker
+            style={[styles.rectangle, { zIndex: 9, width: "60%" }]}
+            placeholder="Voitures"
+            placeholderStyle={styles.numero}
+            open={open}
+            items={items}
+            setOpen={setOpen}
+            setValue={setSelectedValue}
+            setItems={setItems}
+            dropDownContainerStyle={styles.drop}
+          />
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => { setModalVisible(!modalVisible); }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+              <TextInput></TextInput>
+              <TextInput></TextInput>
+              <TextInput></TextInput>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textStyle}>Hide Modal</Text>
+                </Pressable>
+              </View>
             </View>
-            <Text style={[styles.numero,]}>
-              {me.phone}
-            </Text>
-          </View>
-          <View style={{flexDirection:"row"}}>
-            <DropDownPicker
-              style={[styles.input,{ zIndex: 9, width: "60%"} ]}
-              placeholder="Voitures"
-              open={open}
-              items={items}
-              setOpen={setOpen}
-              setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
-              setItems={setItems}
-              dropDownContainerStyle={{ backgroundColor: 'ffffff', width: '60%',marginTop:10, }}
-            /><TouchableOpacity
-              style={[ styles.input,styles.addbtn]}>
-              <Image
-                style={[
-                ]}
-                contentFit="cover"
-                source={require("../assets/vector3.png")}
-              />
-            </TouchableOpacity>
-          </View>
+          </Modal>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={[styles.rectangle, styles.addbtn, styles.centrer]}>
+            <Image
+              style={[styles.addicon]}
+              contentFit="cover"
+              source={require("../assets/add.svg")}
+            />
+          </TouchableOpacity>
         </View>
+      </View>
+      <View style={styles.btns}>
         <TouchableOpacity
           style={[styles.buttons, { backgroundColor: "#0075fd" }]}
           onPress={() => navigation.navigate("Modifier")}
@@ -146,44 +157,53 @@ const MonProfil = () => {
 };
 
 const styles = StyleSheet.create({
+  addicon: {
+    height: 40,
+    width: 40,
+  },
   centrer: {
     justifyContent: "center",
     alignItems: "center",
   },
+  numero: {
+    marginLeft: 15,
+    color: "#7d7d7d",
+    fontSize: 17,
+    fontFamily: "Poppins-Medium",
+    fontWeight: "500",
+  },
   titleTypo: {
-    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontFamily: "Poppins-Medium",
     fontWeight: "500",
-
     fontSize: 23,
-
-    color: Color.textColorContentTertiary,
-    width: 229,
+    color: "#5a5a5a",
     textAlign: "center",
-    height: 33,
+    marginTop: "4%",
   },
-  text1Typo: {
-    color: Color.titleText,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-  },
-  iconLayout: {
-    width: 24,
-    overflow: "hidden",
-  },
-
   signTypo: {
-    lineHeight: 24,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
+    fontSize: 16,
     textAlign: "center",
-    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontFamily: "Poppins-Medium",
     fontWeight: "500",
+  },
+  text: {
+    fontSize: 14,
+    fontWeight: "700",
+    fontFamily: "Nunito-Bold",
+    marginLeft: 5,
+  },
+
+  userprofile: {
+    width: "100%",
+    paddingTop: "12%",
+    height: "30%",
+    borderWidth: 1,
   },
   buttons: {
     height: 59,
     width: 318,
-    borderRadius: Border.br_3xs,
-    shadowColor: Color.neutralWhite,
+    borderRadius: 10,
+    shadowColor: "#fff",
     borderWidth: 1,
     borderStyle: "solid",
     marginTop: 5,
@@ -191,86 +211,40 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   imageIcon: {
-    width: 95,
-    height: 95,
-  },
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: "#0075fd",
 
+  },
   vectorIcon: {
     width: 12,
     height: 12,
   },
-  text: {
-    fontSize: FontSize.size_mini,
-    fontWeight: "700",
-    fontFamily: FontFamily.nunitoBold,
 
-
-    marginLeft: 5,
-    textAlign: "center",
-  },
-  vectorParent: {
-    width: 90,
-    height: 30,
-    flexDirection: "row",
-  },
-
-  userprofile: {
-    width: 340,
-    height: "15%",
-    flexDirection: "row",
-    paddingTop: Padding.p_xl,
-  },
- 
-
-  text1: {
-    lineHeight: 24,
-    textAlign: "right",
-    left: "0%",
-    top: "0%",
-    position: "absolute",
-    width: "100%",
-  },
-  flagForFlagAlgeriaSvgrepoIcon: {
-    top: 1,
-    left: 0,
+  alg: {
+    marginLeft: 15,
     height: 23,
-    position: "absolute",
+    width: 24,
   },
-  parent: {
-    width: 64,
-    height: 24,
-  },
-  numero: {
-    width: 201,
-     marginLeft: 28,
-    color: Color.colorDarkgray_100,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    lineHeight: 23,
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-  },
-  input: {
-    paddingHorizontal: Padding.p_xs,
-    paddingVertical: Padding.p_lg,
+
+  rectangle: {
+    alignItems: "center",
+    // paddingHorizontal: 18,
     height: 60,
     borderWidth: 1,
-    borderColor: Color.colorSilver_100,
-    marginTop: 5,
+    borderColor: "#b8b8b8",
     width: '80%',
-    marginTop: 10,
+    marginTop: 15,
     borderRadius: 8,
     flexDirection: "row",
   },
-
-
-
   inputs: {
-    height: 333,
-    width:"100%"
+    height: "40%",
+    width: "100%",
   },
-
   blue: {
     color: "#0075fd",
     borderColor: "#0075fd",
@@ -280,25 +254,48 @@ const styles = StyleSheet.create({
     borderColor: "#ff4444",
   },
   main: {
-    paddingBottom: 24,
-    paddingTop: 20,
+    paddingBottom: "5%",
     backgroundColor: "#fff",
     width: '100%',
     alignItems: "center",
-    justifyContent: "space-between",
     flex: 1,
   },
-
-  monprofil: {
-    flex: 1,
+  drop: {
+    backgroundColor: 'ffffff',
+    width: '60%',
+    marginTop: 10,
+    borderColor: "#b8b8b8"
   },
-
   addbtn: {
     height: 55,
     width: 55,
-marginLeft:"-34%",
+    marginLeft: "-34%",
     marginTop: 13,
-  }
+  },
+  btns: {
+    height: "27%",
+    justifyContent: "space-between",
+  },
+
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    // margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    elevation: 50,
+  },
+
+
+
+
 });
 
 export default MonProfil;
