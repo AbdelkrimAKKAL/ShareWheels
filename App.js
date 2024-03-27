@@ -163,8 +163,10 @@ const App = () => {
 };
 const TabNavigator = () => (
   <Tab.Navigator
+
     initialRouteName={SearchName}
     screenOptions={({ route }) => ({
+ tabBarHideOnKeyboard: true,
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
         let rn = route.name;
