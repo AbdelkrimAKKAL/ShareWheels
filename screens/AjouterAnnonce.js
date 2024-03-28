@@ -143,11 +143,11 @@ const AjouterAnnonce = () => {
       behavior="position"
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <ScrollView>
-        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox]}>
+      <ScrollView >
+        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? {height:1000} : {height:800}]}>
           <TopBar />
 
-          <View style={styles.main}>
+          <View style={[styles.main, ]}>
             <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
 
             <View style={styles.inputs}>
@@ -261,10 +261,9 @@ const AjouterAnnonce = () => {
                     </View>
                   )}
                 </View>
-
-
-
-                <Pressable // Heure
+              </View>
+              
+              <Pressable // Heure
                   style={styles.inputShadowBox}
                   onPress={showTimePicker}
                 >
@@ -284,7 +283,6 @@ const AjouterAnnonce = () => {
                   onCancel={hideTimePicker}
                   date={new Date(time)} // Pass current selected time to the time picker
                 />
-              </View>
 
               <View style={styles.inputShadowBox}>
                 <Image
@@ -393,10 +391,7 @@ const AjouterAnnonce = () => {
             </View>
 
           </View>
-          <View
-            style={{ height: 50 }}>
 
-          </View>
 
         </View>
       </ScrollView>
@@ -412,7 +407,7 @@ const AjouterAnnonce = () => {
 
 const styles = StyleSheet.create({
   styleWhenTrue:{
-    backgroundColor:'#ADD8E6',
+    backgroundColor:'#DAFFFF',
     padding:10,
     marginTop:10,
     borderRadius:10
@@ -601,7 +596,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    justifyContent: "center",
+    marginTop:50,
     alignItems: "center",
   },
 
