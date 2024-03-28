@@ -16,6 +16,7 @@ import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import DropDownPicker from "react-native-dropdown-picker";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
@@ -63,7 +64,14 @@ const AjouterAnnonce = () => {
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
 
-  // date
+  // date 1
+
+  const [extend, setExtend] = useState(false)
+  const handleExtend = () => {
+    setExtend(!extend)
+    setDatePicker2(false)
+  };
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDatePicked, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -103,6 +111,32 @@ const AjouterAnnonce = () => {
     console.log("A time has been picked: ", selectedTime);
     setTimePicker(true);
   };
+
+  // date2
+  const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
+  const [isDatePicked2, setDatePicker2] = useState(false);
+  const [date2, setDate2] = useState(new Date());
+
+  const showDatePicker2 = () => {
+    setDatePickerVisibility2(true);
+    // Hide time picker when showing date picker
+  };
+
+  const hideDatePicker2 = () => {
+    setDatePickerVisibility2(false);
+  };
+
+  const handleDateConfirm2 = (selectedDate) => {
+    hideDatePicker2();
+    setDate2(selectedDate);
+    console.log("A date has been picked: ", selectedDate);
+    setDatePicker2(true);
+  };
+
+  function getDateDisplay(date, isDatePicked) {
+    const displayDate = isDatePicked ? date.toLocaleDateString() : "Date";
+    return displayDate
+  }
 
   return (
     <KeyboardAvoidingView
@@ -155,28 +189,80 @@ const AjouterAnnonce = () => {
                   {destinationLocation ? destinationLocation : "Destination"}
                 </Text>
               </Pressable>
-
               <View>
-                <Pressable // Date
-                  style={styles.inputShadowBox}
-                  onPress={showDatePicker}
-                >
-                  <Image
-                    style={[styles.mapPinIcon2, styles.iconLayout]}
-                    contentFit="cover"
-                    source={require("../assets/mappin4.png")}
+
+
+                <View style={extend ? styles.styleWhenTrue : false}>
+                  {extend && (
+                    <Text style={[styles.number, styles.numberTypo, styles.extend, styles.text]}>
+                      Start Date
+                    </Text>
+                  )}
+                  <Pressable // Date
+                    style={styles.inputShadowBox}
+                    // onPress={() => { navigation.navigate('Dates') }}
+                    onPress={showDatePicker}
+                  >
+                    <Image
+                      style={[styles.mapPinIcon2, styles.iconLayout]}
+                      contentFit="cover"
+                      source={require("../assets/mappin4.png")}
+                    />
+                    <Text style={[styles.number2, styles.numberTypo]}>
+                      {getDateDisplay(date, isDatePicked)}
+                    </Text>
+
+                    <Pressable
+                      onPress={handleExtend}
+                    >
+                      <Image
+                        style={styles.addCircleSvgrepocomIcon}
+                        contentFit="cover"
+                        source={extend ? require("../assets/add-circle-outline.png") : require("../assets/addcircle-svgrepocom1.png")}
+                      />
+                    </Pressable>
+
+                  </Pressable>
+
+                  <DateTimePickerModal
+                    isVisible={isDatePickerVisible}
+                    mode="date"
+                    onConfirm={handleDateConfirm}
+                    onCancel={hideDatePicker}
+                    date={new Date(date)} // Pass current selected date to the date picker
                   />
-                  <Text style={[styles.number2, styles.numberTypo]}>
-                    {isDatePicked ? date.toLocaleDateString() : "Date"}
-                  </Text>
-                </Pressable>
-                <DateTimePickerModal
-                  isVisible={isDatePickerVisible}
-                  mode="date"
-                  onConfirm={handleDateConfirm}
-                  onCancel={hideDatePicker}
-                  date={new Date(date)} // Pass current selected date to the date picker
-                />
+                  {extend && (
+                    <Text style={[styles.number, styles.numberTypo, styles.extend, styles.text]}>
+                      End Date
+                    </Text>
+                  )}
+                  {extend && (
+                    <View style={styles.frameFlexBox}>
+
+                      <Pressable //Date
+                        style={styles.inputShadowBox}
+                        onPress={showDatePicker2}
+                      >
+                        <Image
+                          style={[styles.mapPinIcon, styles.iconLayout]}
+                          contentFit="cover"
+                          source={require("../assets/mappin2.png")}
+                        />
+                        <Text style={[styles.number, styles.numberTypo]}>{getDateDisplay(date2, isDatePicked2)}</Text>
+                      </Pressable>
+                      <DateTimePickerModal
+                        isVisible={isDatePickerVisible2}
+                        mode="date"
+                        onConfirm={handleDateConfirm2}
+                        onCancel={hideDatePicker2}
+                        date={new Date(date2)} // Pass current selected date to the date picker
+                      />
+
+                    </View>
+                  )}
+                </View>
+
+
 
                 <Pressable // Heure
                   style={styles.inputShadowBox}
@@ -241,7 +327,7 @@ const AjouterAnnonce = () => {
               <View style={{ zIndex: -1 }}>
                 <View // Price
                   style={styles.inputShadowBox}
-                  
+
                 >
                   <Image
                     style={[styles.mapPinIcon2, styles.iconLayout]}
@@ -308,7 +394,7 @@ const AjouterAnnonce = () => {
 
           </View>
           <View
-          style={{height:50}}>
+            style={{ height: 50 }}>
 
           </View>
 
@@ -325,12 +411,29 @@ const AjouterAnnonce = () => {
 };
 
 const styles = StyleSheet.create({
-  btnAjouter:{
+  styleWhenTrue:{
+    backgroundColor:'#ADD8E6',
+    padding:10,
     marginTop:10,
-    marginBottom:10
+    borderRadius:10
   },
-  ajouter:{
-    backgroundColor:"white",
+  text: {
+    color: "black",
+    marginTop: 10,
+    height: 20
+  },
+  addCircleSvgrepocomIcon: {
+    width: 20,
+    height: 20,
+    overflow: "hidden",
+
+  },
+  btnAjouter: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  ajouter: {
+    backgroundColor: "white",
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -427,6 +530,7 @@ const styles = StyleSheet.create({
   },
   number2: {
     width: 220,
+    marginLeft: 12
   },
   inputShadowBox: {
     height: 57,
