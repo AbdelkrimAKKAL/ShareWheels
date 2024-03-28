@@ -315,6 +315,10 @@ const ProfileScreen = () => (
     <Stack.Screen name="Profile" component={Profile} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Login" component={Login} />
+    <Stack.Screen name="Voiture" component={Voiture} />
+    <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
+
+
   </Stack.Navigator>
 );
 
