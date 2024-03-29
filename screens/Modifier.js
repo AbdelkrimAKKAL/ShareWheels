@@ -28,7 +28,7 @@ const Modifier = () => {
         contentContainerStyle={{ alignItems: "center" }}
       >
         <Text style={styles.titres}>Modifier Nom</Text>
-        <TextInput style={[pstyles.rectangle]}
+        <TextInput style={[pstyles.font,pstyles.rectangle]}
           defaultValue={me.name}
           onSubmitEditing={event => {
             me.setname(event.nativeEvent.text)
@@ -36,11 +36,11 @@ const Modifier = () => {
           }}
         />
         <Text style={[styles.titres]}>Modifier date de naissance</Text>
-        <TextInput style={[pstyles.rectangle]}
+        <TextInput style={[pstyles.font,pstyles.rectangle]}
           defaultValue={me.bdate} />
         <Text style={[styles.titres]}>Modifier mail</Text>
         <TextInput
-          style={[pstyles.rectangle]}
+          style={[pstyles.font,pstyles.rectangle]}
           defaultValue={me.email}
         />
          <Text style={[styles.titres]}>Modifier numéro de téléphone</Text>
@@ -52,12 +52,14 @@ const Modifier = () => {
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
           <TextInput 
-          style={[pstyles.numero,{width:"60%"}]}
+          style={[pstyles.font,{width:"60%"}]}
           defaultValue={me.phone}
           keyboardType="numeric"
           />
         </View>
-        <TouchableOpacity style={[pstyles.buttons, ]}>
+        <TouchableOpacity
+        onPress={() => navigation.navigate("Mdp")}
+         style={[pstyles.buttons ]}>
           <Text style={[ pstyles.signTypo]}>Modifier Mot de passe</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}>
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
   titres: {
     marginLeft:"11%",
     marginTop: "5%",
-    marginBottom:-20,
+    marginBottom:-12,
     alignSelf:"baseline",
     color: "#5a5a5a",
     fontSize: 16,

@@ -4,13 +4,13 @@ import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
 import { TextInput } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native";
-const Voiture = () => {
+const Mdp = () => {
   const navigation = useNavigation();
 
   return (
     <View style={pstyles.main}>
-      <Text style={styles.voiture}>Voiture</Text>
-      <Text style={styles.number}>Modéle</Text>
+      <Text style={styles.voiture}>Mdp</Text>
+      <Text style={styles.number}>ancien</Text>
       <TextInput style={styles.input}
       defaultValue={"eze"}>
       </TextInput>
@@ -58,4 +58,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Voiture;
+export default Mdp;

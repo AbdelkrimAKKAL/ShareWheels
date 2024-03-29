@@ -27,7 +27,7 @@ import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
 import ButtonsSwitch from "./components/ButtonsSwitch";
 import Profile from "./screens/Profile";
-
+import Mdp from "./screens/Mdp";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -143,7 +143,11 @@ const App = () => {
               component={Profile}
               options={{ headerShown: false }}
             />
-
+            <Stack.Screen
+              name="Mdp"
+              component={Mdp}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="SearchBar"
               component={SearchBar}
@@ -166,7 +170,7 @@ const TabNavigator = () => (
 
     initialRouteName={SearchName}
     screenOptions={({ route }) => ({
- tabBarHideOnKeyboard: true,
+      tabBarHideOnKeyboard: true,
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
         let rn = route.name;
@@ -316,6 +320,7 @@ const ProfileScreen = () => (
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Voiture" component={Voiture} />
+    <Stack.Screen name="Mdp" component={Mdp}/>
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
 
 

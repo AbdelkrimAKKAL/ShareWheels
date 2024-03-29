@@ -1,16 +1,15 @@
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Modal, Pressable } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
 export const me = {
 
   name: 'jimm junl',
-  bdate: Date,
-  phone: 1133333,
+  bdate: "3333",
+  phone: "11333333",
   email: 'jimmy@gmail.com',
   stars: 4.7,
   avis: 2,
@@ -43,7 +42,6 @@ const mycars = {
   model: 'Hyundai Atos'
 }
 const MonProfil = () => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
@@ -58,7 +56,6 @@ const MonProfil = () => {
       <View style={[pstyles.userprofile, pstyles.centrer]}>
         <Image
           style={pstyles.imageIcon}
-
           source={me.image}
         />
         <View style={[pstyles.centrer]}>
@@ -77,7 +74,7 @@ const MonProfil = () => {
       </View>
       <View style={[pstyles.inputs, pstyles.centrer]}>
         <View style={[pstyles.rectangle]}>
-          <Text style={[pstyles.numero]}>
+          <Text style={[pstyles.font]}>
             {me.email}
           </Text>
         </View>
@@ -88,7 +85,7 @@ const MonProfil = () => {
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
-          <Text style={[pstyles.numero]}>
+          <Text style={[pstyles.font]}>
             {me.phone}
           </Text>
         </View>
@@ -96,7 +93,7 @@ const MonProfil = () => {
           <DropDownPicker
             style={[pstyles.rectangle, { zIndex: 9, width: "60%" }]}
             placeholder="Voitures"
-            placeholderStyle={pstyles.numero}
+            placeholderStyle={pstyles.font}
             open={open}
             items={items}
             setOpen={setOpen}
@@ -104,27 +101,9 @@ const MonProfil = () => {
             setItems={setItems}
             dropDownContainerStyle={pstyles.drop}
           />
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => { setModalVisible(!modalVisible); }}
-          >
-            <View style={pstyles.centeredView}>
-              <View style={pstyles.modalView}>
-              <TextInput></TextInput>
-              <TextInput></TextInput>
-              <TextInput></TextInput>
-                <Pressable
-                  style={[pstyles.button, pstyles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={pstyles.textStyle}>Hide Modal</Text>
-                </Pressable>
-              </View>
-            </View>
-          </Modal>
+          
           <TouchableOpacity
-            onPress={() => setModalVisible(true)}
+            onPress={() => navigation.navigate("Voiture")}
             style={[pstyles.rectangle, pstyles.addbtn, pstyles.centrer]}>
             <Image
               style={[pstyles.addicon]}
@@ -142,15 +121,15 @@ const MonProfil = () => {
           <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>Modifier</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[pstyles.blue, pstyles.buttons]}
+          style={[ pstyles.buttons,pstyles.blue]}
           onPress={() => navigation.navigate("Profile")}
         >
           <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[pstyles.red, pstyles.buttons]}
+          style={[ pstyles.buttons,pstyles.red]}
         >
-          <Text style={[pstyles.red, pstyles.signTypo]}>Supprimer</Text>
+          <Text style={[ pstyles.signTypo,pstyles.red]}>Supprimer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -166,8 +145,8 @@ export const pstyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  numero: {
-    marginLeft: 15,
+  font: {
+    paddingLeft: 15,
     color: "#7d7d7d",
     fontSize: 17,
     fontFamily: "Poppins-Medium",
@@ -192,21 +171,19 @@ export const pstyles = StyleSheet.create({
   },
   userprofile: {
     width: "100%",
-    // paddingTop: "12%",
     height: "30%",
 
   },
   buttons: {
     height: 59,
-    width:"78%",
+    width:"76%",
     borderRadius: 13,
-    shadowColor: "#fff",
     borderWidth: 1,
-    borderStyle: "solid",
-    marginTop: 5,
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    borderColor:"transparent",
   },
   imageIcon: {
     width: 120,
@@ -252,12 +229,12 @@ export const pstyles = StyleSheet.create({
     paddingTop:"12%",
     paddingBottom: "5%",
     backgroundColor: "#fff",
-    width: '100%',
+    width: "100%",
     alignItems: "center",
     flex: 1,
   },
   drop: {
-    backgroundColor: 'ffffff',
+    backgroundColor: "white",
     width: '60%',
     marginTop: 10,
     borderColor: "#b8b8b8"
@@ -266,7 +243,7 @@ export const pstyles = StyleSheet.create({
     height: 55,
     width: 55,
     marginLeft: "-34%",
-    marginTop: 13,
+    marginTop: 17,
   },
   btns: {
     height: "27%",
