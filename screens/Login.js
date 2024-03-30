@@ -4,34 +4,34 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, Padding, Border, FontFamily, FontSize } from "../GlobalStyles";
 import { TextInput } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import ForgotPwd from "./ForgotPwd";
 
 const Login = () => {
   const navigation = useNavigation();
 
   return (
-
     <View style={styles.loginpage}>
       <Text style={styles.login1}>Login</Text>
-        <View style={[styles.input]}>
-          <Image
-            style={styles.iconlylightlock}
-            contentFit="cover"
-            source={require("../assets/stylestroke.png")}
-          />
-          <TextInput
-            placeholder="Email" />
-        </View>
-        <View style={[styles.input]}>
-          <Image
-            style={styles.iconlylightlock}
-            contentFit="cover"
-            source={require("../assets/iconlylightlock.png")}
-          />
-          <TextInput
-            placeholder="Password" />
-
+      <View style={[styles.input]}>
+        <Image
+          style={styles.iconlylightlock}
+          contentFit="cover"
+          source={require("../assets/stylestroke.png")}
+        />
+        <TextInput placeholder="Email" />
       </View>
-      <Text style={styles.forgotPassword}>Forgot Password?</Text>
+      <View style={[styles.input]}>
+        <Image
+          style={styles.iconlylightlock}
+          contentFit="cover"
+          source={require("../assets/iconlylightlock.png")}
+        />
+        <TextInput placeholder="Password" />
+      </View>
+      <Pressable  onPress={() => navigation.navigate("ForgotPwd")}>
+        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+      </Pressable>
       <Pressable
         style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
         onPress={() => navigation.navigate("MonProfil")}
@@ -44,11 +44,10 @@ const Login = () => {
       >
         <Text style={styles.text1}>
           <Text style={styles.dontYouHave}>Don't you have an account? </Text>
-        
+
           <Text style={styles.signUp1}>Sign Up</Text>
         </Text>
       </Pressable>
-
     </View>
   );
 };
@@ -65,9 +64,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
   },
-  inputShadowBox: {
-   
-  },
+  inputShadowBox: {},
   textTypo: {
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
@@ -130,7 +127,7 @@ const styles = StyleSheet.create({
   iconlylightlock: {
     width: 22,
     height: 22,
-    marginRight:15,
+    marginRight: 15,
   },
   number1: {
     width: 227,
@@ -174,7 +171,6 @@ const styles = StyleSheet.create({
     color: Color.colorRoyalblue_100,
   },
   text1: {
- 
     fontFamily: FontFamily.nunitoRegular,
     fontSize: FontSize.subheadLgSHLgMedium_size,
   },

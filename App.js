@@ -28,6 +28,7 @@ import Evaluer from "./components/Evaluer";
 import ButtonsSwitch from "./components/ButtonsSwitch";
 import Profile from "./screens/Profile";
 import Mdp from "./screens/Mdp";
+import ForgotPwd from "./screens/ForgotPwd";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -159,6 +160,12 @@ const App = () => {
               component={AfficherMap}
               options={{ headerShown: false }}
             />
+
+            <Stack.Screen
+              name="ForgotPwd"
+              component={ForgotPwd}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
@@ -167,7 +174,6 @@ const App = () => {
 };
 const TabNavigator = () => (
   <Tab.Navigator
-
     initialRouteName={SearchName}
     screenOptions={({ route }) => ({
       tabBarHideOnKeyboard: true,
@@ -285,7 +291,6 @@ const SearchStackScreen = () => (
     <Stack.Screen name="Details" component={Details} />
     <Stack.Screen name="SearchBar" component={SearchBar} />
     <Stack.Screen name="AfficherMap" component={AfficherMap} />
-
   </Stack.Navigator>
 );
 
@@ -320,10 +325,9 @@ const ProfileScreen = () => (
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Voiture" component={Voiture} />
-    <Stack.Screen name="Mdp" component={Mdp}/>
+    <Stack.Screen name="Mdp" component={Mdp} />
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
-
-
+    <Stack.Screen name="ForgotPwd" component={ForgotPwd} />
   </Stack.Navigator>
 );
 
