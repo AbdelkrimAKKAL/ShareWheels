@@ -60,7 +60,7 @@ const Modifier = () => {
         <TouchableOpacity
         onPress={() => navigation.navigate("Mdp")}
          style={[pstyles.buttons ]}>
-          <Text style={[ pstyles.signTypo]}>Modifier Mot de passe</Text>
+          <Text style={[ pstyles.signTypo,{textDecorationLine:"underline"}]}>Modifier Mot de passe</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}>
           <Text style={[pstyles.signTypo,{color:"white"}]}>Confirmer</Text>

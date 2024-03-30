@@ -10,7 +10,7 @@ const Login = () => {
 
   return (
     <View style={[styles.login, styles.loginFlexBox]}>
-      <TopBar />
+
       <View style={styles.loginpage}>
         <Text style={styles.login1}>Login</Text>
         <View style={styles.main}>

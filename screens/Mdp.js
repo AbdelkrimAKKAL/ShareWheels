@@ -4,24 +4,31 @@ import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
 import { TextInput } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native";
+import TextBox from 'react-native-password-eye'; 
 const Mdp = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={pstyles.main}>
-      <Text style={styles.voiture}>Mdp</Text>
-      <Text style={styles.number}>ancien</Text>
-      <TextInput style={styles.input}
-      defaultValue={"eze"}>
-      </TextInput>
-      <Text style={styles.number}>Matricule</Text>
-      <TextInput style={styles.input}
-      defaultValue="00">
-      </TextInput>
-      <Text style={styles.number}>Couleur</Text>
-      <TextInput style={styles.input}
-      defaultValue="re">
-      </TextInput>
+    <View style={[pstyles.main,{paddingTop:"20%"}]}>
+      <Text style={styles.number}>Ancien mot de passe</Text>
+      <TextBox onChangeText={(text) => console.log('onChangeText: ', text)} 
+      containerStyles={styles.input}
+      secureTextEntry={true}
+      eyeColor="rgba(124, 124, 124, 0.7)"
+      placeholder="Old password"/>
+      
+      <Text style={styles.number}>Nouveau mot de passe</Text>
+      <TextBox onChangeText={(text) => console.log('onChangeText: ', text)} 
+      containerStyles={styles.input}
+      secureTextEntry={true}
+      eyeColor="rgba(124, 124, 124, 0.7)"
+      placeholder="New password"/>
+      <Text style={styles.number}>Confirmation</Text>
+      <TextBox onChangeText={(text) => console.log('onChangeText: ', text)} 
+      containerStyles={styles.input}
+      secureTextEntry={true}
+      eyeColor="rgba(124, 124, 124, 0.7)"
+      placeholder="Confirm password"/>
       <TouchableOpacity style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}>
         <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>Confirmer</Text>
       </TouchableOpacity>
@@ -30,13 +37,6 @@ const Mdp = () => {
 };
 
 const styles = StyleSheet.create({
-  voiture: {
-    fontSize: 32,
-    fontWeight: "700",
-    fontFamily: "Nunito-Bold",
-    color: "#2d2d2d",
-    marginBottom: 60,
-  },
   number: {
     marginBottom: 8,
     fontSize: 17,
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
+    paddingRight:10,
     paddingLeft:20,
     color:"#2d2d2d",
     marginBottom: 22,
