@@ -28,7 +28,7 @@ const Login = () => {
           source={require("../assets/iconlylightlock.png")}
         />
         <TextBox onChangeText={(text) => console.log('onChangeText: ', text)} 
-       containerStyles={{width:"88%",}}
+       containerStyles={{width:"88%"}}
       secureTextEntry={true}
       eyeColor="#7c7c7c"
       placeholder="Password"
