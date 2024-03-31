@@ -144,7 +144,7 @@ const AjouterAnnonce = () => {
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <ScrollView >
-        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? {height:1000} : {height:800}]}>
+        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? {height:800} : {height:700}]}>
           <TopBar />
 
           <View style={[styles.main, ]}>
@@ -337,39 +337,6 @@ const AjouterAnnonce = () => {
                     placeholder="Prix (DA)"
                   />
                 </View>
-              </View>
-
-              <View style={{ zIndex: -1 }}>
-                <Pressable style={[styles.input, styles.inputShadowBox]}
-                  onPress={() => handlePress(1)}
-                >
-                  <Image
-                    style={styles.radioButtonUncheckedSvgrepoIcon}
-                    contentFit="cover"
-                    source={
-                      isChecked1 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-                    }
-                  />
-                  <Text style={[styles.number1, styles.numberTypo]}>
-                    Fumeur
-                  </Text>
-                </Pressable>
-              </View>
-              <View style={{ zIndex: -1 }}>
-                <Pressable style={[styles.input, styles.inputShadowBox]}
-                  onPress={() => handlePress(2)}
-                >
-                  <Image
-                    style={styles.radioButtonUncheckedSvgrepoIcon}
-                    contentFit="cover"
-                    source={
-                      isChecked2 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-                    }
-                  />
-                  <Text style={[styles.number1, styles.numberTypo]}>
-                    Music
-                  </Text>
-                </Pressable>
               </View>
 
               <View
