@@ -6,6 +6,7 @@ import TopBar from "../components/TopBar";
 import algeria_cities from "../assets/algeria_cities.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Keyboard } from 'react-native';
+import {RechercheStyles} from "./Recherche";
 
 
 
@@ -45,16 +46,16 @@ const SearchBar = () => {
   return (
     <View style={[styles.main]}>
       <TopBar />
-      <View style={[styles.input, styles.inputShadowBox]}>
+      <View style={[RechercheStyles.Inputs, {marginTop: "10%",width: 292,}]}>
         <Image
-          style={styles.mapPinIcon}
+          style={RechercheStyles.Icon}
           contentFit="cover"
           source={require("../assets/mappin.png")}
 
         />
         <TextInput
           ref={textInputRef}
-          style={[styles.number, styles.numberTypo]}
+          style={[RechercheStyles.TextInput,{width: 227}]}
           placeholder={id}
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -92,47 +93,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  input: {
-    marginTop: "10%",
-    width: 292,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-  },
-  inputShadowBox: {
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    borderStyle: "solid",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  mapPinIcon: {
-    width: 24,
-    height: 24,
-    overflow: "hidden",
-  },
-  number: {
-    width: 227,
-  },
-  numberTypo: {
-    height: 19,
-    color: Color.colorGray_100,
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_mini,
-    textAlign: "left",
-  },
+
   suggestionList:{
     margin: 10,
     alignItems: "center",
@@ -143,7 +104,6 @@ const styles = StyleSheet.create({
     fontSize: 23,
     marginBottom: 10
   }
-
 });
 
 export default SearchBar;
