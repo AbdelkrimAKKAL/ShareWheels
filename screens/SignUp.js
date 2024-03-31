@@ -2,33 +2,41 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
-import TopBar from "../components/TopBar";
+import DropDownPicker from "react-native-dropdown-picker";
 import { ScrollView } from "react-native-gesture-handler";
-
+import TextBox from "react-native-password-eye";
 const SignUp = () => {
   const navigation = useNavigation();
 
   return (
     <View style={[styles.signUp]}>
-      <TopBar />
       <Text style={styles.createAccount}>Create Account</Text>
-
       <ScrollView contentContainerStyle={styles.main}>
-        <View style={styles.inputShadowBox1}>
+        <View style={styles.container}>
           <Image
-            style={[styles.iconLayout, styles.iconLayout1]}
+            style={[styles.icon]}
             contentFit="cover"
             source={require("../assets/user.png")}
           />
           <TextInput
-            style={[styles.number, styles.numberTypo]}
+            style={[styles.numberTypo]}
             placeholder="Nom"
           />
         </View>
-        <View style={[styles.input1, styles.inputShadowBox1]}>
+        <View style={styles.container}>
           <Image
-            style={styles.stylestrokeIcon}
+            style={[styles.icon]}
+            contentFit="cover"
+            source={require("../assets/user.png")}
+          />
+          <TextInput
+            style={[styles.numberTypo]}
+            placeholder="Prenom"
+          />
+        </View>
+        <View style={[styles.container]}>
+          <Image
+            style={styles.icon}
             contentFit="cover"
             source={require("../assets/stylestroke.png")}
           />
@@ -37,90 +45,63 @@ const SignUp = () => {
             placeholder="Mail"
           />
         </View>
-        <View style={[styles.input1, styles.inputShadowBox1]}>
-          <View style={styles.parent}>
-            <Text style={[styles.text, styles.textTypo]}>+213</Text>
-            <Image
-              style={styles.flagForFlagAlgeriaSvgrepoIcon}
-              contentFit="cover"
-              source={require("../assets/flagforflagalgeria-svgrepocom2.png")}
-            />
-          </View>
-          <TextInput
-          style={[styles.number2, styles.numberTypo]}
-          placeholder="Numero de Telephone"
-          />
-
-        </View>
-        <View style={[styles.input1, styles.inputShadowBox1]}>
+        <View style={[styles.container]}>
           <Image
-            style={styles.groupIcon}
+            style={styles.icon}
+            contentFit="cover"
+            source={require("../assets/flagforflagalgeria-svgrepocom2.png")}
+          />
+          <Text style={[]}>+213</Text>
+          <TextInput
+            style={[styles.number2, styles.numberTypo]}
+            placeholder="Numero de Telephone"
+          />
+        </View>
+        <View style={[styles.container]}>
+          <Image
+            style={styles.icon}
             contentFit="cover"
             source={require("../assets/group1.png")}
           />
-          <Text style={[styles.number3, styles.numberTypo]}>Genre</Text>
-          <Image
-            style={styles.downArrowIcon}
-            contentFit="cover"
-            source={require("../assets/down-arrow2.png")}
+          <DropDownPicker
+            style={[{ zIndex: 9, width: "60%" }]}
+            placeholder="Genre"
+        
+            // open={open}
+            // items={items}
+            // setOpen={setOpen}
+            // setValue={setSelectedValue}
+            // setItems={setItems}
+            // dropDownContainerStyle={pstyles.drop}
           />
         </View>
-        <View style={[styles.input1, styles.inputShadowBox1]}>
+
+        <View style={[styles.container]}>
           <Image
-            style={styles.iconLayout}
+            style={styles.icon}
             contentFit="cover"
             source={require("../assets/password.png")}
           />
-          <TextInput
-          style={[styles.number3, styles.numberTypo]}
-          placeholder="mot de passe"
-          />
-          <Image
-            style={[styles.hiddenIcon, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/hidden.png")}
+          <TextBox onChangeText={(text) => console.log('onChangeText: ', text)}
+            containerStyles={{ width: "90%", marginLeft: 10, }}
+            secureTextEntry={true}
+            eyeColor="#7c7c7c"
+            placeholder="Password"
+            placeholderTextColor="#7c7c7c"
           />
         </View>
-        <Pressable
-          style={styles.inputShadowBox}
-          onPress={() => navigation.navigate("Voiture")}
-        >
-          <Image
-            style={[styles.mapPinIcon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/mappin6.png")}
-          />
-          <Text style={[styles.number5, styles.numberTypo]}>
-            Voiture (optionnel)
-          </Text>
-        </Pressable>
-        <Pressable
-          style={styles.inputShadowBox}
-          onPress={() => navigation.navigate("DatailsAjouter")}
-        >
-          <Image
-            style={[styles.iconLayout, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/addellipse-svgrepocom.png")}
-          />
-          <Text style={[styles.number6, styles.numberTypo]}>
-            Details a ajouter (optionnel)
-          </Text>
-        </Pressable>
         <Pressable
           style={[styles.buttonfirst]}
           onPress={() => navigation.navigate("MonProfil")}
         >
-          <Text style={[styles.signUp1, styles.textTypo]}>Sign up</Text>
+          <Text style={[styles.textTypo]}>Sign up</Text>
         </Pressable>
         <Pressable
           style={styles.alreadyHaveAnContainer}
           onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.text1}>
-            <Text style={styles.alreadyHaveAn}>
-              Already have an account?{` `}
-            </Text>
+            <Text style={styles.alreadyHaveAn}>Already have an account?  </Text>
             <Text style={styles.signIn}>Sign In</Text>
           </Text>
         </Pressable>
@@ -130,181 +111,81 @@ const SignUp = () => {
 };
 
 const styles = StyleSheet.create({
-  iconLayout1: {
-    width: 24,
-    height: 24,
-  },
   numberTypo: {
-    height: 19,
-    textAlign: "left",
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-    fontSize: FontSize.size_mini,
-    color: Color.colorGray_100,
+    marginLeft: 12,
+    width: "100%",
+    fontFamily: "Nunito-Regular",
+    fontSize: 15,
+    color: "#7c7c7c",
   },
-  inputShadowBox1: {
+  container: {
     marginTop: "3%",
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    width: 292,
+    paddingHorizontal: 15,
+    height: 57,
+    width: "73%",
     borderWidth: 1,
-    borderColor: Color.colorGray_300,
+    borderColor: "rgba(124, 124, 124, 0.2)",
     borderStyle: "solid",
     elevation: 30,
     shadowRadius: 30,
     shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
+    borderRadius: 16,
     flexDirection: "row",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 8,
     },
-    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: Color.neutralWhite,
+    backgroundColor: "#fff",
   },
   textTypo: {
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-    fontSize: FontSize.subheadLgSHLgMedium_size,
+    color: "white",
+    fontFamily: "Poppins-Medium",
+    fontSize: 16,
   },
-  iconLayout: {
-    overflow: "hidden",
-    height: 22,
-    width: 22,
-  },
-
   createAccount: {
-    marginTop: "5%",
-    fontSize: FontSize.size_13xl,
-    fontWeight: "700",
-    fontFamily: FontFamily.nunitoBold,
-    color: Color.colorDarkslategray_100,
-    width: 359,
+    marginTop: "20%",
+    fontSize: 32,
+    fontWeight: "600",
+    fontFamily: "Nunito-Bold",
+    color: "#2d2d2d",
     textAlign: "center",
   },
-
-  number: {
-    width: 227,
-  },
-  stylestrokeIcon: {
-    width: 23,
-    height: 23,
-  },
-  input1: {
-    marginTop: 20,
-  },
-  text: {
-    lineHeight: 24,
-    textAlign: "right",
-    color: Color.colorGray_100,
-    left: "0%",
-    top: "0%",
-    height: "100%",
-    position: "absolute",
-    width: "100%",
-  },
-  flagForFlagAlgeriaSvgrepoIcon: {
-    height: "96%",
-    width: "33.33%",
-    right: "59.42%",
-    left: "7.25%",
-    position: "absolute",
-    overflow: "hidden",
-  },
-  parent: {
-    width: 69,
-    height: 24,
-  },
-  number2: {
-    width: 181,
-  },
-
-  groupIcon: {
+  icon: {
     width: 21,
-    height: 24,
-  },
-  number3: {
-    width: 198,
-  },
-  downArrowIcon: {
-    width: 22,
-    height: 24,
+    height: 22,
   },
 
-  hiddenIcon: {
-    height: 24,
-  },
-
-  mapPinIcon: {
-    overflow: "hidden",
-  },
-  number5: {
-    width: 223,
-  },
-  inputShadowBox: {
-    height: 57,
-    marginTop: "3%",
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    flexDirection: "row",
-    width: 292,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  number6: {
-    width: 224,
-  },
-  signUp1: {
-    lineHeight: 24,
-    color: Color.neutralWhite,
-    width: 235,
-    textAlign: "center",
-  },
   buttonfirst: {
-    flexDirection: "row",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 8,
     },
     alignItems: "center",
-    borderRadius: Border.br_mini,
-    backgroundColor: Color.colorRoyalblue_100,
+    borderRadius: 15,
+    backgroundColor: "#0075fd",
     shadowColor: "rgba(236, 95, 95, 0.25)",
     shadowRadius: 14,
     elevation: 14,
-    width: 317,
+    width: "75%",
     height: 58,
     marginTop: "5%",
     justifyContent: "center",
   },
 
   alreadyHaveAn: {
-    color: Color.colorGray_100,
+    color: "#7c7c7c",
   },
 
   signIn: {
-    color: Color.colorRoyalblue_100,
+    color: "#0075fd",
+    textDecorationLine: "underline"
   },
   text1: {
-    width: 260,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    fontFamily: FontFamily.nunitoRegular,
+    fontSize: 16,
+    fontFamily: "Nunito-Regular",
     textAlign: "center",
   },
   alreadyHaveAnContainer: {
@@ -312,20 +193,17 @@ const styles = StyleSheet.create({
     marginBottom: "3%",
   },
   main: {
-    flex: 1,
     marginTop: "3%",
     alignItems: "center",
-    alignContent: "flex-start"
+    Width: "100%",
+
   },
 
   signUp: {
-    flex: 1,
-    alignItems: "center",
-    overflow: "hidden",
+    justifyContent: "center",
+    height: "100%",
     width: "100%",
-    justifyContent: "center",
-    justifyContent: "center",
-    backgroundColor: Color.neutralWhite,
+    backgroundColor: "#fff",
   },
 });
 

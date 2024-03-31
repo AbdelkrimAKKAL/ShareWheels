@@ -84,24 +84,24 @@ const Recherche = () => {
 
 
   return (
-    <View style={styles.recherche}>
+    <View style={RechercheStyles.recherche}>
       <TopBar />
 
-      <View style={styles.carpic}>
+      <View style={RechercheStyles.carpic}>
         <Image
-          style={styles.image1Icon}
+          style={RechercheStyles.image1Icon}
           contentFit="cover"
           source={require("../assets/image-1.png")}
         />
       </View>
 
-      <Text style={styles.sharewheels}>ShareWheels</Text>
+      <Text style={RechercheStyles.sharewheels}>ShareWheels</Text>
 
-      <View style={styles.main}>
+      <View style={RechercheStyles.main}>
     
-        <Text style={[styles.heading, {width: 326, marginTop: 10,}]}>où vas-tu</Text>
+        <Text style={[RechercheStyles.heading, {width: 326, marginTop: 10,}]}>où vas-tu</Text>
         <Pressable
-          style={[styles.Inputs, {marginTop: "2%", width: 292,}]}
+          style={[RechercheStyles.Inputs, {marginTop: "2%", width: 292,}]}
           onPress={() =>
             navigation.navigate("SearchBar", {
               type: "Depart",
@@ -110,45 +110,45 @@ const Recherche = () => {
           }
         >
           <Image
-            style={styles.Icon}
+            style={RechercheStyles.Icon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.inputText]}>
+          <Text style={[RechercheStyles.inputText]}>
             {departLocation ? departLocation : "Depart"}
           </Text>
         </Pressable>
 
         <Pressable
-          style={[styles.Inputs, {marginTop: "2%", width: 292,}]}
+          style={[RechercheStyles.Inputs, {marginTop: "2%", width: 292,}]}
           onPress={() =>
             navigation.navigate("SearchBar", { type: "Destination", screen: "Recherche", })
           }
         >
           <Image
-            style={styles.Icon}
+            style={RechercheStyles.Icon}
             contentFit="cover"
             source={require("../assets/mappin.png")}
           />
-          <Text style={[styles.inputText]}>
+          <Text style={[RechercheStyles.inputText]}>
             {destinationLocation ? destinationLocation : "Destination"}
           </Text>
         </Pressable>
 
     
-        <Text style={[styles.heading, {width: 326, marginTop: 10,}]}>Quand?</Text>
-        <View style={[styles.DateHeure]}>
+        <Text style={[RechercheStyles.heading, {width: 326, marginTop: 10,}]}>Quand?</Text>
+        <View style={[RechercheStyles.DateHeure]}>
           <View>
             <Pressable
               onPress={showDatePicker}
-              style={[styles.Inputs, {width: 184,}]}
+              style={[RechercheStyles.Inputs, {width: 184,}]}
             >
               <Image
-                style={[styles.Icon]}
+                style={[RechercheStyles.Icon]}
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
-              <Text style={[styles.inputText ,{marginLeft: 10}]}>
+              <Text style={[RechercheStyles.inputText ,{marginLeft: 10}]}>
                 {isDatePicked ? date.toLocaleDateString() : "Date"}
               </Text>
             </Pressable>
@@ -161,13 +161,13 @@ const Recherche = () => {
               date={new Date(date)}
             />
           </View>
-          <View style={[styles.Inputs, {width: 99,}]}>
+          <View style={[RechercheStyles.Inputs, {width: 99,}]}>
             <Image
-              style={[styles.Icon, {width: 20, height: 20}]}
+              style={[RechercheStyles.Icon, {width: 20, height: 20}]}
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[styles.inputText, {marginLeft: 5}]}>
+            <Text style={[RechercheStyles.inputText, {marginLeft: 5}]}>
               {isDatePicked
                 ? date.toLocaleTimeString([], {
                     hour: "2-digit",
@@ -179,24 +179,24 @@ const Recherche = () => {
           </View>
         </View>
 
-        <View style={styles.places}>
-          <Text style={[styles.heading]}>
+        <View style={RechercheStyles.places}>
+          <Text style={[RechercheStyles.heading]}>
             Combien Places ?
           </Text>
-          <View style={styles.nmbrplaces}>
+          <View style={RechercheStyles.nmbrplaces}>
             <Pressable onPress={sub}>
               <Image
-                style={styles.iconLayout}
+                style={RechercheStyles.iconLayout}
                 contentFit="cover"
                 source={require("../assets/moins.png")}
               />
             </Pressable>
-            <Text style={[styles.heading]}>
+            <Text style={[RechercheStyles.heading]}>
               {nbPlaces}
             </Text>
             <Pressable onPress={add}>
               <Image
-                style={[styles.iconLayout]}
+                style={[RechercheStyles.iconLayout]}
                 contentFit="cover"
                 source={require("../assets/plus.png")}
               />
@@ -206,16 +206,16 @@ const Recherche = () => {
       </View>
 
       <Pressable
-        style={[styles.buttonfirst, {alignItems: "center",}]}
+        style={[RechercheStyles.buttonfirst, {alignItems: "center",}]}
         onPress={handleSearch}
       >
-        <Text style={[styles.heading, {fontSize: 16, color: "white",}]}>Rechercher</Text>
+        <Text style={[RechercheStyles.heading, {fontSize: 16, color: "white",}]}>Rechercher</Text>
       </Pressable>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const RechercheStyles = StyleSheet.create({
   heading: {
     color: Color.gray1,
     fontFamily: FontFamily.headingH2,
@@ -255,7 +255,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     width: "100%",
     marginLeft: 6,
-
   },
 
   
