@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Text, Alert, ActivityIndicator } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import TopBar from "../components/TopBar";
 
 const AfficherMap = () => {
   const [locationPermission, setLocationPermission] = useState(null);
   const [departCoords, setDepartCoords] = useState(null);
   const [destinationCoords, setDestinationCoords] = useState(null);
   const [distance, setDistance] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getLocationPermission();
@@ -38,8 +40,10 @@ const AfficherMap = () => {
       // Calculating distance between two coordinates (in meters)
       const dist = getDistance(depart[0], destination[0]);
       setDistance(dist);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error getting coordinates: ", error);
+      setIsLoading(false);
     }
   };
 
@@ -62,24 +66,32 @@ const AfficherMap = () => {
 
   return (
     <View style={styles.container}>
-      {departCoords && destinationCoords && (
-        <MapView style={styles.map}
-          initialRegion={{
-            latitude: (departCoords.latitude + destinationCoords.latitude) / 2,
-            longitude: (departCoords.longitude + destinationCoords.longitude) / 2,
-            latitudeDelta: Math.abs(departCoords.latitude - destinationCoords.latitude) * 2,
-            longitudeDelta: Math.abs(departCoords.longitude - destinationCoords.longitude) * 2,
-          }}
-        >
-          {departCoords && <Marker coordinate={departCoords} title={"Depart"} />}
-          {destinationCoords && <Marker coordinate={destinationCoords} title={"Destination"} />}
-        </MapView>
-      )}
+      <TopBar/>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0075fd" style={styles.loadingIndicator} />
+      ) : (
+        <>
+          {departCoords && destinationCoords && (
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: (departCoords.latitude + destinationCoords.latitude) / 2,
+                longitude: (departCoords.longitude + destinationCoords.longitude) / 2,
+                latitudeDelta: Math.abs(departCoords.latitude - destinationCoords.latitude) * 2,
+                longitudeDelta: Math.abs(departCoords.longitude - destinationCoords.longitude) * 2,
+              }}
+            >
+              {departCoords && <Marker coordinate={departCoords} title={"Depart"} />}
+              {destinationCoords && <Marker coordinate={destinationCoords} title={"Destination"} />}
+            </MapView>
+          )}
 
-      {distance !== null && (
-        <View style={styles.distanceContainer}>
-          <Text style={styles.distanceText}>{`Distance: ${distance.toFixed(2)} meters`}</Text>
-        </View>
+          {distance !== null && (
+            <View style={styles.distanceContainer}>
+              <Text style={styles.distanceText}>{`Distance: ${distance.toFixed(2)} meters`}</Text>
+            </View>
+          )}
+        </>
       )}
     </View>
   );
@@ -105,6 +117,11 @@ const styles = StyleSheet.create({
   distanceText: {
     fontSize: 16,
     color: "#0075fd",
+  },
+  loadingIndicator: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
