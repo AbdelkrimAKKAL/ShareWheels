@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -66,10 +66,23 @@ const AjouterAnnonce = () => {
 
   // date 1
 
+  const scrollViewRef = useRef(null);
+
+
   const [extend, setExtend] = useState(false)
   const handleExtend = () => {
     setExtend(!extend)
     setDatePicker2(false)
+  };
+  useEffect(() => {
+    // Scroll to default position when extend becomes false
+    if (!extend && scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+    }
+  }, [extend]);
+  const handleInputBlur = () => {
+    // Scroll back to default position
+    scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
   };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -143,12 +156,16 @@ const AjouterAnnonce = () => {
       behavior="position"
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
-      <ScrollView >
-        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? {height:800} : {height:700}]}>
-          <TopBar />
+      <TopBar />
+      <View style={[styles.AddRideTop]}>
+        <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
+      </View>
+      <ScrollView ref={scrollViewRef} scrollEnabled={extend}>
+        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? { height: 800 } : { height: 700 }]}>
 
-          <View style={[styles.main, ]}>
-            <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
+
+          <View style={[styles.main,]}>
+
 
             <View style={styles.inputs}>
 
@@ -262,27 +279,27 @@ const AjouterAnnonce = () => {
                   )}
                 </View>
               </View>
-              
+
               <Pressable // Heure
-                  style={styles.inputShadowBox}
-                  onPress={showTimePicker}
-                >
-                  <Image
-                    style={[styles.mapPinIcon2, styles.iconLayout]}
-                    contentFit="cover"
-                    source={require("../assets/clock3.png")}
-                  />
-                  <Text style={[styles.number2, styles.numberTypo]}>
-                    {isTimePicked ? time.toLocaleTimeString() : "Heure"}
-                  </Text>
-                </Pressable>
-                <DateTimePickerModal
-                  isVisible={isTimePickerVisible}
-                  mode="time"
-                  onConfirm={handleTimeConfirm}
-                  onCancel={hideTimePicker}
-                  date={new Date(time)} // Pass current selected time to the time picker
+                style={styles.inputShadowBox}
+                onPress={showTimePicker}
+              >
+                <Image
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/clock3.png")}
                 />
+                <Text style={[styles.number2, styles.numberTypo]}>
+                  {isTimePicked ? time.toLocaleTimeString() : "Heure"}
+                </Text>
+              </Pressable>
+              <DateTimePickerModal
+                isVisible={isTimePickerVisible}
+                mode="time"
+                onConfirm={handleTimeConfirm}
+                onCancel={hideTimePicker}
+                date={new Date(time)} // Pass current selected time to the time picker
+              />
 
               <View style={styles.inputShadowBox}>
                 <Image
@@ -330,11 +347,13 @@ const AjouterAnnonce = () => {
                   <Image
                     style={[styles.mapPinIcon2, styles.iconLayout]}
                     contentFit="cover"
-                    source={require("../assets/money-icon.png")}
+                    source={require("../assets/money-icon1.png")}
                   />
                   <TextInput
                     style={[styles.number2, styles.numberTypo]}
                     placeholder="Prix (DA)"
+                    keyboardType="numeric"
+                    onBlur={handleInputBlur} 
                   />
                 </View>
               </View>
@@ -352,6 +371,8 @@ const AjouterAnnonce = () => {
                       marginBottom: 0,
                     },
                   ]}
+                  onBlur={handleInputBlur} 
+                  
                 />
               </View>
 
@@ -373,11 +394,20 @@ const AjouterAnnonce = () => {
 };
 
 const styles = StyleSheet.create({
-  styleWhenTrue:{
-    backgroundColor:'#DAFFFF',
-    padding:10,
-    marginTop:10,
-    borderRadius:10
+  AddRideTop: {
+    height: 100,
+    backgroundColor: "white",
+    justifyContent: "center",
+    borderBottomColor: Color.colorGray_300,
+    borderBottomWidth: 2,
+    borderRadius: 5
+  },
+
+  styleWhenTrue: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 10
   },
   text: {
     color: "black",
@@ -397,7 +427,7 @@ const styles = StyleSheet.create({
   ajouter: {
     backgroundColor: "white",
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   radioButtonUncheckedSvgrepoIcon: {
     width: 24,
@@ -563,7 +593,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginTop:50,
+    marginTop: 50,
     alignItems: "center",
   },
 
