@@ -144,7 +144,7 @@ const Recherche = () => {
               style={[RechercheStyles.Inputs, {width: 184,}]}
             >
               <Image
-                style={[RechercheStyles.Icon]}
+                style={[RechercheStyles.iconLayout]}
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
@@ -163,12 +163,12 @@ const Recherche = () => {
           </View>
           <View style={[RechercheStyles.Inputs, {width: 99,}]}>
             <Image
-              style={[RechercheStyles.Icon, {width: 20, height: 20}]}
+              style={[RechercheStyles.iconLayout]}
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
             <Text style={[RechercheStyles.inputText, {marginLeft: 5}]}>
-              {isDatePicked
+              {isDatePicked 
                 ? date.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -209,13 +209,20 @@ const Recherche = () => {
         style={[RechercheStyles.buttonfirst, {alignItems: "center",}]}
         onPress={handleSearch}
       >
-        <Text style={[RechercheStyles.heading, {fontSize: 16, color: "white",}]}>Rechercher</Text>
+        <Text style={[RechercheStyles.buttonText, {color: "white",}]}>Rechercher</Text>
       </Pressable>
     </View>
   );
 };
 
 export const RechercheStyles = StyleSheet.create({
+  buttonText: {
+    lineHeight: 24,
+    fontSize: FontSize.subheadLgSHLgMedium_size,
+    textAlign: "center",
+    fontFamily: FontFamily.subheadLgSHLgMedium,
+    fontWeight: "500",
+  },
   heading: {
     color: Color.gray1,
     fontFamily: FontFamily.headingH2,

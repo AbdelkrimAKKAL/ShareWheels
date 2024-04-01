@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   mesannonces: {
     borderColor: "rgba(0, 0, 0, 0.15)",
-    borderWidth: 0.4,
+    borderWidth: 0.9,
     marginBottom: 10,
     backgroundColor: Color.neutralWhite,
     shadowColor: "rgba(0, 0, 0, 0.2)",

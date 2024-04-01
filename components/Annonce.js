@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   },
   annonce: {
     borderColor: "rgba(0, 0, 0, 0.15)",
-    borderWidth: 0.4,
+    borderWidth: 0.9,
     backgroundColor: Color.neutralWhite,
     shadowColor: "rgba(0, 0, 0, 0.15)",
     shadowOffset: {

@@ -1,223 +1,233 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  FlatList,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
+import { RechercheStyles } from "./Recherche";
+
+const fetchDataFromDatabase = async () => {
+  // Example data
+  return [
+    { id: 1, text: "Fumeurs" },
+    { id: 2, text: "Bagages" },
+    { id: 3, text: "Ouvert à la conversation" },
+    { id: 4, text: "Passagers de différents sexes" },
+    { id: 5, text: "Arrêts supplémentaires" },
+  ];
+};
+
+const renderItem = ({ item }) => (
+  <View style={[RechercheStyles.Inputs, { width: 284, marginBottom: 10 }]}>
+    <Image
+      style={RechercheStyles.Icon}
+      contentFit="cover"
+      source={require("../assets/check.png")}
+    />
+    <Text style={RechercheStyles.inputText}>{item.text}</Text>
+  </View>
+);
 
 const Details = () => {
   const navigation = useNavigation();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from the database when the component mounts
+    fetchDataFromDatabase().then((result) => setData(result));
+  }, []);
 
   return (
     <View style={styles.details}>
-      <TopBar/>
+      <TopBar />
       <View style={styles.main}>
         <View style={[styles.userprofile, styles.inputFlexBox]}>
           <Image
-            style={styles.imageIcon}
+            style={[{ width: 95, height: 95 }]}
             contentFit="cover"
             source={require("../assets/image.png")}
           />
-          <View style={styles.nom}>
-            <Text style={styles.amineMeddouri}>Amine Meddouri</Text>
-            <View style={[styles.vectorParent, styles.inputFlexBox]}>
+          <View style={styles.NameAndRate}>
+            <Text style={[styles.nom, {fontSize: 20,fontWeight: "500",}]}>Amine Meddouri</Text>
+            <View style={[styles.inputFlexBox, {}]}>
               <Image
-                style={styles.vectorIcon}
+                style={[{ width: 12, height: 12 }]}
                 contentFit="cover"
                 source={require("../assets/vector.png")}
               />
-              <Text style={styles.text}>4.7 (1)</Text>
+              <Text style={[styles.nom, {fontWeight: "700",fontSize: FontSize.size_mini,marginLeft: 5}]}>4.7 (1)</Text>
             </View>
           </View>
         </View>
-        <ScrollView Style={styles.detailsframe}>
-          <View style={styles.inputinfoLayout}>
-            <Text style={[styles.amineemailcon, styles.numeroTypo]}>
-              Amine@email.con
-            </Text>
-          </View>
-          <View style={styles.input}>
-            <View style={styles.parent}>
-              <Text style={styles.text1}>+213</Text>
-              <Image
-                style={[
-                  styles.flagForFlagAlgeriaSvgrepoIcon,
-                  styles.flagIconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/flagforflagalgeria-svgrepocom.png")}
-              />
+        <ScrollView contentContainerStyle={styles.detailsframe}>
+          <View style={styles.container}>
+            <View style={[styles.dates,{height: 60,} ]}>
+              <Text style={[styles.amineemailcon, styles.numeroTypo]}>
+                Amine@email.con
+              </Text>
             </View>
-            <Text style={[styles.numero, styles.numeroTypo]}>
-              06 78 89 56 45
-            </Text>
+            <View
+              style={[
+                styles.dates, 
+                {height: 60,
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  paddingLeft: 20,
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <View style={styles.parent}>
+                <Image
+                  style={[{width: 24, height: 23, overflow: 'hidden' }]}
+                  contentFit="cover"
+                  source={require("../assets/flagforflagalgeria-svgrepocom.png")}
+                />
+                <Text style={[styles.numeroTypo]}>+213</Text>
+              </View>
+              <Text style={[styles.numeroTypo, { marginLeft: 15 }]}>
+                06 78 89 56 45
+              </Text>
+            </View>
+
+            <View style={[styles.dates, {width: 328,height: 60,}]}>
+              <Text style={[styles.amineemailcon, styles.numeroTypo]}>
+                Male
+              </Text>
+            </View>
           </View>
-          <View style={[styles.inputinfo1, styles.inputinfoLayout]}>
-            <Text style={[styles.amineemailcon, styles.numeroTypo]}>Male</Text>
-          </View>
+
           <Text style={[styles.dateEtHeure, styles.numeroTypo]}>
             Date et heure
           </Text>
           <View style={styles.dates}>
-            <View style={[styles.frame, styles.frameFlexBox]}>
-              <View style={[styles.input1, styles.inputShadowBox2]}>
+            <View style={[RechercheStyles.DateHeure]}>
+              <View style={[RechercheStyles.Inputs, { width: 184 }]}>
                 <Image
-                  style={[styles.mapPinIcon, styles.iconLayout]}
+                  style={[RechercheStyles.iconLayout]}
                   contentFit="cover"
                   source={require("../assets/mappin2.png")}
                 />
-                <Text style={[styles.number, styles.numberTypo1]}>Date</Text>
+                <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
+                  Date
+                </Text>
               </View>
-              <View style={styles.inputSpaceBlock}>
+              <View style={[RechercheStyles.Inputs, { width: 99 }]}>
                 <Image
-                  style={styles.clock3Icon}
+                  style={[RechercheStyles.iconLayout]}
                   contentFit="cover"
                   source={require("../assets/clock31.png")}
                 />
-                <Text style={[styles.number1, styles.numberTypo1]}>Heure</Text>
-              </View>
-            </View>
-            <View style={[styles.frame1, styles.frameFlexBox]}>
-              <View style={[styles.input3, styles.inputShadowBox2]}>
-                <Image
-                  style={[styles.mapPinIcon, styles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/mappin2.png")}
-                />
-                <Text style={[styles.number, styles.numberTypo1]}>Date</Text>
-              </View>
-              <View style={styles.inputSpaceBlock}>
-                <Image
-                  style={styles.clock3Icon}
-                  contentFit="cover"
-                  source={require("../assets/clock31.png")}
-                />
-                <Text style={[styles.number1, styles.numberTypo1]}>Heure</Text>
-              </View>
-            </View>
-          </View>
-          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>Voiture</Text>
-          <View style={styles.voiture1ShadowBox}>
-            <Text style={styles.numberLayout}>Model</Text>
-            <View style={[styles.input5, styles.inputShadowBox2]}>
-              <Text style={[styles.number5, styles.numberTypo1]}>Model</Text>
-            </View>
-            <Text style={[styles.number6, styles.numberLayout]}>Matricule</Text>
-            <View style={[styles.input6, styles.inputShadowBox1]}>
-              <Text style={[styles.number5, styles.numberTypo1]}>
-                Matricule
-              </Text>
-            </View>
-            <Text style={[styles.number6, styles.numberLayout]}>Couleur</Text>
-            <View style={[styles.frame1, styles.frameFlexBox]}>
-              <View style={[styles.input7, styles.inputShadowBox2]}>
-                <Text style={[styles.number9, styles.numberTypo1]}>
-                  Couleur
+                <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
+                  Heure
                 </Text>
               </View>
             </View>
-            <View style={[styles.nmbrplaces, styles.inputFlexBox]}>
-              <Text style={[styles.number10, styles.numberTypo]}>Places</Text>
-              <View style={[styles.input8, styles.inputShadowBox]}>
+
+            <View style={[RechercheStyles.DateHeure]}>
+              <View style={[RechercheStyles.Inputs, { width: 184 }]}>
                 <Image
-                  style={[styles.mapPinIcon, styles.iconLayout]}
+                  style={[RechercheStyles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/mappin2.png")}
+                />
+                <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
+                  Date
+                </Text>
+              </View>
+              <View style={[RechercheStyles.Inputs, { width: 99 }]}>
+                <Image
+                  style={[RechercheStyles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/clock31.png")}
+                />
+                <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
+                  Heure
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>Voiture</Text>
+          <View style={styles.dates}>
+            <Text style={styles.numberLayout}>Model</Text>
+            <View
+              style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
+            >
+              <Text style={[RechercheStyles.inputText]}>Model</Text>
+            </View>
+
+            <Text style={[styles.numberLayout, { marginTop: 10 }]}>
+              Matricule
+            </Text>
+            <View
+              style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
+            >
+              <Text style={[RechercheStyles.inputText]}>Matricule</Text>
+            </View>
+
+            <Text style={[styles.numberLayout, { marginTop: 10 }]}>
+              Couleur
+            </Text>
+            <View
+              style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
+            >
+              <Text style={RechercheStyles.inputText}>Couleur</Text>
+            </View>
+
+            <View style={[styles.nmbrplaces, styles.inputFlexBox]}>
+              <Text style={[styles.numberLayout, {width: 60}]}>Places</Text>
+              <View style={[RechercheStyles.Inputs, {width: 55, justifyContent: "center",}]}>
+                <Image
+                  style={[RechercheStyles.Icon]}
                   contentFit="cover"
                   source={require("../assets/clock32.png")}
                 />
-                <Text style={[styles.number11, styles.numberClr]}>1</Text>
+                <Text style={[styles.number11]}>1</Text>
               </View>
-              <Text style={[styles.number12, styles.numberTypo]}>
+              <Text style={[styles.numberLayout, {width: 90, marginLeft: 10}]}>
                 Disponible
               </Text>
-              <View style={[styles.input9, styles.inputShadowBox]}>
+              <View style={[RechercheStyles.Inputs, {width: 55, justifyContent: "center",}]}>
                 <Image
-                  style={[styles.mapPinIcon, styles.iconLayout]}
+                  style={[RechercheStyles.Icon]}
                   contentFit="cover"
                   source={require("../assets/clock32.png")}
                 />
-                <Text style={[styles.number11, styles.numberClr]}>1</Text>
+                <Text style={[styles.number11]}>1</Text>
               </View>
             </View>
           </View>
           <Text style={[styles.dateEtHeure, styles.numeroTypo]}>
             Plus de details
           </Text>
-          <View style={[styles.moredetails, styles.voiture1ShadowBox]}>
-            <View style={styles.inputShadowBox1}>
-              <Image
-                style={[
-                  styles.radioButtonUncheckedSvgrepoIcon,
-                  styles.flagIconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-              />
-              <Text style={[styles.number5, styles.numberTypo1]}>Fumeurs</Text>
-            </View>
-            <View style={[styles.input11, styles.inputShadowBox1]}>
-              <Image
-                style={[
-                  styles.radioButtonUncheckedSvgrepoIcon,
-                  styles.flagIconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-              />
-              <Text style={[styles.number5, styles.numberTypo1]}>Bagages</Text>
-            </View>
-            <View style={[styles.input12, styles.inputShadowBox1]}>
-              <Image
-                style={[
-                  styles.radioButtonUncheckedSvgrepoIcon,
-                  styles.flagIconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-              />
-              <Text style={[styles.number5, styles.numberTypo1]}>
-                Ouvert à la conversation
-              </Text>
-            </View>
-            <View style={[styles.input13, styles.inputShadowBox1]}>
-              <Image
-                style={[
-                  styles.radioButtonUncheckedSvgrepoIcon,
-                  styles.flagIconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-              />
-              <Text style={[styles.number5, styles.numberTypo1]}>
-                Passagers de différents sexes
-              </Text>
-            </View>
-            <View style={[styles.input14, styles.inputShadowBox1]}>
-              <Image
-                style={[
-                  styles.radioButtonUncheckedSvgrepoIcon,
-                  styles.flagIconLayout,
-                ]}
-                contentFit="cover"
-                source={require("../assets/radiobuttonunchecked-svgrepocom.png")}
-              />
-              <Text style={[styles.number5, styles.numberTypo1]}>
-                Arrêts supplémentaires
-              </Text>
-            </View>
-            <View style={[styles.input15, styles.inputShadowBox2]}>
-              <Text style={[styles.number19, styles.numberClr]}>A ajouter</Text>
+          <View style={[styles.dates, {marginBottom: 20,flex: 1, flexGrow: 1}]}>
+            <FlatList
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
+            <View style={[RechercheStyles.Inputs, { width: 284,}]}>
+              <Text style={[RechercheStyles.inputText, {padding: 8}]}>A ajouter</Text>
             </View>
           </View>
-  
+
           <Pressable
-            style={[styles.buttonsecondary, styles.buttonfirstShadowBox]}
+            style={[styles.buttonsecondary, {marginBottom: 10,}]}
             onPress={() => navigation.navigate("AfficherMap")}
           >
-            <Text style={[styles.signUp, styles.signTypo]}>Afficher Map</Text>
+            <Text style={[RechercheStyles.buttonText, {color: Color.colorRoyalblue_100,}]}>Afficher Map</Text>
           </Pressable>
 
-          <View style={[styles.buttonfirst, styles.buttonfirstShadowBox]}>
-            <Text style={[styles.signUp1, styles.signTypo]}>Participer</Text>
+          <View style={[RechercheStyles.buttonfirst]}>
+            <Text style={[RechercheStyles.buttonText, {color: "white"}]}>Participer</Text>
           </View>
         </ScrollView>
       </View>
@@ -226,215 +236,45 @@ const Details = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    height: "14%",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
   inputFlexBox: {
     flexDirection: "row",
     alignItems: "center",
   },
   numeroTypo: {
     lineHeight: 23,
-    textAlign: "left",
     fontSize: FontSize.subheadLgSHLgMedium_size,
     color: Color.textColorContentTertiary,
     fontFamily: FontFamily.subheadLgSHLgMedium,
     fontWeight: "500",
   },
-  flagIconLayout: {
-    width: 24,
-    overflow: "hidden",
-  },
-  inputinfoLayout: {
-    height: 60,
-    width: 328,
-    borderWidth: 1,
-    borderColor: Color.colorSilver_100,
-    borderStyle: "solid",
-    borderRadius: Border.br_5xs,
-  },
+
+
   frameFlexBox: {
     width: 290,
     flexDirection: "row",
     alignItems: "center",
   },
-  inputShadowBox2: {
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_300,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    borderWidth: 1,
-    borderStyle: "solid",
-    backgroundColor: Color.neutralWhite,
-  },
-  iconLayout: {
-    width: 22,
-    height: 22,
-  },
-  numberTypo1: {
-    height: 19,
-    color: Color.colorGray_100,
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-    textAlign: "left",
-    fontSize: FontSize.size_mini,
-  },
+
   numberLayout: {
     width: 289,
     color: Color.colorBlack,
     fontSize: FontSize.size_mid,
-    height: 19,
     fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
     textAlign: "left",
   },
-  inputShadowBox1: {
-    width: 292,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderColor: Color.colorGray_300,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    borderWidth: 1,
-    borderStyle: "solid",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  numberTypo: {
-    color: Color.colorBlack,
-    fontSize: FontSize.size_mid,
-    height: 19,
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-  },
-  inputShadowBox: {
-    paddingHorizontal: Padding.p_8xs,
-    width: 57,
-    marginLeft: 5,
-    paddingVertical: Padding.p_base,
-    borderColor: Color.colorGray_300,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    borderWidth: 1,
-    borderStyle: "solid",
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  numberClr: {
-    color: Color.colorGray_100,
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-  },
-  voiture1ShadowBox: {
-    elevation: 4,
-    shadowRadius: 4,
-    shadowColor: "white",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    padding: Padding.p_mini,
-    borderColor: Color.colorGray_200,
-    borderRadius: Border.br_mini,
-    marginTop: 10,
-    borderWidth: 1,
-    borderStyle: "solid",
-    alignItems: "center",
-  },
-  buttonfirstShadowBox: {
-    shadowRadius: 14,
-    shadowColor: "white",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    marginBottom: 10,
 
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  signTypo: {
-    lineHeight: 24,
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    textAlign: "center",
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-  },
-  search1Typo: {
-    marginTop: 5,
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    fontSize: FontSize.size_3xs,
-    textAlign: "center",
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-
-  imageIcon: {
-    width: 95,
-    height: 95,
-  },
-  amineMeddouri: {
-    fontSize: 20,
-    lineHeight: 34,
-    width: 229,
-    textAlign: "center",
+  nom: {
     color: Color.textColorContentTertiary,
     fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-    height: 33,
   },
-  vectorIcon: {
-    width: 12,
-    height: 12,
-  },
-  text: {
-    fontWeight: "700",
-    fontFamily: FontFamily.nunitoBold,
-    color: Color.colorDarkslategray_100,
-    width: 49,
-    marginLeft: 2,
-    height: 20,
-    fontSize: FontSize.size_mini,
-    textAlign: "center",
-  },
-  vectorParent: {
-    width: 90,
-    height: 30,
-    justifyContent: "center",
-  },
-  nom: {
+
+
+  NameAndRate: {
     width: 231,
     height: 93,
     justifyContent: "center",
@@ -442,293 +282,91 @@ const styles = StyleSheet.create({
   },
   userprofile: {
     paddingBottom: "4%",
-    marginBottom: '1.5%',
-    width: 340,
+    marginBottom: "1.5%",
     marginTop: Padding.p_xl,
     justifyContent: "center",
-    borderEndColor: '#000000',
+    borderEndColor: "#000000",
     borderBottomWidth: 0.5,
-    width: '100%'
+    width: "100%",
   },
   amineemailcon: {
-    top: "31.67%",
     left: "5.52%",
     textAlign: "left",
     position: "absolute",
   },
-  text1: {
-    lineHeight: 24,
-    color: Color.titleText,
-    textAlign: "right",
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    fontWeight: "500",
-    left: "0%",
-    top: "0%",
-    position: "absolute",
-    width: "100%",
-  },
-  flagForFlagAlgeriaSvgrepoIcon: {
-    top: 1,
-    left: 0,
-    height: 23,
-    position: "absolute",
-  },
+
   parent: {
-    width: 64,
-    height: 24,
-  },
-  numero: {
-    marginLeft: 28,
-    width: 201,
-    textAlign: "left",
-  },
-  input: {
-    paddingHorizontal: Padding.p_xs,
-    paddingVertical: Padding.p_lg,
-    marginTop: 10,
-    width: 328,
-    borderColor: Color.colorSilver_100,
-    borderRadius: Border.br_5xs,
-    borderWidth: 1,
-    borderStyle: "solid",
-    justifyContent: "center",
+    width: 55,
     flexDirection: "row",
     alignItems: "center",
-    overflow: "hidden",
+    justifyContent: "space-between",
   },
-  inputinfo1: {
-    marginTop: 10,
-  },
+
   dateEtHeure: {
     display: "flex",
     width: 316,
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 5,
     textAlign: "left",
     alignItems: "center",
   },
-  mapPinIcon: {
-    height: 22,
-    overflow: "hidden",
-  },
-  number: {
-    width: 138,
-  },
-  input1: {
-    width: 201,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  clock3Icon: {
-    width: 20,
-    height: 20,
-    overflow: "hidden",
-  },
-  number1: {
-    width: 45,
-  },
-  inputSpaceBlock: {
-    marginLeft: 6,
-    paddingBottom: Padding.p_base,
-    paddingRight: Padding.p_8xs,
-    paddingTop: Padding.p_base,
-    paddingLeft: Padding.p_5xs,
-    width: 84,
-    borderColor: Color.colorGray_300,
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    borderWidth: 1,
-    borderStyle: "solid",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  frame: {
-    justifyContent: "center",
-  },
-  input3: {
-    width: 201,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  frame1: {
-    marginTop: 10,
-    justifyContent: "center",
-  },
+
+
   dates: {
     padding: Padding.p_mini,
     borderColor: Color.colorGray_200,
     borderRadius: Border.br_mini,
-    marginTop: 10,
     borderWidth: 1,
     borderStyle: "solid",
     justifyContent: "center",
     alignItems: "center",
   },
-  number5: {
-    width: 227,
-  },
-  input5: {
-    width: 284,
-    marginTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  number6: {
-    marginTop: 10,
-  },
-  input6: {
-    marginTop: 10,
-  },
-  number9: {
-    width: 224,
-  },
-  input7: {
-    width: 290,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  number10: {
-    width: 60,
-    textAlign: "left",
-  },
+
+
   number11: {
     fontSize: FontSize.headingH2_size,
-    width: 15,
-    marginLeft: 5,
-    height: 22,
-    textAlign: "center",
+    color: Color.colorGray_100,
+    fontFamily: FontFamily.nunitoRegular,
   },
-  input8: {
-    marginLeft: 5,
-  },
-  number12: {
-    width: 88,
-    marginLeft: 5,
-    textAlign: "right",
-  },
-  input9: {
-    marginLeft: 5,
-  },
+ 
   nmbrplaces: {
     width: 281,
     marginTop: 10,
     justifyContent: "center",
   },
-  radioButtonUncheckedSvgrepoIcon: {
-    height: 24,
-  },
-  input11: {
-    marginTop: 10,
-  },
-  input12: {
-    marginTop: 10,
-  },
-  input13: {
-    marginTop: 10,
-  },
-  input14: {
-    marginTop: 10,
-  },
-  number19: {
-    width: 265,
-    height: 143,
-    textAlign: "left",
-    fontSize: FontSize.size_mini,
-  },
-  input15: {
-    marginTop: 10,
-  },
-  moredetails: {
-    justifyContent: "center",
-    marginBottom: 10,
 
-  },
-  signUp: {
-    color: Color.colorRoyalblue_100,
-  },
+
   buttonsecondary: {
     borderRadius: Border.br_3xs,
     borderColor: Color.colorRoyalblue_100,
     width: 318,
     height: 59,
-    shadowRadius: 14,
-    shadowColor: "white",
     borderWidth: 1,
     borderStyle: "solid",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  signUp1: {
-    color: Color.neutralWhite,
-    width: 235,
-  },
-  buttonfirst: {
-    backgroundColor: Color.colorRoyalblue_100,
-    width: 317,
-    height: 58,
-    borderRadius: Border.br_mini,
-    shadowRadius: 14,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
-  },
-  detailsframe: {
-    flex: 1,
 
+  detailsframe: {
+    flexGrow: 1,
+    alignItems: "center",
+    width: '100%'
   },
   main: {
     flex: 1,
     paddingHorizontal: Padding.p_base,
-    marginTop: '2%',
-    alignItems: "center",
-    overflow: "hidden",
-    backgroundColor: Color.neutralWhite,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  search1: {
-    color: Color.colorRoyalblue_100,
-  },
-  yourRides1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides: {
-    padding: Padding.p_3xs,
-  },
-  profileIcon: {
-    height: 22,
-  },
-  footersearch: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowRadius: 20,
-    elevation: 20,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    flexDirection: "row",
-    width: 375,
-    justifyContent: "space-between",
+    marginTop: "2%",
     alignItems: "center",
     backgroundColor: Color.neutralWhite,
+    alignItems: "center",
+    justifyContent: "center",
   },
+
   details: {
     flex: 1,
-    height: 834,
     justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
-    width: "100%",
     backgroundColor: Color.neutralWhite,
   },
 });

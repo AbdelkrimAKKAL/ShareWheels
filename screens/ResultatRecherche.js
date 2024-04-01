@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
@@ -26,7 +26,7 @@ const ResultatRecherche = () => {
           {date}, {nmbrplaces} Places
         </Text>
       </View>
-      <View style={styles.main}>
+      <ScrollView contentContainerStyle={styles.main}>
         <Annonce
           name="Amine Meddouri"
           rating="4.5(2)"
@@ -50,7 +50,7 @@ const ResultatRecherche = () => {
           date="25 DEC 23"
           availableSeats="3/4"
         />
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -96,16 +96,14 @@ const styles = StyleSheet.create({
   },
 
   main: {
-    height: 648,
+    flexGrow: 1,
     paddingHorizontal: Padding.p_mini,
     paddingBottom: Padding.p_mini,
-    width: 375,
-    alignItems: "center",
+    alignItems: 'center'
   },
 
   resultatrecherche: {
     flex: 1,
-    height: 834,
     overflow: "hidden",
     width: "100%",
     backgroundColor: Color.neutralWhite,
