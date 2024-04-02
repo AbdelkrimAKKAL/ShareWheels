@@ -282,10 +282,9 @@ export const RechercheStyles = StyleSheet.create({
     marginLeft: 6,
   },
 
-  
   iconLayout: {
-    height: 21,
-    width: 21,
+    height: 22,
+    width: 22,
   },
 
   image1Icon: {

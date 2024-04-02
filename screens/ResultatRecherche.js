@@ -48,6 +48,8 @@ const renderItem = ({ item }) => (
     time={item.time}
     date={item.date}
     availableSeats={item.availableSeats}
+    btnText="Participer"
+
   />
 );
 

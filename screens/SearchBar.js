@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, Text, Pressable, TextInput, FlatList  } from "react-native";
-import { Image } from "expo-image";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+import { StyleSheet, View, Text, Pressable, TextInput, FlatList, Image  } from "react-native";
 import TopBar from "../components/TopBar";
 import algeria_cities from "../assets/algeria_cities.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Keyboard } from 'react-native';
 import {RechercheStyles} from "./Recherche";
 
 

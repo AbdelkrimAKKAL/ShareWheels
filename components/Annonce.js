@@ -1,143 +1,179 @@
 import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, Text, View, TouchableOpacity  } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 
 const Annonce = (Props) => {
   const navigation = useNavigation();
 
-  return (
-    <View style={[styles.annonce, styles.dateFlexBox]}>
-      <View style={styles.infos}>
+  const renderButtons = () => {
+    if (Props.btnText === 'Participer') {
+      return(
+      <View style={AnnonceStyles.buttons}>
+        <TouchableOpacity
+          style={[AnnonceStyles.details, AnnonceStyles.detailsFlexBox]}
+          onPress={() => navigation.navigate("Details")}
+        >
+          <Text
+            style={[
+              AnnonceStyles.ButtonText,
+              { color: Color.colorRoyalblue_100, width: 60 },
+            ]}
+          >
+            Details
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox]} onPress={ParticiperFunc}>
+          <Text
+            style={[AnnonceStyles.ButtonText, { color: Color.neutralWhite, width: 65 }]}>
+            Participer
+          </Text>
+        </TouchableOpacity>
+      </View>);
+  }
+  else{
+    return(
+    <View style={[AnnonceStyles.buttons]}>
+      <TouchableOpacity style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox, {backgroundColor: Color.colorTomato,}]}
+      onPress={AnnulerSup}>
+        <Text style={[AnnonceStyles.ButtonText, { color: Color.neutralWhite, width: 67 }]}>{Props.btnText}</Text>
+      </TouchableOpacity>
+    </View>);
+  }};
+
+  const AnnulerSup = ()=> {
+    if (Props.btnText === 'Supprimer'){
+      SupprimerFunc();
+    }else if (Props.btnText === 'Annuler'){
+      AnnulerFunc();
+    }
+  }
+
+  //Backedn----------------------------------------------------------------------------------------
+  const ParticiperFunc = () => {
+    Alert.alert('Participer');
+  };
+
+  const SupprimerFunc = () => {
+    Alert.alert('Supprimer');
+  };
+
+  const AnnulerFunc = () => {
+    Alert.alert('Annuler');
+  };
+//Backedn--------------------------------------------------------------------------------------------
+  
+return (
+    <View style={[AnnonceStyles.annonce]}>
+      <View style={[{height: 46,width: 318,}]}>
         <Image
-          style={styles.profilepictureIcon}
+          style={AnnonceStyles.profilepictureIcon}
           contentFit="cover"
           source={require("../assets/profilepicture1.png")}
         />
-        <View style={[styles.infosprofil, styles.trajetPosition]}>
-          <Text style={[styles.amineMeddouri, styles.textTypo]}>
+        <View style={[AnnonceStyles.infosprofil]}>
+          <Text style={[AnnonceStyles.titre,{textAlign: "left",}]}>
             {Props.name}
           </Text>
-          <View style={[styles.vectorParent, styles.trajetFlexBox]}>
+          <View style={[AnnonceStyles.trajetFlexBox, {marginTop: 6,}]}>
             <Image
-              style={styles.vectorIcon}
+              style={[{width: 8, height: 8,marginRight: 5}]}
               contentFit="cover"
               source={require("../assets/vector4.png")}
             />
-            <Text style={[styles.text, styles.textTypo]}>{Props.rating}</Text>
+            <Text style={[AnnonceStyles.titre, {textAlign: "left",fontSize: FontSize.size_xs+0.5, width: 55 }]}>{Props.rating}</Text>
           </View>
         </View>
-        <View style={[styles.trajet, styles.trajetFlexBox]}>
+        <View style={[AnnonceStyles.trajet, AnnonceStyles.trajetFlexBox]}>
           <Image
-            style={styles.groupIcon}
+            style={[{width: 12, height: 36,}]}
             contentFit="cover"
             source={require("../assets/group2.png")}
           />
-          <View style={styles.bejaiaParent}>
-            <Text style={[styles.bejaia, styles.algerTypo]}>{Props.startLocation}</Text>
-            <Text style={[styles.alger, styles.algerTypo]}>{Props.endLocation}</Text>
+          <View style={AnnonceStyles.LocationsBox}>
+            <Text style={[AnnonceStyles.LocationTextStyle]}>
+              {Props.startLocation}
+            </Text>
+            <Text style={[AnnonceStyles.LocationTextStyle, {top: 23,}]}>
+              {Props.endLocation}
+            </Text>
           </View>
         </View>
       </View>
-      <View style={[styles.infostrajet, styles.trajetFlexBox]}>
-        <View style={[styles.prix, styles.dateFlexBox]}>
-          <Text style={[styles.titre, styles.titreClr]}>Prix</Text>
-          <Text style={styles.infoTypo1}>
-            <Text style={styles.infoTypo}>{Props.price}</Text>
-            <Text style={styles.text1}>{` `}</Text>
+
+      <View style={[AnnonceStyles.trajetFlexBox, {justifyContent: "space-between", height: 32,}]}>
+        <View style={[AnnonceStyles.infoBox]}>
+          <Text style={[AnnonceStyles.titre]}>Prix</Text>
+          <Text style={AnnonceStyles.infoTypo}>{Props.price}</Text>
+        </View>
+
+        <View style={[AnnonceStyles.infoBox]}>
+          <Text style={[AnnonceStyles.titre]}>Véhicule</Text>
+          <Text style={[AnnonceStyles.infoTypo]}>{Props.vehicle}</Text>
+        </View>
+
+        <View style={[AnnonceStyles.infoBox]}>
+          <Text style={[AnnonceStyles.titre]}>Heure</Text>
+          <Text style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs }]}>
+            {Props.time}
           </Text>
         </View>
-        <View style={[styles.vehicule, styles.dateFlexBox]}>
-          <Text style={[styles.titre, styles.titreClr]}>Véhicule</Text>
-          <Text style={[styles.info1, styles.infoTypo]}>{Props.vehicle}</Text>
+
+        <View style={[AnnonceStyles.infoBox]}>
+          <Text style={[AnnonceStyles.titre]}>Date</Text>
+          <Text style={[AnnonceStyles.infoTypo]}>{Props.date}</Text>
         </View>
-        <View style={[styles.prix, styles.dateFlexBox]}>
-          <Text style={[styles.titre, styles.titreClr]}>Heure</Text>
-          <Text style={[styles.info2, styles.infoTypo1]}>{Props.time}</Text>
-        </View>
-        <View style={[styles.date, styles.dateFlexBox]}>
-          <Text style={[styles.titre, styles.titreClr]}>Date</Text>
-          <Text style={[styles.info3, styles.infoTypo]}>{Props.date}</Text>
-        </View>
-        <View style={[styles.date1, styles.dateFlexBox]}>
-          <Text style={[styles.titre, styles.titreClr]}>Places</Text>
-          <Text style={[styles.info3, styles.infoTypo]}>{Props.availableSeats}</Text>
+
+        <View style={[AnnonceStyles.infoBox]}>
+          <Text style={[AnnonceStyles.titre]}>Places</Text>
+          <Text style={[AnnonceStyles.infoTypo]}>{Props.availableSeats}</Text>
         </View>
       </View>
-      <View style={styles.buttons}>
-        <TouchableOpacity 
-          style={[styles.details, styles.detailsFlexBox]}
-          onPress={() => navigation.navigate("Details")}
-        >
-          <Text style={[styles.details1, styles.details1Typo]}>Details</Text>
-        </TouchableOpacity >
-        <TouchableOpacity  style={[styles.participer, styles.detailsFlexBox]}>
-          <Text style={[styles.participer1, styles.details1Typo]}>
-            Participer
-          </Text>
-        </TouchableOpacity >
+
+      <View>
+        {renderButtons()}
       </View>
+
+      
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  dateFlexBox: {
+export const AnnonceStyles = StyleSheet.create({
+  infoBox: {
     justifyContent: "space-between",
     alignItems: "center",
+    flex: 1,
+    height: 35,
   },
-  trajetPosition: {
-    justifyContent: "center",
-    top: 0,
-    position: "absolute",
-    height: 46,
-    borderRadius: Border.br_mini,
-  },
-  textTypo: {
-    textAlign: "left",
-    fontFamily: FontFamily.nunitoBold,
-    fontWeight: "700",
-    color: Color.colorDarkslategray_100,
-  },
+
   trajetFlexBox: {
     flexDirection: "row",
     alignItems: "center",
   },
-  algerTypo: {
+
+  LocationTextStyle: {
     color: Color.colorSilver_200,
     fontSize: FontSize.size_4xs,
     fontFamily: FontFamily.nunitoRegular,
-    textAlign: "left",
-    left: 0,
+    textAlign: "center",
     position: "absolute",
   },
-  titreClr: {
-    color: Color.colorDarkslategray_100,
-    fontSize: FontSize.size_xs,
-  },
+
   infoTypo: {
-    fontSize: FontSize.size_2xs,
+    fontSize: FontSize.size_2xs + 1,
     color: Color.colorDarkslategray_100,
   },
-  infoTypo1: {
-    width: 54,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-  },
+
   detailsFlexBox: {
     paddingVertical: Padding.p_5xs,
     paddingHorizontal: Padding.p_8xl,
-    height: 35,
-    flexDirection: "row",
     justifyContent: "center",
-    top: 0,
     position: "absolute",
     alignItems: "center",
     borderRadius: Border.br_mini,
   },
-  details1Typo: {
-    height: 19,
+  ButtonText: {
     fontSize: FontSize.size_sm,
     textAlign: "center",
     fontFamily: FontFamily.nunitoBold,
@@ -148,137 +184,55 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_9980xl,
     width: 41,
     height: 41,
-    left: 0,
     position: "absolute",
   },
-  amineMeddouri: {
-    fontSize: FontSize.size_xs,
-    width: 116,
-  },
-  vectorIcon: {
-    width: 8,
-    height: 8,
-  },
-  text: {
-    fontSize: FontSize.size_3xs,
-    width: 31,
-    height: 11,
-    marginLeft: 2,
-  },
-  vectorParent: {
-    width: 62,
-    marginTop: 6,
-  },
+
   infosprofil: {
     left: 51,
     width: 116,
+    justifyContent: "center",
+    height: 46,
   },
-  groupIcon: {
-    width: 10,
-    height: 30,
-  },
-  bejaia: {
-    width: 130,
-    top: 0,
-    fontSize: FontSize.size_4xs,
-  },
-  alger: {
-    top: 20,
-    width: 119,
-  },
-  bejaiaParent: {
+
+  LocationsBox: {
     marginLeft: 4,
-    height: 32,
+    height: 35,
     width: 130,
   },
   trajet: {
     left: 174,
     width: 144,
     justifyContent: "center",
-    top: 0,
     position: "absolute",
     height: 46,
-    borderRadius: Border.br_mini,
-  },
-  infos: {
-    height: 46,
-    width: 318,
   },
   titre: {
     fontWeight: "800",
     fontFamily: FontFamily.nunitoExtraBold,
     textAlign: "center",
-  },
-  text1: {
-    color: Color.colorTomato,
-    fontSize: FontSize.size_xs,
-  },
-  prix: {
-    width: 47,
-    height: 32,
-  },
-  info1: {
-    width: 108,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_2xs,
-  },
-  vehicule: {
-    width: 65,
-    height: 32,
-  },
-  info2: {
     color: Color.colorDarkslategray_100,
-    fontSize: FontSize.size_xs,
+    fontSize: FontSize.size_xs + 1,
   },
-  info3: {
-    width: 64,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_2xs,
-  },
-  date: {
-    width: 58,
-    height: 32,
-  },
-  date1: {
-    width: 37,
-    height: 32,
-  },
-  infostrajet: {
-    width: 318,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderRadius: Border.br_mini,
-  },
-  details1: {
-    color: Color.colorRoyalblue_100,
-    width: 50,
-  },
+
   details: {
     left: 106,
     backgroundColor: Color.colorGainsboro_100,
     width: 90,
-    zIndex: 0,
   },
-  participer1: {
-    color: Color.neutralWhite,
-    width: 65,
-  },
+
   participer: {
     left: 203,
     backgroundColor: Color.colorRoyalblue_100,
     width: 107,
-    zIndex: 1,
   },
+
   buttons: {
     width: 310,
     justifyContent: "flex-end",
-    padding: Padding.p_3xs,
+    marginTop: 12,
     height: 35,
-    flexDirection: "row",
-    alignItems: "center",
   },
+
   annonce: {
     borderColor: "rgba(0, 0, 0, 0.15)",
     borderWidth: 0.9,
@@ -297,7 +251,9 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_mini,
     alignItems: "center",
     marginBottom: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 345
   },
 });
-
 export default Annonce;

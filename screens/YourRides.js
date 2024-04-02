@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding } from "../GlobalStyles";
-import MesAnnonces from "../components/MesAnnonces";
+import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 
 const YourRides = () => {
@@ -14,7 +14,7 @@ const YourRides = () => {
       <TopBar/>
       <Text style={[styles.yourRides, styles.yourRidesTypo]}>Your Rides</Text>
       <View style={styles.main}>
-        <MesAnnonces
+        <Annonce
           name="Amine Meddouri"
           rating="4.5(2)"
           startLocation="Bejaia"
@@ -27,7 +27,7 @@ const YourRides = () => {
           btnText="Supprimer"
         />
 
-        <MesAnnonces
+        <Annonce
           name="Amine Meddouri"
           rating="4.5(2)"
           startLocation="Bejaia"
