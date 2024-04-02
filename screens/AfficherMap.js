@@ -5,7 +5,6 @@ import * as Location from "expo-location";
 import TopBar from "../components/TopBar";
 
 const AfficherMap = () => {
-  const [locationPermission, setLocationPermission] = useState(null);
   const [departCoords, setDepartCoords] = useState(null);
   const [destinationCoords, setDestinationCoords] = useState(null);
   const [distance, setDistance] = useState(null);
@@ -25,7 +24,6 @@ const AfficherMap = () => {
       );
       return;
     }
-    setLocationPermission(status);
     fetchCoordinates();
   };
 
@@ -34,29 +32,33 @@ const AfficherMap = () => {
       const depart = await Location.geocodeAsync("Bejaia");
       const destination = await Location.geocodeAsync("Alger");
 
+      if (depart.length === 0 || destination.length === 0) {
+        throw new Error("No coordinates found");
+      }
+
       setDepartCoords({ latitude: depart[0].latitude, longitude: depart[0].longitude });
       setDestinationCoords({ latitude: destination[0].latitude, longitude: destination[0].longitude });
 
-      // Calculating distance between two coordinates (in meters)
       const dist = getDistance(depart[0], destination[0]);
       setDistance(dist);
       setIsLoading(false);
     } catch (error) {
       console.error("Error getting coordinates: ", error);
+      Alert.alert("Error", "Échec de la récupération des coordonnées. Veuillez réessayer plus tard.");
       setIsLoading(false);
     }
   };
 
   const getDistance = (coord1, coord2) => {
-    const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(coord2.latitude - coord1.latitude); // deg2rad below
+    const R = 6371;
+    const dLat = deg2rad(coord2.latitude - coord1.latitude);
     const dLon = deg2rad(coord2.longitude - coord1.longitude);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(coord1.latitude)) * Math.cos(deg2rad(coord2.latitude)) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c * 1000; // Distance in meters
+    const distance = R * c * 1000;
     return distance;
   };
 

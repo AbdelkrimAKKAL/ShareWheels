@@ -5,7 +5,7 @@ import {
   Text,
   Pressable,
   ScrollView,
-  FlatList,
+  FlatList,TouchableOpacity 
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
@@ -55,28 +55,42 @@ const Details = () => {
             source={require("../assets/image.png")}
           />
           <View style={styles.NameAndRate}>
-            <Text style={[styles.nom, {fontSize: 20,fontWeight: "500",}]}>Amine Meddouri</Text>
+            <Text style={[styles.nom, { fontSize: 20, fontWeight: "500" }]}>
+              Amine Meddouri
+            </Text>
             <View style={[styles.inputFlexBox, {}]}>
               <Image
                 style={[{ width: 12, height: 12 }]}
                 contentFit="cover"
                 source={require("../assets/vector.png")}
               />
-              <Text style={[styles.nom, {fontWeight: "700",fontSize: FontSize.size_mini,marginLeft: 5}]}>4.7 (1)</Text>
+              <Text
+                style={[
+                  styles.nom,
+                  {
+                    fontWeight: "700",
+                    fontSize: FontSize.size_mini,
+                    marginLeft: 5,
+                  },
+                ]}
+              >
+                4.7 (1)
+              </Text>
             </View>
           </View>
         </View>
         <ScrollView contentContainerStyle={styles.detailsframe}>
           <View style={styles.container}>
-            <View style={[styles.dates,{height: 60,} ]}>
-              <Text style={[styles.amineemailcon, styles.numeroTypo]}>
+            <View style={[styles.BorderInput, { height: 60 }]}>
+              <Text style={[styles.ProfileInfoText, styles.TextStyle]}>
                 Amine@email.con
               </Text>
             </View>
             <View
               style={[
-                styles.dates, 
-                {height: 60,
+                styles.BorderInput,
+                {
+                  height: 60,
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   paddingLeft: 20,
@@ -84,30 +98,30 @@ const Details = () => {
                 },
               ]}
             >
-              <View style={styles.parent}>
+              <View style={styles.Algeria}>
                 <Image
-                  style={[{width: 24, height: 23, overflow: 'hidden' }]}
+                  style={[{ width: 24, height: 23, overflow: "hidden" }]}
                   contentFit="cover"
                   source={require("../assets/flagforflagalgeria-svgrepocom.png")}
                 />
-                <Text style={[styles.numeroTypo]}>+213</Text>
+                <Text style={[styles.TextStyle]}>+213</Text>
               </View>
-              <Text style={[styles.numeroTypo, { marginLeft: 15 }]}>
+              <Text style={[styles.TextStyle, { marginLeft: 15 }]}>
                 06 78 89 56 45
               </Text>
             </View>
 
-            <View style={[styles.dates, {width: 328,height: 60,}]}>
-              <Text style={[styles.amineemailcon, styles.numeroTypo]}>
+            <View style={[styles.BorderInput, { width: 328, height: 60 }]}>
+              <Text style={[styles.ProfileInfoText, styles.TextStyle]}>
                 Male
               </Text>
             </View>
           </View>
 
-          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>
+          <Text style={[styles.TextAlign, styles.TextStyle]}>
             Date et heure
           </Text>
-          <View style={styles.dates}>
+          <View style={styles.BorderInput}>
             <View style={[RechercheStyles.DateHeure]}>
               <View style={[RechercheStyles.Inputs, { width: 184 }]}>
                 <Image
@@ -155,27 +169,23 @@ const Details = () => {
             </View>
           </View>
 
-          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>Voiture</Text>
-          <View style={styles.dates}>
-            <Text style={styles.numberLayout}>Model</Text>
+          <Text style={[styles.TextAlign, styles.TextStyle]}>Voiture</Text>
+          <View style={styles.BorderInput}>
+            <Text style={styles.TitleText}>Model</Text>
             <View
               style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
             >
               <Text style={[RechercheStyles.inputText]}>Model</Text>
             </View>
 
-            <Text style={[styles.numberLayout, { marginTop: 10 }]}>
-              Matricule
-            </Text>
+            <Text style={[styles.TitleText, { marginTop: 10 }]}>Matricule</Text>
             <View
               style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
             >
               <Text style={[RechercheStyles.inputText]}>Matricule</Text>
             </View>
 
-            <Text style={[styles.numberLayout, { marginTop: 10 }]}>
-              Couleur
-            </Text>
+            <Text style={[styles.TitleText, { marginTop: 10 }]}>Couleur</Text>
             <View
               style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
             >
@@ -183,8 +193,13 @@ const Details = () => {
             </View>
 
             <View style={[styles.nmbrplaces, styles.inputFlexBox]}>
-              <Text style={[styles.numberLayout, {width: 60}]}>Places</Text>
-              <View style={[RechercheStyles.Inputs, {width: 55, justifyContent: "center",}]}>
+              <Text style={[styles.TitleText, { width: 60 }]}>Places</Text>
+              <View
+                style={[
+                  RechercheStyles.Inputs,
+                  { width: 55, justifyContent: "center" },
+                ]}
+              >
                 <Image
                   style={[RechercheStyles.Icon]}
                   contentFit="cover"
@@ -192,10 +207,15 @@ const Details = () => {
                 />
                 <Text style={[styles.number11]}>1</Text>
               </View>
-              <Text style={[styles.numberLayout, {width: 90, marginLeft: 10}]}>
+              <Text style={[styles.TitleText, { width: 90, marginLeft: 10 }]}>
                 Disponible
               </Text>
-              <View style={[RechercheStyles.Inputs, {width: 55, justifyContent: "center",}]}>
+              <View
+                style={[
+                  RechercheStyles.Inputs,
+                  { width: 55, justifyContent: "center" },
+                ]}
+              >
                 <Image
                   style={[RechercheStyles.Icon]}
                   contentFit="cover"
@@ -205,30 +225,46 @@ const Details = () => {
               </View>
             </View>
           </View>
-          <Text style={[styles.dateEtHeure, styles.numeroTypo]}>
+          <Text style={[styles.TextAlign, styles.TextStyle]}>
             Plus de details
           </Text>
-          <View style={[styles.dates, {marginBottom: 20,flex: 1, flexGrow: 1}]}>
+          <View
+            style={[
+              styles.BorderInput,
+              { marginBottom: 20, flex: 1, flexGrow: 1 },
+            ]}
+          >
             <FlatList
               data={data}
               renderItem={renderItem}
               keyExtractor={(item) => item.id.toString()}
             />
-            <View style={[RechercheStyles.Inputs, { width: 284,}]}>
-              <Text style={[RechercheStyles.inputText, {padding: 8}]}>A ajouter</Text>
+            <View style={[RechercheStyles.Inputs, { width: 284 }]}>
+              <Text style={[RechercheStyles.inputText, { padding: 8 }]}>
+                A ajouter
+              </Text>
             </View>
           </View>
 
-          <Pressable
-            style={[styles.buttonsecondary, {marginBottom: 10,}]}
+          <TouchableOpacity 
+            style={[styles.buttonsecondary, { marginBottom: 10 }]}
             onPress={() => navigation.navigate("AfficherMap")}
           >
-            <Text style={[RechercheStyles.buttonText, {color: Color.colorRoyalblue_100,}]}>Afficher Map</Text>
-          </Pressable>
+            <Text
+              style={[
+                RechercheStyles.buttonText,
+                { color: Color.colorRoyalblue_100 },
+              ]}
+            >
+              Afficher Map
+            </Text>
+          </TouchableOpacity >
 
-          <View style={[RechercheStyles.buttonfirst]}>
-            <Text style={[RechercheStyles.buttonText, {color: "white"}]}>Participer</Text>
-          </View>
+          <TouchableOpacity  style={[RechercheStyles.buttonfirst]}>
+            <Text style={[RechercheStyles.buttonText, { color: "white" }]}>
+              Participer
+            </Text>
+          </TouchableOpacity >
         </ScrollView>
       </View>
     </View>
@@ -245,7 +281,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  numeroTypo: {
+  TextStyle: {
     lineHeight: 23,
     fontSize: FontSize.subheadLgSHLgMedium_size,
     color: Color.textColorContentTertiary,
@@ -253,14 +289,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 
-
   frameFlexBox: {
     width: 290,
     flexDirection: "row",
     alignItems: "center",
   },
 
-  numberLayout: {
+  TitleText: {
     width: 289,
     color: Color.colorBlack,
     fontSize: FontSize.size_mid,
@@ -272,7 +307,6 @@ const styles = StyleSheet.create({
     color: Color.textColorContentTertiary,
     fontFamily: FontFamily.subheadLgSHLgMedium,
   },
-
 
   NameAndRate: {
     width: 231,
@@ -289,20 +323,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     width: "100%",
   },
-  amineemailcon: {
+  ProfileInfoText: {
     left: "5.52%",
     textAlign: "left",
     position: "absolute",
   },
 
-  parent: {
+  Algeria: {
     width: 55,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
 
-  dateEtHeure: {
+  TextAlign: {
     display: "flex",
     width: 316,
     marginTop: 20,
@@ -311,8 +345,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-
-  dates: {
+  BorderInput: {
     padding: Padding.p_mini,
     borderColor: Color.colorGray_200,
     borderRadius: Border.br_mini,
@@ -322,19 +355,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-
   number11: {
     fontSize: FontSize.headingH2_size,
     color: Color.colorGray_100,
     fontFamily: FontFamily.nunitoRegular,
   },
- 
+
   nmbrplaces: {
     width: 281,
     marginTop: 10,
     justifyContent: "center",
   },
-
 
   buttonsecondary: {
     borderRadius: Border.br_3xs,
@@ -350,7 +381,7 @@ const styles = StyleSheet.create({
   detailsframe: {
     flexGrow: 1,
     alignItems: "center",
-    width: '100%'
+    width: "100%",
   },
   main: {
     flex: 1,

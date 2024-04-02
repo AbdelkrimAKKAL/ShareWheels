@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
-import { Image } from "expo-image";
+import { StyleSheet, View, Text, Pressable, Image, TouchableOpacity  } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
@@ -74,11 +73,30 @@ const Recherche = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
-    hideDatePicker();
-    setDate(date);
-    console.log("A date has been picked: ", date);
-    setDatePicker(true);
+  const handleConfirm = (pickedDate) => {
+    const currentDate = new Date();
+    
+    const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    const pickedDateWithoutTime = new Date(pickedDate.getFullYear(), pickedDate.getMonth(), pickedDate.getDate());
+    
+    if (pickedDateWithoutTime >= currentDateWithoutTime) {
+      hideDatePicker();
+      setDate(pickedDate);
+      console.log("A date has been picked: ", pickedDate);
+      setDatePicker(true);
+    } else {
+      Alert.alert(
+        "Alert",
+        "Vous ne pouvez pas choisir une date passée.",
+        [{
+          text: "OK",
+          onPress: () => {
+            hideDatePicker(); 
+            setDatePickerVisibility(false); 
+          }
+        }]
+      );
+    }
   };
 //----------------------------------------------------------------------------------------------------------------
 
@@ -139,7 +157,7 @@ const Recherche = () => {
         <Text style={[RechercheStyles.heading, {width: 326, marginTop: 10,}]}>Quand?</Text>
         <View style={[RechercheStyles.DateHeure]}>
           <View>
-            <Pressable
+            <TouchableOpacity 
               onPress={showDatePicker}
               style={[RechercheStyles.Inputs, {width: 184,}]}
             >
@@ -151,7 +169,7 @@ const Recherche = () => {
               <Text style={[RechercheStyles.inputText ,{marginLeft: 10}]}>
                 {isDatePicked ? date.toLocaleDateString() : "Date"}
               </Text>
-            </Pressable>
+            </TouchableOpacity >
 
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
@@ -184,33 +202,33 @@ const Recherche = () => {
             Combien Places ?
           </Text>
           <View style={RechercheStyles.nmbrplaces}>
-            <Pressable onPress={sub}>
+            <TouchableOpacity  onPress={sub}>
               <Image
                 style={RechercheStyles.iconLayout}
                 contentFit="cover"
                 source={require("../assets/moins.png")}
               />
-            </Pressable>
+            </TouchableOpacity >
             <Text style={[RechercheStyles.heading]}>
               {nbPlaces}
             </Text>
-            <Pressable onPress={add}>
+            <TouchableOpacity  onPress={add}>
               <Image
                 style={[RechercheStyles.iconLayout]}
                 contentFit="cover"
                 source={require("../assets/plus.png")}
               />
-            </Pressable>
+            </TouchableOpacity >
           </View>
         </View>
       </View>
 
-      <Pressable
+      <TouchableOpacity
         style={[RechercheStyles.buttonfirst, {alignItems: "center",}]}
         onPress={handleSearch}
       >
         <Text style={[RechercheStyles.buttonText, {color: "white",}]}>Rechercher</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

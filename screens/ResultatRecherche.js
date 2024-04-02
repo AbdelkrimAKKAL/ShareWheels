@@ -1,13 +1,64 @@
-import * as React from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { RechercheStyles } from "./Recherche";
 
+const fetchDataFromDatabase = async () => {
+  // Example data
+  return [
+    {
+      id: 1,
+      name: "Amine Meddouri",
+      rating: "4.5(2)",
+      startLocation: "Alger Centre",
+      endLocation: "Amizour",
+      price: "250 DA",
+      vehicle: "Toyota Corolla",
+      time: "6:30pm",
+      date: "25 DEC 23",
+      availableSeats: "3/4",
+    },
+    {
+      id: 2,
+      name: "Amine Meddouri",
+      rating: "4.5(2)",
+      startLocation: "Alger Centre",
+      endLocation: "Amizour",
+      price: "250 DA",
+      vehicle: "Toyota Corolla",
+      time: "6:30pm",
+      date: "25 DEC 23",
+      availableSeats: "3/4",
+    },
+    
+  ];
+};
+
+const renderItem = ({ item }) => (
+  <Annonce
+    name={item.name}
+    rating={item.rating}
+    startLocation={item.startLocation}
+    endLocation={item.endLocation}
+    price={item.price}
+    vehicle={item.vehicle}
+    time={item.time}
+    date={item.date}
+    availableSeats={item.availableSeats}
+  />
+);
+
 const ResultatRecherche = () => {
   const navigation = useNavigation();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from the database when the component mounts
+    fetchDataFromDatabase().then((result) => setData(result));
+  }, []);
 
   const route = useRoute();
   const date = route.params?.Date;
@@ -26,31 +77,11 @@ const ResultatRecherche = () => {
           {date}, {nmbrplaces} Places
         </Text>
       </View>
-      <ScrollView contentContainerStyle={styles.main}>
-        <Annonce
-          name="Amine Meddouri"
-          rating="4.5(2)"
-          startLocation="Alger Centre"
-          endLocation="Amizour"
-          price="250 DA"
-          vehicle="Toyota Corolla"
-          time="6:30pm"
-          date="25 DEC 23"
-          availableSeats="3/4"
-        />
-
-        <Annonce
-          name="Amine Meddouri"
-          rating="4.5(2)"
-          startLocation="StartLocation"
-          endLocation="EndLocation"
-          price="250 DA"
-          vehicle="Toyota Corolla"
-          time="6:30pm"
-          date="25 DEC 23"
-          availableSeats="3/4"
-        />
-      </ScrollView>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </View>
   );
 };
@@ -93,13 +124,6 @@ const styles = StyleSheet.create({
     width: 300,
     height: 54,
     alignItems: "center",
-  },
-
-  main: {
-    flexGrow: 1,
-    paddingHorizontal: Padding.p_mini,
-    paddingBottom: Padding.p_mini,
-    alignItems: 'center'
   },
 
   resultatrecherche: {

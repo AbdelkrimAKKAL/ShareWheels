@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity  } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 
@@ -66,17 +66,17 @@ const Annonce = (Props) => {
         </View>
       </View>
       <View style={styles.buttons}>
-        <Pressable
+        <TouchableOpacity 
           style={[styles.details, styles.detailsFlexBox]}
           onPress={() => navigation.navigate("Details")}
         >
           <Text style={[styles.details1, styles.details1Typo]}>Details</Text>
-        </Pressable>
-        <View style={[styles.participer, styles.detailsFlexBox]}>
+        </TouchableOpacity >
+        <TouchableOpacity  style={[styles.participer, styles.detailsFlexBox]}>
           <Text style={[styles.participer1, styles.details1Typo]}>
             Participer
           </Text>
-        </View>
+        </TouchableOpacity >
       </View>
     </View>
   );

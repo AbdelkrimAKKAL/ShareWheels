@@ -38,7 +38,6 @@ const SearchBar = () => {
     setFilteredCities(filtered);
   }, [searchQuery]);
 
-  // Handle selection of a city
   const handleCitySelection = (city) => {
     navigation.navigate(screen, { location: city.commune_name_ascii.toString(), type:id })
   };
