@@ -23,7 +23,6 @@ import ResultatRecherche from "./screens/ResultatRecherche";
 import SearchBar from "./screens/SearchBar";
 import AfficherMap from "./screens/AfficherMap";
 import Annonce from "./components/Annonce";
-import MesAnnonces from "./components/MesAnnonces";
 import Evaluer from "./components/Evaluer";
 import ButtonsSwitch from "./components/ButtonsSwitch";
 import Profile from "./screens/Profile";
