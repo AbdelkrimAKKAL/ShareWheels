@@ -5,7 +5,8 @@ import {
   Text,
   Pressable,
   ScrollView,
-  FlatList,TouchableOpacity 
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
@@ -23,17 +24,6 @@ const fetchDataFromDatabase = async () => {
     { id: 5, text: "Arrêts supplémentaires" },
   ];
 };
-
-const renderItem = ({ item }) => (
-  <View style={[RechercheStyles.Inputs, { width: 284, marginBottom: 10 }]}>
-    <Image
-      style={RechercheStyles.Icon}
-      contentFit="cover"
-      source={require("../assets/check.png")}
-    />
-    <Text style={RechercheStyles.inputText}>{item.text}</Text>
-  </View>
-);
 
 const Details = () => {
   const navigation = useNavigation();
@@ -231,14 +221,25 @@ const Details = () => {
           <View
             style={[
               styles.BorderInput,
-              { marginBottom: 20, flex: 1, flexGrow: 1 },
+              { marginBottom: 20, flex: 1, flexGrow: 1,},
             ]}
           >
-            <FlatList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id.toString()}
-            />
+            {data.map((item) => (
+              <View
+                key={item.id}
+                style={[RechercheStyles.Inputs, { width: 284, marginBottom: 8 }]}
+              >
+                <Image
+                  style={RechercheStyles.Icon}
+                  contentFit="cover"
+                  source={require("../assets/check.png")}
+                />
+                <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
+                  {item.text}
+                </Text>
+              </View>
+            ))}
+
             <View style={[RechercheStyles.Inputs, { width: 284 }]}>
               <Text style={[RechercheStyles.inputText, { padding: 8 }]}>
                 A ajouter
@@ -246,7 +247,7 @@ const Details = () => {
             </View>
           </View>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.buttonsecondary, { marginBottom: 10 }]}
             onPress={() => navigation.navigate("AfficherMap")}
           >
@@ -258,13 +259,13 @@ const Details = () => {
             >
               Afficher Map
             </Text>
-          </TouchableOpacity >
+          </TouchableOpacity>
 
-          <TouchableOpacity  style={[RechercheStyles.buttonfirst]}>
-            <Text style={[RechercheStyles.buttonText, { color: "white" }]}>
+          <TouchableOpacity style={[RechercheStyles.buttonfirst]}>
+            <Text style={[RechercheStyles.buttonText, { color: "white"}]}>
               Participer
             </Text>
-          </TouchableOpacity >
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </View>
@@ -273,7 +274,7 @@ const Details = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "14%",
+    height: "13%",
     justifyContent: "space-between",
     marginTop: 5,
   },
@@ -382,6 +383,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     width: "100%",
+    paddingBottom: 20 //gonna fix this
   },
   main: {
     flex: 1,

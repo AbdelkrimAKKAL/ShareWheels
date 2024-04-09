@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 
-const Profile = () => {
+const WelcomeScreen = () => {
   const navigation = useNavigation();
 
   return (
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     elevation: 14,
     shadowRadius: 14,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
+    shadowColor: "white",
     flexDirection: "row",
     justifyContent: "center",
   },
@@ -198,14 +198,7 @@ const styles = StyleSheet.create({
   profile2: {
     color: Color.colorRoyalblue_100,
   },
-  footerprofile: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowRadius: 20,
-    elevation: 20,
-    width: 375,
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
+
   profile1: {
     flex: 1,
     height: 834,
@@ -216,4 +209,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Profile;
+export default WelcomeScreen;

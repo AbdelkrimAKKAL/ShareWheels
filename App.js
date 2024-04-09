@@ -25,7 +25,7 @@ import AfficherMap from "./screens/AfficherMap";
 import Annonce from "./components/Annonce";
 import Evaluer from "./components/Evaluer";
 import ButtonsSwitch from "./components/ButtonsSwitch";
-import Profile from "./screens/Profile";
+import WelcomeScreen from "./screens/WelcomeScreen";
 import Mdp from "./screens/Mdp";
 import ForgotPwd from "./screens/ForgotPwd";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -139,8 +139,8 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Profile"
-              component={Profile}
+              name="WelcomeScreen"
+              component={WelcomeScreen}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -305,6 +305,8 @@ const PublishStackScreen = () => (
     <Stack.Screen name="Dates" component={Dates} />
     <Stack.Screen name="Voiture" component={Voiture} />
     <Stack.Screen name="SearchBar" component={SearchBar} />
+    <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
+
   </Stack.Navigator>
 );
 
@@ -320,7 +322,7 @@ const ProfileScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="MonProfil" component={MonProfil} />
     <Stack.Screen name="Modifier" component={Modifier} />
-    <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Voiture" component={Voiture} />

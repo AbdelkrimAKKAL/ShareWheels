@@ -17,6 +17,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { RechercheStyles } from "./Recherche";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
@@ -358,23 +359,23 @@ const AjouterAnnonce = () => {
                 </View>
               </View>
 
-              <View
-                style={[{ zIndex: -1 }, styles.input4, styles.inputShadowBox1]}
+              <Pressable
+                style={styles.inputShadowBox}
+                onPress={() => { navigation.navigate('DatailsAjouter') }}
               >
-                <TextInput
-                  placeholder="Autre.."
-                  style={[
-                    styles.number4,
-                    {
-                      textAlign: "left",
-                      height: 20,
-                      marginBottom: 0,
-                    },
-                  ]}
-                  onBlur={handleInputBlur} 
-                  
-                />
-              </View>
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/add-circle-outline.png")}
+                  />
+                  <Text style={[styles.number2, styles.numberTypo]}>Details a ajouter</Text>
+              </Pressable>
+
+              <View style={[RechercheStyles.Inputs,styles.inputShadowBox, { width: 284 }]}>
+              <TextInput style={[RechercheStyles.inputText, { padding: 0 }]}
+                placeholder="Autre.."
+              />
+            </View>
 
             </View>
 

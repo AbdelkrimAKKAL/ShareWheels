@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
 import { TextInput } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native";
-import Profile from "./Profile";
 import { Alert } from "react-native";
 import { Border, Color, Padding,FontSize, FontFamily } from "../GlobalStyles";
 import { useState } from "react";
@@ -33,7 +32,7 @@ const ForgotPwd = () => {
 
   return (
     <View style={[pstyles.main, { paddingTop: "20%" }]}>
-      <Text style={styles.title}>changer mot de passe</Text>
+      <Text style={styles.title}>CHANGE PASSWORD</Text>
       <Text style={styles.Soustitre}>votre gmail:</Text>
 
       <View style={styles.Input}>

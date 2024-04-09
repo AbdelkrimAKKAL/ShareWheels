@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Pressable, Image, TouchableOpacity  } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
@@ -24,10 +31,11 @@ const Recherche = () => {
     }
   }, [id, route.params?.location]);
 
-
   const handleSearch = () => {
     if (!departLocation || !destinationLocation || !isDatePicked) {
       Alert.alert("Alert", "Veuillez remplir les informations SVP.");
+    } else if (departLocation.toLowerCase() == destinationLocation.toLowerCase()) {
+      Alert.alert("Alert", "le lieu de départ et la destination sont les mêmes");
     } else {
       navigation.navigate("ResultatRecherche", {
         Date: date.toLocaleDateString(),
@@ -75,31 +83,36 @@ const Recherche = () => {
 
   const handleConfirm = (pickedDate) => {
     const currentDate = new Date();
-    
-    const currentDateWithoutTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-    const pickedDateWithoutTime = new Date(pickedDate.getFullYear(), pickedDate.getMonth(), pickedDate.getDate());
-    
+
+    const currentDateWithoutTime = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+    const pickedDateWithoutTime = new Date(
+      pickedDate.getFullYear(),
+      pickedDate.getMonth(),
+      pickedDate.getDate()
+    );
+
     if (pickedDateWithoutTime >= currentDateWithoutTime) {
       hideDatePicker();
       setDate(pickedDate);
       console.log("A date has been picked: ", pickedDate);
       setDatePicker(true);
     } else {
-      Alert.alert(
-        "Alert",
-        "Vous ne pouvez pas choisir une date passée.",
-        [{
+      Alert.alert("Alert", "Vous ne pouvez pas choisir une date passée.", [
+        {
           text: "OK",
           onPress: () => {
-            hideDatePicker(); 
-            setDatePickerVisibility(false); 
-          }
-        }]
-      );
+            hideDatePicker();
+            setDatePickerVisibility(false);
+          },
+        },
+      ]);
     }
   };
-//----------------------------------------------------------------------------------------------------------------
-
+  //----------------------------------------------------------------------------------------------------------------
 
   return (
     <View style={RechercheStyles.recherche}>
@@ -116,10 +129,11 @@ const Recherche = () => {
       <Text style={RechercheStyles.sharewheels}>ShareWheels</Text>
 
       <View style={RechercheStyles.main}>
-    
-        <Text style={[RechercheStyles.heading, {width: 326, marginTop: 10,}]}>où vas-tu</Text>
+        <Text style={[RechercheStyles.heading, { width: 326, marginTop: 10 }]}>
+          où vas-tu
+        </Text>
         <Pressable
-          style={[RechercheStyles.Inputs, {marginTop: "2%", width: 292,}]}
+          style={[RechercheStyles.Inputs, { marginTop: "2%", width: 292 }]}
           onPress={() =>
             navigation.navigate("SearchBar", {
               type: "Depart",
@@ -138,9 +152,12 @@ const Recherche = () => {
         </Pressable>
 
         <Pressable
-          style={[RechercheStyles.Inputs, {marginTop: "2%", width: 292,}]}
+          style={[RechercheStyles.Inputs, { marginTop: "2%", width: 292 }]}
           onPress={() =>
-            navigation.navigate("SearchBar", { type: "Destination", screen: "Recherche", })
+            navigation.navigate("SearchBar", {
+              type: "Destination",
+              screen: "Recherche",
+            })
           }
         >
           <Image
@@ -153,23 +170,24 @@ const Recherche = () => {
           </Text>
         </Pressable>
 
-    
-        <Text style={[RechercheStyles.heading, {width: 326, marginTop: 10,}]}>Quand?</Text>
+        <Text style={[RechercheStyles.heading, { width: 326, marginTop: 10 }]}>
+          Quand?
+        </Text>
         <View style={[RechercheStyles.DateHeure]}>
           <View>
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={showDatePicker}
-              style={[RechercheStyles.Inputs, {width: 184,}]}
+              style={[RechercheStyles.Inputs, { width: 184 }]}
             >
               <Image
                 style={[RechercheStyles.iconLayout]}
                 contentFit="cover"
                 source={require("../assets/mappin1.png")}
               />
-              <Text style={[RechercheStyles.inputText ,{marginLeft: 10}]}>
+              <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
                 {isDatePicked ? date.toLocaleDateString() : "Date"}
               </Text>
-            </TouchableOpacity >
+            </TouchableOpacity>
 
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
@@ -179,14 +197,14 @@ const Recherche = () => {
               date={new Date(date)}
             />
           </View>
-          <View style={[RechercheStyles.Inputs, {width: 99,}]}>
+          <View style={[RechercheStyles.Inputs, { width: 99 }]}>
             <Image
               style={[RechercheStyles.iconLayout]}
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
-            <Text style={[RechercheStyles.inputText, {marginLeft: 5}]}>
-              {isDatePicked 
+            <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
+              {isDatePicked
                 ? date.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -198,36 +216,34 @@ const Recherche = () => {
         </View>
 
         <View style={RechercheStyles.places}>
-          <Text style={[RechercheStyles.heading]}>
-            Combien Places ?
-          </Text>
+          <Text style={[RechercheStyles.heading]}>Combien Places ?</Text>
           <View style={RechercheStyles.nmbrplaces}>
-            <TouchableOpacity  onPress={sub}>
+            <TouchableOpacity onPress={sub}>
               <Image
                 style={RechercheStyles.iconLayout}
                 contentFit="cover"
                 source={require("../assets/moins.png")}
               />
-            </TouchableOpacity >
-            <Text style={[RechercheStyles.heading]}>
-              {nbPlaces}
-            </Text>
-            <TouchableOpacity  onPress={add}>
+            </TouchableOpacity>
+            <Text style={[RechercheStyles.heading]}>{nbPlaces}</Text>
+            <TouchableOpacity onPress={add}>
               <Image
                 style={[RechercheStyles.iconLayout]}
                 contentFit="cover"
                 source={require("../assets/plus.png")}
               />
-            </TouchableOpacity >
+            </TouchableOpacity>
           </View>
         </View>
       </View>
 
       <TouchableOpacity
-        style={[RechercheStyles.buttonfirst, {alignItems: "center",}]}
+        style={[RechercheStyles.buttonfirst, { alignItems: "center" }]}
         onPress={handleSearch}
       >
-        <Text style={[RechercheStyles.buttonText, {color: "white",}]}>Rechercher</Text>
+        <Text style={[RechercheStyles.buttonText, { color: "white" }]}>
+          Rechercher
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -272,7 +288,6 @@ export const RechercheStyles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
 
-  
   inputText: {
     color: Color.colorGray_100,
     fontFamily: FontFamily.nunitoRegular,
@@ -312,7 +327,7 @@ export const RechercheStyles = StyleSheet.create({
     height: 24,
     overflow: "hidden",
   },
- 
+
   input: {
     marginTop: "2%",
     width: 292,
@@ -333,7 +348,7 @@ export const RechercheStyles = StyleSheet.create({
     marginTop: 5,
     height: 24,
     flexDirection: "row",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   places: {
@@ -351,7 +366,6 @@ export const RechercheStyles = StyleSheet.create({
     marginTop: "-5%",
   },
 
-
   buttonfirst: {
     borderRadius: Border.br_mini,
     backgroundColor: Color.colorRoyalblue_100,
@@ -361,14 +375,13 @@ export const RechercheStyles = StyleSheet.create({
     width: 317,
     height: 58,
     justifyContent: "center",
-    alignItems: 'center',
+    alignItems: "center",
     shadowOpacity: 1,
     shadowOffset: {
       width: 0,
       height: 4,
     },
   },
-
 
   recherche: {
     flex: 1,

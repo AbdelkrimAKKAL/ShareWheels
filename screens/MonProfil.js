@@ -122,7 +122,7 @@ const MonProfil = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[ pstyles.buttons,pstyles.blue]}
-          onPress={() => navigation.navigate("Profile")}
+          onPress={() => navigation.navigate("WelcomeScreen")}
         >
           <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
         </TouchableOpacity>
