@@ -27,6 +27,11 @@ const Evaluer = (Props) => {
     setIsSent(true);
   }
 
+  // handlDelete in Backend
+  const handleDelete = ()=>{
+    Alert.alert('Ride Deleted')
+  }
+
   return (
     <View style={[styles.evaluer, styles.dateFlexBox]}>
       <View style={styles.infos}>
@@ -60,6 +65,20 @@ const Evaluer = (Props) => {
           </View>
         </View>
       </View>
+
+      <View>
+        <Pressable
+          onPress={handleDelete}
+        >
+          <Image
+            style={styles.deleteAnnonce}
+            contentFit="cover"
+            source={require("../assets/delete.png")}
+          />
+        </Pressable>
+      </View>
+
+
       <View style={[styles.infostrajet, styles.rateFlexBox]}>
         <View style={[styles.prix, styles.dateFlexBox]}>
           <Text style={styles.titre}>Prix</Text>
@@ -138,6 +157,13 @@ const Evaluer = (Props) => {
 };
 
 const styles = StyleSheet.create({
+  deleteAnnonce:{
+    position: 'absolute',
+    top: -60,
+    left: 140,
+    height:20,
+    width:20,
+  },
   rating: {
     fontSize: FontSize.headingH2_size,
     fontWeight: "500",

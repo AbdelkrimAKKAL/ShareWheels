@@ -161,8 +161,9 @@ const AjouterAnnonce = () => {
       <View style={[styles.AddRideTop]}>
         <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
       </View>
+      
       <ScrollView ref={scrollViewRef} scrollEnabled={extend}>
-        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? { height: 800 } : { height: 700 }]}>
+        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? { height: 750 } : { height: 600 }]}>
 
 
           <View style={[styles.main,]}>
@@ -236,7 +237,7 @@ const AjouterAnnonce = () => {
                       <Image
                         style={styles.addCircleSvgrepocomIcon}
                         contentFit="cover"
-                        source={extend ? require("../assets/add-circle-outline.png") : require("../assets/addcircle-svgrepocom1.png")}
+                        source={extend ? require("../assets/UpArrow.png") : require("../assets/down-arrow.png")}
                       />
                     </Pressable>
 
@@ -354,7 +355,7 @@ const AjouterAnnonce = () => {
                     style={[styles.number2, styles.numberTypo]}
                     placeholder="Prix (DA)"
                     keyboardType="numeric"
-                    onBlur={handleInputBlur} 
+                    onBlur={handleInputBlur}
                   />
                 </View>
               </View>
@@ -363,19 +364,15 @@ const AjouterAnnonce = () => {
                 style={styles.inputShadowBox}
                 onPress={() => { navigation.navigate('DatailsAjouter') }}
               >
-                  <Image
-                    style={[styles.mapPinIcon2, styles.iconLayout]}
-                    contentFit="cover"
-                    source={require("../assets/add-circle-outline.png")}
-                  />
-                  <Text style={[styles.number2, styles.numberTypo]}>Details a ajouter</Text>
+                <Image
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/add-circle-outline.png")}
+                />
+                <Text style={[styles.number2, styles.numberTypo]}>Details a ajouter</Text>
               </Pressable>
 
-              <View style={[RechercheStyles.Inputs,styles.inputShadowBox, { width: 284 }]}>
-              <TextInput style={[RechercheStyles.inputText, { padding: 0 }]}
-                placeholder="Autre.."
-              />
-            </View>
+
 
             </View>
 
@@ -384,6 +381,7 @@ const AjouterAnnonce = () => {
 
         </View>
       </ScrollView>
+
       <View style={styles.ajouter}>
         <Pressable style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]}>
           <Text style={styles.signUp}>Ajouter</Text>
@@ -416,9 +414,10 @@ const styles = StyleSheet.create({
     height: 20
   },
   addCircleSvgrepocomIcon: {
-    width: 20,
-    height: 20,
-    overflow: "hidden",
+    width: 22,
+    height: 22,
+    marginLeft:-15,
+    
 
   },
   btnAjouter: {
@@ -481,6 +480,7 @@ const styles = StyleSheet.create({
     color: Color.colorDarkslategray_100,
     width: 359,
     textAlign: "center",
+    marginBottom:0,
   },
   mapPinIcon: {
     width: 24,
@@ -594,7 +594,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 25,
     alignItems: "center",
   },
 
