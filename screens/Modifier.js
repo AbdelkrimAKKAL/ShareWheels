@@ -1,22 +1,47 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil.js";
 import { me } from "./MonProfil.js";
+import { launchImageLibraryAsync } from 'expo-image-picker';
+import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
 
 const Modifier = () => {
   const navigation = useNavigation();
+
+  const [imgUrl, setImgUrl] = useState(me.image);
+
+  const openGallery = async () => {
+    try {
+      const { status } = await requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access media library was denied');
+        return;
+      }
+      const result = await launchImageLibraryAsync({
+        mediaTypes: 'Images',
+        quality: 1,
+      });
+
+      if (!result.canceled && result.assets.length > 0) {
+        const selectedUri = result.assets[0].uri.toString(); 
+        setImgUrl(selectedUri);
+      }
+    } catch (error) {
+      console.log('Error while opening gallery:', error);
+    }
+  };
 
   return (
     <View style={pstyles.main}>
       <View >
         <Image
           style={pstyles.imageIcon}
-          contentFit="cover"
-          source={me.image}
+          resizeMode="cover"
+          source={imgUrl}
         />
-        <TouchableOpacity style={styles.edtbtn}>
+        <TouchableOpacity style={styles.edtbtn} onPress={openGallery}>
           <Image
             style={{ height: 20, width: 20 }}
             contentFit="contain"
