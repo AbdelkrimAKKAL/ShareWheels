@@ -116,7 +116,9 @@ const styles = StyleSheet.create({
     paddingVertical: Padding.p_smi,
     paddingHorizontal: Padding.p_18xl,
     width: 112,
-    borderRadius: Border.br_3xs,
+    borderColor: Color.colorRoyalblue_100,
+    borderWidth: 0.9,
+    borderRadius:Border.br_3xs ,
   },
   passs: {
     color: Color.neutralWhite,
