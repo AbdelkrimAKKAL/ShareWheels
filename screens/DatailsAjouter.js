@@ -81,10 +81,10 @@ const DatailsAjouter = () => {
   };
 
   return (
-    <View style={[styles.datailsajouter]}>
+    <View style={[DetailsScreenStyles.datailsajouter]}>
       <TopBar />
-      <Text style={styles.detailsAAjouter}>Details a ajouter</Text>
-      <View style={styles.main}>
+      <Text style={DetailsScreenStyles.detailsAAjouter}>Details a ajouter</Text>
+      <View style={DetailsScreenStyles.main}>
         <FlatList
           data={data}
           renderItem={renderItem}
@@ -92,7 +92,7 @@ const DatailsAjouter = () => {
         />
       </View>
 
-      <View style={styles.AddItem}>
+      <View style={DetailsScreenStyles.AddItem}>
         <TextInput
           style={[RechercheStyles.Inputs, { width: 230, height: 50 }]}
           value={newItemText}
@@ -123,7 +123,7 @@ const DatailsAjouter = () => {
   );
 };
 
-const styles = StyleSheet.create({
+export const DetailsScreenStyles = StyleSheet.create({
   detailsAAjouter: {
     fontSize: FontSize.size_13xl,
     fontWeight: "700",

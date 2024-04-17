@@ -63,7 +63,7 @@ const SignUp = () => {
             contentFit="cover"
             source={require("../assets/group1.png")}
           />
-          <DropDownPicker
+          {/* <DropDownPicker
             style={[{ zIndex: 9, width: "60%" }]}
             placeholder="Genre"
         
@@ -73,7 +73,7 @@ const SignUp = () => {
             // setValue={setSelectedValue}
             // setItems={setItems}
             // dropDownContainerStyle={pstyles.drop}
-          />
+          /> */}
         </View>
 
         <View style={[styles.container]}>

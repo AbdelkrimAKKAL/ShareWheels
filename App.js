@@ -12,7 +12,7 @@ import Voiture from "./screens/Voiture";
 import Signaler from "./screens/Signaler";
 import DatailsAjouter from "./screens/DatailsAjouter";
 import Dates from "./screens/Dates";
-import CarpoolPasses from "./screens/CarpoolPasses";
+import CarpoolPasses from "./screens/Carpools";
 import MonProfil from "./screens/MonProfil";
 import AjouterAnnonce from "./screens/AjouterAnnonce";
 import YourRides from "./screens/YourRides";

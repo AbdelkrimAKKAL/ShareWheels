@@ -6,7 +6,7 @@ import Evaluer from "../components/Evaluer";
 import TopBar from "../components/TopBar";
 import Annonce from "../components/Annonce";
 
-const CarpoolPasses = () => {
+const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
 
   const navigation = useNavigation();
@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
- 
   button: {
     width: 100,
     paddingVertical: 12,
@@ -171,9 +170,6 @@ const styles = StyleSheet.create({
     color: Color.colorDarkslategray_100,
   },
 
-
-
-
   carpools: {
     fontSize: FontSize.size_5xl,
     textAlign: "left",
@@ -181,7 +177,7 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
 
-  carpoolpasses: {
+  Carpools: {
     flex: 1,
     height: 834,
     justifyContent: "space-between",
@@ -189,23 +185,14 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-
   trajetFlexBox: {
     flexDirection: "row",
     alignItems: "center",
   },
 
-
-
-
-
-
   main: {
     height: 614,
     alignItems: "center",
   },
-
-
 });
-
-export default CarpoolPasses;
+export default Carpools;

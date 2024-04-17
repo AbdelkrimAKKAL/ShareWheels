@@ -1,373 +1,141 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Pressable, KeyboardAvoidingView, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Padding, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
-import { TextInput } from "react-native-gesture-handler";
-import { useState } from "react";
+import { RechercheStyles } from "./Recherche";
+import { Checkbox } from "react-native-paper"; 
+import { DetailsScreenStyles } from "./DatailsAjouter";
+
+const fetchDataFromDatabase = async () => {
+  // Example data
+  return [
+    { id: 1, text: "irrespectueux" },
+    { id: 2, text: "fausse informations personnels" },
+    { id: 3, text: "Utilisation du téléphone portable" },
+    { id: 4, text: "conduite dangereuse" },
+    { id: 5, text: "Véhicule en mauvais état" },             
+  ];
+};
 
 const Signaler = () => {
   const navigation = useNavigation();
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isChecked3, setIsChecked3] = useState(false);
-  const [isChecked4, setIsChecked4] = useState(false);
-  const [isChecked5, setIsChecked5] = useState(false);
 
-  const handlePress = (buttonNumber) => {
-    switch (buttonNumber) {
-      case 1:
-        setIsChecked1(!isChecked1);
-        break;
-      case 2:
-        setIsChecked2(!isChecked2);
-        break;
-      case 3:
-        setIsChecked3(!isChecked3);
-        break;
-      case 4:
-        setIsChecked4(!isChecked4);
-        break;
-      case 5:
-        setIsChecked5(!isChecked5);
-        break;
-      default:
-        break;
+  const [data, setData] = useState([]);
+  const [newItemText, setNewItemText] = useState("");
+  const [selectedItems, setSelectedItems] = useState([]); 
+
+  useEffect(() => {
+    // Fetch data from the database when the component mounts
+    fetchDataFromDatabase().then((result) => setData(result));
+  }, []);
+
+  const toggleItem = (id) => {
+    // Toggle the selected status of the item with the given id
+    if (selectedItems.includes(id)) {
+      setSelectedItems(selectedItems.filter((item) => item !== id)); // Remove if already selected
+    } else {
+      setSelectedItems([...selectedItems, id]); // Add if not selected
     }
   };
 
-  const handleSignaler = ()=>{
-    Alert.alert('Rapport envoyè')
-  }
+  const renderItem = ({ item }) => (
+    <Pressable onPress={() => toggleItem(item.id)}>
+      <View
+        style={[
+          RechercheStyles.Inputs,
+          { width: 284, height: 55, marginBottom: 10 },
+        ]}
+      >
+        <Checkbox.Android
+          color={
+            selectedItems.includes(item.id)
+              ? Color.colorRoyalblue_100
+              : Color.colorGray
+          }
+          status={selectedItems.includes(item.id) ? "checked" : "unchecked"} // Check if item is selected
+          onPress={() => toggleItem(item.id)}
+        />
+        <Text style={RechercheStyles.inputText}>{item.text}</Text>
+      </View>
+    </Pressable>
+  );
 
+  const addNewItem = () => {
+    if (newItemText !== "") {
+      const newItem = { id: data.length + 1, text: newItemText }; // Generate new item
+      setData([...data, newItem]); // Add new item to the list
+      setNewItemText("");
+    }else{
+    Alert.alert("Alert", "élément Vide!.");
+    }
+  };
 
   return (
-  <ScrollView
-    style={{ flex: 1 }}
-  >
-    <View style={[styles.signaler, styles.signalerFlexBox]}>
-      <TopBar/>
-      <View style={styles.main}>
-        <Text style={styles.signaler1}>Signaler</Text>
-        <View style={styles.inputs}>
-          <Text style={styles.number}>Pourquoi</Text>
-
-          <Pressable style={[styles.input, styles.inputShadowBox]} 
-            onPress={() => handlePress(1)}
-          >
-            <Image
-              style={styles.radioButtonUncheckedSvgrepoIcon}
-              contentFit="cover"
-              source={
-                isChecked1 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-              }
-            />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              fausse informations personnels
-            </Text>
-          </Pressable>
-
-          <Pressable style={[styles.input1, styles.inputShadowBox]}
-            onPress={() => handlePress(2)}
-          >
-            <Image
-              style={styles.radioButtonUncheckedSvgrepoIcon}
-              contentFit="cover"
-              source={
-                isChecked2 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-              }            />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              irrespectueux
-            </Text>
-          </Pressable>
-
-          <Pressable style={[styles.input2, styles.inputShadowBox]}
-            onPress={() => handlePress(3)}
-          >
-            <Image
-              style={styles.radioButtonUncheckedSvgrepoIcon}
-              contentFit="cover"
-              source={
-                isChecked3 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-              }            />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              conduite dangereuse
-            </Text>
-          </Pressable>
-
-          <Pressable style={[styles.input3, styles.inputShadowBox]}
-            onPress={() => handlePress(4)}
-          >
-            <Image
-              style={styles.radioButtonUncheckedSvgrepoIcon}
-              contentFit="cover"
-              source={
-                isChecked4 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-              }            />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              Véhicule en mauvais état
-            </Text>
-          </Pressable>
-
-          <Pressable style={[styles.input4, styles.inputShadowBox]}
-            onPress={() => handlePress(5)}
-          >
-            <Image
-              style={styles.radioButtonUncheckedSvgrepoIcon}
-              contentFit="cover"
-              source={
-                isChecked5 ? require("../assets/addcircle-svgrepocom.png") : require("../assets/radiobuttonunchecked-svgrepocom.png")
-              }            />
-            <Text style={[styles.number1, styles.numberTypo]}>
-              Utilisation du téléphone portable
-            </Text>
-          </Pressable>
-
-          <View style={[styles.input5, styles.inputShadowBox]}>
-            <TextInput placeholder="Autre.." style={[styles.number6, styles.numberTypo]}></TextInput>
-          </View>
-
-        </View>
-        
-        <Pressable 
-          style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
-          onPress={handleSignaler}  
-        >
-          <Text style={styles.signUp}>Signaler</Text>
-        </Pressable>
-
+    <View style={[DetailsScreenStyles.datailsajouter]}>
+      <TopBar />
+      <Text style={DetailsScreenStyles.detailsAAjouter}>Signaler</Text>
+      <Text style={styles.text}>Pourquoi</Text>
+      <View style={DetailsScreenStyles.main}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
       </View>
+
+      <View style={DetailsScreenStyles.AddItem}>
+        <TextInput
+          style={[RechercheStyles.Inputs, { width: 230, height: 50 }]}
+          value={newItemText}
+          onChangeText={setNewItemText}
+          placeholder="Saisir le texte de l'élément"
+        />
+        <TouchableOpacity onPress={addNewItem}>
+          <Image
+            style={[{ width: 50, height: 50 }]}
+            contentFit="cover"
+            source={require("../assets/addcircle-svgrepocom.png")}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity
+        style={[
+          RechercheStyles.buttonfirst,
+          { alignItems: "center", marginBottom: 5 },
+        ]}
+        onPress={() => navigation.navigate("CarpoolPasses")}
+      >
+        <Text style={[RechercheStyles.buttonText, { color: "white" }]}>
+          Confirmer
+        </Text>
+      </TouchableOpacity>
     </View>
-  </ScrollView>
   );
-  
 };
 
 const styles = StyleSheet.create({
-  signalerFlexBox: {
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
-  inputShadowBox: {
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  numberTypo: {
-    width: 227,
-    color: Color.colorGray_100,
-    fontSize: FontSize.size_mini,
-    textAlign: "left",
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-  },
-  buttonfirstFlexBox: {
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    alignItems: "center",
-  },
-  search1Typo: {
-    marginTop: 5,
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    fontSize: FontSize.size_3xs,
-    textAlign: "center",
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-
-  signaler1: {
-    fontSize: FontSize.size_13xl,
-    fontWeight: "700",
-    fontFamily: FontFamily.nunitoBold,
-    color: Color.colorDarkslategray_100,
-    width: 359,
-    textAlign: "center",
-  },
-  number: {
-    fontSize: FontSize.size_mid,
-    color: Color.colorBlack,
-    width: 289,
-    height: 19,
-    textAlign: "left",
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-  },
-  radioButtonUncheckedSvgrepoIcon: {
-    width: 24,
-    height: 24,
-    overflow: "hidden",
-  },
-  number1: {
-    height: 19,
-  },
-  input: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  input1: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  input2: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  input3: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  input4: {
-    width: 292,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  number6: {
-    height: 112,
-  },
-  input5: {
-    width: 290,
-    height: 100,
-    marginTop: 15,
-    paddingVertical: Padding.p_base,
-    paddingHorizontal: Padding.p_mini,
-    borderWidth: 1,
-    borderColor: Color.colorGray_300,
-    borderStyle: "solid",
-    elevation: 30,
-    shadowRadius: 30,
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    borderRadius: Border.br_base,
-  },
-  inputs: {
-    width: 295,
-    height: 527,
-    marginTop: 30,
-    alignItems: "center",
-  },
-  signUp: {
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    lineHeight: 24,
-    fontWeight: "500",
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    color: Color.neutralWhite,
-    width: 235,
-    textAlign: "center",
-  },
-  buttonfirst: {
-    borderRadius: Border.br_mini,
-    backgroundColor: Color.colorRoyalblue_100,
-    shadowColor: "rgba(236, 95, 95, 0.25)",
-    shadowRadius: 14,
-    elevation: 14,
-    width: 317,
-    height: 58,
-    marginTop: 30,
-    justifyContent: "center",
-  },
-  main: {
-    height: 729,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  search1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides: {
-    padding: Padding.p_3xs,
-  },
-  carpool1: {
-    color: Color.colorRoyalblue_100,
-  },
-  profileIcon: {
-    width: 22,
-    height: 22,
-  },
-  footercarpool: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    shadowRadius: 20,
-    elevation: 20,
-    width: 375,
-    justifyContent: "space-between",
-    backgroundColor: Color.neutralWhite,
-  },
-  signaler: {
-    flex: 1,
-    height: 834,
-    alignItems: "center",
-    overflow: "hidden",
-    width: "100%",
-  },
+  text: {
+        marginBottom: 12,
+        fontSize: FontSize.size_mid+3,
+        color: Color.colorBlack,
+        width: 289,
+        height: 22,
+        textAlign: "left",
+        fontFamily: FontFamily.nunitoRegular,
+        lineHeight: 22,
+      },
 });
 
 export default Signaler;
