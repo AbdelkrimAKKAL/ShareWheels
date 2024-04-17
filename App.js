@@ -15,7 +15,6 @@ import Dates from "./screens/Dates";
 import CarpoolPasses from "./screens/CarpoolPasses";
 import MonProfil from "./screens/MonProfil";
 import AjouterAnnonce from "./screens/AjouterAnnonce";
-import CarpoolVenir from "./screens/CarpoolVenir";
 import YourRides from "./screens/YourRides";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
@@ -24,7 +23,6 @@ import SearchBar from "./screens/SearchBar";
 import AfficherMap from "./screens/AfficherMap";
 import Annonce from "./components/Annonce";
 import Evaluer from "./components/Evaluer";
-import ButtonsSwitch from "./components/ButtonsSwitch";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import Mdp from "./screens/Mdp";
 import ForgotPwd from "./screens/ForgotPwd";
@@ -113,11 +111,7 @@ const App = () => {
               component={AjouterAnnonce}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="CarpoolVenir"
-              component={CarpoolVenir}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="YourRides"
               component={YourRides}
@@ -312,7 +306,6 @@ const PublishStackScreen = () => (
 
 const CarpoolsStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="CarpoolVenir" component={CarpoolVenir} />
     <Stack.Screen name="CarpoolPasses" component={CarpoolPasses} />
     <Stack.Screen name="Signaler" component={Signaler} />
   </Stack.Navigator>

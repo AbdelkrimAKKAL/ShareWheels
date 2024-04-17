@@ -1,61 +1,165 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
-import { Image } from "expo-image";
+import React, { useState } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
 import Evaluer from "../components/Evaluer";
 import TopBar from "../components/TopBar";
+import Annonce from "../components/Annonce";
 
 const CarpoolPasses = () => {
+  const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
+
   const navigation = useNavigation();
 
   return (
-    <View style={[styles.carpoolpasses, styles.rectangleLayout]}>
-      <TopBar/>
+    <View style={[styles.container, styles.rectangleLayout]}>
+      <TopBar />
       <Text style={[styles.carpools, styles.carpoolsTypo]}>Carpools</Text>
-      <View style={[styles.buttonsswitch, styles.rateFlexBox]}>
-        <Pressable
-          style={[styles.avenir, styles.avenirShadowBox]}
-          onPress={() => navigation.navigate("CarpoolVenir")}
+      <View style={[styles.buttonContainer, styles.trajetFlexBox]}>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            activeButton === 0 ? styles.activeButton : styles.inactiveButton,
+          ]}
+          onPress={() => setActiveButton(0)}
         >
-          <Text style={[styles.aVenir, styles.passsTypo]}>A venir</Text>
-        </Pressable>
-        <View style={[styles.passes, styles.avenirShadowBox]}>
-          <Text style={[styles.passs, styles.passsTypo]}> Passés</Text>
-        </View>
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === 0
+                ? styles.buttonTextActive
+                : styles.buttonTextInactive,
+            ]}
+          >
+            A venir
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.button,
+            activeButton === 1 ? styles.activeButton : styles.inactiveButton,
+          ]}
+          onPress={() => setActiveButton(1)}
+        >
+          <Text
+            style={[
+              styles.buttonText,
+              activeButton === 1
+                ? styles.buttonTextActive
+                : styles.buttonTextInactive,
+            ]}
+          >
+            Passés
+          </Text>
+        </TouchableOpacity>
       </View>
+
       <View style={styles.main}>
-      <Evaluer
-          name="Amine Meddouri" 
-          rating="4.5(2)" 
-          startLocation="Bejaia"
-          endLocation="Alger"
-          price="250 DA"
-          vehicle="Toyota Corolla"
-          time="6:30pm"
-          date="25 DEC 23"
-          availableSeats="3/4"
-          />
+        {activeButton === 0 ? (
+          <View>
+            <Annonce
+              name="Amine Meddouri"
+              rating="4.5(2)"
+              startLocation="Bejaia"
+              endLocation="Alger"
+              price="250 DA"
+              vehicle="Toyota Corolla"
+              time="6:30pm"
+              date="25 DEC 23"
+              availableSeats="3/4"
+              btnText="Annuler"
+            />
 
-        <Evaluer
-          name="Amine Meddouri" 
-          rating="4.5(2)" 
-          startLocation="Bejaia"
-          endLocation="Alger"
-          price="250 DA"
-          vehicle="Toyota Corolla"
-          time="6:30pm"
-          date="25 DEC 23"
-          availableSeats="3/4"
-          />
-
+            <Annonce
+              name="Amine Meddouri"
+              rating="4.5(2)"
+              startLocation="Bejaia"
+              endLocation="Alger"
+              price="250 DA"
+              vehicle="Toyota Corolla"
+              time="6:30pm"
+              date="25 DEC 23"
+              availableSeats="3/4"
+              btnText="Annuler"
+            />
+          </View>
+        ) : (
+          <View>
+            <Evaluer
+              name="Amine Meddouri"
+              rating="4.5(2)"
+              startLocation="Bejaia"
+              endLocation="Alger"
+              price="250 DA"
+              vehicle="Toyota Corolla"
+              time="6:30pm"
+              date="25 DEC 23"
+              availableSeats="3/4"
+            />
+            <Evaluer
+              name="Amine Meddouri"
+              rating="4.5(2)"
+              startLocation="Bejaia"
+              endLocation="Alger"
+              price="250 DA"
+              vehicle="Toyota Corolla"
+              time="6:30pm"
+              date="25 DEC 23"
+              availableSeats="3/4"
+            />
+          </View>
+        )}
       </View>
-
     </View>
   );
 };
-
 const styles = StyleSheet.create({
+  buttonContainer: {
+    margin: 15
+  },
+
+  container: {
+    flex: 1,
+    alignItems: "center",
+    overflow: "hidden",
+  },
+
+ 
+  button: {
+    width: 100,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: Border.br_3xs,
+    borderColor: Color.colorRoyalblue_100,
+    borderWidth: 0.9,
+    marginHorizontal: 5,
+    elevation: 3,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonTextActive: {
+    fontWeight: "800",
+    textAlign: "center",
+    fontSize: FontSize.size_mini,
+    color: Color.neutralWhite,
+    fontFamily: FontFamily.nunitoExtraBold,
+    fontWeight: "800",
+  },
+  buttonTextInactive: {
+    fontWeight: "800",
+    textAlign: "center",
+    fontSize: FontSize.size_mini,
+    color: Color.colorRoyalblue_100,
+    fontFamily: FontFamily.nunitoExtraBold,
+    fontWeight: "800",
+  },
+  activeButton: {
+    backgroundColor: Color.colorRoyalblue_100,
+  },
+  inactiveButton: {
+    backgroundColor: Color.neutralWhite,
+  },
+
   rectangleLayout: {
     width: "100%",
     backgroundColor: Color.neutralWhite,
@@ -66,324 +170,17 @@ const styles = StyleSheet.create({
     textAlign: "left",
     color: Color.colorDarkslategray_100,
   },
-  rateFlexBox: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avenirShadowBox: {
-    paddingVertical: Padding.p_smi,
-    paddingHorizontal: Padding.p_18xl,
-    width: 112,
-    borderRadius: Border.br_3xs,
-    justifyContent: "center",
-    flexDirection: "row",
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    alignItems: "center",
-  },
-  passsTypo: {
-    fontFamily: FontFamily.nunitoExtraBold,
-    fontWeight: "800",
-  },
 
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
+
+
+
   carpools: {
     fontSize: FontSize.size_5xl,
     textAlign: "left",
     color: Color.colorDarkslategray_100,
+    marginTop: 15
   },
-  aVenir: {
-    width: 52,
-    color: Color.colorRoyalblue_100,
-    fontSize: FontSize.size_mini,
-    fontWeight: "800",
-    textAlign: "left",
-  },
-  avenir: {
-    backgroundColor: Color.neutralWhite,
-    paddingVertical: Padding.p_smi,
-    paddingHorizontal: Padding.p_18xl,
-    width: 112,
-    borderColor: Color.colorRoyalblue_100,
-    borderWidth: 0.9,
-    borderRadius:Border.br_3xs ,
-  },
-  passs: {
-    color: Color.neutralWhite,
-    width: 55,
-    fontSize: FontSize.size_mini,
-    fontWeight: "800",
-    textAlign: "left",
-  },
-  passes: {
-    backgroundColor: Color.colorRoyalblue_100,
-    marginLeft: 8,
-  },
-  buttonsswitch: {
-    width: 343,
-    justifyContent: "center",
-    shadowOpacity: 1,
-    elevation: 30,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowColor: "rgba(80, 85, 136, 0.1)",
-    flexDirection: "row",
-  },
-  profilepictureIcon: {
-    top: 3,
-    borderRadius: Border.br_9980xl,
-    width: 41,
-    height: 41,
-    left: 0,
-    position: "absolute",
-  },
-  amineMeddouri: {
-    fontSize: FontSize.size_xs,
-    width: 116,
-    textAlign: "left",
-    color: Color.colorDarkslategray_100,
-  },
-  vectorIcon: {
-    width: 8,
-    height: 8,
-  },
-  text: {
-    width: 31,
-    height: 11,
-    marginLeft: 2,
-    fontSize: FontSize.size_3xs,
-    textAlign: "left",
-    color: Color.colorDarkslategray_100,
-    fontFamily: FontFamily.nunitoBold,
-    fontWeight: "700",
-  },
-  vectorParent: {
-    width: 62,
-    marginTop: 6,
-  },
-  infosprofil: {
-    left: 51,
-    width: 116,
-    top: 0,
-    height: 46,
-    borderRadius: Border.br_mini,
-    justifyContent: "center",
-    position: "absolute",
-  },
-  groupIcon: {
-    width: 10,
-    height: 30,
-  },
-  bejaia: {
-    width: 130,
-    top: 0,
-  },
-  alger: {
-    top: 20,
-    width: 119,
-  },
-  bejaiaParent: {
-    marginLeft: 4,
-    height: 32,
-    width: 130,
-  },
-  trajet: {
-    left: 174,
-    width: 144,
-    top: 0,
-    height: 46,
-    borderRadius: Border.br_mini,
-    justifyContent: "center",
-    position: "absolute",
-  },
-  infos: {
-    height: 46,
-    width: 318,
-  },
-  titre: {
-    textAlign: "center",
-    fontSize: FontSize.size_xs,
-    color: Color.colorDarkslategray_100,
-  },
-  text1: {
-    color: Color.colorTomato,
-    fontSize: FontSize.size_xs,
-  },
-  prix: {
-    width: 47,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  info1: {
-    width: 108,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_2xs,
-  },
-  vehicule: {
-    width: 65,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  info2: {
-    fontSize: FontSize.size_xs,
-    color: Color.colorDarkslategray_100,
-  },
-  info3: {
-    width: 64,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_2xs,
-  },
-  date: {
-    width: 58,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  date1: {
-    width: 37,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  infostrajet: {
-    width: 318,
-    borderRadius: Border.br_mini,
-    justifyContent: "space-between",
-  },
-  text2: {
-    fontSize: FontSize.headingH2_size,
-    fontWeight: "500",
-    fontFamily: FontFamily.robotoMedium,
-    color: Color.colorBlack,
-    width: 12,
-    marginLeft: 10,
-    textAlign: "left",
-  },
-  vectorIcon1: {
-    width: 15,
-    height: 15,
-    marginLeft: 10,
-  },
-  plusIcon: {
-    marginLeft: 10,
-  },
-  rate: {
-    width: 99,
-    zIndex: 0,
-    justifyContent: "center",
-  },
-  supprimer: {
-    color: Color.colorRoyalblue_100,
-  },
-  participer: {
-    left: 230,
-    zIndex: 1,
-  },
-  signaler: {
-    color: Color.colorTomato,
-  },
-  participer1: {
-    left: 131,
-    zIndex: 2,
-  },
-  buttons: {
-    width: 310,
-    padding: Padding.p_3xs,
-    height: 35,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  evaluer: {
-    paddingVertical: Padding.p_sm,
-    paddingHorizontal: Padding.p_2xs,
-    height: 187,
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    elevation: 20,
-    shadowRadius: 20,
-    borderRadius: Border.br_mini,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  evaluerShadowBox: {
-    marginTop: 8,
-    paddingVertical: Padding.p_sm,
-    paddingHorizontal: Padding.p_2xs,
-    height: 187,
-    elevation: 20,
-    shadowRadius: 20,
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    borderRadius: Border.br_mini,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  main: {
-    height: 614,
-    alignItems: "center",
-  },
-  searchIcon: {
-    width: 24,
-    height: 24,
-    overflow: "hidden",
-  },
-  search1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides: {
-    padding: Padding.p_3xs,
-  },
-  carpool1: {
-    color: Color.colorRoyalblue_100,
-  },
-  profileIcon: {
-    width: 22,
-    height: 22,
-  },
-  footercarpool: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    elevation: 20,
-    shadowRadius: 20,
-    flexDirection: "row",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    width: 375,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
+
   carpoolpasses: {
     flex: 1,
     height: 834,
@@ -391,6 +188,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
+
+
+  trajetFlexBox: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+
+
+
+
+
+  main: {
+    height: 614,
+    alignItems: "center",
+  },
+
+
 });
 
 export default CarpoolPasses;

@@ -549,18 +549,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
 
-  number4: {
-    width: 265,
-    height: 229,
-    textAlign: "left",
-    color: Color.colorGray_100,
-    fontFamily: FontFamily.nunitoRegular,
-    lineHeight: 22,
-    fontSize: FontSize.size_mini,
-  },
-  input4: {
-    height: 50,
-  },
+ 
   inputs: {
     height: 544,
     marginTop: 20,

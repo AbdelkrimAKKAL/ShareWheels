@@ -1,8 +1,7 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
-import { Image } from "expo-image";
+import { StyleSheet, View, Text, } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, Border, FontSize, Padding } from "../GlobalStyles";
+import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 
@@ -39,7 +38,6 @@ const YourRides = () => {
           availableSeats="3/4"
           btnText="Supprimer"
         />
-
         
       </View>
     </View>
@@ -53,56 +51,6 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.nunitoBold,
     fontWeight: "700",
   },
-  trajetPosition: {
-    justifyContent: "center",
-    top: 0,
-    borderRadius: Border.br_mini,
-    position: "absolute",
-  },
-  trajetFlexBox: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  algerTypo: {
-    color: Color.colorSilver_200,
-    fontSize: FontSize.size_4xs,
-    fontFamily: FontFamily.nunitoRegular,
-    left: 0,
-    textAlign: "left",
-    position: "absolute",
-  },
-  titreClr: {
-    color: Color.colorDarkslategray_100,
-    fontSize: FontSize.size_xs,
-  },
-  infoTypo: {
-    fontSize: FontSize.size_2xs,
-    color: Color.colorDarkslategray_100,
-  },
-  infoTypo1: {
-    width: 54,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-  },
-  buttonsFlexBox: {
-    height: 35,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  search1Typo: {
-    marginTop: 5,
-    fontFamily: FontFamily.poppinsRegular,
-    lineHeight: 15,
-    textAlign: "center",
-    fontSize: FontSize.size_3xs,
-  },
-  searchLayout: {
-    height: 64,
-    width: 75,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
 
   yourRides: {
     fontSize: FontSize.size_5xl,
@@ -110,227 +58,15 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: '100%',
   },
-  profilepictureIcon: {
-    top: 3,
-    borderRadius: Border.br_9980xl,
-    width: 41,
-    height: 41,
-    left: 0,
-    position: "absolute",
-  },
-  amineMeddouri: {
-    fontSize: FontSize.size_xs,
-    width: 116,
-  },
-  vectorIcon: {
-    width: 8,
-    height: 8,
-  },
-  text: {
-    width: 31,
-    height: 11,
-    marginLeft: 2,
-    fontSize: FontSize.size_3xs,
-    textAlign: "left",
-    color: Color.colorDarkslategray_100,
-    fontFamily: FontFamily.nunitoBold,
-    fontWeight: "700",
-  },
-  vectorParent: {
-    width: 62,
-    marginTop: 6,
-  },
-  infosprofil: {
-    left: 51,
-    width: 116,
-    height: 46,
-  },
-  groupIcon: {
-    width: 10,
-    height: 30,
-  },
-  bejaia: {
-    width: 130,
-    top: 0,
-    fontSize: FontSize.size_4xs,
-  },
-  alger: {
-    top: 20,
-    width: 119,
-  },
-  bejaiaParent: {
-    marginLeft: 4,
-    height: 32,
-    width: 130,
-  },
-  trajet: {
-    left: 174,
-    width: 144,
-    justifyContent: "center",
-    top: 0,
-    borderRadius: Border.br_mini,
-    position: "absolute",
-    height: 46,
-  },
-  infos: {
-    height: 46,
-    width: 318,
-  },
-  titre: {
-    fontWeight: "800",
-    fontFamily: FontFamily.nunitoExtraBold,
-    textAlign: "center",
-    fontSize: FontSize.size_xs,
-  },
-  text1: {
-    color: Color.colorTomato,
-    fontSize: FontSize.size_xs,
-  },
-  prix: {
-    width: 47,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  info1: {
-    width: 108,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_2xs,
-  },
-  vehicule: {
-    width: 65,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  info2: {
-    fontSize: FontSize.size_xs,
-    color: Color.colorDarkslategray_100,
-  },
-  info3: {
-    width: 64,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoRegular,
-    fontSize: FontSize.size_2xs,
-  },
-  date: {
-    width: 58,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  date1: {
-    width: 37,
-    height: 32,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  infostrajet: {
-    width: 318,
-    justifyContent: "space-between",
-    borderRadius: Border.br_mini,
-    flexDirection: "row",
-  },
-  supprimer: {
-    fontSize: FontSize.size_sm,
-    color: Color.neutralWhite,
-    width: 73,
-    height: 19,
-    textAlign: "center",
-    fontFamily: FontFamily.nunitoBold,
-    fontWeight: "700",
-  },
-  participer: {
-    left: 205,
-    backgroundColor: Color.colorTomato,
-    width: 105,
-    paddingHorizontal: Padding.p_8xl,
-    paddingVertical: Padding.p_5xs,
-    zIndex: 0,
-    justifyContent: "center",
-    top: 0,
-    borderRadius: Border.br_mini,
-    position: "absolute",
-  },
-  buttons: {
-    width: 310,
-    justifyContent: "flex-end",
-    padding: Padding.p_3xs,
-  },
-  mesannonces: {
-    paddingVertical: Padding.p_sm,
-    paddingHorizontal: Padding.p_2xs,
-    height: 187,
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    justifyContent: "space-between",
-    shadowOpacity: 1,
-    elevation: 20,
-    shadowRadius: 20,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    borderRadius: Border.br_mini,
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
-  mesannoncesShadowBox: {
-    marginTop: 8,
-    paddingVertical: Padding.p_sm,
-    paddingHorizontal: Padding.p_2xs,
-    justifyContent: "space-between",
-    height: 187,
-    shadowOpacity: 1,
-    elevation: 20,
-    shadowRadius: 20,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    borderRadius: Border.br_mini,
-    alignItems: "center",
-    backgroundColor: Color.neutralWhite,
-  },
+ 
+
   main: {
     height: 718,
     marginTop: 15,
     alignItems: "center",
   },
-  searchIcon: {
-    width: 24,
-    height: 24,
-    overflow: "hidden",
-  },
-  search1: {
-    color: Color.colorDarkgray_200,
-  },
-  yourRides2: {
-    color: Color.colorRoyalblue_100,
-  },
-  yourRides1: {
-    padding: Padding.p_3xs,
-  },
-  profileIcon: {
-    width: 22,
-    height: 22,
-  },
-  footeryourrides: {
-    shadowColor: "rgba(0, 0, 0, 0.08)",
-    justifyContent: "space-between",
-    shadowOpacity: 1,
-    elevation: 20,
-    shadowRadius: 20,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    flexDirection: "row",
-    marginTop: 15,
-    width: 375,
-    backgroundColor: Color.neutralWhite,
-  },
+
+
   yourrides: {
     flex: 1,
     height: 834,
