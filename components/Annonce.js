@@ -33,12 +33,27 @@ const Annonce = (Props) => {
   }
   else{
     return(
-    <View style={[AnnonceStyles.buttons]}>
-      <TouchableOpacity style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox, {backgroundColor: Color.colorTomato,}]}
-      onPress={AnnulerSup}>
-        <Text style={[AnnonceStyles.ButtonText, { color: Color.neutralWhite, width: 67 }]}>{Props.btnText}</Text>
-      </TouchableOpacity>
-    </View>);
+    <View style={AnnonceStyles.buttons}>
+        <TouchableOpacity
+          style={[AnnonceStyles.details, AnnonceStyles.detailsFlexBox, {width: 97,}]}
+          onPress={() => navigation.navigate("ParticipantsScreen")}
+        >
+          <Text
+            style={[
+              AnnonceStyles.ButtonText,
+              { color: Color.colorRoyalblue_100, width: 77 },
+            ]}
+          >
+            Participants
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox, {backgroundColor: Color.colorTomato,left: 209,}]} onPress={AnnulerSup}>
+          <Text
+            style={[AnnonceStyles.ButtonText, { color: Color.neutralWhite, width: 67 }]}>
+            {Props.btnText}
+          </Text>
+        </TouchableOpacity>
+      </View>);
   }};
 
   const AnnulerSup = ()=> {

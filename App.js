@@ -30,6 +30,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Padding } from "./GlobalStyles";
+import ParticipantsScreen from "./screens/ParticipantsScreen";
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -157,6 +158,12 @@ const App = () => {
             <Stack.Screen
               name="ForgotPwd"
               component={ForgotPwd}
+              options={{ headerShown: false }}
+            />
+            
+            <Stack.Screen
+              name="ParticipantsScreen"
+              component={ParticipantsScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
@@ -290,6 +297,7 @@ const SearchStackScreen = () => (
 const YourRidesStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="YourRides" component={YourRides} />
+    <Stack.Screen name="ParticipantsScreen" component={ParticipantsScreen} />
   </Stack.Navigator>
 );
 
@@ -308,6 +316,7 @@ const CarpoolsStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="CarpoolPasses" component={CarpoolPasses} />
     <Stack.Screen name="Signaler" component={Signaler} />
+    <Stack.Screen name="ParticipantsScreen" component={ParticipantsScreen} />
   </Stack.Navigator>
 );
 

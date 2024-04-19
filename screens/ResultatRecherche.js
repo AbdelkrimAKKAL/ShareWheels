@@ -69,13 +69,13 @@ const ResultatRecherche = () => {
   const nmbrplaces = route.params?.nbPlc;
 
   return (
-    <View style={[styles.resultatrecherche]}>
+    <View style={[ResultatRechercheStyles.resultatrecherche]}>
       <TopBar />
-      <View style={[styles.frame]}>
-        <Text style={styles.heading}>
+      <View style={[ResultatRechercheStyles.frame]}>
+        <Text style={ResultatRechercheStyles.heading}>
           {depart} a {destination}
         </Text>
-        <Text style={styles.heading1}>
+        <Text style={ResultatRechercheStyles.heading1}>
           {date}, {nmbrplaces} Places
         </Text>
       </View>
@@ -88,7 +88,7 @@ const ResultatRecherche = () => {
   );
 };
 
-const styles = StyleSheet.create({
+export const ResultatRechercheStyles = StyleSheet.create({
   rectangleLayout: {
     width: "100%",
     backgroundColor: Color.neutralWhite,
