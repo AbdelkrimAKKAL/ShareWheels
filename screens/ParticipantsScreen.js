@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Image } from "react-native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
@@ -7,6 +7,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { RechercheStyles } from "./Recherche";
 import Participants from "../components/Participants";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
+import NotAuth from "../components/notAuth";
+import LiveCollaborationImage from '../assets/Live collaboration-amico.png';
 
 const fetchDataFromDatabase = async () => {
   // Example data
@@ -39,6 +41,8 @@ const renderItem = ({ item }) => (
 
 const ParticipantsScreen = () => {
   const navigation = useNavigation();
+  const [isUsers, setIsUsers] = useState(false); //auth or not
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -51,6 +55,7 @@ const ParticipantsScreen = () => {
   //   const depart = route.params?.depart;
   //   const destination = route.params?.destination;
 
+  //temp:::
   const date = "23/06/2024";
   const depart = "Bejaia";
   const destination = "Alger";
@@ -64,23 +69,23 @@ const ParticipantsScreen = () => {
         </Text>
         <Text style={ResultatRechercheStyles.heading1}>{date}</Text>
       </View>
+
+    {isUsers? (
       <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
+      data={data}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+    />
+    ): (
+      <NotAuth title="Not yet" photo={LiveCollaborationImage} />
+    )}
+      
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ParticipantsScreen: {
-    flex: 1,
-    overflow: "hidden",
-    backgroundColor: Color.neutralWhite,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+
 });
 
 export default ParticipantsScreen;

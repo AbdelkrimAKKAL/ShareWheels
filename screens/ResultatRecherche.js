@@ -5,6 +5,8 @@ import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { RechercheStyles } from "./Recherche";
+import NotAuth from "../components/notAuth";
+import DirPhoto from "../assets/No data-cuate.png"
 
 const fetchDataFromDatabase = async () => {
   // Example data
@@ -55,6 +57,8 @@ const renderItem = ({ item }) => (
 
 const ResultatRecherche = () => {
   const navigation = useNavigation();
+  const [isDataFound, setIsDataFound] = useState(false); //data found or not 
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -79,11 +83,15 @@ const ResultatRecherche = () => {
           {date}, {nmbrplaces} Places
         </Text>
       </View>
-      <FlatList
+      {isDataFound? (
+        <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
+      ): (
+      <NotAuth title="Oopss.. No data found" photo={DirPhoto} />
+      )}
     </View>
   );
 };

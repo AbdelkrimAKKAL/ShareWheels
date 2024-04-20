@@ -1,18 +1,26 @@
 import * as React from "react";
-import { StyleSheet, View, Text, } from "react-native";
+import { useState, useEffect, useRef } from "react";
+import { StyleSheet, View, Text,Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
+import { RechercheStyles } from "./Recherche";
+import NotAuth from "../components/notAuth";
+import DirPhoto from "../assets/Locationph.png"
 
 const YourRides = () => {
   const navigation = useNavigation();
+
+  const [isPosted, setIsPosted] = useState(true); //3ellas true 
 
   return (
     <View style={styles.yourrides}>
       <TopBar/>
       <Text style={[styles.yourRides, styles.yourRidesTypo]}>Your Rides</Text>
-      <View style={styles.main}>
+      {isPosted? (
+        //if true 
+        <View style={styles.main}>
         <Annonce
           name="Amine Meddouri"
           rating="4.5(2)"
@@ -40,6 +48,11 @@ const YourRides = () => {
         />
         
       </View>
+      ): (
+        //if false
+      <NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={DirPhoto} />
+      )}
+      
     </View>
   );
 };
@@ -75,6 +88,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Color.neutralWhite,
   },
+  
 });
 
 export default YourRides;

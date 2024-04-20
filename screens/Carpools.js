@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
 import Evaluer from "../components/Evaluer";
 import TopBar from "../components/TopBar";
 import Annonce from "../components/Annonce";
+import { RechercheStyles } from "./Recherche";
+import NotAuth from "../components/notAuth";
+import DirPhoto from "../assets/Locationph.png"
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
+  const [isParticipated, setIsParticipated] = useState(false); //participated or not
+  const [isHistory, setIsHistory] = useState(false); //history available or not
 
   const navigation = useNavigation();
 
@@ -56,21 +61,40 @@ const Carpools = () => {
 
       <View style={styles.main}>
         {activeButton === 0 ? (
-          <View>
-            <Annonce
-              name="Amine Meddouri"
-              rating="4.5(2)"
-              startLocation="Bejaia"
-              endLocation="Alger"
-              price="250 DA"
-              vehicle="Toyota Corolla"
-              time="6:30pm"
-              date="25 DEC 23"
-              availableSeats="3/4"
-              btnText="Annuler"
-            />
+          isParticipated ? (
+            <View>
+              <Annonce
+                name="Amine Meddouri"
+                rating="4.5(2)"
+                startLocation="Bejaia"
+                endLocation="Alger"
+                price="250 DA"
+                vehicle="Toyota Corolla"
+                time="6:30pm"
+                date="25 DEC 23"
+                availableSeats="3/4"
+                btnText="Annuler"
+              />
 
-            <Annonce
+              <Annonce
+                name="Amine Meddouri"
+                rating="4.5(2)"
+                startLocation="Bejaia"
+                endLocation="Alger"
+                price="250 DA"
+                vehicle="Toyota Corolla"
+                time="6:30pm"
+                date="25 DEC 23"
+                availableSeats="3/4"
+                btnText="Annuler"
+              />
+            </View>
+          ) : (
+            <NotAuth title="Vos trajets récents apparaîtront ici" photo={DirPhoto} />
+          )
+        ) : isHistory ? (
+          <View>
+            <Evaluer
               name="Amine Meddouri"
               rating="4.5(2)"
               startLocation="Bejaia"
@@ -80,34 +104,21 @@ const Carpools = () => {
               time="6:30pm"
               date="25 DEC 23"
               availableSeats="3/4"
-              btnText="Annuler"
+            />
+            <Evaluer
+              name="Amine Meddouri"
+              rating="4.5(2)"
+              startLocation="Bejaia"
+              endLocation="Alger"
+              price="250 DA"
+              vehicle="Toyota Corolla"
+              time="6:30pm"
+              date="25 DEC 23"
+              availableSeats="3/4"
             />
           </View>
         ) : (
-          <View>
-            <Evaluer
-              name="Amine Meddouri"
-              rating="4.5(2)"
-              startLocation="Bejaia"
-              endLocation="Alger"
-              price="250 DA"
-              vehicle="Toyota Corolla"
-              time="6:30pm"
-              date="25 DEC 23"
-              availableSeats="3/4"
-            />
-            <Evaluer
-              name="Amine Meddouri"
-              rating="4.5(2)"
-              startLocation="Bejaia"
-              endLocation="Alger"
-              price="250 DA"
-              vehicle="Toyota Corolla"
-              time="6:30pm"
-              date="25 DEC 23"
-              availableSeats="3/4"
-            />
-          </View>
+          <NotAuth title="Votre historique de trajets ici" photo={DirPhoto} />
         )}
       </View>
     </View>
@@ -115,7 +126,7 @@ const Carpools = () => {
 };
 const styles = StyleSheet.create({
   buttonContainer: {
-    margin: 15
+    margin: 15,
   },
 
   container: {
@@ -174,7 +185,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_5xl,
     textAlign: "left",
     color: Color.colorDarkslategray_100,
-    marginTop: 15
+    marginTop: 15,
   },
 
   Carpools: {
