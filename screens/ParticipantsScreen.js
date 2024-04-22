@@ -77,7 +77,7 @@ const ParticipantsScreen = () => {
       keyExtractor={(item) => item.id.toString()}
     />
     ): (
-      <NotAuth title="Not yet" photo={LiveCollaborationImage} />
+      <NotAuth title="Garde patience !" photo={LiveCollaborationImage} />
     )}
       
     </View>

@@ -32,14 +32,19 @@ const Recherche = () => {
   }, [id, route.params?.location]);
 
   const handleSearch = () => {
-    if (!departLocation || !destinationLocation || !isDatePicked) {
+    if (!departLocation || !destinationLocation) {
       Alert.alert("Alert", "Veuillez remplir les informations SVP.");
-    } else if (departLocation.toLowerCase() == destinationLocation.toLowerCase()) {
-      Alert.alert("Alert", "le lieu de départ et la destination sont les mêmes");
+    } else if (
+      departLocation.toLowerCase() == destinationLocation.toLowerCase()
+    ) {
+      Alert.alert(
+        "Alert",
+        "le lieu de départ et la destination sont les mêmes"
+      );
     } else {
       navigation.navigate("ResultatRecherche", {
-        Date: date.toLocaleDateString(),
-        heure: date.toLocaleTimeString([], {
+        Date: pickedDate.toLocaleDateString(),
+        heure: pickedDate.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
@@ -47,6 +52,8 @@ const Recherche = () => {
         depart: departLocation,
         destination: destinationLocation,
         nbPlc: nbPlaces,
+        isDatePicked: isDatePicked,
+        isTimePicked: isTimePicked,
       });
     }
   };
@@ -70,8 +77,8 @@ const Recherche = () => {
 
   //Date------------------------------------------------------------------------------------------------------------
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isDatePicked, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [isDatePicked, setDatePicked] = useState(false);
+  const [pickedDate, setPickedDate] = useState(new Date());
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -81,7 +88,7 @@ const Recherche = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (pickedDate) => {
+  const handleDateConfirm = (date) => {
     const currentDate = new Date();
 
     const currentDateWithoutTime = new Date(
@@ -90,16 +97,16 @@ const Recherche = () => {
       currentDate.getDate()
     );
     const pickedDateWithoutTime = new Date(
-      pickedDate.getFullYear(),
-      pickedDate.getMonth(),
-      pickedDate.getDate()
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
     );
 
     if (pickedDateWithoutTime >= currentDateWithoutTime) {
       hideDatePicker();
-      setDate(pickedDate);
-      console.log("A date has been picked: ", pickedDate);
-      setDatePicker(true);
+      setPickedDate(date);
+      console.log("A date has been picked: ", date);
+      setDatePicked(true);
     } else {
       Alert.alert("Alert", "Vous ne pouvez pas choisir une date passée.", [
         {
@@ -112,6 +119,31 @@ const Recherche = () => {
       ]);
     }
   };
+
+  // Time state and handlers
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [isTimePicked, setTimePicked] = useState(false);
+
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
+  const handleTimeConfirm = (time) => {
+    hideTimePicker();
+    setPickedDate((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setHours(time.getHours());
+      newDate.setMinutes(time.getMinutes());
+      return newDate;
+    });
+    console.log("A time has been picked: ", time);
+    setTimePicked(true);
+  };
+
   //----------------------------------------------------------------------------------------------------------------
 
   return (
@@ -185,34 +217,45 @@ const Recherche = () => {
                 source={require("../assets/mappin1.png")}
               />
               <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
-                {isDatePicked ? date.toLocaleDateString() : "Date"}
+                {isDatePicked ? pickedDate.toLocaleDateString() : "Date"}
               </Text>
             </TouchableOpacity>
 
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
-              mode="datetime"
-              onConfirm={handleConfirm}
+              mode="date"
+              onConfirm={handleDateConfirm}
               onCancel={hideDatePicker}
-              date={new Date(date)}
+              date={pickedDate}
             />
           </View>
-          <View style={[RechercheStyles.Inputs, { width: 99 }]}>
+          <TouchableOpacity
+            style={[RechercheStyles.Inputs, { width: 99 }]}
+            onPress={showTimePicker}
+          >
             <Image
               style={[RechercheStyles.iconLayout]}
               contentFit="cover"
               source={require("../assets/clock3.png")}
             />
             <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
-              {isDatePicked
-                ? date.toLocaleTimeString([], {
+              {isTimePicked
+                ? pickedDate.toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
                   })
                 : "Heure"}
             </Text>
-          </View>
+          </TouchableOpacity>
+
+          <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            onConfirm={handleTimeConfirm}
+            onCancel={hideTimePicker}
+            date={pickedDate} // Pass pickedDate here as well
+          />
         </View>
 
         <View style={RechercheStyles.places}>

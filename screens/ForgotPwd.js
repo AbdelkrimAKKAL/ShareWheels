@@ -32,7 +32,7 @@ const ForgotPwd = () => {
 
   return (
     <View style={[pstyles.main, { paddingTop: "20%" }]}>
-      <Text style={styles.title}>CHANGE PASSWORD</Text>
+      <Text style={styles.title}>Changer de mot de passe</Text>
       <Text style={styles.Soustitre}>votre gmail:</Text>
 
       <View style={styles.Input}>

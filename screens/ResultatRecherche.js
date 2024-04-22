@@ -71,6 +71,8 @@ const ResultatRecherche = () => {
   const depart = route.params?.depart;
   const destination = route.params?.destination;
   const nmbrplaces = route.params?.nbPlc;
+  const isDatePicked = route.params?.isDatePicked;
+  const isTimePicked = route.params?.isTimePicked;
 
   return (
     <View style={[ResultatRechercheStyles.resultatrecherche]}>
@@ -80,7 +82,7 @@ const ResultatRecherche = () => {
           {depart} a {destination}
         </Text>
         <Text style={ResultatRechercheStyles.heading1}>
-          {date}, {nmbrplaces} Places
+          {isDatePicked? date : "n'importe quand"}, {nmbrplaces} Places
         </Text>
       </View>
       {isDataFound? (
@@ -90,7 +92,7 @@ const ResultatRecherche = () => {
         keyExtractor={(item) => item.id.toString()}
       />
       ): (
-      <NotAuth title="Oopss.. No data found" photo={DirPhoto} />
+      <NotAuth title="Oups... Aucune donnée trouvée" photo={DirPhoto} />
       )}
     </View>
   );
