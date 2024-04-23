@@ -1,12 +1,53 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import TextBox from 'react-native-password-eye';
+import TextBox from "react-native-password-eye";
 import { TextInput } from "react-native";
+import { Alert } from "react-native";
+imo
 
 const Login = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("http://192.168.1.107:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: "john@example.com",
+          password: "password123"
+        }),
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful, navigate to the profile screen
+        navigation.navigate("MonProfil");
+      } else {
+        // Login failed, show error message
+        Alert.alert(
+          "Error",
+          data.error || "An error occurred while logging in"
+        );
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      Alert.alert("Error", "An error occurred while logging in");
+    }
+  };
 
   return (
     <View style={styles.loginpage}>
@@ -17,9 +58,13 @@ const Login = () => {
           contentFit="cover"
           source={require("../assets/stylestroke.png")}
         />
-        <TextInput placeholder="Email"
-             placeholderTextColor="#7c7c7c" 
-        style={{width:"100%"}} />
+        <TextInput
+          placeholder="Email"
+          placeholderTextColor="#7c7c7c"
+          style={{ width: "100%" }}
+          value={email}
+          onChangeText={setEmail}
+        />
       </View>
       <View style={[styles.container]}>
         <Image
@@ -27,28 +72,25 @@ const Login = () => {
           contentFit="cover"
           source={require("../assets/iconlylightlock.png")}
         />
-        <TextBox onChangeText={(text) => console.log('onChangeText: ', text)} 
-       containerStyles={{width:"88%"}}
-      secureTextEntry={true}
-      eyeColor="#7c7c7c"
-      placeholder="Password"
-      placeholderTextColor="#7c7c7c" 
-      />
+        <TextBox
+          containerStyles={{ width: "88%" }}
+          secureTextEntry={true}
+          eyeColor="#7c7c7c"
+          placeholder="Password"
+          placeholderTextColor="#7c7c7c"
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
-      <Pressable  onPress={() => navigation.navigate("ForgotPwd")}>
+      <Pressable onPress={() => navigation.navigate("ForgotPwd")}>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
       </Pressable>
-      <Pressable
-        style={[styles.buttonfirst]}
-        onPress={() => navigation.navigate("MonProfil")}
-      >
-        <Text style={[ styles.textTypo]}>Login</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => navigation.navigate("SignUp")}
-      >
+      <TouchableOpacity style={[styles.buttonfirst]} onPress={handleLogin}>
+        <Text style={[styles.textTypo]}>Login</Text>
+      </TouchableOpacity>
+      <Pressable onPress={() => navigation.navigate("SignUp")}>
         <Text style={styles.text}>
-          <Text style={styles.dontYouHave}>Don't you have an account?  </Text>
+          <Text style={styles.dontYouHave}>Don't you have an account? </Text>
           <Text style={styles.log}>Sign Up</Text>
         </Text>
       </Pressable>
@@ -58,18 +100,18 @@ const Login = () => {
 
 const styles = StyleSheet.create({
   textTypo: {
-    color:"#FFFFFF",
-    fontFamily:"Poppins-Medium",
+    color: "#FFFFFF",
+    fontFamily: "Poppins-Medium",
     fontSize: 16,
   },
   login: {
     fontSize: 40,
-    color:"#2d2d2d",
+    color: "#2d2d2d",
     fontFamily: "Nunito-Bold",
-    marginBottom:"20%",
+    marginBottom: "20%",
   },
   container: {
-    marginBottom:"4%",
+    marginBottom: "4%",
     paddingVertical: 16,
     paddingHorizontal: 15,
     width: "75%",
@@ -77,7 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor:"#fff",
+    backgroundColor: "#fff",
     elevation: 30,
     shadowRadius: 30,
     shadowColor: "rgba(80, 85, 136, 0.1)",
@@ -89,7 +131,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   forgotPassword: {
-    fontSize:15,
+    fontSize: 15,
     color: "#7c7c7c",
     textAlign: "center",
     fontFamily: "Nunito-Bold",
@@ -97,14 +139,14 @@ const styles = StyleSheet.create({
   },
   buttonfirst: {
     borderRadius: 15,
-    backgroundColor:"#0075fd",
+    backgroundColor: "#0075fd",
     shadowColor: "rgba(236, 95, 95, 0.25)",
     shadowRadius: 14,
     elevation: 14,
     width: "75%",
     height: 58,
     marginTop: 25,
-    marginBottom:"2%",
+    marginBottom: "2%",
     justifyContent: "center",
     shadowOpacity: 1,
     shadowOffset: {
@@ -114,15 +156,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dontYouHave: {
-    color:  "#7c7c7c",
+    color: "#7c7c7c",
   },
   log: {
     color: "#0075fd",
-    textDecorationLine:"underline",
+    textDecorationLine: "underline",
   },
   text: {
     fontFamily: "Nunito-Regular",
-    fontSize:16,
+    fontSize: 16,
   },
   loginpage: {
     height: "100%",

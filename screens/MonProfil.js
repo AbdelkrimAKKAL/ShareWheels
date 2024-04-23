@@ -1,19 +1,19 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { } from "react-native";
-export const me = {
+import {} from "react-native";
 
-  name: 'jimm junl',
+export const me = {
+  name: "jimm junl",
   bdate: "3333",
   phone: "11333333",
-  email: 'jimmy@gmail.com',
+  email: "jimmy@gmail.com",
   stars: 4.7,
   avis: 2,
-  password: 'dzdzdzdz',
+  password: "dzdzdzdz",
   image: require("../assets/image1.png"),
   greet: function () {
     console.log(`Hello, my name is ${this.name}`);
@@ -25,24 +25,25 @@ export const me = {
     this.email = x;
   },
   setpassword: function (x, old) {
-    if ((x.length >= 8) && (old === this.password || this.password === '')) {
+    if (x.length >= 8 && (old === this.password || this.password === "")) {
       this.password = x;
-    };
+    }
   },
   setphone: function (x) {
     if (x > 500000000 && x < 800000000) {
       this.phone = x;
-    };
+    }
   },
 };
 console.log(me.nom);
 const mycars = {
-  coulor: 'Gris',
-  id: '0117110606',
-  model: 'Hyundai Atos'
-}
+  coulor: "Gris",
+  id: "0117110606",
+  model: "Hyundai Atos",
+};
 const MonProfil = () => {
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState(me.name);
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
     { label: "Maruti", value: "Maruti" },
@@ -51,32 +52,41 @@ const MonProfil = () => {
   const navigation = useNavigation();
   me.greet();
 
+  useEffect(() => {
+    fetch("http://192.168.1.107:3000/api/users")
+      .then((response) => response.json())
+      .then((data) => {
+        // Assuming the data is an array with a single object
+        if (data.length > 0) {
+          me.setname(data[0].nom);
+          setName(data[0].nom); 
+          console.log("After fetch:", me.name);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <View style={pstyles.main}>
       <View style={[pstyles.userprofile, pstyles.centrer]}>
-        <Image
-          style={pstyles.imageIcon}
-          source={me.image}
-        />
+        <Image style={pstyles.imageIcon} source={me.image} />
         <View style={[pstyles.centrer]}>
-          <Text style={[pstyles.titleTypo]}>
-            {me.name}
-          </Text>
+          <Text style={[pstyles.titleTypo]}>{name}</Text>
           <View style={[pstyles.centrer, { flexDirection: "row" }]}>
             <Image
               style={pstyles.vectorIcon}
               contentFit="cover"
               source={require("../assets/vector3.png")}
             />
-            <Text style={pstyles.text}>{me.stars + ' (' + me.avis + ')'} </Text>
+            <Text style={pstyles.text}>{me.stars + " (" + me.avis + ")"} </Text>
           </View>
         </View>
       </View>
       <View style={[pstyles.inputs, pstyles.centrer]}>
         <View style={[pstyles.rectangle]}>
-          <Text style={[pstyles.font]}>
-            {me.email}
-          </Text>
+          <Text style={[pstyles.font]}>{me.email}</Text>
         </View>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>
           <Image
@@ -85,9 +95,7 @@ const MonProfil = () => {
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
-          <Text style={[pstyles.font]}>
-            {me.phone}
-          </Text>
+          <Text style={[pstyles.font]}>{me.phone}</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <DropDownPicker
@@ -101,10 +109,11 @@ const MonProfil = () => {
             setItems={setItems}
             dropDownContainerStyle={pstyles.drop}
           />
-          
+
           <TouchableOpacity
             onPress={() => navigation.navigate("Voiture")}
-            style={[pstyles.rectangle, pstyles.addbtn, pstyles.centrer]}>
+            style={[pstyles.rectangle, pstyles.addbtn, pstyles.centrer]}
+          >
             <Image
               style={[pstyles.addicon]}
               contentFit="cover"
@@ -121,15 +130,13 @@ const MonProfil = () => {
           <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>Modifier</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[ pstyles.buttons,pstyles.blue]}
+          style={[pstyles.buttons, pstyles.blue]}
           onPress={() => navigation.navigate("WelcomeScreen")}
         >
           <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[ pstyles.buttons,pstyles.red]}
-        >
-          <Text style={[ pstyles.signTypo,pstyles.red]}>Supprimer</Text>
+        <TouchableOpacity style={[pstyles.buttons, pstyles.red]}>
+          <Text style={[pstyles.signTypo, pstyles.red]}>Supprimer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -172,18 +179,17 @@ export const pstyles = StyleSheet.create({
   userprofile: {
     width: "100%",
     height: "30%",
-
   },
   buttons: {
     height: 59,
-    width:"76%",
+    width: "76%",
     borderRadius: 13,
     borderWidth: 1,
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderColor:"transparent",
+    borderColor: "transparent",
   },
   imageIcon: {
     width: 120,
@@ -208,7 +214,7 @@ export const pstyles = StyleSheet.create({
     height: 60,
     borderWidth: 1,
     borderColor: "#b8b8b8",
-    width: '80%',
+    width: "80%",
     marginTop: 15,
     borderRadius: 8,
     flexDirection: "row",
@@ -226,7 +232,7 @@ export const pstyles = StyleSheet.create({
     borderColor: "#ff4444",
   },
   main: {
-    paddingTop:"12%",
+    paddingTop: "12%",
     paddingBottom: "5%",
     backgroundColor: "#fff",
     width: "100%",
@@ -235,9 +241,9 @@ export const pstyles = StyleSheet.create({
   },
   drop: {
     backgroundColor: "white",
-    width: '60%',
+    width: "60%",
     marginTop: 10,
-    borderColor: "#b8b8b8"
+    borderColor: "#b8b8b8",
   },
   addbtn: {
     height: 55,
@@ -248,9 +254,8 @@ export const pstyles = StyleSheet.create({
   btns: {
     height: "27%",
     justifyContent: "space-between",
-    alignItems:"center",
-    width:"100%"
+    alignItems: "center",
+    width: "100%",
   },
-
 });
 export default MonProfil;
