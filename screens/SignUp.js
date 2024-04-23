@@ -25,7 +25,7 @@ const SignUp = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nom, prenom, mdp, num_tel, photo: 'photo.png',email, genre: 'male'
+          nom, prenom, mdp, num_tel, photo: 'photo.png',email, est_certifie: false, certificat:"123", genre: 'male'
         }),
       });
       

@@ -3,14 +3,14 @@ import { pool } from './createPool.js'; // Import the pool from createPool.js
 
 const router = express.Router();
 
-router.post('/', async (req, res) => { // Change '/api/signup' to '/'
+router.post('/', async (req, res) => { 
   try {
-    const { nom, prenom, mdp, num_tel, photo, email, genre } = req.body;
+    const { nom, prenom, mdp, num_tel, photo, email,est_certifie, certificat, genre } = req.body;
 
     const connection = await pool.getConnection();
     const [result] = await connection.query(
-      'INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email, genre) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [nom, prenom, mdp, num_tel, photo, email, genre]
+      'INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email,est_certifie, certificat, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [nom, prenom, mdp, num_tel, photo, email,est_certifie, certificat, genre]
     );
     connection.release();
 
