@@ -8,44 +8,26 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
-  Platform,
+  Platform, TouchableOpacity
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Padding, Border, } from "../GlobalStyles";
 import DropDownPicker from "react-native-dropdown-picker";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RechercheStyles } from "./Recherche";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
 
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
-  const [isChecked3, setIsChecked3] = useState(false);
-  const handlePress = (buttonNumber) => {
-    switch (buttonNumber) {
-      case 1:
-        setIsChecked1(!isChecked1);
-        break;
-      case 2:
-        setIsChecked2(!isChecked2);
-        break;
-      case 3:
-        setIsChecked3(!isChecked3);
-        break;
-      default:
-        break;
-    }
-  };
+  const [departLocation, setDepartLocation] = useState(null);
+  const [destinationLocation, setDestinationLocation] = useState(null);
+  const [prix, setPrix] = useState(null);
 
   const route = useRoute();
   const id = route.params?.type;
-
-  const [departLocation, setDepartLocation] = useState(null);
-  const [destinationLocation, setDestinationLocation] = useState(null);
 
   useEffect(() => {
     if (id === "Destination") {
@@ -54,8 +36,6 @@ const AjouterAnnonce = () => {
       setDepartLocation(route.params?.location);
     }
   }, [id, route.params?.location]);
-
-
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -69,11 +49,10 @@ const AjouterAnnonce = () => {
 
   const scrollViewRef = useRef(null);
 
-
-  const [extend, setExtend] = useState(false)
+  const [extend, setExtend] = useState(false);
   const handleExtend = () => {
-    setExtend(!extend)
-    setDatePicker2(false)
+    setExtend(!extend);
+    setDatePicker2(false);
   };
   useEffect(() => {
     // Scroll to default position when extend becomes false
@@ -149,28 +128,82 @@ const AjouterAnnonce = () => {
 
   function getDateDisplay(date, isDatePicked) {
     const displayDate = isDatePicked ? date.toLocaleDateString() : "Date";
-    return displayDate
+    return displayDate;
   }
+
+  const [nbPlaces, click] = React.useState(3);
+
+  const add = () => {
+    if (nbPlaces < 4) {
+      click(nbPlaces + 1);
+    }
+  };
+
+  const sub = () => {
+    if (nbPlaces > 1) {
+      click(nbPlaces - 1);
+    }
+  };
+
+  const handleAjouterPress = async () => {
+    // try {
+    //   const response = await fetch("http://192.168.1.107:3000/api/login", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       departLocation,
+    //       destinationLocation,
+    //       date,
+    //       time,
+    //       voiture: 1,
+    //       prix: prix,
+
+    //       départ,
+    //       arrivé,
+    //       timestamp,
+    //       prix,
+    //       id_conducteur,
+    //       id_voiture,
+    //     }),
+    //   });
+    //   if (response.ok) {
+    //     Alert.alert("Success", "Announcement published successfully");
+    //   } else {
+    //     Alert.alert("Error", "Failed to publish announcement");
+    //   }
+    // } catch (error) {
+    //   console.error("Error publishing announcement:", error);
+    //   Alert.alert("Error", "Internal server error");
+    // }
+  };
 
   return (
     <KeyboardAvoidingView
       behavior="position"
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#FFFFFF",
+      }}
     >
       <TopBar />
       <View style={[styles.AddRideTop]}>
         <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
       </View>
-      
-      <ScrollView ref={scrollViewRef} scrollEnabled={extend}>
-        <View style={[styles.ajouterannonce, styles.footerpublishFlexBox, extend ? { height: 750 } : { height: 600 }]}>
 
-
-          <View style={[styles.main,]}>
-
-
+      <ScrollView ref={scrollViewRef}>
+        <View
+          style={[
+            styles.ajouterannonce,
+            styles.footerpublishFlexBox,
+            extend ? { height: 750 } : { height:600 },
+          ]}
+        >
+          <View style={[styles.main]}>
             <View style={styles.inputs}>
-
               <Pressable
                 style={styles.input}
                 onPress={() =>
@@ -185,7 +218,14 @@ const AjouterAnnonce = () => {
                   contentFit="cover"
                   source={require("../assets/mappin3.png")}
                 />
-                <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
+                <Text
+                  style={{
+                    textAlign: "left",
+                    width: "100%",
+                    marginLeft: 5,
+                    color: Color.colorGray_100,
+                  }}
+                >
                   {departLocation ? departLocation : "Depart"}
                 </Text>
               </Pressable>
@@ -204,16 +244,28 @@ const AjouterAnnonce = () => {
                   contentFit="cover"
                   source={require("../assets/mappin3.png")}
                 />
-                <Text style={{ textAlign: "left", width: "100%", marginLeft: 5, color: Color.colorGray_100, }}>
+                <Text
+                  style={{
+                    textAlign: "left",
+                    width: "100%",
+                    marginLeft: 5,
+                    color: Color.colorGray_100,
+                  }}
+                >
                   {destinationLocation ? destinationLocation : "Destination"}
                 </Text>
               </Pressable>
               <View>
-
-
                 <View style={extend ? styles.styleWhenTrue : false}>
                   {extend && (
-                    <Text style={[styles.number, styles.numberTypo, styles.extend, styles.text]}>
+                    <Text
+                      style={[
+                        styles.number,
+                        styles.numberTypo,
+                        styles.extend,
+                        styles.text,
+                      ]}
+                    >
                       Start Date
                     </Text>
                   )}
@@ -231,16 +283,17 @@ const AjouterAnnonce = () => {
                       {getDateDisplay(date, isDatePicked)}
                     </Text>
 
-                    <Pressable
-                      onPress={handleExtend}
-                    >
+                    <Pressable onPress={handleExtend}>
                       <Image
                         style={styles.addCircleSvgrepocomIcon}
                         contentFit="cover"
-                        source={extend ? require("../assets/UpArrow.png") : require("../assets/down-arrow.png")}
+                        source={
+                          extend
+                            ? require("../assets/UpArrow.png")
+                            : require("../assets/down-arrow.png")
+                        }
                       />
                     </Pressable>
-
                   </Pressable>
 
                   <DateTimePickerModal
@@ -251,13 +304,19 @@ const AjouterAnnonce = () => {
                     date={new Date(date)} // Pass current selected date to the date picker
                   />
                   {extend && (
-                    <Text style={[styles.number, styles.numberTypo, styles.extend, styles.text]}>
+                    <Text
+                      style={[
+                        styles.number,
+                        styles.numberTypo,
+                        styles.extend,
+                        styles.text,
+                      ]}
+                    >
                       End Date
                     </Text>
                   )}
                   {extend && (
                     <View style={styles.frameFlexBox}>
-
                       <Pressable //Date
                         style={styles.inputShadowBox}
                         onPress={showDatePicker2}
@@ -267,7 +326,9 @@ const AjouterAnnonce = () => {
                           contentFit="cover"
                           source={require("../assets/mappin2.png")}
                         />
-                        <Text style={[styles.number, styles.numberTypo]}>{getDateDisplay(date2, isDatePicked2)}</Text>
+                        <Text style={[styles.number, styles.numberTypo]}>
+                          {getDateDisplay(date2, isDatePicked2)}
+                        </Text>
                       </Pressable>
                       <DateTimePickerModal
                         isVisible={isDatePickerVisible2}
@@ -276,7 +337,6 @@ const AjouterAnnonce = () => {
                         onCancel={hideDatePicker2}
                         date={new Date(date2)} // Pass current selected date to the date picker
                       />
-
                     </View>
                   )}
                 </View>
@@ -303,7 +363,7 @@ const AjouterAnnonce = () => {
                 date={new Date(time)} // Pass current selected time to the time picker
               />
 
-              <View style={styles.inputShadowBox}>
+              <View style={[styles.inputShadowBox]}>
                 <Image
                   style={[styles.mapPinIcon2, styles.iconLayout]}
                   contentFit="cover"
@@ -341,10 +401,40 @@ const AjouterAnnonce = () => {
                   dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
                 />
               </View>
+
+              <View 
+                style={[styles.inputShadowBox, {alignItems: 'center'}]}
+              >
+                <Image
+                  style={[styles.mapPinIcon2, styles.iconLayout]}
+                  contentFit="cover"
+                  source={require("../assets/clock32.png")}
+                />
+                <Text style={[{textAlign: "left",
+                    marginLeft: -60,
+                    color: Color.colorGray_100}]}>Places</Text>
+                <View style={[RechercheStyles.nmbrplaces, {marginTop: 0}]}>
+                  <TouchableOpacity onPress={sub}>
+                    <Image
+                      style={RechercheStyles.iconLayout}
+                      contentFit="cover"
+                      source={require("../assets/moins.png")}
+                    />
+                  </TouchableOpacity>
+                  <Text style={[RechercheStyles.heading]}>{nbPlaces}</Text>
+                  <TouchableOpacity onPress={add}>
+                    <Image
+                      style={[RechercheStyles.iconLayout]}
+                      contentFit="cover"
+                      source={require("../assets/plus.png")}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
               <View style={{ zIndex: -1 }}>
                 <View // Price
                   style={styles.inputShadowBox}
-
                 >
                   <Image
                     style={[styles.mapPinIcon2, styles.iconLayout]}
@@ -356,38 +446,41 @@ const AjouterAnnonce = () => {
                     placeholder="Prix (DA)"
                     keyboardType="numeric"
                     onBlur={handleInputBlur}
+                    onChange={setPrix}
+                    value={prix}
                   />
                 </View>
               </View>
 
               <Pressable
                 style={styles.inputShadowBox}
-                onPress={() => { navigation.navigate('DatailsAjouter') }}
+                onPress={() => {
+                  navigation.navigate("DatailsAjouter");
+                }}
               >
                 <Image
                   style={[styles.mapPinIcon2, styles.iconLayout]}
                   contentFit="cover"
                   source={require("../assets/add-circle-outline.png")}
                 />
-                <Text style={[styles.number2, styles.numberTypo]}>Details a ajouter</Text>
+                <Text style={[styles.number2, styles.numberTypo]}>
+                  Details a ajouter
+                </Text>
               </Pressable>
-
-
-
             </View>
-
           </View>
-
-
         </View>
       </ScrollView>
 
       <View style={styles.ajouter}>
-        <Pressable style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]}>
-          <Text style={styles.signUp}>Ajouter</Text>
+        <Pressable
+          style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]}
+        >
+          <Text style={styles.signUp} onPress={handleAjouterPress}>
+            Ajouter
+          </Text>
         </Pressable>
       </View>
-
     </KeyboardAvoidingView>
   );
 };
@@ -399,35 +492,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderBottomColor: Color.colorGray_300,
     borderBottomWidth: 2,
-    borderRadius: 5
+    borderRadius: 5,
   },
 
   styleWhenTrue: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     padding: 10,
     marginTop: 10,
-    borderRadius: 10
+    borderRadius: 10,
   },
   text: {
     color: "black",
     marginTop: 10,
-    height: 20
+    height: 20,
   },
   addCircleSvgrepocomIcon: {
     width: 22,
     height: 22,
-    marginLeft:-15,
-    
-
+    marginLeft: -15,
   },
   btnAjouter: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   ajouter: {
     backgroundColor: "white",
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   radioButtonUncheckedSvgrepoIcon: {
     width: 24,
@@ -480,7 +571,7 @@ const styles = StyleSheet.create({
     color: Color.colorDarkslategray_100,
     width: 359,
     textAlign: "center",
-    marginBottom:0,
+    marginBottom: 0,
   },
   mapPinIcon: {
     width: 24,
@@ -523,7 +614,7 @@ const styles = StyleSheet.create({
   },
   number2: {
     width: 220,
-    marginLeft: 12
+    marginLeft: 12,
   },
   inputShadowBox: {
     height: 57,
@@ -549,7 +640,6 @@ const styles = StyleSheet.create({
     backgroundColor: Color.neutralWhite,
   },
 
- 
   inputs: {
     height: 544,
     marginTop: 20,
@@ -583,17 +673,16 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginTop: 25,
     alignItems: "center",
   },
 
   ajouterannonce: {
     flex: 1,
-    height: 824,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     overflow: "hidden",
     width: "100%",
+    
   },
 });
 

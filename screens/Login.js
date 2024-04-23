@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/native";
 import TextBox from "react-native-password-eye";
 import { TextInput } from "react-native";
 import { Alert } from "react-native";
-imo
 
 const Login = () => {
   const navigation = useNavigation();

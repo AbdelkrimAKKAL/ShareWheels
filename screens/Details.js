@@ -20,7 +20,7 @@ const fetchDataFromDatabase = async () => {
     { id: 1, text: "Fumeurs" },
     { id: 2, text: "Bagages" },
     { id: 3, text: "Ouvert à la conversation" },
-    { id: 4, text: "Passagers de différents sexes" },
+    { id: 4, text: "Passagers de différents sexe" },
     { id: 5, text: "Arrêts supplémentaires" },
   ];
 };

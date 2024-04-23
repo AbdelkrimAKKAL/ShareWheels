@@ -307,7 +307,6 @@ export const RechercheStyles = StyleSheet.create({
     lineHeight: 25,
     textAlign: "left",
     fontSize: FontSize.headingH2_size,
-    textAlign: "left",
   },
 
   Inputs: {
