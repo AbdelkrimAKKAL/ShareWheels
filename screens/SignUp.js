@@ -1,12 +1,46 @@
 import * as React from "react";
+import { useState } from "react";
 import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { ScrollView } from "react-native-gesture-handler";
 import TextBox from "react-native-password-eye";
+import { Alert } from "react-native";
+
 const SignUp = () => {
   const navigation = useNavigation();
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [email, setMail] = useState("");
+  const [num_tel, setPhoneNumber] = useState("");
+  const [genre, setGenre] = useState("");
+  const [mdp, setPassword] = useState("");
+
+  const handleSignUp = async () => {
+    try {
+      const response = await fetch('http://192.168.1.107:3000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nom, prenom, mdp, num_tel, photo: 'photo.png',email, genre: 'male'
+        }),
+      });
+      
+      if (response.ok) {
+        // Sign up successful, navigate to profile or login screen
+        navigation.navigate("MonProfil");
+      } else {
+        // Error handling for unsuccessful sign-up
+        Alert.alert("Sign Up Failed", "Please try again later");
+      }
+    } catch (error) {
+      console.error("Error signing up:", error);
+      Alert.alert("Sign Up Failed", "Please try again later");
+    }
+  };
 
   return (
     <View style={[styles.signUp]}>
@@ -19,8 +53,10 @@ const SignUp = () => {
             source={require("../assets/user.png")}
           />
           <TextInput
-            style={[styles.numberTypo]}
+            style={styles.numberTypo}
             placeholder="Nom"
+            value={nom}
+            onChangeText={setNom}
           />
         </View>
         <View style={styles.container}>
@@ -32,6 +68,8 @@ const SignUp = () => {
           <TextInput
             style={[styles.numberTypo]}
             placeholder="Prenom"
+            value={prenom}
+            onChangeText={setPrenom}
           />
         </View>
         <View style={[styles.container]}>
@@ -43,6 +81,8 @@ const SignUp = () => {
           <TextInput
             style={[styles.number, styles.numberTypo]}
             placeholder="Mail"
+            value={email}
+            onChangeText={setMail}
           />
         </View>
         <View style={[styles.container]}>
@@ -55,6 +95,8 @@ const SignUp = () => {
           <TextInput
             style={[styles.number2, styles.numberTypo]}
             placeholder="Numero de Telephone"
+            value={num_tel}
+            onChangeText={setPhoneNumber}
           />
         </View>
         <View style={[styles.container]}>
@@ -82,17 +124,19 @@ const SignUp = () => {
             contentFit="cover"
             source={require("../assets/password.png")}
           />
-          <TextBox onChangeText={(text) => console.log('onChangeText: ', text)}
+          <TextBox onChangeText={setPassword}
             containerStyles={{ width: "90%", marginLeft: 10, }}
             secureTextEntry={true}
             eyeColor="#7c7c7c"
             placeholder="Password"
             placeholderTextColor="#7c7c7c"
+            value= {mdp}
+            
           />
         </View>
         <Pressable
           style={[styles.buttonfirst]}
-          onPress={() => navigation.navigate("MonProfil")}
+          onPress={handleSignUp}
         >
           <Text style={[styles.textTypo]}>Sign up</Text>
         </Pressable>
