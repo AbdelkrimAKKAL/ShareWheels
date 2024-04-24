@@ -3,14 +3,14 @@ import { pool } from './createPool.js'; // Import the pool from createPool.js
 
 const router = express.Router();
 
-router.post('/publish', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    const { départ, arrivé, timestamp, prix, id_conducteur, id_voiture } = req.body;
+    const {depart, arrivee, timestamp, nbr_place, prix, id_conducteur, id_voiture } = req.body;
 
     const connection = await pool.getConnection();
     const [result] = await connection.query(
-      'INSERT INTO trajets (départ, arrivé, timestamp, nbr_place, prix, id_conducteur, id_voiture, ajout) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)',
-      [départ, arrivé, timestamp, nbr_place, prix, id_conducteur, id_voiture]
+      'INSERT INTO trajets (depart, arrivee, timestamp, nbr_place, prix, id_conducteur, id_voiture) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [depart, arrivee, timestamp, nbr_place, prix, id_conducteur, id_voiture]
     );
     connection.release();
 

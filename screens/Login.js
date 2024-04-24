@@ -26,8 +26,8 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: "john@example.com",
-          password: "password123"
+          email,
+          password
         }),
       });
       const data = await response.json();

@@ -35,7 +35,6 @@ export const me = {
     }
   },
 };
-console.log(me.nom);
 const mycars = {
   coulor: "Gris",
   id: "0117110606",
@@ -51,22 +50,6 @@ const MonProfil = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const navigation = useNavigation();
   me.greet();
-
-  useEffect(() => {
-    fetch("http://192.168.1.107:3000/api/users")
-      .then((response) => response.json())
-      .then((data) => {
-        // Assuming the data is an array with a single object
-        if (data.length > 0) {
-          me.setname(data[0].nom);
-          setName(data[0].nom); 
-          console.log("After fetch:", me.name);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
 
   return (
     <View style={pstyles.main}>

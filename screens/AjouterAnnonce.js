@@ -18,6 +18,7 @@ import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RechercheStyles } from "./Recherche";
+import { Alert } from "react-native";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
@@ -146,37 +147,25 @@ const AjouterAnnonce = () => {
   };
 
   const handleAjouterPress = async () => {
-    // try {
-    //   const response = await fetch("http://192.168.1.107:3000/api/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       departLocation,
-    //       destinationLocation,
-    //       date,
-    //       time,
-    //       voiture: 1,
-    //       prix: prix,
-
-    //       départ,
-    //       arrivé,
-    //       timestamp,
-    //       prix,
-    //       id_conducteur,
-    //       id_voiture,
-    //     }),
-    //   });
-    //   if (response.ok) {
-    //     Alert.alert("Success", "Announcement published successfully");
-    //   } else {
-    //     Alert.alert("Error", "Failed to publish announcement");
-    //   }
-    // } catch (error) {
-    //   console.error("Error publishing announcement:", error);
-    //   Alert.alert("Error", "Internal server error");
-    // }
+    try {
+      const response = await fetch("http://192.168.1.107:3000/api/publish", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          depart: 'oran', arrivee:'skikda', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 2, id_voiture: 123
+        }),
+      });
+      if (response.ok) {
+        Alert.alert("Success", "Announcement published successfully");
+      } else {
+        Alert.alert("Error", "Failed to publish announcement");
+      }
+    } catch (error) {
+      console.error("Error publishing announcement:", error);
+      Alert.alert("Error", "Internal server error");
+    }
   };
 
   return (
