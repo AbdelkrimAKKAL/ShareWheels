@@ -31,6 +31,9 @@ import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Padding } from "./GlobalStyles";
 import ParticipantsScreen from "./screens/ParticipantsScreen";
+import { AuthProvider } from './context/AuthContext'
+import { useAuth } from './context/AuthContext';
+
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -58,6 +61,7 @@ const App = () => {
 
   return (
     <>
+    <AuthProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -169,10 +173,14 @@ const App = () => {
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
+      </AuthProvider>
     </>
   );
 };
-const TabNavigator = () => (
+
+const TabNavigator = () => {
+  const { user } = useAuth();
+  return(
   <Tab.Navigator
     initialRouteName={SearchName}
     screenOptions={({ route }) => ({
@@ -276,13 +284,20 @@ const TabNavigator = () => (
       component={CarpoolsStackScreen}
       options={{ headerShown: false }}
     />
-    <Tab.Screen
+
+    {user ? (
+          <Tab.Screen
+          name={ProfileName}
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+    ):(<Tab.Screen
       name={ProfileName}
-      component={ProfileScreen}
+      component={WelcomeScreen}
       options={{ headerShown: false }}
-    />
+    />)}
   </Tab.Navigator>
-);
+  );};
 
 const SearchStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>

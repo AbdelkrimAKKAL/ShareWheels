@@ -7,8 +7,10 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { ScrollView } from "react-native-gesture-handler";
 import TextBox from "react-native-password-eye";
 import { Alert } from "react-native";
+import { useAuth } from "../context/AuthContext";
 
 const SignUp = () => {
+  const { login } = useAuth();
   const navigation = useNavigation();
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -31,7 +33,10 @@ const SignUp = () => {
       
       if (response.ok) {
         // Sign up successful, navigate to profile or login screen
-        navigation.navigate("MonProfil");
+        login({
+          email: 'gmail'
+        });
+        navigation.popToTop();
       } else {
         // Error handling for unsuccessful sign-up
         Alert.alert("Sign Up Failed", "Please try again later");

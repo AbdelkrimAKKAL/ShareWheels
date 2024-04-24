@@ -12,8 +12,10 @@ import { useNavigation } from "@react-navigation/native";
 import TextBox from "react-native-password-eye";
 import { TextInput } from "react-native";
 import { Alert } from "react-native";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +36,8 @@ const Login = () => {
 
       if (response.ok) {
         // Login successful, navigate to the profile screen
-        navigation.navigate("MonProfil");
+        login(email);
+        navigation.popToTop();
       } else {
         // Login failed, show error message
         Alert.alert(

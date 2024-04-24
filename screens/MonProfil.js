@@ -5,10 +5,12 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 import {} from "react-native";
+import { useAuth } from "../context/AuthContext";
+import { Alert } from "react-native";
+import axios from "axios";
 
 export const me = {
   name: "jimm junl",
-  bdate: "3333",
   phone: "11333333",
   email: "jimmy@gmail.com",
   stars: 4.7,
@@ -41,6 +43,7 @@ const mycars = {
   model: "Hyundai Atos",
 };
 const MonProfil = () => {
+  const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(me.name);
   const [items, setItems] = useState([
@@ -51,8 +54,35 @@ const MonProfil = () => {
   const navigation = useNavigation();
   me.greet();
 
+  const handleLogout = () =>{
+    logout();
+    navigation.navigate("WelcomeScreen");
+  }
+
+//   useEffect(() => {
+//   const fetchUserData = async () => {
+//     me.setemail(user.email)
+//     try {
+//       const response = await fetch(`http://192.168.1.107:3000/api/${me.email}`);
+//       if (!response.ok) {
+//         throw new Error('User not found');
+//       }
+//       const data = await response.json();
+//       const userData = response.data;
+//       me.setname(userData.name);
+//       me.setphone(userData.num_tel);
+//       me.setgenre(userData.genre);
+
+//     } catch (error) {
+//       Alert.alert("Error", "Failed to fetch user data");
+//       logout();
+//       navigation.navigate("WelcomeScreen");
+//     }
+//   }; 
+//   fetchUserData();
+// }, [me.email]);
   return (
-    <View style={pstyles.main}>
+    <View style={pstyles.main }>
       <View style={[pstyles.userprofile, pstyles.centrer]}>
         <Image style={pstyles.imageIcon} source={me.image} />
         <View style={[pstyles.centrer]}>
@@ -114,7 +144,7 @@ const MonProfil = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[pstyles.buttons, pstyles.blue]}
-          onPress={() => navigation.navigate("WelcomeScreen")}
+          onPress={handleLogout}
         >
           <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
         </TouchableOpacity>
