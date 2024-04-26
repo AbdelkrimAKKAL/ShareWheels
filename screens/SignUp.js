@@ -8,7 +8,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import TextBox from "react-native-password-eye";
 import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";
-
+import { myip } from "../App";
 const SignUp = () => {
   const { login } = useAuth();
   const navigation = useNavigation();
@@ -21,7 +21,7 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     try {
-      const response = await fetch('http://192.168.1.107:3000/api/signup', {
+      const response = await fetch('http://' + myip + ':3000/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

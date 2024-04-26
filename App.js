@@ -3,7 +3,6 @@ const Tab = createBottomTabNavigator();
 
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-
 import { useFonts } from "expo-font";
 import Recherche from "./screens/Recherche";
 import Details from "./screens/Details";
@@ -35,7 +34,7 @@ import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
 
-
+export const myip = '192.168.1.28';
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
 const PublishName = "Publish";
