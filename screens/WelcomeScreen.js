@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet, Text, Pressable } from "react-native";
+import { View, StyleSheet, Text, Pressable, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border, Padding } from "../GlobalStyles";
@@ -32,18 +32,18 @@ const WelcomeScreen = () => {
           </Text>
         </View>
         <View style={styles.buttons}>
-          <Pressable
+          <TouchableOpacity
             style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("Login")}
           >
             <Text style={[styles.signUp, styles.signTypo]}>Login</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[styles.buttonsecondary, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("SignUp")}
           >
             <Text style={[styles.signUp1, styles.signTypo]}>Sign up</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

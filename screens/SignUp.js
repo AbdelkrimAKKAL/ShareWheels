@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -33,10 +33,10 @@ const SignUp = () => {
       
       if (response.ok) {
         // Sign up successful, navigate to profile or login screen
-        login({
-          email: 'gmail'
-        });
-        navigation.popToTop({email});
+        login(
+          email
+        );
+        navigation.popToTop();
       } else {
         // Error handling for unsuccessful sign-up
         Alert.alert("Sign Up Failed", "Please try again later");
@@ -139,12 +139,12 @@ const SignUp = () => {
             
           />
         </View>
-        <Pressable
+        <TouchableOpacity
           style={[styles.buttonfirst]}
           onPress={handleSignUp}
         >
           <Text style={[styles.textTypo]}>Sign up</Text>
-        </Pressable>
+        </TouchableOpacity>
         <Pressable
           style={styles.alreadyHaveAnContainer}
           onPress={() => navigation.navigate("Login")}
