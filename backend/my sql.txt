@@ -72,3 +72,13 @@ ADD CONSTRAINT unique_num_tel UNIQUE (num_tel);
 
 ALTER TABLE voitures
 ADD CONSTRAINT unique_matricule UNIQUE (matricule);
+
+ALTER TABLE utilisateurs
+ADD COLUMN total_rating INT DEFAULT 0,
+ADD COLUMN num_ratings INT DEFAULT 0;
+
+
+ALTER TABLE utilisateurs
+MODIFY COLUMN total_rating FLOAT(4,1) DEFAULT 0;
+
+

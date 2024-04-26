@@ -6,6 +6,12 @@ import rechercheRouter from "./Get/rechercheRouter.js";
 import voituresRouter from "./Post/AjoutervoituresRouter.js";
 import reserverRouter from "./Post/reserverRouter.js";
 import getUserDataRouter from "./Get/getUserDataRouter.js";
+import EditUserRouter from './Get/EditUserRouter.js';
+import deleteUserRouter from './Delete/deleteUserRouter.js';
+import deleteTrajetRouter from './Delete/deleteTrajetRouter.js';
+import rateRouter from './Post/rateRouter.js';
+
+
 
 const app = express();
 const port = 3000;
@@ -19,6 +25,13 @@ app.use("/api/getUserData", getUserDataRouter);
 app.use("/api/recherche", rechercheRouter);
 app.use("/api/voitures", voituresRouter);
 app.use("/api/reserver", reserverRouter);
+app.use("/api/EditUser", EditUserRouter);
+app.use("/api/DeleteUser", deleteUserRouter);
+app.use("/api/DeleteTrajet", deleteTrajetRouter);
+app.use("/api/Rate", rateRouter);
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://192.168.1.107:${port}`);
