@@ -33,6 +33,7 @@ import { Padding } from "./GlobalStyles";
 import ParticipantsScreen from "./screens/ParticipantsScreen";
 import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
+import { ProfileProvider } from "./context/ProfileContext";
 
 
 const SearchName = "Search";
@@ -61,6 +62,7 @@ const App = () => {
 
   return (
     <>
+    <ProfileProvider>
     <AuthProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
@@ -174,6 +176,7 @@ const App = () => {
         ) : null}
       </NavigationContainer>
       </AuthProvider>
+      </ProfileProvider>
     </>
   );
 };

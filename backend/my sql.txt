@@ -65,3 +65,10 @@ CREATE TABLE Avis (
     note INT,
     FOREIGN KEY (id_receveur) REFERENCES Utilisateurs(id_uti)
 );
+
+ALTER TABLE utilisateurs
+ADD CONSTRAINT unique_email UNIQUE (email),
+ADD CONSTRAINT unique_num_tel UNIQUE (num_tel);
+
+ALTER TABLE voitures
+ADD CONSTRAINT unique_matricule UNIQUE (matricule);

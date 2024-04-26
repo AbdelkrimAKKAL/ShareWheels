@@ -1,90 +1,69 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator  } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
 import {} from "react-native";
 import { useAuth } from "../context/AuthContext";
 import { Alert } from "react-native";
 import axios from "axios";
+import { useProfile, cars } from '../context/ProfileContext';
 
-export const me = {
-  name: "jimm junl",
-  phone: "11333333",
-  email: "jimmy@gmail.com",
-  stars: 4.7,
-  avis: 2,
-  password: "dzdzdzdz",
-  image: require("../assets/image1.png"),
-  greet: function () {
-    console.log(`Hello, my name is ${this.name}`);
-  },
-  setname: function (nom) {
-    this.name = nom;
-  },
-  setemail: function (x) {
-    this.email = x;
-  },
-  setpassword: function (x, old) {
-    if (x.length >= 8 && (old === this.password || this.password === "")) {
-      this.password = x;
-    }
-  },
-  setphone: function (x) {
-    if (x > 500000000 && x < 800000000) {
-      this.phone = x;
-    }
-  },
-};
-const mycars = {
-  coulor: "Gris",
-  id: "0117110606",
-  model: "Hyundai Atos",
-};
 const MonProfil = () => {
+  const { profileData, updateProfileData } = useProfile();
+  const {cars, updateCars} = useProfile();
+
   const { user, logout } = useAuth();
+  const navigation = useNavigation();
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState(me.name);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [photo, setPhoto] = useState(require("../assets/image1.png"))
+  const [email, setEmail] = useState("");
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
     { label: "Maruti", value: "Maruti" },
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
-  const navigation = useNavigation();
-  me.greet();
+  const [loading, setLoading] = useState(true);
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
     logout();
     navigation.navigate("WelcomeScreen");
-  }
+  };
 
-//   useEffect(() => {
-//   const fetchUserData = async () => {
-//     me.setemail(user.email)
-//     try {
-//       const response = await fetch(`http://192.168.1.107:3000/api/${me.email}`);
-//       if (!response.ok) {
-//         throw new Error('User not found');
-//       }
-//       const data = await response.json();
-//       const userData = response.data;
-//       me.setname(userData.name);
-//       me.setphone(userData.num_tel);
-//       me.setgenre(userData.genre);
+  useEffect(() => {
+    setEmail(user)
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `http://192.168.1.107:3000/api/getUserData/${email}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+          setEmail(data.user.email);
+          setPhone(data.user.num_tel);
+          setName(data.user.nom+' '+data.user.prenom);
+          console.log('hello');
+          updateProfileData({ email: email, phone: phone, name: name,photo: photo });
+          updateCars(data.cars)
+          console.log(cars)
+      } catch (error) {
+        console.log("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+  }, [email, phone, name]);
+  
 
-//     } catch (error) {
-//       Alert.alert("Error", "Failed to fetch user data");
-//       logout();
-//       navigation.navigate("WelcomeScreen");
-//     }
-//   }; 
-//   fetchUserData();
-// }, [me.email]);
+  
   return (
-    <View style={pstyles.main }>
+    <View style={pstyles.main}>
       <View style={[pstyles.userprofile, pstyles.centrer]}>
-        <Image style={pstyles.imageIcon} source={me.image} />
+        <Image style={pstyles.imageIcon} source={photo} />
         <View style={[pstyles.centrer]}>
           <Text style={[pstyles.titleTypo]}>{name}</Text>
           <View style={[pstyles.centrer, { flexDirection: "row" }]}>
@@ -93,13 +72,13 @@ const MonProfil = () => {
               contentFit="cover"
               source={require("../assets/vector3.png")}
             />
-            <Text style={pstyles.text}>{me.stars + " (" + me.avis + ")"} </Text>
+            <Text style={pstyles.text}>4.2 (3) </Text>
           </View>
         </View>
       </View>
       <View style={[pstyles.inputs, pstyles.centrer]}>
         <View style={[pstyles.rectangle]}>
-          <Text style={[pstyles.font]}>{me.email}</Text>
+          <Text style={[pstyles.font]}>{email}</Text>
         </View>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>
           <Image
@@ -108,7 +87,7 @@ const MonProfil = () => {
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
-          <Text style={[pstyles.font]}>{me.phone}</Text>
+          <Text style={[pstyles.font]}>{phone}</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <DropDownPicker
@@ -271,4 +250,5 @@ export const pstyles = StyleSheet.create({
     width: "100%",
   },
 });
+
 export default MonProfil;

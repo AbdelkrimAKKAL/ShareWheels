@@ -36,7 +36,7 @@ const SignUp = () => {
         login({
           email: 'gmail'
         });
-        navigation.popToTop();
+        navigation.popToTop({email});
       } else {
         // Error handling for unsuccessful sign-up
         Alert.alert("Sign Up Failed", "Please try again later");

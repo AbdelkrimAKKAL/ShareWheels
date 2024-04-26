@@ -3,14 +3,15 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput, ScrollView } from 
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil.js";
-import { me } from "./MonProfil.js";
 import { launchImageLibraryAsync } from 'expo-image-picker';
 import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
+import { useProfile } from '../context/ProfileContext.js';
 
 const Modifier = () => {
   const navigation = useNavigation();
+  const { profileData } = useProfile();
 
-  const [imgUrl, setImgUrl] = useState(me.image);
+  const [imgUrl, setImgUrl] = useState(profileData.photo);
 
   const openGallery = async () => {
     try {
@@ -54,19 +55,13 @@ const Modifier = () => {
       >
         <Text style={styles.titres}>Modifier Nom</Text>
         <TextInput style={[pstyles.font,pstyles.rectangle]}
-          defaultValue={me.name}
-          onSubmitEditing={event => {
-            me.setname(event.nativeEvent.text)
-            console.log('Submitted:', event.nativeEvent.text);
-          }}
+          defaultValue={profileData.name}
         />
-        <Text style={[styles.titres]}>Modifier date de naissance</Text>
-        <TextInput style={[pstyles.font,pstyles.rectangle]}
-          defaultValue={me.bdate} />
+
         <Text style={[styles.titres]}>Modifier mail</Text>
         <TextInput
           style={[pstyles.font,pstyles.rectangle]}
-          defaultValue={me.email}
+          defaultValue={profileData.email}
         />
          <Text style={[styles.titres]}>Modifier numéro de téléphone</Text>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>
@@ -78,7 +73,7 @@ const Modifier = () => {
           <Text style={[pstyles.signTypo]}>+213</Text>
           <TextInput 
           style={[pstyles.font,{width:"60%"}]}
-          defaultValue={me.phone}
+          defaultValue={profileData.phone}
           keyboardType="numeric"
           />
         </View>
@@ -94,7 +89,6 @@ const Modifier = () => {
     </View>
   );
 };
-me.greet();
 const styles = StyleSheet.create({
   edtbtn: {
     height: 25,
@@ -119,3 +113,4 @@ const styles = StyleSheet.create({
 });
 
 export default Modifier;
+

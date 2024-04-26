@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const login = (userData) => {
     // Here you can perform any login logic, like validating user credentials
     setUser(userData);
-    console.log(userData)
   };
 
   const logout = () => {
