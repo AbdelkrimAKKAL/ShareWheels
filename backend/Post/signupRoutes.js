@@ -1,5 +1,6 @@
 import express from "express";
 import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -31,11 +32,14 @@ router.post("/", async (req, res) => {
         .json({ error: "Email or phone number already in use" });
     }
 
+    // hash password
+    const hashedPassword = await bcrypt.hash(mdp, 10)
+
     // If email and phone number are unique, proceed with insertion
     const insertConnection = await pool.getConnection();
     const [result] = await insertConnection.query(
       "INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre]
+      [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, certificat, genre]
     );
     insertConnection.release();
 

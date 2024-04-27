@@ -1,6 +1,7 @@
 // Import necessary modules
 import express from "express";
 import { pool } from "../createPool.js";
+import bcrypt from "bcrypt";
 
 const router = express.Router();
 
@@ -29,9 +30,15 @@ router.post("/", async (req, res) => {
     const user = rows[0];
 
     // Check if the provided password matches the stored password
-    if (user.mdp !== password) {
+    
+    const isMatch = await bcrypt.compare(password, user.hashedPassword)
+    if (!isMatch) {
       return res.status(401).json({ error: "Incorrect password" });
     }
+
+    // if (user.mdp !== password) {
+    //   return res.status(401).json({ error: "Incorrect password" });
+    // }
 
     // If email and password are correct, return success response
     res

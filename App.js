@@ -34,7 +34,7 @@ import { AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
 
-export const myip = '192.168.1.28';
+export const myip = '192.168.1.33';
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
 const PublishName = "Publish";
