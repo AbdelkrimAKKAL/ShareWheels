@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const { id_trajet, depart, arrivee, timestamp, passengers } = req.body;
+    const { id_trajet, depart, arrivee, timestamp, passengers } = req.query;
     console.log(id_trajet, depart, arrivee, timestamp, passengers);
 
     if (id_trajet) {

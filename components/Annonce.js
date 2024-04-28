@@ -96,7 +96,7 @@ return (
               contentFit="cover"
               source={require("../assets/vector4.png")}
             />
-            <Text style={[AnnonceStyles.titre, {textAlign: "left",fontSize: FontSize.size_xs+0.5, width: 55 }]}>{Props.rating}</Text>
+            <Text style={[AnnonceStyles.titre, {textAlign: "left",fontSize: FontSize.size_xs+0.5, width: 55 }]}>{Props.rating + " (" + Props.nbrRatings + ")"}</Text>
           </View>
         </View>
         <View style={[AnnonceStyles.trajet, AnnonceStyles.trajetFlexBox]}>
@@ -119,7 +119,7 @@ return (
       <View style={[AnnonceStyles.trajetFlexBox, {justifyContent: "space-between", height: 32,}]}>
         <View style={[AnnonceStyles.infoBox]}>
           <Text style={[AnnonceStyles.titre]}>Prix</Text>
-          <Text style={AnnonceStyles.infoTypo}>{Props.price}</Text>
+          <Text style={AnnonceStyles.infoTypo}>{Props.price}DA</Text>
         </View>
 
         <View style={[AnnonceStyles.infoBox]}>

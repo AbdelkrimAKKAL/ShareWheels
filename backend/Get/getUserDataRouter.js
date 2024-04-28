@@ -28,13 +28,6 @@ router.get("/:email", async (req, res) => {
     );
     carsConnection.release();
 
-    // Get user's posted journeys
-    const journeysConnection = await pool.getConnection();
-    const [userJourneys] = await journeysConnection.query(
-      "SELECT * FROM trajets WHERE id_conducteur = ?",
-      [userId]
-    );
-    journeysConnection.release();
 
     // Get user's participated journeys
     const participatedConnection = await pool.getConnection();
@@ -44,11 +37,10 @@ router.get("/:email", async (req, res) => {
     );
     participatedConnection.release(); // Release the correct connection here
 
-    // Assemble the user information along with their cars and posted journeys
+    // Assemble the user information along with their carsjourneys
     const userWithDetails = {
       user: userData[0],
       cars: userCars,
-      postedJourneys: userJourneys,
       participated: userParticipated,
     };
 

@@ -57,15 +57,6 @@ CREATE TABLE Signalements (
     FOREIGN KEY (id_trajet) REFERENCES Trajets(id_trajet)
 );
 
-
--- Create Reviews table
-CREATE TABLE Avis (
-    id_avis INT AUTO_INCREMENT PRIMARY KEY,
-    id_receveur INT,
-    note INT,
-    FOREIGN KEY (id_receveur) REFERENCES Utilisateurs(id_uti)
-);
-
 ALTER TABLE utilisateurs
 ADD CONSTRAINT unique_email UNIQUE (email),
 ADD CONSTRAINT unique_num_tel UNIQUE (num_tel);
@@ -79,6 +70,6 @@ ADD COLUMN num_ratings INT DEFAULT 0;
 
 
 ALTER TABLE utilisateurs
-MODIFY COLUMN total_rating FLOAT(4,1) DEFAULT 0;
+MODIFY COLUMN total_rating FLOAT(4,1) DEFAULT 2.5;
 
-
+ALTER TABLE utilisateurs MODIFY photo MEDIUMBLOB;

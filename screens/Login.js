@@ -1,5 +1,4 @@
 import * as React from "react";
-import { myip } from "../App";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -14,6 +13,8 @@ import TextBox from "react-native-password-eye";
 import { TextInput } from "react-native";
 import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";
+import env from '../env'; 
+
 
 const Login = () => {
   const { login } = useAuth();
@@ -23,7 +24,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("http://" + myip + ":3000/api/login", {
+      const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

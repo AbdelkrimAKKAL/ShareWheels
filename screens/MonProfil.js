@@ -9,7 +9,9 @@ import { useAuth } from "../context/AuthContext";
 import { Alert } from "react-native";
 import axios from "axios";
 import { useProfile, cars } from '../context/ProfileContext';
-import { myip } from "../App";
+import env from '../env';
+
+
 const MonProfil = () => {
   const { profileData, updateProfileData } = useProfile();
   const {cars, updateCars} = useProfile();
@@ -38,7 +40,7 @@ const MonProfil = () => {
     const fetchUserData = async () => {
       try {
         const response = await fetch(
-          `http://` + myip + `:3000/api/getUserData/${email}`
+          `http://${env.API_IP_ADDRESS}:3000/api/getUserData/${email}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

@@ -1,151 +1,180 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
-import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
-import Annonce from "../components/Annonce";
-import TopBar from "../components/TopBar";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { RechercheStyles } from "./Recherche";
-import NotAuth from "../components/notAuth";
-import DirPhoto from "../assets/No data-cuate.png"
+  import React, { useState, useEffect } from "react";
+  import { StyleSheet, View, Text, FlatList } from "react-native";
+  import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
+  import Annonce from "../components/Annonce";
+  import TopBar from "../components/TopBar";
+  import { useNavigation, useRoute } from "@react-navigation/native";
+  import { RechercheStyles } from "./Recherche";
+  import NotAuth from "../components/notAuth";
+  import DirPhoto from "../assets/No data-cuate.png";
+  import axios from "axios";
+  import env from '../env'; 
 
-const fetchDataFromDatabase = async () => {
-  // Example data
-  return [
-    {
-      id: 1,
-      name: "Amine Meddouri",
-      rating: "4.5(2)",
-      startLocation: "Alger Centre",
-      endLocation: "Amizour",
-      price: "250 DA",
-      vehicle: "Toyota Corolla",
-      time: "6:30pm",
-      date: "25 DEC 23",
-      availableSeats: "3/4",
-    },
-    {
-      id: 2,
-      name: "Amine Meddouri",
-      rating: "4.5(2)",
-      startLocation: "Alger Centre",
-      endLocation: "Amizour",
-      price: "250 DA",
-      vehicle: "Toyota Corolla",
-      time: "6:30pm",
-      date: "25 DEC 23",
-      availableSeats: "3/4",
-    },
-    
-  ];
-};
 
-const renderItem = ({ item }) => (
-  <Annonce
-    name={item.name}
-    rating={item.rating}
-    startLocation={item.startLocation}
-    endLocation={item.endLocation}
-    price={item.price}
-    vehicle={item.vehicle}
-    time={item.time}
-    date={item.date}
-    availableSeats={item.availableSeats}
-    btnText="Participer"
 
-  />
-);
+  const renderItem = ({ item }) => {
 
-const ResultatRecherche = () => {
-  const navigation = useNavigation();
-  const [isDataFound, setIsDataFound] = useState(false); //data found or not 
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    // Fetch data from the database when the component mounts
-    fetchDataFromDatabase().then((result) => setData(result));
-  }, []);
-
-  const route = useRoute();
-  const date = route.params?.Date;
-  const depart = route.params?.depart;
-  const destination = route.params?.destination;
-  const nmbrplaces = route.params?.nbPlc;
-  const isDatePicked = route.params?.isDatePicked;
-  const isTimePicked = route.params?.isTimePicked;
-
-  return (
-    <View style={[ResultatRechercheStyles.resultatrecherche]}>
-      <TopBar />
-      <View style={[ResultatRechercheStyles.frame]}>
-        <Text style={ResultatRechercheStyles.heading}>
-          {depart} a {destination}
-        </Text>
-        <Text style={ResultatRechercheStyles.heading1}>
-          {isDatePicked? date : "n'importe quand"}, {nmbrplaces} Places
-        </Text>
-      </View>
-      {isDataFound? (
-        <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+    const { date, time } = timestampToDateTime(item.timestamp);
+    console.log(date, time)
+  
+    return (
+      <Annonce
+        name={item.nom + ' ' + item.prenom}
+        rating={item.total_rating}
+        nbrRatings={item.num_ratings}
+        startLocation={item.depart}
+        endLocation={item.arrivee}
+        price={item.prix}
+        vehicle={item.modele}
+        time={time}
+        date={date} 
+        availableSeats={item.nbr_place}
+        btnText="Participer"
       />
-      ): (
-      <NotAuth title="Oups... Aucune donnée trouvée" photo={DirPhoto} />
-      )}
-    </View>
-  );
-};
+    );
+  };
+  function timestampToDateTime(timestamp) {
+    if (!timestamp) {
+      return { date: "", time: "" };
+    }
+    
+    const date = new Date(Date.parse(timestamp)); // Convert seconds to milliseconds
+  
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+    const day = date.getDate().toString().padStart(2, '0');
+  
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+  
+    const dateString = `${day}/${month}/${year.toString().slice(0, 2)}`;
+    const timeString = `${hours}:${minutes}`;
+  
+    return { date: dateString, time: timeString };
+  }
+  
+  
 
-export const ResultatRechercheStyles = StyleSheet.create({
-  rectangleLayout: {
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-  },
+  const ResultatRecherche = () => {
+    const navigation = useNavigation();
+    const [data, setData] = useState([]);
 
-  heading: {
-    fontSize: FontSize.subheadLgSHLgMedium_size,
-    fontWeight: "500",
-    fontFamily: FontFamily.subheadLgSHLgMedium,
-    color: Color.neutralGray1,
-    width: 325,
-    height: 18,
-    textAlign: "center",
-  },
+    const route = useRoute();
+    const date = route.params?.Date;
+    const depart = route.params?.depart;
+    const arrivee = route.params?.destination;
+    const passengers = route.params?.nbPlc;
+    const isDatePicked = route.params?.isDatePicked;
+    const isTimePicked = route.params?.isTimePicked;
+    const timestampRech = !isDatePicked ? null : route.params?.timestamp;
 
-  heading1: {
-    lineHeight: 18,
-    color: "#8c8c8c",
-    width: 200,
-    marginTop: 10,
-    fontFamily: FontFamily.poppinsRegular,
-    fontSize: FontSize.size_xs,
-    height: 18,
-    textAlign: "center",
-  },
 
-  frame: {
-    justifyContent: "center",
-    borderRadius: Border.br_mini,
-    marginTop: "5%",
-    marginBottom: "4%",
-    borderStyle: "solid",
-    borderColor: "rgba(0, 117, 253, 0.4)",
-    borderWidth: 1,
-    width: 300,
-    height: 54,
-    alignItems: "center",
-  },
+    const fetchDataFromDatabase = async () => {
+      try {
+        const response = await axios.get("http://"+env.API_IP_ADDRESS+":3000/api/recherche", {
+          params: {
+            depart,
+            arrivee,
+            timestampRech,
+            passengers
+          },
+        });
 
-  resultatrecherche: {
-    flex: 1,
-    overflow: "hidden",
-    width: "100%",
-    backgroundColor: Color.neutralWhite,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-});
+        // Check if response.data is defined before accessing it
+        if (response && response.data) {
+          return response.data;
+        } else {
+          console.error("Empty response or missing data property.");
+          return [];
+        }
 
-export default ResultatRecherche;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        return [];
+      }
+    }
+
+    useEffect(() => {
+      // Fetch data from the database when the component mounts
+      fetchDataFromDatabase().then((result) => {
+        setData(result);
+      });
+      console.log(timestampRech)
+    }, []);
+
+    
+    return (
+      <View style={[ResultatRechercheStyles.resultatrecherche]}>
+        <TopBar />
+        <View style={[ResultatRechercheStyles.frame]}>
+          <Text style={ResultatRechercheStyles.heading}>
+            {depart} a {arrivee}
+          </Text>
+          <Text style={ResultatRechercheStyles.heading1}>
+            {isDatePicked ? date : "n'importe quand"}, {passengers} Places
+          </Text>
+        </View>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id_trajet.toString()}
+            ListEmptyComponent={
+              <NotAuth title="Oups... Aucune donnée trouvée" photo={DirPhoto} />
+            }
+          />
+
+      </View>
+    );
+  };
+
+  export const ResultatRechercheStyles = StyleSheet.create({
+    rectangleLayout: {
+      width: "100%",
+      backgroundColor: Color.neutralWhite,
+    },
+
+    heading: {
+      fontSize: FontSize.subheadLgSHLgMedium_size,
+      fontWeight: "500",
+      fontFamily: FontFamily.subheadLgSHLgMedium,
+      color: Color.neutralGray1,
+      width: 325,
+      height: 18,
+      textAlign: "center",
+    },
+
+    heading1: {
+      lineHeight: 18,
+      color: "#8c8c8c",
+      width: 200,
+      marginTop: 10,
+      fontFamily: FontFamily.poppinsRegular,
+      fontSize: FontSize.size_xs,
+      height: 18,
+      textAlign: "center",
+    },
+
+    frame: {
+      justifyContent: "center",
+      borderRadius: Border.br_mini,
+      marginTop: "5%",
+      marginBottom: "4%",
+      borderStyle: "solid",
+      borderColor: "rgba(0, 117, 253, 0.4)",
+      borderWidth: 1,
+      width: 300,
+      height: 54,
+      alignItems: "center",
+    },
+
+    resultatrecherche: {
+      flex: 1,
+      overflow: "hidden",
+      width: "100%",
+      backgroundColor: Color.neutralWhite,
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+  });
+
+  export default ResultatRecherche;

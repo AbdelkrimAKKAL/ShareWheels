@@ -19,6 +19,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RechercheStyles } from "./Recherche";
 import { Alert } from "react-native";
+import env from '../env'; 
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
@@ -148,7 +149,7 @@ const AjouterAnnonce = () => {
 
   const handleAjouterPress = async () => {
     try {
-      const response = await fetch("http://192.168.1.107:3000/api/publish", {
+      const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/publish", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

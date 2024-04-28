@@ -13,6 +13,7 @@ import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Alert } from "react-native";
 
+
 const Recherche = () => {
   const navigation = useNavigation();
 
@@ -42,6 +43,7 @@ const Recherche = () => {
         "le lieu de départ et la destination sont les mêmes"
       );
     } else {
+      const timestamp = pickedDate ? pickedDate.getTime() : null;
       navigation.navigate("ResultatRecherche", {
         Date: pickedDate.toLocaleDateString(),
         heure: pickedDate.toLocaleTimeString([], {
@@ -49,6 +51,7 @@ const Recherche = () => {
           minute: "2-digit",
           hour12: false,
         }),
+        timestamp : timestamp,
         depart: departLocation,
         destination: destinationLocation,
         nbPlc: nbPlaces,
