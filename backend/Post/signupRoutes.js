@@ -33,6 +33,7 @@ router.post("/", async (req, res) => {
     }
 
     // hash password
+    
     const hashedPassword = await bcrypt.hash(mdp, 10)
 
     // If email and phone number are unique, proceed with insertion
