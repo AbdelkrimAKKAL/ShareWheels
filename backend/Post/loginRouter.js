@@ -2,6 +2,7 @@
 import express from "express";
 import { pool } from "../createPool.js";
 import bcrypt from "bcrypt";
+import { Alert } from "react-native-web";
 
 const router = express.Router();
 
@@ -28,10 +29,11 @@ router.post("/", async (req, res) => {
     }
 
     const user = rows[0];
+    console.log(user.mdp)
 
     // Check if the provided password matches the stored password
     
-    const isMatch = await bcrypt.compare(password, user.hashedPassword)
+    const isMatch = await bcrypt.compare(password, user.mdp)
     if (!isMatch) {
       return res.status(401).json({ error: "Incorrect password" });
     }
