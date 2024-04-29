@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
 import Evaluer from "../components/Evaluer";
@@ -8,6 +8,8 @@ import Annonce from "../components/Annonce";
 import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
 import DirPhoto from "../assets/Locationph.png"
+import { useAuth } from "../context/AuthContext";
+
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
@@ -15,6 +17,18 @@ const Carpools = () => {
   const [isHistory, setIsHistory] = useState(false); //history available or not
 
   const navigation = useNavigation();
+  const { user } = useAuth();
+
+  if (!user) {
+    return (
+      <View style={styles.needLogin}>
+        <Text style={styles.message}>Need to log in/sign up</Text>
+        <Pressable onPress={() => navigation.navigate('WelcomeScreen')} style={styles.authenticateButton}>
+          <Text style={styles.authenticateText}>Authenticate</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, styles.rectangleLayout]}>
@@ -125,6 +139,17 @@ const Carpools = () => {
   );
 };
 const styles = StyleSheet.create({
+  needLogin: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  authenticateButton: {
+    backgroundColor: 'blue', // Example background color for the button
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
   buttonContainer: {
     margin: 15,
   },

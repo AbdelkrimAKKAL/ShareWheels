@@ -10,6 +10,8 @@ import { Alert } from "react-native";
 import axios from "axios";
 import { useProfile, cars } from '../context/ProfileContext';
 import env from '../env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const MonProfil = () => {
@@ -29,36 +31,44 @@ const MonProfil = () => {
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData]= useState('')
+
+  const { dispatch } = useAuth()
 
   const handleLogout = () => {
-    logout();
+    AsyncStorage.removeItem('user')
+        
+    //
+    dispatch({type: 'LOGOUT'})
     navigation.navigate("WelcomeScreen");
   };
+  
 
-  useEffect(() => {
-    setEmail(user)
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(
-          `http://${env.API_IP_ADDRESS}:3000/api/getUserData/${email}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-          setEmail(data.user.email);
-          setPhone(data.user.num_tel);
-          setName(data.user.nom+' '+data.user.prenom);
-          console.log('hello');
-          updateProfileData({ email: email, phone: phone, name: name,photo: photo });
-          updateCars(data.cars)
-          console.log(cars)
-      } catch (error) {
-        console.log("Error fetching user data:", error);
-      }
-    };
-    fetchUserData();
-  }, [email, phone, name]);
+
+  // useEffect(() => {
+  //   setEmail(user)
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://${env.API_IP_ADDRESS}:3000/api/getUserData/${email}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       const data = await response.json();
+  //         setEmail(data.user.email);
+  //         setPhone(data.user.num_tel);
+  //         setName(data.user.nom+' '+data.user.prenom);
+  //         console.log('hello');
+  //         updateProfileData({ email: email, phone: phone, name: name,photo: photo });
+  //         updateCars(data.cars)
+  //         console.log(cars)
+  //     } catch (error) {
+  //       console.log("Error fetching user data:", error);
+  //     }
+  //   };
+  //   fetchUserData();
+  // }, [email, phone, name]);
   
 
   
@@ -67,7 +77,9 @@ const MonProfil = () => {
       <View style={[pstyles.userprofile, pstyles.centrer]}>
         <Image style={pstyles.imageIcon} source={photo} />
         <View style={[pstyles.centrer]}>
-          <Text style={[pstyles.titleTypo]}>{name}</Text>
+          <Text style={[pstyles.titleTypo]}>
+            user
+          </Text>
           <View style={[pstyles.centrer, { flexDirection: "row" }]}>
             <Image
               style={pstyles.vectorIcon}
@@ -80,7 +92,7 @@ const MonProfil = () => {
       </View>
       <View style={[pstyles.inputs, pstyles.centrer]}>
         <View style={[pstyles.rectangle]}>
-          <Text style={[pstyles.font]}>{email}</Text>
+          <Text style={[pstyles.font]}>email</Text>
         </View>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>
           <Image
@@ -89,7 +101,7 @@ const MonProfil = () => {
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
-          <Text style={[pstyles.font]}>{phone}</Text>
+          <Text style={[pstyles.font]}>phone</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <DropDownPicker

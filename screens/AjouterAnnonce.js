@@ -20,9 +20,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RechercheStyles } from "./Recherche";
 import { Alert } from "react-native";
 import env from '../env'; 
+import { useAuth } from "../context/AuthContext";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
+
+  const { user } = useAuth();
 
   const [departLocation, setDepartLocation] = useState(null);
   const [destinationLocation, setDestinationLocation] = useState(null);
@@ -168,6 +171,18 @@ const AjouterAnnonce = () => {
       Alert.alert("Error", "Internal server error");
     }
   };
+
+  // verify if user exists, iif not it shows this
+  if (!user) {
+    return (
+      <View style={styles.needLogin}>
+        <Text style={styles.message}>Need to log in/sign up</Text>
+        <Pressable onPress={() => navigation.navigate('WelcomeScreen')} style={styles.authenticateButton}>
+          <Text style={styles.authenticateText}>Authenticate</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -476,6 +491,17 @@ const AjouterAnnonce = () => {
 };
 
 const styles = StyleSheet.create({
+  needLogin: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  authenticateButton: {
+    backgroundColor: 'blue', // Example background color for the button
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
   AddRideTop: {
     height: 100,
     backgroundColor: "white",

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text,Image } from "react-native";
+import { StyleSheet, View, Text,Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
@@ -8,11 +8,25 @@ import TopBar from "../components/TopBar";
 import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
 import DirPhoto from "../assets/Locationph.png"
+import { useAuth } from "../context/AuthContext";
+
 
 const YourRides = () => {
   const navigation = useNavigation();
+  const { user } = useAuth();
 
   const [isPosted, setIsPosted] = useState(true); //3ellas true 
+
+  if (!user) {
+    return (
+      <View style={styles.needLogin}>
+        <Text style={styles.message}>Need to log in/sign up</Text>
+        <Pressable onPress={() => navigation.navigate('WelcomeScreen')} style={styles.authenticateButton}>
+          <Text style={styles.authenticateText}>Authenticate</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.yourrides}>
@@ -58,6 +72,17 @@ const YourRides = () => {
 };
 
 const styles = StyleSheet.create({
+  needLogin: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  authenticateButton: {
+    backgroundColor: 'blue', // Example background color for the button
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
   yourRidesTypo: {
     textAlign: "center",
     color: Color.colorDarkslategray_100,

@@ -14,6 +14,7 @@ import { TextInput } from "react-native";
 import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import env from '../env'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Login = () => {
@@ -22,7 +23,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState(null)
+  const [isLoading, setIsloading] = useState(null)
+  const { dispatch } = useAuth()
+
   const handleLogin = async () => {
+    setIsloading(true)
+    setError(null)
     try {
       const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/login", {
         method: "POST",
@@ -34,19 +41,25 @@ const Login = () => {
           password
         }),
       });
-      const data = await response.json();
+      const json = await response.json();
+  
+      if (!response.ok) {
+        setIsloading(false);
+        setError(json.error);
+        return; // Exit function if there's an error
+      }
 
       if (response.ok) {
-        // Login successful, navigate to the profile screen
-        login(email);
+        //save the user to local storage
+        AsyncStorage.setItem('user', JSON.stringify(json))
+        // Update the authContext
+        dispatch({type: 'LOGIN', payload: json})
+
+        setIsloading(false)
+
         navigation.popToTop();
-      } else {
-        // Login failed, show error message
-        Alert.alert(
-          "Error",
-          data.error || "An error occurred while logging in"
-        );
       }
+      
     } catch (error) {
       console.error("Error logging in:", error);
       Alert.alert("Error", "An error occurred while logging in");

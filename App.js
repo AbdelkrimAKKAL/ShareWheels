@@ -30,7 +30,7 @@ import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Padding } from "./GlobalStyles";
 import ParticipantsScreen from "./screens/ParticipantsScreen";
-import { AuthProvider } from './context/AuthContext'
+import { AuthContextProvider, AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
 
@@ -61,7 +61,7 @@ const App = () => {
   return (
     <>
     <ProfileProvider>
-    <AuthProvider>
+    <AuthContextProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -173,7 +173,7 @@ const App = () => {
           </Stack.Navigator>
         ) : null}
       </NavigationContainer>
-      </AuthProvider>
+      </AuthContextProvider>
       </ProfileProvider>
     </>
   );

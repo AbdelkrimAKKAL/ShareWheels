@@ -8,7 +8,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import TextBox from "react-native-password-eye";
 import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";
-import env from '../env'; 
+import env from '../env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SignUp = () => {
@@ -21,33 +22,51 @@ const SignUp = () => {
   const [genre, setGenre] = useState("");
   const [mdp, setPassword] = useState("");
 
+  const [error, setError] = useState(null)
+  const [isLoading, setIsloading] = useState(null)
+  const { dispatch } = useAuth()
+
   const handleSignUp = async () => {
+    setIsloading(true);
+    setError(null);
+    
     try {
-      const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/signup", {
+      const response = await fetch("http://" + env.API_IP_ADDRESS + ":3000/api/signup", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nom, prenom, mdp, num_tel, photo: 'photo.png',email, est_certifie: false, certificat:"123", genre: 'male'
+          nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre: 'male'
         }),
       });
-      
-      if (response.ok) {
-        // Sign up successful, navigate to profile or login screen
-        login(
-          email
-        );
-        navigation.popToTop();
-      } else {
-        // Error handling for unsuccessful sign-up
-        Alert.alert("Sign Up Failed", "Please try again later");
+  
+      const json = await response.json();
+  
+      if (!response.ok) {
+        setIsloading(false);
+        setError(json.error);
+        return; // Exit function if there's an error
       }
+  
+      // Sign up successful
+      AsyncStorage.setItem('user', JSON.stringify(json)).then(() => {
+        // Update the auth context
+        dispatch({ type: 'LOGIN', payload: json });
+        navigation.popToTop();
+      }).catch((error) => {
+        console.error("Error saving user to AsyncStorage:", error);
+        Alert.alert("Sign Up Failed", "Please try again later");
+      });
+  
+      setIsloading(false);
     } catch (error) {
       console.error("Error signing up:", error);
       Alert.alert("Sign Up Failed", "Please try again later");
+      setIsloading(false);
     }
   };
+  
 
   return (
     <View style={[styles.signUp]}>
@@ -137,8 +156,8 @@ const SignUp = () => {
             eyeColor="#7c7c7c"
             placeholder="Password"
             placeholderTextColor="#7c7c7c"
-            value= {mdp}
-            
+            value={mdp}
+
           />
         </View>
         <TouchableOpacity
