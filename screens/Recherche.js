@@ -21,6 +21,7 @@ const Recherche = () => {
   const route = useRoute();
   const id = route.params?.type;
 
+
   const [departLocation, setDepartLocation] = useState(null);
   const [destinationLocation, setDestinationLocation] = useState(null);
 
@@ -43,15 +44,14 @@ const Recherche = () => {
         "le lieu de départ et la destination sont les mêmes"
       );
     } else {
-      const timestamp = pickedDate ? pickedDate.getTime() : null;
       navigation.navigate("ResultatRecherche", {
+        timestampRech : pickedDate.getTime(),
         Date: pickedDate.toLocaleDateString(),
         heure: pickedDate.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
         }),
-        timestamp : timestamp,
         depart: departLocation,
         destination: destinationLocation,
         nbPlc: nbPlaces,
@@ -257,7 +257,7 @@ const Recherche = () => {
             mode="time"
             onConfirm={handleTimeConfirm}
             onCancel={hideTimePicker}
-            date={pickedDate} // Pass pickedDate here as well
+            date={pickedDate}
           />
         </View>
 

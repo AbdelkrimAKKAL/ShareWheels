@@ -15,7 +15,6 @@
   const renderItem = ({ item }) => {
 
     const { date, time } = timestampToDateTime(item.timestamp);
-    console.log(date, time)
   
     return (
       <Annonce
@@ -47,7 +46,7 @@
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
   
-    const dateString = `${day}/${month}/${year.toString().slice(0, 2)}`;
+    const dateString = `${day}/${month}/${year.toString().slice(2, 4)}`;
     const timeString = `${hours}:${minutes}`;
   
     return { date: dateString, time: timeString };
@@ -66,7 +65,7 @@
     const passengers = route.params?.nbPlc;
     const isDatePicked = route.params?.isDatePicked;
     const isTimePicked = route.params?.isTimePicked;
-    const timestampRech = !isDatePicked ? null : route.params?.timestamp;
+    const timestamp = !isDatePicked ? null : new Date(route.params?.timestampRech);
 
 
     const fetchDataFromDatabase = async () => {
@@ -75,7 +74,7 @@
           params: {
             depart,
             arrivee,
-            timestampRech,
+            timestamp,
             passengers
           },
         });
@@ -99,7 +98,7 @@
       fetchDataFromDatabase().then((result) => {
         setData(result);
       });
-      console.log(timestampRech)
+      console.log(timestamp)
     }, []);
 
     
