@@ -21,6 +21,9 @@ import { RechercheStyles } from "./Recherche";
 import { Alert } from "react-native";
 import env from '../env'; 
 import { useAuth } from "../context/AuthContext";
+import { yourRidesStyles } from "./YourRides";
+import NotAuth from "../components/notAuth";
+import DirPhoto from "../assets/Tablet login-bro.png";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
@@ -175,11 +178,19 @@ const AjouterAnnonce = () => {
   // verify if user exists, iif not it shows this
   if (!user) {
     return (
-      <View style={styles.needLogin}>
-        <Text style={styles.message}>Need to log in/sign up</Text>
-        <Pressable onPress={() => navigation.navigate('WelcomeScreen')} style={styles.authenticateButton}>
-          <Text style={styles.authenticateText}>Authenticate</Text>
-        </Pressable>
+      <View style={yourRidesStyles.yourrides}>
+      <TopBar/>
+      <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Publish</Text>
+      <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+      <View>
+        <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
+        <Image
+          style={[{width: 50, height: 50, marginTop: -150}]}
+          contentFit="cover"
+          source={require("../assets/next.png")}
+        />
+        </TouchableOpacity>
+      </View>
       </View>
     );
   }

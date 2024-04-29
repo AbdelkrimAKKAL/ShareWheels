@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text,Image, Pressable } from "react-native";
+import { StyleSheet, View, Text,Image, Pressable,TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
-import DirPhoto from "../assets/Locationph.png"
+import DirPhoto from "../assets/Tablet login-bro.png"
 import { useAuth } from "../context/AuthContext";
 
 
@@ -19,22 +19,30 @@ const YourRides = () => {
 
   if (!user) {
     return (
-      <View style={styles.needLogin}>
-        <Text style={styles.message}>Need to log in/sign up</Text>
-        <Pressable onPress={() => navigation.navigate('WelcomeScreen')} style={styles.authenticateButton}>
-          <Text style={styles.authenticateText}>Authenticate</Text>
-        </Pressable>
+      <View style={yourRidesStyles.yourrides}>
+      <TopBar/>
+      <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Your Rides</Text>
+      <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+      <View>
+        <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
+        <Image
+          style={[{width: 50, height: 50, marginTop: -150}]}
+          contentFit="cover"
+          source={require("../assets/next.png")}
+        />
+        </TouchableOpacity>
+      </View>
       </View>
     );
   }
 
   return (
-    <View style={styles.yourrides}>
+    <View style={yourRidesStyles.yourrides}>
       <TopBar/>
-      <Text style={[styles.yourRides, styles.yourRidesTypo]}>Your Rides</Text>
+      <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Your Rides</Text>
       {isPosted? (
         //if true 
-        <View style={styles.main}>
+        <View style={yourRidesStyles.main}>
         <Annonce
           name="Amine Meddouri"
           rating="4.5(2)"
@@ -71,7 +79,7 @@ const YourRides = () => {
   );
 };
 
-const styles = StyleSheet.create({
+export const yourRidesStyles = StyleSheet.create({
   needLogin: {
     flex: 1,
     justifyContent: 'center',

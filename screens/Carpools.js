@@ -7,8 +7,9 @@ import TopBar from "../components/TopBar";
 import Annonce from "../components/Annonce";
 import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
-import DirPhoto from "../assets/Locationph.png"
 import { useAuth } from "../context/AuthContext";
+import { yourRidesStyles } from "./YourRides";
+import DirPhoto from "../assets/Tablet login-bro.png";
 
 
 const Carpools = () => {
@@ -20,14 +21,21 @@ const Carpools = () => {
   const { user } = useAuth();
 
   if (!user) {
-    return (
-      <View style={styles.needLogin}>
-        <Text style={styles.message}>Need to log in/sign up</Text>
-        <Pressable onPress={() => navigation.navigate('WelcomeScreen')} style={styles.authenticateButton}>
-          <Text style={styles.authenticateText}>Authenticate</Text>
-        </Pressable>
-      </View>
-    );
+    return(
+    <View style={yourRidesStyles.yourrides}>
+    <TopBar/>
+    <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Carpools</Text>
+    <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+    <View>
+      <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
+      <Image
+        style={[{width: 50, height: 50, marginTop: -150}]}
+        contentFit="cover"
+        source={require("../assets/next.png")}
+      />
+      </TouchableOpacity>
+    </View>
+    </View>);
   }
 
   return (
