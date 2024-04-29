@@ -10,7 +10,10 @@ import EditUserRouter from './Get/EditUserRouter.js';
 import deleteUserRouter from './Delete/deleteUserRouter.js';
 import deleteTrajetRouter from './Delete/deleteTrajetRouter.js';
 import rateRouter from './Post/rateRouter.js';
-
+import detailsRouter from './Post/detailsRouter.js';
+import getdetailsRouter from './Get/getDetailsRouter.js';
+import getSignalmentsRouter from './Get/getSignalmentsRouter.js';
+import signalerRouter from './Post/signalerRouter.js';
 
 
 const app = express();
@@ -29,6 +32,11 @@ app.use("/api/EditUser", EditUserRouter);
 app.use("/api/DeleteUser", deleteUserRouter);
 app.use("/api/DeleteTrajet", deleteTrajetRouter);
 app.use("/api/Rate", rateRouter);
+app.use("/api/details", detailsRouter);
+app.use("/api/getDetails", getdetailsRouter);
+app.use("/api/getSignalments", getSignalmentsRouter);
+app.use("/api/signaler", signalerRouter);
+
 
 
 

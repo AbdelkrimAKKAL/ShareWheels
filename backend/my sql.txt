@@ -73,3 +73,21 @@ ALTER TABLE utilisateurs
 MODIFY COLUMN total_rating FLOAT(4,1) DEFAULT 2.5;
 
 ALTER TABLE utilisateurs MODIFY photo MEDIUMBLOB;
+
+
+CREATE TABLE Details (
+    id_trajet INT,
+    details_text JSON,
+    FOREIGN KEY (id_trajet) REFERENCES Trajets(id_trajet)
+);
+
+
+drop table Signalements
+
+CREATE TABLE Signalements(
+    SignalerUserID INT,
+    TargetUserID INT,
+    Description JSON,
+    FOREIGN KEY (SignalerUserID) REFERENCES Utilisateurs(id_uti),
+    FOREIGN KEY (TargetUserID) REFERENCES Utilisateurs(id_uti)
+);
