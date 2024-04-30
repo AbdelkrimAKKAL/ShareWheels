@@ -14,6 +14,7 @@ router.get("/", async (req, res) => {
           FROM trajets 
           JOIN utilisateurs ON trajets.id_conducteur = utilisateurs.id_uti
           WHERE trajets.id_trajet = ?
+          ORDER BY trajets.timestamp
         `;
       let queryParams = [id_trajet];
       const connection = await pool.getConnection();
@@ -33,6 +34,7 @@ router.get("/", async (req, res) => {
         query += " AND trajets.timestamp >= ?";
         queryParams.push(timestamp);
       }
+      query += " ORDER BY trajets.timestamp";
 
       const connection = await pool.getConnection();
       const [trajets] = await connection.query(query, queryParams);

@@ -15,11 +15,10 @@ router.get("/", async (req, res) => {
 
     try {
       const result = await connection.query(
-        "SELECT details_text FROM details WHERE id_trajet = ?",
+        "SELECT details FROM trajets WHERE id_trajet = ?",
         [id_trajet]
       );
-
-      const detailsText = result[0][0].details_text;
+      const detailsText = result[0][0].details;
       res.status(200).json({ detailsText });
     } catch (error) {
       console.error("Error retrieving details_text:", error);
