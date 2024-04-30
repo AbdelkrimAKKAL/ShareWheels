@@ -3,6 +3,7 @@ import express from "express";
 import { pool } from "../createPool.js";
 import bcrypt from "bcrypt";
 import { Alert } from "react-native-web";
+import jwt from 'jsonwebtoken'; 
 
 const router = express.Router();
 
@@ -29,7 +30,6 @@ router.post("/", async (req, res) => {
     }
 
     const user = rows[0];
-    console.log(user.mdp)
 
     // Check if the provided password matches the stored password
     
@@ -38,17 +38,17 @@ router.post("/", async (req, res) => {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    // if (user.mdp !== password) {
-    //   return res.status(401).json({ error: "Incorrect password" });
-    // }
+    // create a token
+    const token = jwt.sign({userTel:user.num_tel, name:user.nom}, process.env.JWT_SECRET,{
+      expiresIn:process.env.JWT_LIFETIME,
+    })
 
-    // If email and password are correct, return success response
-    res
-      .status(200)
-      .json({
-        message: "Login successful",
-        user: { nom: user.nom, email: user.email },
-      });
+    res.status(200).json({
+      message: "Login successful",
+      user: {email: user.email},
+      token,
+    });
+
   } catch (error) {
     console.error("Error logging in user:", error);
     res.status(500).json({ error: "Internal server error" });

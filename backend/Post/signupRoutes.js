@@ -1,6 +1,7 @@
 import express from "express";
 import { pool } from "../createPool.js"; // Import the pool from createPool.js
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken'; 
 
 const router = express.Router();
 
@@ -44,7 +45,13 @@ router.post("/", async (req, res) => {
     );
     insertConnection.release();
 
-    res.status(201).json({ message: "User signed up successfully" });
+    // create a token
+    const token = jwt.sign({userTel:num_tel, name:nom}, process.env.JWT_SECRET,{
+      expiresIn:process.env.JWT_LIFETIME,
+    })
+
+    res.status(201).json({ message: "Sign up successful", user: { name: nom }, token });
+
   } catch (error) {
     console.error("Error signing up user:", error);
     res.status(500).json({ error: "Internal server error" });

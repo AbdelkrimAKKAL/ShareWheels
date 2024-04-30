@@ -60,120 +60,120 @@ const App = () => {
 
   return (
     <>
-    <ProfileProvider>
-    <AuthContextProvider>
-      <NavigationContainer>
-        {hideSplashScreen ? (
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="TabNavigator" component={TabNavigator} />
-            <Stack.Screen
-              name="Recherche"
-              component={Recherche}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Details"
-              component={Details}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Modifier"
-              component={Modifier}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Voiture"
-              component={Voiture}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Signaler"
-              component={Signaler}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="DatailsAjouter"
-              component={DatailsAjouter}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Dates"
-              component={Dates}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CarpoolPasses"
-              component={CarpoolPasses}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="MonProfil"
-              component={MonProfil}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="AjouterAnnonce"
-              component={AjouterAnnonce}
-              options={{ headerShown: false }}
-            />
+      <ProfileProvider>
+        <AuthContextProvider>
+          <NavigationContainer>
+            {hideSplashScreen ? (
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="TabNavigator" component={TabNavigator} />
+                <Stack.Screen
+                  name="Recherche"
+                  component={Recherche}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Details"
+                  component={Details}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Modifier"
+                  component={Modifier}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Voiture"
+                  component={Voiture}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Signaler"
+                  component={Signaler}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="DatailsAjouter"
+                  component={DatailsAjouter}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Dates"
+                  component={Dates}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="CarpoolPasses"
+                  component={CarpoolPasses}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="MonProfil"
+                  component={MonProfil}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="AjouterAnnonce"
+                  component={AjouterAnnonce}
+                  options={{ headerShown: false }}
+                />
 
-            <Stack.Screen
-              name="YourRides"
-              component={YourRides}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="SignUp"
-              component={SignUp}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="ResultatRecherche"
-              component={ResultatRecherche}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={WelcomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Mdp"
-              component={Mdp}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="SearchBar"
-              component={SearchBar}
-              options={{ headerShown: false }}
-            />
+                <Stack.Screen
+                  name="YourRides"
+                  component={YourRides}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SignUp"
+                  component={SignUp}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="ResultatRecherche"
+                  component={ResultatRecherche}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="WelcomeScreen"
+                  component={WelcomeScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Mdp"
+                  component={Mdp}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="SearchBar"
+                  component={SearchBar}
+                  options={{ headerShown: false }}
+                />
 
-            <Stack.Screen
-              name="AfficherMap"
-              component={AfficherMap}
-              options={{ headerShown: false }}
-            />
+                <Stack.Screen
+                  name="AfficherMap"
+                  component={AfficherMap}
+                  options={{ headerShown: false }}
+                />
 
-            <Stack.Screen
-              name="ForgotPwd"
-              component={ForgotPwd}
-              options={{ headerShown: false }}
-            />
-            
-            <Stack.Screen
-              name="ParticipantsScreen"
-              component={ParticipantsScreen}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        ) : null}
-      </NavigationContainer>
-      </AuthContextProvider>
+                <Stack.Screen
+                  name="ForgotPwd"
+                  component={ForgotPwd}
+                  options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                  name="ParticipantsScreen"
+                  component={ParticipantsScreen}
+                  options={{ headerShown: false }}
+                />
+              </Stack.Navigator>
+            ) : null}
+          </NavigationContainer>
+        </AuthContextProvider>
       </ProfileProvider>
     </>
   );
@@ -181,124 +181,125 @@ const App = () => {
 
 const TabNavigator = () => {
   const { user } = useAuth();
-  return(
-  <Tab.Navigator
-    initialRouteName={SearchName}
-    screenOptions={({ route }) => ({
-      tabBarHideOnKeyboard: true,
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName;
-        let rn = route.name;
+  return (
+    <Tab.Navigator
+      initialRouteName={SearchName}
+      screenOptions={({ route }) => ({
+        tabBarHideOnKeyboard: true,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          let rn = route.name;
 
-        if (rn === SearchName) {
-          iconName = focused ? (
-            <Image contentFit="cover" source={require("./assets/search.png")} />
-          ) : (
-            <Image
-              contentFit="cover"
-              source={require("./assets/search1.png")}
-            />
-          );
-        } else if (rn === YourRidesName) {
-          iconName = focused ? (
-            <Image
-              contentFit="cover"
-              source={require("./assets/format-list-bulleted1.png")}
-            />
-          ) : (
-            <Image
-              contentFit="cover"
-              source={require("./assets/format-list-bulleted.png")}
-            />
-          );
-        } else if (rn === PublishName || rn === CarpoolPasses) {
-          iconName = focused ? (
-            <Image
-              contentFit="cover"
-              source={require("./assets/add-circle-outline1.png")}
-            />
-          ) : (
-            <Image
-              contentFit="cover"
-              source={require("./assets/add-circle-outline.png")}
-            />
-          );
-        } else if (rn === CarpoolsName) {
-          iconName = focused ? (
-            <Image
-              contentFit="cover"
-              source={require("./assets/sharecircle-svgrepocom2.png")}
-            />
-          ) : (
-            <Image
-              contentFit="cover"
-              source={require("./assets/sharecircle-svgrepocom5.png")}
-            />
-          );
-        } else if (rn === ProfileName) {
-          iconName = focused ? (
-            <Image
-              contentFit="cover"
-              source={require("./assets/profile1.png")}
-            />
-          ) : (
-            <Image
-              contentFit="cover"
-              source={require("./assets/profile.png")}
-            />
-          );
-        }
+          if (rn === SearchName) {
+            iconName = focused ? (
+              <Image contentFit="cover" source={require("./assets/search.png")} />
+            ) : (
+              <Image
+                contentFit="cover"
+                source={require("./assets/search1.png")}
+              />
+            );
+          } else if (rn === YourRidesName) {
+            iconName = focused ? (
+              <Image
+                contentFit="cover"
+                source={require("./assets/format-list-bulleted1.png")}
+              />
+            ) : (
+              <Image
+                contentFit="cover"
+                source={require("./assets/format-list-bulleted.png")}
+              />
+            );
+          } else if (rn === PublishName || rn === CarpoolPasses) {
+            iconName = focused ? (
+              <Image
+                contentFit="cover"
+                source={require("./assets/add-circle-outline1.png")}
+              />
+            ) : (
+              <Image
+                contentFit="cover"
+                source={require("./assets/add-circle-outline.png")}
+              />
+            );
+          } else if (rn === CarpoolsName) {
+            iconName = focused ? (
+              <Image
+                contentFit="cover"
+                source={require("./assets/sharecircle-svgrepocom2.png")}
+              />
+            ) : (
+              <Image
+                contentFit="cover"
+                source={require("./assets/sharecircle-svgrepocom5.png")}
+              />
+            );
+          } else if (rn === ProfileName) {
+            iconName = focused ? (
+              <Image
+                contentFit="cover"
+                source={require("./assets/profile1.png")}
+              />
+            ) : (
+              <Image
+                contentFit="cover"
+                source={require("./assets/profile.png")}
+              />
+            );
+          }
 
-        return iconName;
-      },
+          return iconName;
+        },
 
-      tabBarStyle: {
-        alignContent: "center",
-        justifyContent: "center",
-        height: 60,
-        flexDirection: "row",
-      },
-      tabBarLabelStyle: {
-        fontSize: 11,
-        marginBottom: 9,
-        marginTop: -8,
-      },
-    })}
-  >
-    <Tab.Screen
-      name={SearchName}
-      component={SearchStackScreen}
-      options={{ headerShown: false }}
-    />
-    <Tab.Screen
-      name={YourRidesName}
-      component={YourRidesStackScreen}
-      options={{ headerShown: false }}
-    />
-    <Tab.Screen
-      name={PublishName}
-      component={PublishStackScreen}
-      options={{ headerShown: false }}
-    />
-    <Tab.Screen
-      name={CarpoolsName}
-      component={CarpoolsStackScreen}
-      options={{ headerShown: false }}
-    />
+        tabBarStyle: {
+          alignContent: "center",
+          justifyContent: "center",
+          height: 60,
+          flexDirection: "row",
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          marginBottom: 9,
+          marginTop: -8,
+        },
+      })}
+    >
+      <Tab.Screen
+        name={SearchName}
+        component={SearchStackScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name={YourRidesName}
+        component={YourRidesStackScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name={PublishName}
+        component={PublishStackScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name={CarpoolsName}
+        component={CarpoolsStackScreen}
+        options={{ headerShown: false }}
+      />
 
-    {user ? (
-          <Tab.Screen
+      {user ? (
+        <Tab.Screen
           name={ProfileName}
           component={ProfileScreen}
           options={{ headerShown: false }}
         />
-    ):(<Tab.Screen
-      name={ProfileName}
-      component={WelcomeScreen}
-      options={{ headerShown: false }}
-    />)}
-  </Tab.Navigator>
-  );};
+      ) : (<Tab.Screen
+        name={ProfileName}
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />)}
+    </Tab.Navigator>
+  );
+};
 
 const SearchStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>

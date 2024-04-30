@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator  } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
-import {} from "react-native";
+import { } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import { Alert } from "react-native";
 import axios from "axios";
@@ -16,9 +16,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MonProfil = () => {
   const { profileData, updateProfileData } = useProfile();
-  const {cars, updateCars} = useProfile();
+  const { cars, updateCars } = useProfile();
 
-  const { user, logout } = useAuth();
+  const { user, logout, token } = useAuth();
   const navigation = useNavigation();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
@@ -31,54 +31,64 @@ const MonProfil = () => {
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData]= useState('')
+  const [data, setData] = useState('')
 
   const { dispatch } = useAuth()
 
   const handleLogout = () => {
     AsyncStorage.removeItem('user')
-        
+
     //
-    dispatch({type: 'LOGOUT'})
+    dispatch({ type: 'LOGOUT' })
     navigation.navigate("WelcomeScreen");
   };
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        // data
+        const data = await response.json();
+
+        setData(data);
+        setLoading(false);
+
+        setEmail(data.user.email);
+        setPhone(data.user.num_tel);
+        setName(data.user.nom + ' ' + data.user.prenom);
+       // console.log(data);
+        updateProfileData({ email: email, phone: phone, name: name, photo: photo });
+        updateCars(data.cars)
+        
+
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
   
 
-
-  // useEffect(() => {
-  //   setEmail(user)
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `http://${env.API_IP_ADDRESS}:3000/api/getUserData/${email}`
-  //       );
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       const data = await response.json();
-  //         setEmail(data.user.email);
-  //         setPhone(data.user.num_tel);
-  //         setName(data.user.nom+' '+data.user.prenom);
-  //         console.log('hello');
-  //         updateProfileData({ email: email, phone: phone, name: name,photo: photo });
-  //         updateCars(data.cars)
-  //         console.log(cars)
-  //     } catch (error) {
-  //       console.log("Error fetching user data:", error);
-  //     }
-  //   };
-  //   fetchUserData();
-  // }, [email, phone, name]);
-  
-
-  
   return (
     <View style={pstyles.main}>
       <View style={[pstyles.userprofile, pstyles.centrer]}>
         <Image style={pstyles.imageIcon} source={photo} />
         <View style={[pstyles.centrer]}>
           <Text style={[pstyles.titleTypo]}>
-            user
+            {name}
           </Text>
           <View style={[pstyles.centrer, { flexDirection: "row" }]}>
             <Image
@@ -92,7 +102,7 @@ const MonProfil = () => {
       </View>
       <View style={[pstyles.inputs, pstyles.centrer]}>
         <View style={[pstyles.rectangle]}>
-          <Text style={[pstyles.font]}>email</Text>
+          <Text style={[pstyles.font]}>{email}</Text>
         </View>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>
           <Image
@@ -101,7 +111,7 @@ const MonProfil = () => {
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
-          <Text style={[pstyles.font]}>phone</Text>
+          <Text style={[pstyles.font]}>{phone}</Text>
         </View>
         <View style={{ flexDirection: "row" }}>
           <DropDownPicker
