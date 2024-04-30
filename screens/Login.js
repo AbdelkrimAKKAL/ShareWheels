@@ -76,7 +76,7 @@ const Login = () => {
           source={require("../assets/stylestroke.png")}
         />
         <TextInput
-          placeholder="Email"
+          placeholder={"Email"}
           placeholderTextColor="#7c7c7c"
           style={{ width: "100%" }}
           value={email}
@@ -98,6 +98,10 @@ const Login = () => {
           value={password}
           onChangeText={setPassword}
         />
+        
+      </View>
+      <View style={[styles.error]}>
+       {error && <Text style={styles.errorText}>{error}</Text>}
       </View>
       <Pressable onPress={() => navigation.navigate("ForgotPwd")}>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
@@ -116,6 +120,15 @@ const Login = () => {
 };
 
 const styles = StyleSheet.create({
+  error:{
+    margin:5
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 0,
+    textAlign: 'center',
+    fontFamily: "Poppins-Medium",
+  },
   textTypo: {
     color: "#FFFFFF",
     fontFamily: "Poppins-Medium",

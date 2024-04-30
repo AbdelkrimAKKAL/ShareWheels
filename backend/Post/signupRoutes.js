@@ -1,7 +1,7 @@
 import express from "express";
 import { pool } from "../createPool.js"; // Import the pool from createPool.js
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken'; 
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -19,6 +19,11 @@ router.post("/", async (req, res) => {
       genre,
     } = req.body;
 
+    // Check if required fields are provided
+    if (!nom || !prenom || !mdp || !email || !num_tel) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
     // Check if email or phone number already exists
     const connection = await pool.getConnection();
     const [existingUsers] = await connection.query(
@@ -33,8 +38,8 @@ router.post("/", async (req, res) => {
         .json({ error: "Email or phone number already in use" });
     }
 
-    // hash password
-    
+    // hash password 
+
     const hashedPassword = await bcrypt.hash(mdp, 10)
 
     // If email and phone number are unique, proceed with insertion
@@ -46,8 +51,8 @@ router.post("/", async (req, res) => {
     insertConnection.release();
 
     // create a token
-    const token = jwt.sign({userTel:num_tel, name:nom}, process.env.JWT_SECRET,{
-      expiresIn:process.env.JWT_LIFETIME,
+    const token = jwt.sign({ userTel: num_tel, name: nom }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_LIFETIME,
     })
 
     res.status(201).json({ message: "Sign up successful", user: { name: nom }, token });

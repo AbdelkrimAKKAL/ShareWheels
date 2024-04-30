@@ -29,26 +29,27 @@ const SignUp = () => {
   const handleSignUp = async () => {
     setIsloading(true);
     setError(null);
-    
+
     try {
       const response = await fetch("http://" + env.API_IP_ADDRESS + ":3000/api/signup", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          
         },
         body: JSON.stringify({
           nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre: 'male'
         }),
       });
-  
+
       const json = await response.json();
-  
+
       if (!response.ok) {
         setIsloading(false);
         setError(json.error);
         return; // Exit function if there's an error
       }
-  
+
       // Sign up successful
       AsyncStorage.setItem('user', JSON.stringify(json)).then(() => {
         // Update the auth context
@@ -58,7 +59,7 @@ const SignUp = () => {
         console.error("Error saving user to AsyncStorage:", error);
         Alert.alert("Sign Up Failed", "Please try again later");
       });
-  
+
       setIsloading(false);
     } catch (error) {
       console.error("Error signing up:", error);
@@ -66,7 +67,7 @@ const SignUp = () => {
       setIsloading(false);
     }
   };
-  
+
 
   return (
     <View style={[styles.signUp]}>
@@ -160,6 +161,9 @@ const SignUp = () => {
 
           />
         </View>
+        <View style={[styles.error]}>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+        </View>
         <TouchableOpacity
           style={[styles.buttonfirst]}
           onPress={handleSignUp}
@@ -181,6 +185,15 @@ const SignUp = () => {
 };
 
 const styles = StyleSheet.create({
+  error:{
+    margin:5
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 0,
+    textAlign: 'center',
+    fontFamily: "Poppins-Medium",
+  },
   numberTypo: {
     marginLeft: 12,
     width: "100%",
