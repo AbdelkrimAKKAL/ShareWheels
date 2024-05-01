@@ -65,11 +65,19 @@ const ResultatRecherche = () => {
   const depart = route.params?.depart;
   const arrivee = route.params?.destination;
   const passengers = route.params?.nbPlc;
-  const isDatePicked = route.params?.isDatePicked;
-  const isTimePicked = route.params?.isTimePicked;
-  const timestamp = !isDatePicked
-    ? null
-    : new Date(route.params?.timestampRech);
+  const isDatePickedBool = route.params?.isDatePicked;
+  const isTimePickedBool = route.params?.isTimePicked;
+  const timestamp = (!isDatePickedBool && !isTimePickedBool)
+  ? null
+  : (() => {
+      const date = new Date(route.params?.timestampRech);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date;
+    })();
+  const isDatePicked = isDatePickedBool ? true : null ;
+  const isTimePicked = isTimePickedBool ? true : null ;
+
 
   const fetchDataFromDatabase = async () => {
     try {
@@ -79,8 +87,10 @@ const ResultatRecherche = () => {
           params: {
             depart,
             arrivee,
-            timestamp,
+            timestamp: timestamp.toISOString().slice(0, 19),
             passengers,
+            isDatePicked,
+            isTimePicked
           },
         }
       );
@@ -115,7 +125,7 @@ const ResultatRecherche = () => {
           {depart} a {arrivee}
         </Text>
         <Text style={ResultatRechercheStyles.heading1}>
-          {isDatePicked ? date : "n'importe quand"}, {passengers} Places
+          {isDatePickedBool ? date : "n'importe quand"}, {passengers} Places
         </Text>
       </View>
       {isLoading ? (

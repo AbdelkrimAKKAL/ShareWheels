@@ -29,19 +29,10 @@ router.get("/:email", async (req, res) => {
     carsConnection.release();
 
 
-    // Get user's participated journeys
-    const participatedConnection = await pool.getConnection();
-    const [userParticipated] = await participatedConnection.query(
-      "SELECT * FROM reservations WHERE id_reserveur = ?",
-      [userId]
-    );
-    participatedConnection.release(); // Release the correct connection here
-
     // Assemble the user information along with their carsjourneys
     const userWithDetails = {
       user: userData[0],
       cars: userCars,
-      participated: userParticipated,
     };
 
     res.status(200).json(userWithDetails);

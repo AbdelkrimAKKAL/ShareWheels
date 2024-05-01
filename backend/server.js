@@ -13,6 +13,11 @@ import rateRouter from './Post/rateRouter.js';
 import getdetailsRouter from './Get/getDetailsRouter.js';
 import getSignalmentsRouter from './Get/getSignalmentsRouter.js';
 import signalerRouter from './Post/signalerRouter.js';
+import getIncomingRidesRouter from './Get/getIncomingRidesRouter.js';
+import getPassedRidesRouter from './Get/getPassedRidesRouter.js';
+import getPostedRidesRouter from './Get/getPostedRidesRouter.js';
+import getParticipatedRouter from './Get/getParticipatedRouter.js';
+
 
 
 const app = express();
@@ -34,6 +39,11 @@ app.use("/api/Rate", rateRouter);
 app.use("/api/getDetails", getdetailsRouter);
 app.use("/api/getSignalments", getSignalmentsRouter);
 app.use("/api/signaler", signalerRouter);
+app.use("/api/getIncomingRides", getIncomingRidesRouter);
+app.use("/api/getPassedRides", getPassedRidesRouter);
+app.use("/api/getPostedRides", getPostedRidesRouter);
+app.use("/api/getParticipated", getParticipatedRouter);
+
 
 
 
