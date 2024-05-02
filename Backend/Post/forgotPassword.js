@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
                 created = true; // Set the 'created' flag to true
                 connection3.release();
             } catch (error) {
-                console.error('Error adding column:', error);
+                console.error('Column code already exists');
             }
         }
         
