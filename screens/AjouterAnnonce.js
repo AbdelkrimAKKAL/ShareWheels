@@ -163,7 +163,7 @@ const AjouterAnnonce = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          depart: 'oran', arrivee:'skikda', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 75, id_voiture: 2008
+          depart: 'oran', arrivee:'skikda', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 65, id_voiture: 2008
         }),
       });
       if (response.ok) {

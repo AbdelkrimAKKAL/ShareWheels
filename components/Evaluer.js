@@ -70,7 +70,7 @@ const Evaluer = (Props) => {
         />
         <View style={[styles.infosprofil, styles.trajetPosition]}>
           <Text style={[styles.amineMeddouri, styles.textTypo]}>
-          {Props.rating + " (" + Props.nbrRatings + ")"}
+          {Props.name}
           </Text>
           <View style={[styles.vectorParent, styles.rateFlexBox]}>
             <Image
@@ -78,7 +78,7 @@ const Evaluer = (Props) => {
               contentFit="cover"
               source={require("../assets/vector4.png")}
             />
-            <Text style={[styles.text, styles.textTypo]}>{Props.rating}</Text>
+            <Text style={[styles.text, styles.textTypo]}>{Props.rating + " (" + Props.nbrRatings + ")"}</Text>
           </View>
         </View>
         <View style={[styles.trajet, styles.rateFlexBox]}>
@@ -430,14 +430,11 @@ const styles = StyleSheet.create({
     borderWidth: 0.9,
     marginBottom: 10,
     backgroundColor: Color.neutralWhite,
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowRadius: 20,
-    elevation: 20,
-    shadowOpacity: 1,
+    shadowColor: '#585858',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2},
+    shadowRadius: 10,
+    elevation: 6,
     height: 187,
     paddingHorizontal: Padding.p_2xs,
     paddingVertical: Padding.p_sm,

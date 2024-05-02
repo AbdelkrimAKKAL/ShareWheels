@@ -41,7 +41,7 @@ const renderItem = ({ item }) => (
 
 const ParticipantsScreen = () => {
   const navigation = useNavigation();
-  const [isUsers, setIsUsers] = useState(false); //auth or not
+  const [isUsers, setIsUsers] = useState(true); //auth or not
 
   const [data, setData] = useState([]);
 

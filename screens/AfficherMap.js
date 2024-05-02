@@ -7,11 +7,16 @@
 
   const AfficherMap = () => {
     const navigation = useNavigation();
+  const route = useRoute();
+
     const [departCoords, setDepartCoords] = useState(null);
     const [destinationCoords, setDestinationCoords] = useState(null);
     const [distance, setDistance] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    
+    const departStr = route.params?.depart;
+    const destinationStr = route.params?.destination;
+    console.log(departStr,destinationStr )
     useEffect(() => {
       getLocationPermission();
     }, []);
@@ -32,8 +37,8 @@
     const fetchCoordinates = async () => {
       setIsLoading(true)
       try {
-        const depart = await Location.geocodeAsync("Bejaia");
-        const destination = await Location.geocodeAsync("Alger");
+        const depart = await Location.geocodeAsync(departStr);
+        const destination = await Location.geocodeAsync(destinationStr);
     
         if (depart.length === 0 || destination.length === 0) {
           throw new Error("No coordinates found");

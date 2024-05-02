@@ -104,11 +104,18 @@ const Carpools = () => {
         startLocation={item.depart}
         endLocation={item.arrivee}
         price={item.prix}
-        vehicle={item.modele}
+        modele={item.modele}
         time={time}
         date={date}
         availableSeats={item.nbr_place}
-        btnText="Supprimer"
+        photo = {item.photo}
+        details = {item.details}
+        genre = {item.genre}
+        couleur = {item.couleur}
+        matricule = {item.matricule}
+        email = {item.email}
+        num_tel = {item.num_tel}
+        btnText="Annuler"
       />
     );
   };
@@ -212,6 +219,11 @@ const Carpools = () => {
             />
           ) : (
             <FlatList
+            style={{ width: "100%" }} // Set width to 100%
+            contentContainerStyle={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
               data={dataVenir}
               renderItem={renderItemVenir}
               keyExtractor={(item) => item.id_trajet.toString()}
@@ -233,6 +245,11 @@ const Carpools = () => {
           />
         ) : (
           <FlatList
+          style={{ width: "100%" }} // Set width to 100%
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
             data={dataPasses}
             renderItem={renderItemPasses}
             keyExtractor={(item) => item.id_trajet.toString()}
@@ -263,7 +280,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonContainer: {
-    margin: 15,
+    margin: 15, 
   },
 
   container: {
@@ -340,7 +357,8 @@ const styles = StyleSheet.create({
   },
 
   main: {
-    height: 614,
+    flex: 1,
+    width: "100%",
     alignItems: "center",
   },
 });

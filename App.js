@@ -344,6 +344,7 @@ const CarpoolsStackScreen = () => (
     <Stack.Screen name="CarpoolPasses" component={CarpoolPasses} />
     <Stack.Screen name="Signaler" component={Signaler} />
     <Stack.Screen name="ParticipantsScreen" component={ParticipantsScreen} />
+    <Stack.Screen name="Details" component={Details} />
   </Stack.Navigator>
 );
 

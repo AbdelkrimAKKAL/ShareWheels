@@ -9,29 +9,36 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import { RechercheStyles } from "./Recherche";
 
-const fetchDataFromDatabase = async () => {
-  // Example data
-  return [
-    { id: 1, text: "Fumeurs" },
-    { id: 2, text: "Bagages" },
-    { id: 3, text: "Ouvert à la conversation" },
-    { id: 4, text: "Passagers de différents sexe" },
-    { id: 5, text: "Arrêts supplémentaires" },
-  ];
-};
 
 const Details = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
 
+  const route = useRoute();
+  const photo = route.params?.photo;
+  const details = route.params?.details;
+  const couleur = route.params?.couleur;
+  const matricule = route.params?.matricule;
+  const modele = route.params?.modele;
+  const genre = route.params?.genre;
+  const rating = route.params?.rating;
+  const nbr_ratings = route.params?.nbr_ratings;
+  const name = route.params?.name;
+  const email = route.params?.email;
+  const num_tel = route.params?.num_tel;
+  const availableSeats = route.params.availableSeats;
+
+  const depart = route.params?.depart;
+  const destination = route.params?.destination;
+
+
   useEffect(() => {
-    // Fetch data from the database when the component mounts
-    fetchDataFromDatabase().then((result) => setData(result));
+    setData(details);
   }, []);
 
   return (
@@ -46,7 +53,7 @@ const Details = () => {
           />
           <View style={styles.NameAndRate}>
             <Text style={[styles.nom, { fontSize: 20, fontWeight: "500" }]}>
-              Amine Meddouri
+              {name}
             </Text>
             <View style={[styles.inputFlexBox, {}]}>
               <Image
@@ -64,7 +71,7 @@ const Details = () => {
                   },
                 ]}
               >
-                4.7 (1)
+                {rating + " (" + nbr_ratings + ")"}
               </Text>
             </View>
           </View>
@@ -73,7 +80,7 @@ const Details = () => {
           <View style={styles.container}>
             <View style={[styles.BorderInput, { height: 60 }]}>
               <Text style={[styles.ProfileInfoText, styles.TextStyle]}>
-                Amine@email.con
+                {email}
               </Text>
             </View>
             <View
@@ -97,13 +104,13 @@ const Details = () => {
                 <Text style={[styles.TextStyle]}>+213</Text>
               </View>
               <Text style={[styles.TextStyle, { marginLeft: 15 }]}>
-                06 78 89 56 45
+                {num_tel}
               </Text>
             </View>
 
             <View style={[styles.BorderInput, { width: 328, height: 60 }]}>
               <Text style={[styles.ProfileInfoText, styles.TextStyle]}>
-                Male
+                {genre}
               </Text>
             </View>
           </View>
@@ -165,40 +172,27 @@ const Details = () => {
             <View
               style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
             >
-              <Text style={[RechercheStyles.inputText]}>Model</Text>
+              <Text style={[RechercheStyles.inputText]}>{modele}</Text>
             </View>
 
-            <Text style={[styles.TitleText, { marginTop: 10 }]}>Matricule</Text>
+            <Text style={[styles.TitleText, { marginTop: 10 }]}>matricule</Text>
             <View
               style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
             >
-              <Text style={[RechercheStyles.inputText]}>Matricule</Text>
+              <Text style={[RechercheStyles.inputText]}>{matricule}</Text>
             </View>
 
-            <Text style={[styles.TitleText, { marginTop: 10 }]}>Couleur</Text>
+            <Text style={[styles.TitleText, { marginTop: 10 }]}>couleur</Text>
             <View
               style={[RechercheStyles.Inputs, { width: 284, marginTop: 10 }]}
             >
-              <Text style={RechercheStyles.inputText}>Couleur</Text>
+              <Text style={RechercheStyles.inputText}>{couleur}</Text>
             </View>
 
             <View style={[styles.nmbrplaces, styles.inputFlexBox]}>
-              <Text style={[styles.TitleText, { width: 60 }]}>Places</Text>
-              <View
-                style={[
-                  RechercheStyles.Inputs,
-                  { width: 55, justifyContent: "center" },
-                ]}
-              >
-                <Image
-                  style={[RechercheStyles.Icon]}
-                  contentFit="cover"
-                  source={require("../assets/clock32.png")}
-                />
-                <Text style={[styles.number11]}>1</Text>
-              </View>
-              <Text style={[styles.TitleText, { width: 90, marginLeft: 10 }]}>
-                Disponible
+              
+              <Text style={[styles.TitleText, { width: 160, marginLeft: 10 }]}>
+                Places Disponible
               </Text>
               <View
                 style={[
@@ -211,22 +205,21 @@ const Details = () => {
                   contentFit="cover"
                   source={require("../assets/clock32.png")}
                 />
-                <Text style={[styles.number11]}>1</Text>
+                <Text style={[styles.number11]}>{availableSeats}</Text>
               </View>
             </View>
           </View>
+          {details.length === 0 ? ( <Text style={[styles.TextAlign, styles.TextStyle, {marginBottom: 10}]}>
+            No More Details Added 
+          </Text>) :(
+          <View>
           <Text style={[styles.TextAlign, styles.TextStyle]}>
             Plus de details
           </Text>
-          <View
-            style={[
-              styles.BorderInput,
-              { marginBottom: 20, flex: 1, flexGrow: 1,},
-            ]}
-          >
-            {data.map((item) => (
+          <View style={[styles.BorderInput, { marginBottom: 20 }]}>
+            {data.map((item, index) => (
               <View
-                key={item.id}
+                key={index} // Assigning unique key prop
                 style={[RechercheStyles.Inputs, { width: 284, marginBottom: 8 }]}
               >
                 <Image
@@ -235,21 +228,15 @@ const Details = () => {
                   source={require("../assets/check.png")}
                 />
                 <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
-                  {item.text}
+                  {item}
                 </Text>
               </View>
             ))}
-
-            <View style={[RechercheStyles.Inputs, { width: 284 }]}>
-              <Text style={[RechercheStyles.inputText, { padding: 8 }]}>
-                A ajouter
-              </Text>
-            </View>
-          </View>
+          </View></View>)}
 
           <TouchableOpacity
             style={[styles.buttonsecondary, { marginBottom: 10 }]}
-            onPress={() => navigation.navigate("AfficherMap")}
+            onPress={() => navigation.navigate("AfficherMap", {depart: depart, destination: destination})}
           >
             <Text
               style={[
@@ -274,7 +261,7 @@ const Details = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "13%",
+    height: 190,
     justifyContent: "space-between",
     marginTop: 5,
   },

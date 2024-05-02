@@ -61,7 +61,7 @@ const YourRides = () => {
         startLocation={item.depart}
         endLocation={item.arrivee}
         price={item.prix}
-        vehicle={item.modele}
+        modele={item.modele}
         time={time}
         date={date}
         availableSeats={item.nbr_place}
@@ -92,6 +92,11 @@ const YourRides = () => {
           />
         ) : (
           <FlatList
+          style={{ width: "100%" }} // Set width to 100%
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
             data={data}
             renderItem={renderItem}
             keyExtractor={(item) => item.id_trajet.toString()}

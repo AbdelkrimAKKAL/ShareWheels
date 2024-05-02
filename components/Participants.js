@@ -39,11 +39,22 @@ const Participants = (Props) => {
           style={[
             AnnonceStyles.titre,
             styles.TextStyle,
-            { fontSize: FontSize.size_xs + 4 },
+            { fontSize: FontSize.size_xs + 4, width: 210 },
           ]}
         >
           {Props.name}
         </Text>
+        <View style={styles.horizStyle}>
+        <Image
+          style={[{ width: 15, height: 18 }]}
+          contentFit="cover"
+          source={require("../assets/clock33.png")}
+        />
+        <Text style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginLeft: 8 }]}
+           >
+            2
+          </Text>
+        </View>
       </View>
 
       <View style={[styles.horizStyle, { marginTop: 8 }]}>

@@ -21,17 +21,24 @@ const renderItem = ({ item }) => {
 
   return (
     <Annonce
-    trajetId={item.id_trajet}
+      trajetId={item.id_trajet}
       name={item.nom + " " + item.prenom}
       rating={item.total_rating}
       nbrRatings={item.num_ratings}
       startLocation={item.depart}
       endLocation={item.arrivee}
       price={item.prix}
-      vehicle={item.modele}
+      modele={item.modele}
       time={time}
       date={date}
       availableSeats={item.nbr_place}
+      photo = {item.photo}
+      details = {item.details}
+      genre = {item.genre}
+      couleur = {item.couleur}
+      matricule = {item.matricule}
+      email = {item.email}
+      num_tel = {item.num_tel}
       btnText="Participer"
     />
   );
@@ -68,17 +75,17 @@ const ResultatRecherche = () => {
   const passengers = route.params?.nbPlc;
   const isDatePickedBool = route.params?.isDatePicked;
   const isTimePickedBool = route.params?.isTimePicked;
-  const timestamp = (!isDatePickedBool && !isTimePickedBool)
-  ? null
-  : (() => {
-      const date = new Date(route.params?.timestampRech);
-      date.setSeconds(0);
-      date.setMilliseconds(0);
-      return date;
-    })();
-  const isDatePicked = isDatePickedBool ? true : null ;
-  const isTimePicked = isTimePickedBool ? true : null ;
-
+  const timestamp =
+    !isDatePickedBool && !isTimePickedBool
+      ? null
+      : (() => {
+          const date = new Date(route.params?.timestampRech);
+          date.setSeconds(0);
+          date.setMilliseconds(0);
+          return date;
+        })();
+  const isDatePicked = isDatePickedBool ? true : null;
+  const isTimePicked = isTimePickedBool ? true : null;
 
   const fetchDataFromDatabase = async () => {
     try {
@@ -88,10 +95,10 @@ const ResultatRecherche = () => {
           params: {
             depart,
             arrivee,
-            timestamp: timestamp ? timestamp.toISOString().slice(0,19) : null,
+            timestamp: timestamp ? timestamp.toISOString().slice(0, 19) : null,
             passengers,
             isDatePicked,
-            isTimePicked
+            isTimePicked,
           },
         }
       );
@@ -137,6 +144,11 @@ const ResultatRecherche = () => {
         />
       ) : (
         <FlatList
+          style={{ width: "100%" }} // Set width to 100%
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           data={data}
           renderItem={renderItem}
           keyExtractor={(item) => item.id_trajet.toString()}
