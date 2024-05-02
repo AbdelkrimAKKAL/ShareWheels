@@ -21,6 +21,7 @@ const renderItem = ({ item }) => {
 
   return (
     <Annonce
+    trajetId={item.id_trajet}
       name={item.nom + " " + item.prenom}
       rating={item.total_rating}
       nbrRatings={item.num_ratings}
@@ -35,7 +36,7 @@ const renderItem = ({ item }) => {
     />
   );
 };
-function timestampToDateTime(timestamp) {
+export function timestampToDateTime(timestamp) {
   if (!timestamp) {
     return { date: "", time: "" };
   }
@@ -87,7 +88,7 @@ const ResultatRecherche = () => {
           params: {
             depart,
             arrivee,
-            timestamp: timestamp.toISOString().slice(0, 19),
+            timestamp: timestamp ? timestamp.toISOString().slice(0,19) : null,
             passengers,
             isDatePicked,
             isTimePicked

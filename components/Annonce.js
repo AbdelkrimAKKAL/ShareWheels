@@ -2,8 +2,13 @@ import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
-
+import env from "../env";
+import {useAuth} from '../context/AuthContext'
+import { useRefresh } from '../context/refresh';
+ 
 const Annonce = (Props) => {
+  const {refreshPage}  = useRefresh();
+  const user = useAuth();
   const navigation = useNavigation();
 
   const renderButtons = () => {
@@ -60,7 +65,7 @@ const Annonce = (Props) => {
     if (Props.btnText === 'Supprimer'){
       SupprimerFunc();
     }else if (Props.btnText === 'Annuler'){
-      AnnulerFunc();
+      SupprimerFunc();
     }
   }
 
@@ -69,13 +74,32 @@ const Annonce = (Props) => {
     Alert.alert('Participer');
   };
 
-  const SupprimerFunc = () => {
-    Alert.alert('Supprimer');
+ const SupprimerFunc = async () => {
+      try {
+        const trajetId = Props.trajetId; // Replace 'your_trajet_id' with the actual trajet ID
+        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/deleteTrajet/${trajetId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`,
+          },
+        });
+  
+        if (response.ok) {
+          // Trajet deleted successfully
+          Alert.alert('Success', 'Trajet deleted successfully');
+        } else {
+          // Error deleting trajet
+          Alert.alert('Error', 'Failed to delete trajet');
+        }
+      } catch (error) {
+        // Internal server error or network error
+        console.error('Error deleting trajet:', error);
+        Alert.alert('Error', 'Internal server error');
+      }
+      refreshPage();
   };
 
-  const AnnulerFunc = () => {
-    Alert.alert('Annuler');
-  };
 //Backedn--------------------------------------------------------------------------------------------
   
 return (
@@ -119,7 +143,7 @@ return (
       <View style={[AnnonceStyles.trajetFlexBox, {justifyContent: "space-between", height: 32,}]}>
         <View style={[AnnonceStyles.infoBox]}>
           <Text style={[AnnonceStyles.titre]}>Prix</Text>
-          <Text style={AnnonceStyles.infoTypo}>{Props.price}DA</Text>
+          <Text style={AnnonceStyles.infoTypo}>{Props.price} DA</Text>
         </View>
 
         <View style={[AnnonceStyles.infoBox]}>

@@ -10,7 +10,7 @@ const NotAuth = ({ title, photo }) => {
         resizeMode="cover"
         source={photo}
       />
-      <Text style={[RechercheStyles.sharewheels, {fontSize: 20, fontWeight: "600",}]} >{title}</Text>
+      <Text style={[RechercheStyles.sharewheels, {fontSize: 20, fontWeight: "600"}]} >{title}</Text>
     </View>
   );
 };

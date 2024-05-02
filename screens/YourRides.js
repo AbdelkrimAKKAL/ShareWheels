@@ -1,127 +1,134 @@
-import * as React from "react";
-import { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text,Image, Pressable,TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
-import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
-import DirPhoto from "../assets/Tablet login-bro.png"
 import { useAuth } from "../context/AuthContext";
+import { timestampToDateTime } from "./ResultatRecherche";
+import axios from "axios";
+import env from "../env";
+import { Color, FontFamily, FontSize } from "../GlobalStyles";
+import DirPhoto from "../assets/Tablet login-bro.png"
+import DirePhoto2 from "../assets/Locationph.png"
+import { Image } from "react-native";
+import { useRefresh } from '../context/refresh';
+import ResultatRechercheStyles from "./ResultatRecherche";
 
 
 const YourRides = () => {
-  const navigation = useNavigation();
+  const refresh = useRefresh();
   const { user } = useAuth();
+  const navigation = useNavigation();
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [isPosted, setIsPosted] = useState(true); //3ellas true 
+  const fetchDataFromDatabase = async () => {
+    try {
+      const response = await axios.get(`http://${env.API_IP_ADDRESS}:3000/api/getPostedRides`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        params:{
+          email : user.user.email
+        }
+      });
+      
+      setData(response.data);
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user){
+      fetchDataFromDatabase();
+    }
+  }, [refresh, user]);
+
+  const renderItem = ({ item }) => {
+    const { date, time } = timestampToDateTime(item.timestamp);
+
+    return (
+      <Annonce
+        trajetId={item.id_trajet}
+        name={`${item.nom} ${item.prenom}`}
+        rating={item.total_rating}
+        nbrRatings={item.num_ratings}
+        startLocation={item.depart}
+        endLocation={item.arrivee}
+        price={item.prix}
+        vehicle={item.modele}
+        time={time}
+        date={date}
+        availableSeats={item.nbr_place}
+        btnText="Supprimer"
+      />
+    );
+  };
 
   if (!user) {
     return (
-      <View style={yourRidesStyles.yourrides}>
-      <TopBar/>
-      <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Your Rides</Text>
-      <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
-      <View>
-        <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
-        <Image
-          style={[{width: 50, height: 50, marginTop: -150}]}
-          contentFit="cover"
-          source={require("../assets/next.png")}
-        />
+      <View style={YourRidesStyles.container}>
+        <TopBar />
+        <Text style={YourRidesStyles.title}>Your Rides</Text>
+        <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+        <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')}>
+          <Image style={YourRidesStyles.image} source={require("../assets/next.png")} />
         </TouchableOpacity>
       </View>
-      </View>
     );
-  }
-
+  }else{
   return (
-    <View style={yourRidesStyles.yourrides}>
-      <TopBar/>
-      <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Your Rides</Text>
-      {isPosted? (
-        //if true 
-        <View style={yourRidesStyles.main}>
-        <Annonce
-          name="Amine Meddouri"
-          rating="4.5(2)"
-          startLocation="Bejaia"
-          endLocation="Alger"
-          price="250 DA"
-          vehicle="Toyota Corolla"
-          time="6:30pm"
-          date="25 DEC 23"
-          availableSeats="3/4"
-          btnText="Supprimer"
-        />
-
-        <Annonce
-          name="Amine Meddouri"
-          rating="4.5(2)"
-          startLocation="Bejaia"
-          endLocation="Alger"
-          price="250 DA"
-          vehicle="Toyota Corolla"
-          time="6:30pm"
-          date="25 DEC 23"
-          availableSeats="3/4"
-          btnText="Supprimer"
-        />
-        
+    <View style={YourRidesStyles.container}>
+      <TopBar />
+      <Text style={YourRidesStyles.title}>Your Rides</Text>
+      <View style={YourRidesStyles.main}>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0075fd" style={[ResultatRechercheStyles.loadingIndicator]}
+          />
+        ) : (
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id_trajet.toString()}
+            ListEmptyComponent={<View style={[{marginTop: '40%'}]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={DirePhoto2} /></View>}
+          />
+        )}
       </View>
-      ): (
-        //if false
-      <NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={DirPhoto} />
-      )}
-      
     </View>
   );
-};
+};};
 
-export const yourRidesStyles = StyleSheet.create({
-  needLogin: {
+export const YourRidesStyles = StyleSheet.create({
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  authenticateButton: {
-    backgroundColor: 'blue', // Example background color for the button
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-  },
-  yourRidesTypo: {
-    textAlign: "center",
-    color: Color.colorDarkslategray_100,
-    fontFamily: FontFamily.nunitoBold,
-    fontWeight: "700",
-  },
-
-  yourRides: {
-    fontSize: FontSize.size_5xl,
-    height: 27,
-    marginTop: 15,
-    width: '100%',
-  },
- 
-
-  main: {
-    height: 718,
-    marginTop: 15,
     alignItems: "center",
-  },
-
-
-  yourrides: {
-    flex: 1,
-    height: 834,
-    alignItems: "center",
-    overflow: "hidden",
-    width: "100%",
     backgroundColor: Color.neutralWhite,
   },
-  
+  title: {
+    fontSize: FontSize.size_5xl,
+    marginTop: 15,
+    fontFamily: FontFamily.nunitoBold,
+    fontWeight: "700",
+    color: Color.colorDarkslategray_100,
+    height: 27,
+    width: '100%',
+    textAlign: "center",
+  },
+  main: {
+    flex: 1,
+    marginTop: 15,
+    alignItems: "center",
+  },
+  image: {
+    width: 50,
+    height: 50,
+    marginTop: -150,
+  },
 });
 
 export default YourRides;

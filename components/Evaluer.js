@@ -4,11 +4,17 @@ import { StyleSheet, Text, View, Pressable, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 import { useState } from "react"
+import env from "../env";
+import {useAuth} from '../context/AuthContext'
+import { useRefresh } from '../context/refresh';
 
 const Evaluer = (Props) => {
+  const {refreshPage}  = useRefresh();
+  const user = useAuth();
   const navigation = useNavigation();
   const [stars, setStars] = useState(1);
   const [isSent, setIsSent] = useState(false)
+  
 
   const add = () => {
     if (stars < 5) {
@@ -28,9 +34,31 @@ const Evaluer = (Props) => {
   }
 
   // handlDelete in Backend
-  const handleDelete = ()=>{
-    Alert.alert('Ride Deleted')
-  }
+  const handleDelete = async () => {
+    try {
+      const trajetId = Props.trajetId; // Replace 'your_trajet_id' with the actual trajet ID
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/deleteTrajet/${trajetId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+      });
+
+      if (response.ok) {
+        // Trajet deleted successfully
+        Alert.alert('Success', 'Trajet deleted successfully');
+      } else {
+        // Error deleting trajet
+        Alert.alert('Error', 'Failed to delete trajet');
+      }
+    } catch (error) {
+      // Internal server error or network error
+      console.error('Error deleting trajet:', error);
+      Alert.alert('Error', 'Internal server error');
+    }
+    refreshPage();
+};
 
   return (
     <View style={[styles.evaluer, styles.dateFlexBox]}>
@@ -42,7 +70,7 @@ const Evaluer = (Props) => {
         />
         <View style={[styles.infosprofil, styles.trajetPosition]}>
           <Text style={[styles.amineMeddouri, styles.textTypo]}>
-            {Props.name}
+          {Props.rating + " (" + Props.nbrRatings + ")"}
           </Text>
           <View style={[styles.vectorParent, styles.rateFlexBox]}>
             <Image
@@ -83,7 +111,7 @@ const Evaluer = (Props) => {
         <View style={[styles.prix, styles.dateFlexBox]}>
           <Text style={styles.titre}>Prix</Text>
           <Text style={styles.infoTypo1}>
-            <Text style={styles.infoTypo}>{Props.price}</Text>
+            <Text style={styles.infoTypo}>{Props.price} DA</Text>
             <Text style={styles.text1}>{` `}</Text>
           </Text>
         </View>

@@ -33,6 +33,7 @@ import ParticipantsScreen from "./screens/ParticipantsScreen";
 import { AuthContextProvider, AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
+import {RefreshProvider} from "./context/refresh" 
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -60,6 +61,7 @@ const App = () => {
 
   return (
     <>
+    <RefreshProvider>
       <ProfileProvider>
         <AuthContextProvider>
           <NavigationContainer>
@@ -175,6 +177,7 @@ const App = () => {
           </NavigationContainer>
         </AuthContextProvider>
       </ProfileProvider>
+      </RefreshProvider>
     </>
   );
 };

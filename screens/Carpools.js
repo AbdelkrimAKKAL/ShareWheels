@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image, Pressable } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Pressable,FlatList
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Padding, Border, FontSize } from "../GlobalStyles";
 import Evaluer from "../components/Evaluer";
@@ -8,35 +15,148 @@ import Annonce from "../components/Annonce";
 import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
 import { useAuth } from "../context/AuthContext";
-import { yourRidesStyles } from "./YourRides";
+import { YourRidesStyles } from "./YourRides";
 import DirPhoto from "../assets/Tablet login-bro.png";
-
+import DirePhoto2 from "../assets/Locationph.png";
+import { timestampToDateTime } from "./ResultatRecherche";
+import axios from "axios";
+import env from "../env";
+import { useRefresh } from "../context/refresh";
+import { ResultatRechercheStyles } from "./ResultatRecherche";
+import { ActivityIndicator } from "react-native";
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
   const [isParticipated, setIsParticipated] = useState(false); //participated or not
   const [isHistory, setIsHistory] = useState(false); //history available or not
 
+  const refresh = useRefresh();
+  const [dataVenir, setDataVenir] = useState([]);
+  const [dataPasses, setDataPasses] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigation = useNavigation();
   const { user } = useAuth();
 
-  if (!user) {
-    return(
-    <View style={yourRidesStyles.yourrides}>
-    <TopBar/>
-    <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Carpools</Text>
-    <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
-    <View>
-      <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
-      <Image
-        style={[{width: 50, height: 50, marginTop: -150}]}
-        contentFit="cover"
-        source={require("../assets/next.png")}
+  const fetchDataFromDatabasePasses = async () => {
+    try {
+      const response = await axios.get(
+        `http://${env.API_IP_ADDRESS}:3000/api/getPassedRides`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          params: {
+            email: user.user.email,
+          },
+        }
+      );
+
+      setDataPasses(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchDataFromDatabaseVenir = async () => {
+    try {
+      const response = await axios.get(
+        `http://${env.API_IP_ADDRESS}:3000/api/getIncomingRides`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          params: {
+            email: user.user.email,
+          },
+        }
+      );
+
+      setDataVenir(response.data);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchDataFromDatabasePasses();
+      fetchDataFromDatabaseVenir();
+    }
+  }, [refresh, user]);
+
+  const renderItemVenir = ({ item }) => {
+    const { date, time } = timestampToDateTime(item.timestamp);
+
+    return (
+      <Annonce
+        trajetId={item.id_trajet}
+        name={`${item.nom} ${item.prenom}`}
+        rating={item.total_rating}
+        nbrRatings={item.num_ratings}
+        startLocation={item.depart}
+        endLocation={item.arrivee}
+        price={item.prix}
+        vehicle={item.modele}
+        time={time}
+        date={date}
+        availableSeats={item.nbr_place}
+        btnText="Supprimer"
       />
-      </TouchableOpacity>
-    </View>
-    </View>);
-  }
+    );
+  };
+
+  const renderItemPasses = ({ item }) => {
+    const { date, time } = timestampToDateTime(item.timestamp);
+
+    return (
+      <Evaluer
+        trajetId={item.id_trajet}
+        name={`${item.nom} ${item.prenom}`}
+        rating={item.total_rating}
+        nbrRatings={item.num_ratings}
+        startLocation={item.depart}
+        endLocation={item.arrivee}
+        price={item.prix}
+        vehicle={item.modele}
+        time={time}
+        date={date}
+        availableSeats={item.nbr_place}
+      />
+    );
+  };
+
+  if (!user) {
+    return (
+      <View style={YourRidesStyles.container}>
+        <TopBar />
+        <Text
+          style={[YourRidesStyles.title]}
+        >
+          Carpools
+        </Text>
+        <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+        <View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("WelcomeScreen")}
+          >
+            <Image
+              style={[{ width: 50, height: 50, marginTop: -150 }]}
+              contentFit="cover"
+              source={require("../assets/next.png")}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }else{
 
   return (
     <View style={[styles.container, styles.rectangleLayout]}>
@@ -83,77 +203,61 @@ const Carpools = () => {
 
       <View style={styles.main}>
         {activeButton === 0 ? (
-          isParticipated ? (
-            <View>
-              <Annonce
-                name="Amine Meddouri"
-                rating="4.5(2)"
-                startLocation="Bejaia"
-                endLocation="Alger"
-                price="250 DA"
-                vehicle="Toyota Corolla"
-                time="6:30pm"
-                date="25 DEC 23"
-                availableSeats="3/4"
-                btnText="Annuler"
-              />
+          isLoading ? (
+            <ActivityIndicator
+              size="large"
+              color="#0075fd"
+              style={ResultatRechercheStyles.loadingIndicator}
 
-              <Annonce
-                name="Amine Meddouri"
-                rating="4.5(2)"
-                startLocation="Bejaia"
-                endLocation="Alger"
-                price="250 DA"
-                vehicle="Toyota Corolla"
-                time="6:30pm"
-                date="25 DEC 23"
-                availableSeats="3/4"
-                btnText="Annuler"
-              />
-            </View>
+            />
           ) : (
-            <NotAuth title="Vos trajets récents apparaîtront ici" photo={DirPhoto} />
+            <FlatList
+              data={dataVenir}
+              renderItem={renderItemVenir}
+              keyExtractor={(item) => item.id_trajet.toString()}
+              ListEmptyComponent={
+                <View style={[{ marginTop: "40%" }]}>
+                  <NotAuth
+                    title={"Les prochains trajets publiés\napparaîtront ici"}
+                    photo={DirePhoto2}
+                  />
+                </View>
+              }
+            />
           )
-        ) : isHistory ? (
-          <View>
-            <Evaluer
-              name="Amine Meddouri"
-              rating="4.5(2)"
-              startLocation="Bejaia"
-              endLocation="Alger"
-              price="250 DA"
-              vehicle="Toyota Corolla"
-              time="6:30pm"
-              date="25 DEC 23"
-              availableSeats="3/4"
-            />
-            <Evaluer
-              name="Amine Meddouri"
-              rating="4.5(2)"
-              startLocation="Bejaia"
-              endLocation="Alger"
-              price="250 DA"
-              vehicle="Toyota Corolla"
-              time="6:30pm"
-              date="25 DEC 23"
-              availableSeats="3/4"
-            />
-          </View>
+        ) : isLoading ? (
+          <ActivityIndicator
+            size="large"
+            color="#0075fd"
+            style={ResultatRechercheStyles.loadingIndicator}
+          />
         ) : (
-          <NotAuth title="Votre historique de trajets ici" photo={DirPhoto} />
+          <FlatList
+            data={dataPasses}
+            renderItem={renderItemPasses}
+            keyExtractor={(item) => item.id_trajet.toString()}
+            ListEmptyComponent={
+              <View style={[{ marginTop: "40%" }]}>
+                <NotAuth
+                  title={"Les prochains trajets publiés\napparaîtront ici"}
+                  photo={DirePhoto2}
+                />
+              </View>
+            }
+          />
         )}
       </View>
     </View>
-  );
+  );};
 };
 const styles = StyleSheet.create({
   needLogin: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   authenticateButton: {
-    backgroundColor: 'blue', // Example background color for the button
+    backgroundColor: "blue", // Example background color for the button
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
@@ -167,6 +271,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
   },
+
 
   button: {
     width: 100,

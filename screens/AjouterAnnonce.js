@@ -21,13 +21,15 @@ import { RechercheStyles } from "./Recherche";
 import { Alert } from "react-native";
 import env from '../env'; 
 import { useAuth } from "../context/AuthContext";
-import { yourRidesStyles } from "./YourRides";
+import { YourRidesStyles } from "./YourRides";
 import NotAuth from "../components/notAuth";
 import DirPhoto from "../assets/Tablet login-bro.png";
+import { useRefresh } from '../context/refresh';
+
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
-
+  const {refreshPage}  = useRefresh();
   const { user } = useAuth();
 
   const [departLocation, setDepartLocation] = useState(null);
@@ -43,7 +45,7 @@ const AjouterAnnonce = () => {
     } else if (id === "Depart") {
       setDepartLocation(route.params?.location);
     }
-  }, [id, route.params?.location]);
+  }, [id, route.params?.location, user]);
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -161,10 +163,11 @@ const AjouterAnnonce = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          depart: 'oran', arrivee:'skikda', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 2, id_voiture: 123
+          depart: 'oran', arrivee:'skikda', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 75, id_voiture: 2008
         }),
       });
       if (response.ok) {
+        refreshPage();
         Alert.alert("Success", "Announcement published successfully");
       } else {
         Alert.alert("Error", "Failed to publish announcement");
@@ -178,9 +181,9 @@ const AjouterAnnonce = () => {
   // verify if user exists, iif not it shows this
   if (!user) {
     return (
-      <View style={yourRidesStyles.yourrides}>
+      <View style={YourRidesStyles.container}>
       <TopBar/>
-      <Text style={[yourRidesStyles.yourRides, yourRidesStyles.yourRidesTypo]}>Publish</Text>
+      <Text style={[YourRidesStyles.title]}>Publish</Text>
       <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
       <View>
         <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
@@ -193,7 +196,7 @@ const AjouterAnnonce = () => {
       </View>
       </View>
     );
-  }
+  }else{
 
   return (
     <KeyboardAvoidingView
@@ -498,7 +501,7 @@ const AjouterAnnonce = () => {
         </Pressable>
       </View>
     </KeyboardAvoidingView>
-  );
+  );};
 };
 
 const styles = StyleSheet.create({
