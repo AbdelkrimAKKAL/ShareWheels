@@ -25,6 +25,7 @@ import Evaluer from "./components/Evaluer";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import Mdp from "./screens/Mdp";
 import ForgotPwd from "./screens/ForgotPwd";
+import ResetPwd from "./screens/ResetPwd";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -33,7 +34,7 @@ import ParticipantsScreen from "./screens/ParticipantsScreen";
 import { AuthContextProvider, AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
-import {RefreshProvider} from "./context/refresh" 
+import { RefreshProvider } from "./context/refresh"
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -61,122 +62,128 @@ const App = () => {
 
   return (
     <>
-    <RefreshProvider>
-      <ProfileProvider>
-        <AuthContextProvider>
-          <NavigationContainer>
-            {hideSplashScreen ? (
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="TabNavigator" component={TabNavigator} />
-                <Stack.Screen
-                  name="Recherche"
-                  component={Recherche}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Details"
-                  component={Details}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Modifier"
-                  component={Modifier}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Voiture"
-                  component={Voiture}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Signaler"
-                  component={Signaler}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="DatailsAjouter"
-                  component={DatailsAjouter}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Dates"
-                  component={Dates}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="CarpoolPasses"
-                  component={CarpoolPasses}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="MonProfil"
-                  component={MonProfil}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="AjouterAnnonce"
-                  component={AjouterAnnonce}
-                  options={{ headerShown: false }}
-                />
+      <RefreshProvider>
+        <ProfileProvider>
+          <AuthContextProvider>
+            <NavigationContainer>
+              {hideSplashScreen ? (
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="TabNavigator" component={TabNavigator} />
+                  <Stack.Screen
+                    name="Recherche"
+                    component={Recherche}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Details"
+                    component={Details}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Modifier"
+                    component={Modifier}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Voiture"
+                    component={Voiture}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Signaler"
+                    component={Signaler}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="DatailsAjouter"
+                    component={DatailsAjouter}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Dates"
+                    component={Dates}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="CarpoolPasses"
+                    component={CarpoolPasses}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="MonProfil"
+                    component={MonProfil}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="AjouterAnnonce"
+                    component={AjouterAnnonce}
+                    options={{ headerShown: false }}
+                  />
 
-                <Stack.Screen
-                  name="YourRides"
-                  component={YourRides}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="SignUp"
-                  component={SignUp}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Login"
-                  component={Login}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="ResultatRecherche"
-                  component={ResultatRecherche}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="WelcomeScreen"
-                  component={WelcomeScreen}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Mdp"
-                  component={Mdp}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="SearchBar"
-                  component={SearchBar}
-                  options={{ headerShown: false }}
-                />
+                  <Stack.Screen
+                    name="YourRides"
+                    component={YourRides}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="SignUp"
+                    component={SignUp}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="ResultatRecherche"
+                    component={ResultatRecherche}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="WelcomeScreen"
+                    component={WelcomeScreen}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="Mdp"
+                    component={Mdp}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="SearchBar"
+                    component={SearchBar}
+                    options={{ headerShown: false }}
+                  />
 
-                <Stack.Screen
-                  name="AfficherMap"
-                  component={AfficherMap}
-                  options={{ headerShown: false }}
-                />
+                  <Stack.Screen
+                    name="AfficherMap"
+                    component={AfficherMap}
+                    options={{ headerShown: false }}
+                  />
 
-                <Stack.Screen
-                  name="ForgotPwd"
-                  component={ForgotPwd}
-                  options={{ headerShown: false }}
-                />
+                  <Stack.Screen
+                    name="ForgotPwd"
+                    component={ForgotPwd}
+                    options={{ headerShown: false }}
+                  />
 
-                <Stack.Screen
-                  name="ParticipantsScreen"
-                  component={ParticipantsScreen}
-                  options={{ headerShown: false }}
-                />
-              </Stack.Navigator>
-            ) : null}
-          </NavigationContainer>
-        </AuthContextProvider>
-      </ProfileProvider>
+                  <Stack.Screen
+                    name="ResetPwd"
+                    component={ResetPwd}
+                    options={{ headerShown: false }}
+                  />
+
+                  <Stack.Screen
+                    name="ParticipantsScreen"
+                    component={ParticipantsScreen}
+                    options={{ headerShown: false }}
+                  />
+                </Stack.Navigator>
+              ) : null}
+            </NavigationContainer>
+          </AuthContextProvider>
+        </ProfileProvider>
       </RefreshProvider>
     </>
   );
@@ -351,6 +358,7 @@ const ProfileScreen = () => (
     <Stack.Screen name="Mdp" component={Mdp} />
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
     <Stack.Screen name="ForgotPwd" component={ForgotPwd} />
+    <Stack.Screen name="ResetPwd" component={ResetPwd} />
   </Stack.Navigator>
 );
 

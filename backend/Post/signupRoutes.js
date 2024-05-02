@@ -2,7 +2,8 @@ import express from "express";
 import { pool } from "../createPool.js"; // Import the pool from createPool.js
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
-
+import env from '../../env.js';
+const {JWT_LIFETIME, JWT_SECRET} = env
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -51,11 +52,15 @@ router.post("/", async (req, res) => {
     insertConnection.release();
 
     // create a token
-    const token = jwt.sign({ userTel: num_tel, name: nom }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_LIFETIME,
+    const token = jwt.sign({ userTel: num_tel, name: nom }, JWT_SECRET, {
+      expiresIn: JWT_LIFETIME,
     })
 
-    res.status(201).json({ message: "Sign up successful", user: { name: nom }, token });
+    res.status(200).json({
+      message: "Login successful",
+      user: {email: email},
+      token,
+    });
 
   } catch (error) {
     console.error("Error signing up user:", error);

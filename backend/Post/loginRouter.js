@@ -4,7 +4,8 @@ import { pool } from "../createPool.js";
 import bcrypt from "bcrypt";
 import { Alert } from "react-native-web";
 import jwt from 'jsonwebtoken'; 
-
+import env from '../../env.js';
+const {JWT_LIFETIME, JWT_SECRET} = env
 
 const router = express.Router();
 
@@ -40,8 +41,8 @@ router.post("/", async (req, res) => {
     }
 
     // create a token
-    const token = jwt.sign({userTel:user.num_tel, name:user.nom}, process.env.JWT_SECRET,{
-      expiresIn:process.env.JWT_LIFETIME,
+    const token = jwt.sign({userTel:user.num_tel, name:user.nom}, JWT_SECRET,{
+      expiresIn:JWT_LIFETIME,
     })
 
     res.status(200).json({

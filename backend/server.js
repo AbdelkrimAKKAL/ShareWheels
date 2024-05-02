@@ -18,6 +18,9 @@ import getPassedRidesRouter from './Get/getPassedRidesRouter.js';
 import getPostedRidesRouter from './Get/getPostedRidesRouter.js';
 import getParticipatedRouter from './Get/getParticipatedRouter.js';
 
+import forgotPassword from './Post/forgotPassword.js'
+import resetPassword from './Post/resetPassword.js'
+
 
 
 const app = express();
@@ -43,6 +46,10 @@ app.use("/api/getIncomingRides", getIncomingRidesRouter);
 app.use("/api/getPassedRides", getPassedRidesRouter);
 app.use("/api/getPostedRides", getPostedRidesRouter);
 app.use("/api/getParticipated", getParticipatedRouter);
+
+// ForgotPassword
+app.use("/api/forgotPassword", forgotPassword);
+app.use("/api/resetPassword", resetPassword);
 
 
 

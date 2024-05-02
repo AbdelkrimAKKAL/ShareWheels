@@ -7,28 +7,48 @@ import { TouchableOpacity } from "react-native";
 import { Alert } from "react-native";
 import { Border, Color, Padding,FontSize, FontFamily } from "../GlobalStyles";
 import { useState } from "react";
+import env from "../env";
 
 const ForgotPwd = () => {
   const navigation = useNavigation();
+  const [error, setError] = useState(null)
+  const [isLoading, setIsloading] = useState(null)
 
-  const [gmail, setGmail] = useState("");
+  const [email, setEmail] = useState("");
 
-  const GoToGmailMessage = () => {
-    if (gmail.trim() === '') {
-      Alert.alert('Alert', 'Input Vide!');
-    } else {
-      Alert.alert(
-        "Consultez votre boîte de réception Gmail",
-        "pour trouver un email contenant les instructions pour réinitialiser votre mot de passe.",
-        [
-          {
-            text: 'OK',
-            onPress: () => navigation.navigate('Login')
-          }
-        ]
-      );
+  const handleSubmit = async () => {
+    setIsloading(true)
+    setError(null)
+    try {
+      const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/forgotPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+        }),
+      });
+      const json = await response.json();
+  
+      if (!response.ok) {
+        setIsloading(false);
+        setError(json.error);
+        return; // Exit function if there's an error
+      }
+
+      if (response.ok) {
+        setIsloading(false)
+
+        navigation.navigate('ResetPwd', {email})
+      }
+      
+    } catch (error) {
+      console.error("Error Sending email :", error);
+      Alert.alert("Error", "An error occurred while sending email");
     }
   };
+  
 
   return (
     <View style={[pstyles.main, { paddingTop: "20%" }]}>
@@ -36,12 +56,15 @@ const ForgotPwd = () => {
       <Text style={styles.Soustitre}>votre gmail:</Text>
 
       <View style={styles.Input}>
-        <TextInput placeholder="Gmail" style = {{width: 277}} value={gmail} onChangeText={(text) => setGmail(text)} />
+        <TextInput placeholder="Gmail" style = {{width: 277}} value={email} onChangeText={(text) => setEmail(text)} />
+      </View>
+      <View style={[styles.error]}>
+       {error && <Text style={styles.errorText}>{error}</Text>}
       </View>
 
       <Pressable
         style={[styles.buttonfirst, { alignItems: "center" }]}
-        onPress={GoToGmailMessage}
+        onPress={handleSubmit}
       >
         <Text style={[styles.heading, { fontSize: 16, color: "white" }]}>
           Confirmer
@@ -50,8 +73,18 @@ const ForgotPwd = () => {
     </View>
   );
 };
-
+ 
 const styles = StyleSheet.create({
+
+  error:{
+    margin:5
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 0,
+    textAlign: 'center',
+    fontFamily: "Poppins-Medium",
+  },
   main: {
     flex: 1,
     alignContent: "space-between"
