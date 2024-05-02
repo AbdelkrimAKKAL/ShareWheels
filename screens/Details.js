@@ -209,7 +209,7 @@ const Details = () => {
               </View>
             </View>
           </View>
-          {details.length === 0 ? ( <Text style={[styles.TextAlign, styles.TextStyle, {marginBottom: 10}]}>
+          {details.length === 0 || details === null ? ( <Text style={[styles.TextAlign, styles.TextStyle, {marginBottom: 10}]}>
             No More Details Added 
           </Text>) :(
           <View>

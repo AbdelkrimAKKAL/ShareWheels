@@ -4,61 +4,55 @@ import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { RechercheStyles } from "./Recherche";
 import Participants from "../components/Participants";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import NotAuth from "../components/notAuth";
 import LiveCollaborationImage from '../assets/Live collaboration-amico.png';
-
-const fetchDataFromDatabase = async () => {
-  // Example data
-  return [
-    {
-      id: 1,
-      name: "Amine Meddouri",
-      email: "meddouri06@gmail.com",
-      phone: "06 59 49 34 19",
-      gender: "male",
-    },
-    {
-      id: 2,
-      name: "Amine Meddouri",
-      email: "meddouri06@gmail.com",
-      phone: "06 59 49 34 19",
-      gender: "male",
-    },
-  ];
-};
-
-const renderItem = ({ item }) => (
-  <Participants
-    name={item.name}
-    email={item.email}
-    phone={item.phone}
-    gender={item.gender}
-  />
-);
+import { useRefresh } from '../context/refresh';
+import { API_IP_ADDRESS } from "../env";
 
 const ParticipantsScreen = () => {
   const navigation = useNavigation();
-  const [isUsers, setIsUsers] = useState(true); //auth or not
+  const refresh = useRefresh();
 
-  const [data, setData] = useState([]);
+  const [participants, setParticipants] = useState([]);
 
+  const route = useRoute();
+  const date = route.params?.date;
+  const depart = route.params?.depart;
+  const destination = route.params?.destination;
+  const id_trajet = route.params?.id_trajet;
+  const canDelete = route.params?.canDelete;
+  console.log(id_trajet)
   useEffect(() => {
-    // Fetch data from the database when the component mounts
-    fetchDataFromDatabase().then((result) => setData(result));
-  }, []);
+    fetchParticipants(id_trajet);
+  }, [id_trajet, refresh]);
 
-  //   const route = useRoute();
-  //   const date = route.params?.Date;
-  //   const depart = route.params?.depart;
-  //   const destination = route.params?.destination;
+  const fetchParticipants = async (id_trajet) => {
+    try {
+      const response = await fetch(`http://${API_IP_ADDRESS}:3000/api/getParticipated?id_trajet=${id_trajet}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch participants');
+      }
+      const data = await response.json();
+      setParticipants(data);
+    } catch (error) {
+      console.error("Error fetching participants information:", error);
+      // Handle error here
+    }
+  };
 
-  //temp:::
-  const date = "23/06/2024";
-  const depart = "Bejaia";
-  const destination = "Alger";
+  const renderItem = ({ item }) => (
+    <Participants
+      name={item.nom}
+      email={item.email}
+      phone={item.num_tel}
+      gender={item.genre}
+      nbr_place={item.nbr_place}
+      id_reservation= {item.id_reservation}
+      canDelete = {canDelete}
+    />
+  );
 
   return (
     <View style={[ResultatRechercheStyles.resultatrecherche]}>
@@ -70,22 +64,17 @@ const ParticipantsScreen = () => {
         <Text style={ResultatRechercheStyles.heading1}>{date}</Text>
       </View>
 
-    {isUsers? (
-      <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
-    />
-    ): (
-      <NotAuth title="Garde patience !" photo={LiveCollaborationImage} />
-    )}
-      
+        <FlatList
+          data={participants}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id_uti.toString()}
+          ListEmptyComponent={<NotAuth title="Garde patience !" photo={LiveCollaborationImage} />}
+        />
+     
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 
 export default ParticipantsScreen;

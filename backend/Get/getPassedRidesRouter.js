@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
     const currentTime = new Date().toISOString();
 
     let query = `
-    SELECT trajets.*, utilisateurs.*, Voitures.modele
+    SELECT trajets.*, utilisateurs.*, Voitures.modele, reservations.id_reservation
     FROM trajets 
     JOIN reservations ON trajets.id_trajet = reservations.id_trajet
     JOIN utilisateurs ON reservations.id_reserveur = utilisateurs.id_uti

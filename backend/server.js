@@ -10,13 +10,13 @@ import EditUserRouter from './Get/EditUserRouter.js';
 import deleteUserRouter from './Delete/deleteUserRouter.js';
 import deleteTrajetRouter from './Delete/deleteTrajetRouter.js';
 import rateRouter from './Post/rateRouter.js';
-import getdetailsRouter from './Get/getDetailsRouter.js';
 import getSignalmentsRouter from './Get/getSignalmentsRouter.js';
 import signalerRouter from './Post/signalerRouter.js';
 import getIncomingRidesRouter from './Get/getIncomingRidesRouter.js';
 import getPassedRidesRouter from './Get/getPassedRidesRouter.js';
 import getPostedRidesRouter from './Get/getPostedRidesRouter.js';
 import getParticipatedRouter from './Get/getParticipatedRouter.js';
+import annulerTrajetRouter from './Delete/annulerTrajetRouter.js';
 
 import forgotPassword from './Post/forgotPassword.js'
 import resetPassword from './Post/resetPassword.js'
@@ -39,13 +39,14 @@ app.use("/api/EditUser", EditUserRouter);
 app.use("/api/DeleteUser", deleteUserRouter);
 app.use("/api/DeleteTrajet", deleteTrajetRouter);
 app.use("/api/Rate", rateRouter);
-app.use("/api/getDetails", getdetailsRouter);
 app.use("/api/getSignalments", getSignalmentsRouter);
 app.use("/api/signaler", signalerRouter);
 app.use("/api/getIncomingRides", getIncomingRidesRouter);
 app.use("/api/getPassedRides", getPassedRidesRouter);
 app.use("/api/getPostedRides", getPostedRidesRouter);
 app.use("/api/getParticipated", getParticipatedRouter);
+app.use("/api/annulerTrajet", annulerTrajetRouter);
+
 
 // ForgotPassword
 app.use("/api/forgotPassword", forgotPassword);

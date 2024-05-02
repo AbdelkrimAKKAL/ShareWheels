@@ -115,7 +115,9 @@ const Carpools = () => {
         matricule = {item.matricule}
         email = {item.email}
         num_tel = {item.num_tel}
+        id_reservation = {item.id_reservation}
         btnText="Annuler"
+        canDelete = "f"
       />
     );
   };
@@ -132,10 +134,11 @@ const Carpools = () => {
         startLocation={item.depart}
         endLocation={item.arrivee}
         price={item.prix}
-        vehicle={item.modele}
+        modele={item.modele}
         time={time}
         date={date}
         availableSeats={item.nbr_place}
+        id_reservation = {item.id_reservation}
       />
     );
   };
@@ -230,7 +233,7 @@ const Carpools = () => {
               ListEmptyComponent={
                 <View style={[{ marginTop: "40%" }]}>
                   <NotAuth
-                    title={"Les prochains trajets publiés\napparaîtront ici"}
+                    title={"Vos trajets à venir apparaîtront ici"}
                     photo={DirePhoto2}
                   />
                 </View>
@@ -256,7 +259,7 @@ const Carpools = () => {
             ListEmptyComponent={
               <View style={[{ marginTop: "40%" }]}>
                 <NotAuth
-                  title={"Les prochains trajets publiés\napparaîtront ici"}
+                  title={"Votre historique de trajets ici"}
                   photo={DirePhoto2}
                 />
               </View>

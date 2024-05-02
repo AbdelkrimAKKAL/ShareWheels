@@ -10,12 +10,27 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 import { AnnonceStyles } from "./Annonce";
+import { API_IP_ADDRESS } from "../env";
+import { useRefresh } from "../context/refresh";
+
 
 const Participants = (Props) => {
   const navigation = useNavigation();
+  const { refreshPage } = useRefresh();
 
-  const suppUser = () => {
-    Alert.alert("User deleted from the ride");
+  const cancelReservation = async () => {
+    try {
+      const response = await fetch(`http://${API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to cancel reservation');
+      }
+      refreshPage();
+    } catch (error) {
+      console.error("Error canceling reservation:", error);
+      // Handle error here
+    }
   };
 
   return (
@@ -52,7 +67,7 @@ const Participants = (Props) => {
         />
         <Text style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginLeft: 8 }]}
            >
-            2
+            {Props.nbr_place}
           </Text>
         </View>
       </View>
@@ -95,7 +110,7 @@ const Participants = (Props) => {
           {Props.gender}
         </Text>
       </View>
-
+      {Props.canDelete === "t" ? (
       <View style={styles.Button}>
         <TouchableOpacity
           style={[
@@ -107,7 +122,7 @@ const Participants = (Props) => {
               marginTop: -40,
             },
           ]}
-          onPress={suppUser}
+          onPress={cancelReservation}
         >
           <Text
             style={[
@@ -119,6 +134,7 @@ const Participants = (Props) => {
           </Text>
         </TouchableOpacity>
       </View>
+    ) : (<View></View>)}
     </View>
   );
 };

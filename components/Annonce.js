@@ -33,7 +33,7 @@ const Annonce = (Props) => {
       email : Props.email,
       modele : Props.modele,
       num_tel : Props.num_tel,
-      availableSeats: Props.availableSeats
+      availableSeats: Props.availableSeats,
     });
   };
 
@@ -95,7 +95,7 @@ const Annonce = (Props) => {
               AnnonceStyles.detailsFlexBox,
               { width: 97, marginLeft: 100 },
             ]}
-            onPress={() => navigation.navigate("ParticipantsScreen")}
+            onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete })}
           >
             <Text
               style={[
@@ -130,7 +130,7 @@ const Annonce = (Props) => {
       <View style={AnnonceStyles.buttons}>
       <TouchableOpacity
         style={[AnnonceStyles.details, AnnonceStyles.detailsFlexBox, {width: 97,}]}
-        onPress={() => navigation.navigate("ParticipantsScreen")}
+        onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete })}
       >
         <Text
           style={[
@@ -155,7 +155,7 @@ const Annonce = (Props) => {
     if (Props.btnText === "Supprimer") {
       SupprimerFunc();
     } else if (Props.btnText === "Annuler") {
-      SupprimerFunc();
+      cancelReservation();
     }
   };
 
@@ -166,7 +166,7 @@ const Annonce = (Props) => {
 
   const SupprimerFunc = async () => {
     try {
-      const trajetId = Props.trajetId; // Replace 'your_trajet_id' with the actual trajet ID
+      const trajetId = Props.trajetId; 
       const response = await fetch(
         `http://${env.API_IP_ADDRESS}:3000/api/deleteTrajet/${trajetId}`,
         {
@@ -191,6 +191,22 @@ const Annonce = (Props) => {
       Alert.alert("Error", "Internal server error");
     }
     refreshPage();
+  };
+
+  const cancelReservation = async () => {
+    console.log(Props.id_reservation)
+    try {
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to cancel reservation');
+      }
+      refreshPage();
+    } catch (error) {
+      console.error("Error canceling reservation:", error);
+      // Handle error here
+    }
   };
 
   //Backedn--------------------------------------------------------------------------------------------

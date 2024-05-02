@@ -66,6 +66,7 @@ const YourRides = () => {
         date={date}
         availableSeats={item.nbr_place}
         btnText="Supprimer"
+        canDelete = "t"
       />
     );
   };
