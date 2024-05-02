@@ -20,6 +20,11 @@ router.post("/:email", async (req, res) => {
     );
     connection.release();
 
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }  
+
+    
     const connection2 = await pool.getConnection();
     const [result] = await connection.query(
       "SELECT code FROM Utilisateurs WHERE email = ?",
@@ -28,9 +33,7 @@ router.post("/:email", async (req, res) => {
     connection2.release();
     const code = result[0].code
    
-    if (rows.length === 0) {
-      return res.status(404).json({ error: "User not found" });
-    }
+
     
      // Check if verification code matches
      if (verificationCode !== code) {
@@ -46,6 +49,25 @@ router.post("/:email", async (req, res) => {
       'UPDATE Utilisateurs SET mdp = ? WHERE email = ?',
       [hashedPassword, email]
     );
+
+    await pool.query(
+      'ALTER TABLE Utilisateurs DROP COLUMN code',
+      [hashedPassword, email]
+    );
+    
+  // // Run the ALTER TABLE query to drop the column
+  // const dropColumnQuery = "ALTER TABLE Utilisateurs DROP COLUMN code";
+
+  // connection.query(dropColumnQuery, (error, results, fields) => {
+  //   connection.release(); // Release the connection back to the pool
+
+  //   if (error) {
+  //     console.error('Error executing query:', error);
+  //     return;
+  //   }
+
+  //   console.log('Column "code" dropped successfully.');
+  // });  
 
       res.status(201).json({ message: "done Verified" });
     } catch (error) {

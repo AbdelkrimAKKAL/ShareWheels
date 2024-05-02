@@ -46,6 +46,27 @@ router.post("/", async (req, res) => {
         const code = generateVerificationCode()
         console.log("THIS IS VERIFICATION CODE CHECK EMAIL:", code);
 
+        // Run the ALTER TABLE query to add a new column
+        const addColumnQuery = "ALTER TABLE Utilisateurs ADD COLUMN code varchar(30)";
+
+        // connection.query(addColumnQuery, (error, results, fields) => {
+        //     connection.release(); // Release the connection back to the pool
+
+        //     if (error) {
+        //         console.error('Error executing query:', error);
+        //         return;
+        //     }
+
+        //     console.log('Column added successfully.');
+        // });
+        // connection.release()
+        const connection3 = await pool.getConnection();
+         await connection.query(
+            "ALTER TABLE Utilisateurs ADD COLUMN code varchar(30)",
+        );
+        connection3.release();
+
+
         const connection2 = await pool.getConnection();
         const updateResult = await connection2.query(
             "UPDATE Utilisateurs SET code = ? WHERE email = ?",
@@ -93,7 +114,7 @@ router.post("/", async (req, res) => {
         res.status(200).json({
             message: "User found",
             code,
-            email: email 
+            email: email
         });
     } catch (error) {
         console.error(":", error);
