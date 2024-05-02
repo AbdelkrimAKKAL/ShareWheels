@@ -8,7 +8,9 @@ import { USER, APP_PASSWORD, EMAIL_RECEIVER } from '../../env.js';
 
 
 
+
 const router = express.Router();
+    let created = false
 
 // Function to generate a random verification code
 function generateVerificationCode() {
@@ -46,25 +48,20 @@ router.post("/", async (req, res) => {
         const code = generateVerificationCode()
         console.log("THIS IS VERIFICATION CODE CHECK EMAIL:", code);
 
-        // Run the ALTER TABLE query to add a new column
-        const addColumnQuery = "ALTER TABLE Utilisateurs ADD COLUMN code varchar(30)";
 
-        // connection.query(addColumnQuery, (error, results, fields) => {
-        //     connection.release(); // Release the connection back to the pool
-
-        //     if (error) {
-        //         console.error('Error executing query:', error);
-        //         return;
-        //     }
-
-        //     console.log('Column added successfully.');
-        // });
-        // connection.release()
-        const connection3 = await pool.getConnection();
-         await connection.query(
-            "ALTER TABLE Utilisateurs ADD COLUMN code varchar(30)",
-        );
-        connection3.release();
+        if (!created) {
+            try {
+                const connection3 = await pool.getConnection();
+                await connection.query(
+                    "ALTER TABLE Utilisateurs ADD COLUMN code varchar(30)",
+                );
+                created = true; // Set the 'created' flag to true
+                connection3.release();
+            } catch (error) {
+                console.error('Column code already exists');
+            }
+        }
+        
 
 
         const connection2 = await pool.getConnection();
@@ -72,8 +69,9 @@ router.post("/", async (req, res) => {
             "UPDATE Utilisateurs SET code = ? WHERE email = ?",
             [code, email]
         );
+    
         connection2.release();
-
+        
 
 
         const transporter = nodemailer.createTransport({
@@ -92,7 +90,7 @@ router.post("/", async (req, res) => {
 
         const mailOptions = {
             from: {
-                name: 'Krimou',
+                name: 'ShareWheelsApp',
                 address: USER,
             },
             to: EMAIL_RECEIVER, // change it later to 'email'

@@ -9,8 +9,8 @@ const JWT_SECRET = "bI4Ygtdx4ayp1dI2Es6ppl8DI3JPUKOR";
 const JWT_LIFETIME = "30d";
 
 // email 
-const USER="abdelkrimakkal5@gmail.com"//dont touch
-const APP_PASSWORD="jdto ipei igcj mdci"//dont touch
+const USER="sharewheelsapp@gmail.com"//dont touch
+const APP_PASSWORD="afwm auug zmbz ooiz"//dont touch
 
 const EMAIL_RECEIVER="abdelkrimakkal1@gmail.com"//choose your email
 //where you want to receive the email with the code verification
