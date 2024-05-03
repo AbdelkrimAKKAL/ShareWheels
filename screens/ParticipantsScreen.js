@@ -7,7 +7,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Participants from "../components/Participants";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import NotAuth from "../components/notAuth";
-import LiveCollaborationImage from '../assets/Live collaboration-amico.png';
 import { useRefresh } from '../context/refresh';
 import { API_IP_ADDRESS } from "../env";
 
@@ -69,7 +68,7 @@ const ParticipantsScreen = () => {
           data={participants}
           renderItem={renderItem}
           keyExtractor={(item) => item.id_uti.toString()}
-          ListEmptyComponent={<NotAuth title="Garde patience !" photo={LiveCollaborationImage} />}
+          ListEmptyComponent={<NotAuth title="Garde patience !" photo={4} />}
         />
      
     </View>

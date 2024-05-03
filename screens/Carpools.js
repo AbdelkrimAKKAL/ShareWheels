@@ -16,8 +16,6 @@ import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
 import { useAuth } from "../context/AuthContext";
 import { YourRidesStyles } from "./YourRides";
-import DirPhoto from "../assets/Tablet login-bro.png";
-import DirePhoto2 from "../assets/Locationph.png";
 import { timestampToDateTime } from "./ResultatRecherche";
 import axios from "axios";
 import env from "../env";
@@ -153,7 +151,7 @@ const Carpools = () => {
         >
           Carpools
         </Text>
-        <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+        <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
         <View>
           <TouchableOpacity
             onPress={() => navigation.navigate('TabNavigator', {
@@ -240,7 +238,7 @@ const Carpools = () => {
                 <View style={[{ marginTop: "40%" }]}>
                   <NotAuth
                     title={"Vos trajets à venir apparaîtront ici"}
-                    photo={DirePhoto2}
+                    photo={3}
                   />
                 </View>
               }
@@ -266,7 +264,7 @@ const Carpools = () => {
               <View style={[{ marginTop: "40%" }]}>
                 <NotAuth
                   title={"Votre historique de trajets ici"}
-                  photo={DirePhoto2}
+                  photo={3}
                 />
               </View>
             }

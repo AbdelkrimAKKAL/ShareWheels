@@ -12,7 +12,6 @@ import TopBar from "../components/TopBar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
-import DirPhoto from "../assets/No data-cuate.png";
 import axios from "axios";
 import env from "../env";
 
@@ -154,7 +153,7 @@ const ResultatRecherche = () => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id_trajet.toString()}
           ListEmptyComponent={
-            <NotAuth title="Oups... Aucune donnée trouvée" photo={DirPhoto} />
+            <NotAuth title="Oups... Aucune donnée trouvée" photo={1} />
           }
         />
       )}

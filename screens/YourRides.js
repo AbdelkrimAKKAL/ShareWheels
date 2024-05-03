@@ -9,8 +9,6 @@ import { timestampToDateTime } from "./ResultatRecherche";
 import axios from "axios";
 import env from "../env";
 import { Color, FontFamily, FontSize } from "../GlobalStyles";
-import DirPhoto from "../assets/Tablet login-bro.png"
-import DirePhoto2 from "../assets/Locationph.png"
 import { Image } from "react-native";
 import { useRefresh } from '../context/refresh';
 import ResultatRechercheStyles from "./ResultatRecherche";
@@ -76,7 +74,7 @@ const YourRides = () => {
       <View style={YourRidesStyles.container}>
         <TopBar />
         <Text style={YourRidesStyles.title}>Your Rides</Text>
-        <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+        <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
         <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})} >
           <Image style={YourRidesStyles.image} source={require("../assets/next.png")} />
         </TouchableOpacity>
@@ -101,7 +99,7 @@ const YourRides = () => {
             data={data}
             renderItem={renderItem}
             keyExtractor={(item) => item.id_trajet.toString()}
-            ListEmptyComponent={<View style={[{marginTop: '40%'}]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={DirePhoto2} /></View>}
+            ListEmptyComponent={<View style={[{marginTop: '40%'}]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={3} /></View>}
           />
         )}
       </View>

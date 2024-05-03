@@ -23,7 +23,6 @@ import env from '../env';
 import { useAuth } from "../context/AuthContext";
 import { YourRidesStyles } from "./YourRides";
 import NotAuth from "../components/notAuth";
-import DirPhoto from "../assets/Tablet login-bro.png";
 import { useRefresh } from '../context/refresh';
 
 
@@ -184,7 +183,7 @@ const AjouterAnnonce = () => {
       <View style={YourRidesStyles.container}>
       <TopBar/>
       <Text style={[YourRidesStyles.title]}>Publish</Text>
-      <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
+      <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
       <View>
         <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})} >
         <Image
