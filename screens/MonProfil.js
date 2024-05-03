@@ -151,7 +151,7 @@ const MonProfil = () => {
         >
           <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[pstyles.buttons, pstyles.red]}>
+        <TouchableOpacity style={[pstyles.buttons, pstyles.red]} onPress={() => navigation.navigate("ConfirmDelete")}>
           <Text style={[pstyles.signTypo, pstyles.red]}>Supprimer</Text>
         </TouchableOpacity>
       </View>

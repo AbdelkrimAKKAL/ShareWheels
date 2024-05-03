@@ -34,7 +34,8 @@ import ParticipantsScreen from "./screens/ParticipantsScreen";
 import { AuthContextProvider, AuthProvider } from './context/AuthContext'
 import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
-import { RefreshProvider } from "./context/refresh"
+import { RefreshProvider } from "./context/refresh";
+import ConfirmDelete from "./screens/ConfimDelete";
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -177,6 +178,11 @@ const App = () => {
                   <Stack.Screen
                     name="ParticipantsScreen"
                     component={ParticipantsScreen}
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="ConfirmDelete"
+                    component={ConfirmDelete}
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>
@@ -360,6 +366,8 @@ const ProfileScreen = () => (
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
     <Stack.Screen name="ForgotPwd" component={ForgotPwd} />
     <Stack.Screen name="ResetPwd" component={ResetPwd} />
+    <Stack.Screen name="ConfirmDelete" component={ConfirmDelete} />
+
   </Stack.Navigator>
 );
 

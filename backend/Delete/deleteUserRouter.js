@@ -45,8 +45,8 @@ router.delete("/:email", async (req, res) => {
   
       // Delete associated records in signalments table
       await userConnection.query(
-        "DELETE FROM signalements WHERE id_uti = ?",
-        [existingUser[0].id_uti]
+        "DELETE FROM signalements WHERE TargetUserID = ? OR SignalerUserID = ?",
+        [existingUser[0].id_uti, existingUser[0].id_uti]
       );
   
       // Delete the user
