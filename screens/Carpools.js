@@ -116,6 +116,7 @@ const Carpools = () => {
         email = {item.email}
         num_tel = {item.num_tel}
         id_reservation = {item.id_reservation}
+        naissance= {item.naissance}
         btnText="Annuler"
         canDelete = "f"
       />

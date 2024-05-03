@@ -9,13 +9,13 @@ router.get("/", async (req, res) => {
     const currentTime = new Date().toISOString();
 
     let query = `
-      SELECT *
-      FROM trajets 
-      JOIN reservations ON trajets.id_trajet = reservations.id_trajet
-      JOIN utilisateurs ON reservations.id_reserveur = utilisateurs.id_uti
-      JOIN Voitures ON Trajets.id_voiture = Voitures.matricule
-      WHERE trajets.timestamp > ? AND utilisateurs.email = ?
-      ORDER BY trajets.timestamp
+    SELECT *
+    FROM trajets 
+    JOIN reservations ON trajets.id_trajet = reservations.id_trajet
+    JOIN utilisateurs ON trajets.id_conducteur = utilisateurs.id_uti
+    JOIN Voitures ON trajets.id_voiture = Voitures.matricule
+    WHERE trajets.timestamp > ? AND reservations.id_reserveur IN (SELECT id_uti FROM utilisateurs WHERE email = ?)
+    ORDER BY trajets.timestamp;    
     `;
     let queryParams = [currentTime, email];
 

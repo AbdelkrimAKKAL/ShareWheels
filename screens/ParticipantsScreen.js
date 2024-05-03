@@ -50,6 +50,7 @@ const ParticipantsScreen = () => {
       gender={item.genre}
       nbr_place={item.nbr_place}
       id_reservation= {item.id_reservation}
+      naissance= {item.naissance}
       canDelete = {canDelete}
     />
   );

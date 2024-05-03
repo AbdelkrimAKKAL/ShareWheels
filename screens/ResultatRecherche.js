@@ -39,6 +39,7 @@ const renderItem = ({ item }) => {
       matricule = {item.matricule}
       email = {item.email}
       num_tel = {item.num_tel}
+      naissance= {item.naissance}
       btnText="Participer"
     />
   );

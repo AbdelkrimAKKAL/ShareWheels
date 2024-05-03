@@ -12,6 +12,7 @@ import env from '../env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+
 const SignUp = () => {
   const { login } = useAuth();
   const navigation = useNavigation();
@@ -21,11 +22,32 @@ const SignUp = () => {
   const [num_tel, setPhoneNumber] = useState("");
   const [genre, setGenre] = useState("");
   const [mdp, setPassword] = useState("");
+  const [naissance, setNaissance] = useState("");
+
 
   const [error, setError] = useState(null)
   const [isLoading, setIsloading] = useState(null)
   const { dispatch } = useAuth()
-
+  const setBirthYear = (inputYear) => {
+    // Convert input to integer
+    const year = parseInt(inputYear);
+  
+    // Check if the input is a valid number
+    if (isNaN(year)) {
+      return; // Exit if input is not a valid number
+    }
+  
+    const currentYear = new Date().getFullYear();
+    const minYear = 1900;
+    const maxYear = currentYear - 18;
+  
+    if (year < minYear || year > maxYear) {
+      setError("Invalid Year");
+      setNaissance("");
+    } else {
+      setNaissance(year.toString());
+    }
+  };
   const handleSignUp = async () => {
     setIsloading(true);
     setError(null);
@@ -38,7 +60,7 @@ const SignUp = () => {
           
         },
         body: JSON.stringify({
-          nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre: 'male'
+          nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre: 'male', naissance: naissance
         }),
       });
 
@@ -126,6 +148,21 @@ const SignUp = () => {
             onChangeText={setPhoneNumber}
           />
         </View>
+        <Pressable style={styles.container}>
+  <Image
+    style={[styles.icon, { marginBottom: 5 }]}
+    contentFit="cover"
+    source={require("../assets/birthday-cake.png")}
+  />
+  <TextInput
+    style={[styles.numberTypo]}
+    placeholder="année de naissance"
+    keyboardType="numeric" // Set keyboard type to numeric
+    value={naissance}
+    onChangeText={setNaissance} // Call setNaissance directly
+    onBlur={() => setBirthYear(naissance)} // Perform validation onBlur
+  />
+</Pressable>
         <View style={[styles.container]}>
           <Image
             style={styles.icon}

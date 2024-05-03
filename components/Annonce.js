@@ -34,6 +34,7 @@ const Annonce = (Props) => {
       modele : Props.modele,
       num_tel : Props.num_tel,
       availableSeats: Props.availableSeats,
+      naissance : Props.naissance,
     });
   };
 

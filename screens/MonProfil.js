@@ -25,6 +25,8 @@ const MonProfil = () => {
   const [phone, setPhone] = useState("");
   const [photo, setPhoto] = useState(require("../assets/image1.png"))
   const [email, setEmail] = useState("");
+  const [age, setAge] = useState(null);
+  const [rating, setRating] = useState(null);
   const [items, setItems] = useState([
     { label: "POLO", value: "POLO" },
     { label: "Maruti", value: "Maruti" },
@@ -67,8 +69,10 @@ const MonProfil = () => {
         setEmail(data.user.email);
         setPhone(data.user.num_tel);
         setName(data.user.nom + ' ' + data.user.prenom);
-       // console.log(data);
-        updateProfileData({ email: email, phone: phone, name: name, photo: photo });
+        setAge(data.user.naissance)
+        setRating(data.user.total_rating + " (" + data.user.num_ratings + ")")
+       console.log(age);
+        updateProfileData({ email: email, phone: phone, name: name, photo: photo, rating: rating, age: age });
         updateCars(data.cars)
         
 
@@ -90,13 +94,13 @@ const MonProfil = () => {
           <Text style={[pstyles.titleTypo]}>
             {name}
           </Text>
-          <View style={[pstyles.centrer, { flexDirection: "row" }]}>
+          <View style={[pstyles.centrer, { flexDirection: "row", width: "40" }]}>
             <Image
               style={pstyles.vectorIcon}
               contentFit="cover"
               source={require("../assets/vector3.png")}
             />
-            <Text style={pstyles.text}>4.2 (3) </Text>
+            <Text style={[pstyles.text, {marginRight: 7.5}]}>{rating}  |  {age} ans </Text>
           </View>
         </View>
       </View>

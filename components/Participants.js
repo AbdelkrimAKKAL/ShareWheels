@@ -98,6 +98,19 @@ const Participants = (Props) => {
         </Text>
       </View>
 
+      <View style={[styles.horizStyle, { marginTop: 4 }]}>
+        <Image
+          style={[{ width: 18, height: 19 }]}
+          contentFit="cover"
+          source={require("../assets/birthday-cake.png")}
+        />
+        <Text
+          style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginTop: 4 }]}
+        >
+          {Props.naissance} ans
+        </Text>
+      </View>
+
       <View style={[styles.horizStyle, { marginTop: 5, marginBottom: 5 }]}>
         <Image
           style={[{ width: 20, height: 23 }]}
@@ -143,7 +156,7 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(0, 117, 253, 0.4)",
     borderWidth: 1,
     backgroundColor: Color.neutralWhite,
-    height: 150,
+    height: 170,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: Border.br_mini,
@@ -152,6 +165,11 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: 345,
+    shadowColor: "#585858",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 10,
+    elevation: 6,
   },
 
   horizStyle: {

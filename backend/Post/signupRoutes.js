@@ -17,11 +17,11 @@ router.post("/", async (req, res) => {
       email,
       est_certifie,
       certificat,
-      genre,
+      genre, naissance
     } = req.body;
 
     // Check if required fields are provided
-    if (!nom || !prenom || !mdp || !email || !num_tel) {
+    if (!nom || !prenom || !mdp || !email || !num_tel || naissance==="") {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -44,10 +44,12 @@ router.post("/", async (req, res) => {
     const hashedPassword = await bcrypt.hash(mdp, 10)
 
     // If email and phone number are unique, proceed with insertion
+    const currentYear = new Date().getFullYear();
+    const birthYear = currentYear-parseInt(naissance);
     const insertConnection = await pool.getConnection();
     const [result] = await insertConnection.query(
-      "INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, certificat, genre]
+      "INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre, naissance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, certificat, genre, birthYear]
     );
     insertConnection.release();
 

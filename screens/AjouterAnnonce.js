@@ -382,7 +382,7 @@ const AjouterAnnonce = () => {
                 date={new Date(time)} // Pass current selected time to the time picker
               />
 
-              <View style={[styles.inputShadowBox]}>
+              <View style={[styles.inputShadowBox, { zIndex: 1 }]}>
                 <Image
                   style={[styles.mapPinIcon2, styles.iconLayout]}
                   contentFit="cover"

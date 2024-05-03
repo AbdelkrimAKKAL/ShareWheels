@@ -32,6 +32,8 @@ const Details = () => {
   const email = route.params?.email;
   const num_tel = route.params?.num_tel;
   const availableSeats = route.params.availableSeats;
+  const naissance = route.params.naissance;
+
 
   const depart = route.params?.depart;
   const destination = route.params?.destination;
@@ -71,7 +73,7 @@ const Details = () => {
                   },
                 ]}
               >
-                {rating + " (" + nbr_ratings + ")"}
+                {rating + " (" + nbr_ratings + ")"}   -   {naissance} ans
               </Text>
             </View>
           </View>
