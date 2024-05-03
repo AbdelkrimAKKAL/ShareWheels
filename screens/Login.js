@@ -57,7 +57,7 @@ const Login = () => {
 
         setIsloading(false)
 
-        navigation.popToTop();
+        navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'MonProfil', }})
       }
       
     } catch (error) {

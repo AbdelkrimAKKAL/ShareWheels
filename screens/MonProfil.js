@@ -11,6 +11,7 @@ import axios from "axios";
 import { useProfile, cars } from '../context/ProfileContext';
 import env from '../env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ResultatRechercheStyles } from "./ResultatRecherche";
 
 
 
@@ -32,7 +33,7 @@ const MonProfil = () => {
     { label: "Maruti", value: "Maruti" },
   ]);
   const [selectedValue, setSelectedValue] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState('')
 
   const { dispatch } = useAuth()
@@ -42,7 +43,7 @@ const MonProfil = () => {
 
     //
     dispatch({ type: 'LOGOUT' })
-    navigation.navigate("WelcomeScreen");
+    navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})
   };
 
   useEffect(() => {
@@ -64,7 +65,6 @@ const MonProfil = () => {
         const data = await response.json();
 
         setData(data);
-        setLoading(false);
 
         setEmail(data.user.email);
         setPhone(data.user.num_tel);
@@ -78,8 +78,8 @@ const MonProfil = () => {
 
       } catch (error) {
         console.error('Error fetching profile data:', error);
-        setLoading(false);
       }
+      setIsLoading(false);
     };
 
     fetchProfileData();
@@ -88,6 +88,14 @@ const MonProfil = () => {
 
   return (
     <View style={pstyles.main}>
+          {isLoading ? (
+      <ActivityIndicator
+        size="large"
+        color="#0075fd"
+        style={ResultatRechercheStyles.loadingIndicator}
+      />
+    ) : (
+      <View style={[pstyles.main, {   paddingTop: 0,paddingBottom: 0,}]} >
       <View style={[pstyles.userprofile, pstyles.centrer]}>
         <Image style={pstyles.imageIcon} source={photo} />
         <View style={[pstyles.centrer]}>
@@ -159,6 +167,7 @@ const MonProfil = () => {
           <Text style={[pstyles.signTypo, pstyles.red]}>Supprimer</Text>
         </TouchableOpacity>
       </View>
+    </View>)}
     </View>
   );
 };

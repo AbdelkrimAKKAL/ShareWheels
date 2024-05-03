@@ -76,7 +76,7 @@ const SignUp = () => {
       AsyncStorage.setItem('user', JSON.stringify(json)).then(() => {
         // Update the auth context
         dispatch({ type: 'LOGIN', payload: json });
-        navigation.popToTop();
+        navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'MonProfil', }})
       }).catch((error) => {
         console.error("Error saving user to AsyncStorage:", error);
         Alert.alert("Sign Up Failed", "Please try again later");
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   createAccount: {
-    marginTop: "20%",
+    marginTop: "11%",
     fontSize: 32,
     fontWeight: "600",
     fontFamily: "Nunito-Bold",

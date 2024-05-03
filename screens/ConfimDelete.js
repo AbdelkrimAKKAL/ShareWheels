@@ -27,7 +27,7 @@ const ConfirmDelete = () => {
       setIsLoading(true);
       AsyncStorage.removeItem('user')
       dispatch({ type: 'LOGOUT' })
-      navigation.navigate("WelcomeScreen");
+      navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})
       try {
         const email = user.user.email; 
         const response = await axios.delete(`http://${API_IP_ADDRESS}:3000/api/deleteUser//${email}`);

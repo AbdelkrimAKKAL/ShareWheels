@@ -186,7 +186,7 @@ const AjouterAnnonce = () => {
       <Text style={[YourRidesStyles.title]}>Publish</Text>
       <NotAuth title="Besoin de se connecter/s'inscrire" photo={DirPhoto} />
       <View>
-        <TouchableOpacity onPress={() => navigation.navigate('WelcomeScreen')} >
+        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})} >
         <Image
           style={[{width: 50, height: 50, marginTop: -150}]}
           contentFit="cover"

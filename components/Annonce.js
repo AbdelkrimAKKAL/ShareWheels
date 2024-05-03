@@ -15,10 +15,13 @@ import { useRefresh } from "../context/refresh";
 
 const Annonce = (Props) => {
   const { refreshPage } = useRefresh();
-  const user = useAuth();
+  const {user} = useAuth();
   const navigation = useNavigation();
 
   const goToDetails = () => {
+    if(!user){
+      navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})
+    }else{
     navigation.navigate("Details", {
       depart: Props.startLocation,
       destination: Props.endLocation,
@@ -36,7 +39,7 @@ const Annonce = (Props) => {
       availableSeats: Props.availableSeats,
       naissance : Props.naissance,
     });
-  };
+  };};
 
   const renderButtons = () => {
     if (Props.btnText === "Participer") {
@@ -162,7 +165,11 @@ const Annonce = (Props) => {
 
   //Backedn----------------------------------------------------------------------------------------
   const ParticiperFunc = () => {
-    Alert.alert("Participer");
+    if (!user){
+      navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})
+    }else{
+      Alert.alert("Participer");
+    }
   };
 
   const SupprimerFunc = async () => {

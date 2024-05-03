@@ -310,7 +310,7 @@ const TabNavigator = () => {
         />
       ) : (<Tab.Screen
         name={ProfileName}
-        component={WelcomeScreen}
+        component={WelcomeScreenComp}
         options={{ headerShown: false }}
       />)}
     </Tab.Navigator>
@@ -358,16 +358,20 @@ const ProfileScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="MonProfil" component={MonProfil} />
     <Stack.Screen name="Modifier" component={Modifier} />
-    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-    <Stack.Screen name="SignUp" component={SignUp} />
-    <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Voiture" component={Voiture} />
     <Stack.Screen name="Mdp" component={Mdp} />
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
+    <Stack.Screen name="ConfirmDelete" component={ConfirmDelete} />
+  </Stack.Navigator>
+);
+
+const WelcomeScreenComp = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="ForgotPwd" component={ForgotPwd} />
     <Stack.Screen name="ResetPwd" component={ResetPwd} />
-    <Stack.Screen name="ConfirmDelete" component={ConfirmDelete} />
-
   </Stack.Navigator>
 );
 
