@@ -14,6 +14,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SignUp = () => {
+
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { label: "Homme", value: "m" },
+    { label: "Femme", value: "f" },
+  ]);
   const { login } = useAuth();
   const navigation = useNavigation();
   const [nom, setNom] = useState("");
@@ -51,7 +57,6 @@ const SignUp = () => {
   const handleSignUp = async () => {
     setIsloading(true);
     setError(null);
-
     try {
       const response = await fetch("http://" + env.API_IP_ADDRESS + ":3000/api/signup", {
         method: 'POST',
@@ -163,23 +168,25 @@ const SignUp = () => {
     onBlur={() => setBirthYear(naissance)} // Perform validation onBlur
   />
 </Pressable>
-        <View style={[styles.container]}>
+        <View style={[styles.container,{zIndex:1000}]}>
           <Image
             style={styles.icon}
             contentFit="cover"
             source={require("../assets/group1.png")}
           />
-          {/* <DropDownPicker
-            style={[{ zIndex: 9, width: "60%" }]}
+  <DropDownPicker
+            style={[ { borderWidth:0,width:'95%'}]}
             placeholder="Genre"
-        
-            // open={open}
-            // items={items}
-            // setOpen={setOpen}
-            // setValue={setSelectedValue}
-            // setItems={setItems}
-            // dropDownContainerStyle={pstyles.drop}
-          /> */}
+            placeholderStyle={{color:"#7c7c7c"}}
+             open={open}
+            items={items}
+            value={genre}
+             setOpen={setOpen}
+             setValue={setGenre}
+            setItems={setItems}
+            dropDownContainerStyle={[styles.container,{marginLeft:-30,width:"105%",elevation:1000 ,height:75,marginTop:3}]}
+       
+          />
         </View>
 
         <View style={[styles.container]}>
