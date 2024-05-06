@@ -25,7 +25,6 @@ import { YourRidesStyles } from "./YourRides";
 import NotAuth from "../components/notAuth";
 import { useRefresh } from '../context/refresh';
 
-
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
   const {refreshPage}  = useRefresh();
@@ -77,12 +76,11 @@ const AjouterAnnonce = () => {
   };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isDatePicked, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [isDatePicked, setDatePicked] = useState(false);
+  const [pickedDate, setPickedDate] = useState(new Date());
 
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-  const [isTimePicked, setTimePicker] = useState(false);
-  const [time, setTime] = useState(new Date());
+  const [isTimePicked, setTimePicked] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -102,21 +100,52 @@ const AjouterAnnonce = () => {
     setTimePickerVisibility(false);
   };
 
-  const handleDateConfirm = (selectedDate) => {
-    hideDatePicker();
-    setDate(selectedDate);
-    console.log("A date has been picked: ", selectedDate);
-    setDatePicker(true);
+  const handleDateConfirm = (date) => {
+    const currentDate = new Date();
+
+    const currentDateWithoutTime = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate()
+    );
+    const pickedDateWithoutTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+    if (pickedDateWithoutTime >= currentDateWithoutTime) {
+      hideDatePicker();
+      setPickedDate(date);
+      console.log("A date has been picked: ", date);
+      setDatePicked(true);
+    } else {
+      Alert.alert("Alert", "Vous ne pouvez pas choisir une date passée.", [
+        {
+          text: "OK",
+          onPress: () => {
+            hideDatePicker();
+            setDatePickerVisibility(false);
+          },
+        },
+      ]);
+    }
   };
 
-  const handleTimeConfirm = (selectedTime) => {
+  
+  const handleTimeConfirm = (time) => {
     hideTimePicker();
-    setTime(selectedTime);
-    console.log("A time has been picked: ", selectedTime);
-    setTimePicker(true);
+    setPickedDate((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setHours(time.getHours());
+      newDate.setMinutes(time.getMinutes());
+      return newDate;
+    });
+    console.log("A time has been picked: ", time);
+    setTimePicked(true);
   };
 
-  // date2
+  // date2 ----------------------------------------------------------------------------------------------------------------------------
   const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
   const [isDatePicked2, setDatePicker2] = useState(false);
   const [date2, setDate2] = useState(new Date());
@@ -141,6 +170,7 @@ const AjouterAnnonce = () => {
     const displayDate = isDatePicked ? date.toLocaleDateString() : "Date";
     return displayDate;
   }
+  //----------------------------------------------------------------------------------------------------------------------------------------------
 
   const [nbPlaces, click] = React.useState(3);
 
@@ -157,22 +187,37 @@ const AjouterAnnonce = () => {
   };
 
   const handleAjouterPress = async () => {
+    const timestamp = pickedDate.getTime();
+    const formattedDateTime = new Date(timestamp).toISOString().slice(0, 19).replace('T', ' ');
+    const prixFloat = parseFloat(prix);
     try {
-      console.log(selectedData)
+      if (isDatePicked && isTimePicked && departLocation && destinationLocation && prix){
       const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/publish", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          depart: 'bejaia', arrivee:'oran', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 85, id_voiture: 2008, details: selectedData === undefined ? [] :selectedData
+          depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: 2008, details: selectedData === undefined ? [] :selectedData
         }),
       });
       if (response.ok) {
         refreshPage();
         Alert.alert("Success", "Announcement published successfully");
+        navigation.navigate('TabNavigator', {
+          screen: 'Your Rides',
+          params: {
+            screen: 'YourRides', 
+          }
+        });
+        navigation.replace("AjouterAnnonce", {
+          type: id,
+          selectedData: selectedData,
+        });
       } else {
         Alert.alert("Error", "Failed to publish announcement");
+      }}else{
+        Alert.alert('alert', 'something is missing');
       }
     } catch (error) {
       console.error("Error publishing announcement:", error);
@@ -301,7 +346,7 @@ const AjouterAnnonce = () => {
                       source={require("../assets/mappin4.png")}
                     />
                     <Text style={[styles.number2, styles.numberTypo]}>
-                      {getDateDisplay(date, isDatePicked)}
+                      {getDateDisplay(pickedDate, isDatePicked)}
                     </Text>
 
                     <Pressable onPress={handleExtend}>
@@ -322,7 +367,7 @@ const AjouterAnnonce = () => {
                     mode="date"
                     onConfirm={handleDateConfirm}
                     onCancel={hideDatePicker}
-                    date={new Date(date)} // Pass current selected date to the date picker
+                    date={new Date(pickedDate)} // Pass current selected date to the date picker
                   />
                   {extend && (
                     <Text
@@ -373,7 +418,13 @@ const AjouterAnnonce = () => {
                   source={require("../assets/clock3.png")}
                 />
                 <Text style={[styles.number2, styles.numberTypo]}>
-                  {isTimePicked ? time.toLocaleTimeString() : "Heure"}
+                {isTimePicked
+                ? pickedDate.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })
+                : "Heure"}
                 </Text>
               </Pressable>
               <DateTimePickerModal
@@ -381,7 +432,7 @@ const AjouterAnnonce = () => {
                 mode="time"
                 onConfirm={handleTimeConfirm}
                 onCancel={hideTimePicker}
-                date={new Date(time)} // Pass current selected time to the time picker
+                date={new Date(pickedDate)} // Pass current selected time to the time picker
               />
 
               <View style={[styles.inputShadowBox, { zIndex: 1 }]}>
@@ -467,13 +518,13 @@ const AjouterAnnonce = () => {
                     placeholder="Prix (DA)"
                     keyboardType="numeric"
                     onBlur={handleInputBlur}
-                    onChange={setPrix}
+                    onChangeText={(text) => setPrix(text)}
                     value={prix}
                   />
                 </View>
               </View>
 
-              <Pressable
+              <TouchableOpacity
                 style={styles.inputShadowBox}
                 onPress={() => {
                   navigation.navigate("DatailsAjouter");
@@ -487,20 +538,20 @@ const AjouterAnnonce = () => {
                 <Text style={[styles.number2, styles.numberTypo]}>
                   Details a ajouter
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </ScrollView>
 
       <View style={styles.ajouter}>
-        <Pressable
-          style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]}
+        <TouchableOpacity
+          style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]} onPress={handleAjouterPress}
         >
-          <Text style={styles.signUp} onPress={handleAjouterPress}>
+          <Text style={styles.signUp} >
             Ajouter
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );};
