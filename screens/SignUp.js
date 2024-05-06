@@ -99,7 +99,7 @@ const SignUp = () => {
   return (
     <View style={[styles.signUp]}>
       <Text style={styles.createAccount}>Create Account</Text>
-      <ScrollView contentContainerStyle={styles.main}>
+      <ScrollView contentContainerStyle={styles.main} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Image
             style={[styles.icon]}

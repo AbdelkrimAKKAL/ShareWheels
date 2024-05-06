@@ -65,6 +65,12 @@ const ParticipantsScreen = () => {
       </View>
 
         <FlatList
+          style={{ width: "100%" }}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          showsVerticalScrollIndicator={false}
           data={participants}
           renderItem={renderItem}
           keyExtractor={(item) => item.id_uti.toString()}

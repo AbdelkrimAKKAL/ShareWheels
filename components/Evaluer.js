@@ -137,7 +137,7 @@ const Evaluer = (Props) => {
         <View style={[AnnonceStyles.infoBox]}>
           <Text style={[AnnonceStyles.titre]}>Heure</Text>
           <Text
-            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs }]}
+            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs+1.5 }]}
           >
             {Props.time}
           </Text>
@@ -170,7 +170,7 @@ const Evaluer = (Props) => {
               RechercheStyles.heading,
               {
                 justifyContent: "center",
-                alignContent: "center",
+                alignItems: "center",
                 marginLeft: 14,
               },
             ]}

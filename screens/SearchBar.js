@@ -83,6 +83,7 @@ const SearchBar = () => {
       {searchQuery.length > 0 && (
         <View style={styles.suggestionContainer}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.suggestionList}
             data={filteredCities}
             renderItem={({ item }) => (

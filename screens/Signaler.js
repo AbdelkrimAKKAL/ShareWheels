@@ -88,6 +88,7 @@ const Signaler = () => {
       <Text style={styles.text}>Pourquoi</Text>
       <View style={DetailsScreenStyles.main}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={data}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}

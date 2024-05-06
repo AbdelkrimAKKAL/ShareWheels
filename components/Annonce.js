@@ -287,7 +287,7 @@ const Annonce = (Props) => {
         <View style={[AnnonceStyles.infoBox]}>
           <Text style={[AnnonceStyles.titre]}>Heure</Text>
           <Text
-            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs }]}
+            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs+1.5 }]}
           >
             {Props.time}
           </Text>
@@ -324,14 +324,14 @@ export const AnnonceStyles = StyleSheet.create({
 
   LocationTextStyle: {
     color: Color.colorSilver_200,
-    fontSize: FontSize.size_4xs,
-    fontFamily: FontFamily.nunitoRegular,
+    fontSize: FontSize.size_4xs+1,
+    fontFamily: "Poppins-Medium",
     textAlign: "center",
     position: "absolute",
   },
 
   infoTypo: {
-    fontSize: FontSize.size_2xs + 1,
+    fontSize: FontSize.size_2xs + 2.5,
     color: Color.colorDarkslategray_100,
   },
 
@@ -366,7 +366,7 @@ export const AnnonceStyles = StyleSheet.create({
 
   LocationsBox: {
     marginLeft: 4,
-    height: 35,
+    height: 37,
     width: 130,
   },
   trajet: {
@@ -378,10 +378,10 @@ export const AnnonceStyles = StyleSheet.create({
   },
   titre: {
     fontWeight: "800",
-    fontFamily: FontFamily.nunitoExtraBold,
+    fontFamily: "Poppins-Medium",
     textAlign: "center",
     color: Color.colorDarkslategray_100,
-    fontSize: FontSize.size_xs + 1,
+    fontSize: FontSize.size_xs + 3,
   },
 
   details: {

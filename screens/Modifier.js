@@ -52,6 +52,7 @@ const Modifier = () => {
       </View>
       <ScrollView style={{ width: "100%" }}
         contentContainerStyle={{ alignItems: "center" }}
+        showsVerticalScrollIndicator={false}
       >
         <Text style={styles.titres}>Modifier Nom</Text>
         <TextInput style={[pstyles.font,pstyles.rectangle]}

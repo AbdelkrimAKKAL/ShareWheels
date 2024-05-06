@@ -41,7 +41,7 @@ const Participants = (Props) => {
           {
             paddingBottom: 6,
             borderBottomWidth: 0.3,
-            borderBottomColor: "rgba(0, 117, 253, 0.4)",
+            borderBottomColor: "rgba(0, 0, 0, 0.15)",
           },
         ]}
       >
@@ -65,7 +65,7 @@ const Participants = (Props) => {
           contentFit="cover"
           source={require("../assets/clock33.png")}
         />
-        <Text style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginLeft: 8 }]}
+        <Text style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginLeft: 8}]}
            >
             {Props.nbr_place}
           </Text>
@@ -87,25 +87,25 @@ const Participants = (Props) => {
 
       <View style={[styles.horizStyle, { marginTop: 5 }]}>
         <Image
-          style={[{ width: 18, height: 19 }]}
+          style={[{ width: 20, height: 20 }]}
           contentFit="cover"
           source={require("../assets/telephone.png")}
         />
         <Text
-          style={[styles.TextStyle, { color: Color.colorDarkslategray_100 }]}
+          style={[styles.TextStyle, { color: Color.colorDarkslategray_100}]}
         >
           {Props.phone}
         </Text>
       </View>
 
-      <View style={[styles.horizStyle, { marginTop: 4 }]}>
+      <View style={[styles.horizStyle]}>
         <Image
           style={[{ width: 18, height: 19 }]}
           contentFit="cover"
           source={require("../assets/birthday-cake.png")}
         />
         <Text
-          style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginTop: 4 }]}
+          style={[styles.TextStyle, { color: Color.colorDarkslategray_100, marginTop: 7 }]}
         >
           {Props.naissance} ans
         </Text>
@@ -118,7 +118,7 @@ const Participants = (Props) => {
           source={require("../assets/group1.png")}
         />
         <Text
-          style={[styles.TextStyle, { color: Color.colorDarkslategray_100 }]}
+          style={[styles.TextStyle, { color: Color.colorDarkslategray_100}]}
         >
           {Props.gender}
         </Text>
@@ -153,10 +153,10 @@ const Participants = (Props) => {
 };
 export const styles = StyleSheet.create({
   annonce: {
-    borderColor: "rgba(0, 117, 253, 0.4)",
+    borderColor: "rgba(0, 0, 0, 0.15)",
     borderWidth: 1,
     backgroundColor: Color.neutralWhite,
-    height: 170,
+    height: 180,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: Border.br_mini,
@@ -179,10 +179,12 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   TextStyle: {
+    marginTop: 4,
     width: "100%",
     textAlign: "left",
     marginLeft: 15,
     fontWeight: "500",
+    fontFamily: "Poppins-Medium",
   },
   Button: {
     flexDirection: "row",

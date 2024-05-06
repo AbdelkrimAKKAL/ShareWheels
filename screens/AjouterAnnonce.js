@@ -38,6 +38,8 @@ const AjouterAnnonce = () => {
   const route = useRoute();
   const id = route.params?.type;
 
+  const selectedData = route.params?.selectedData;
+
   useEffect(() => {
     if (id === "Destination") {
       setDestinationLocation(route.params?.location);
@@ -156,13 +158,14 @@ const AjouterAnnonce = () => {
 
   const handleAjouterPress = async () => {
     try {
+      console.log(selectedData)
       const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/publish", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          depart: 'oran', arrivee:'skikda', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 65, id_voiture: 2008
+          depart: 'bejaia', arrivee:'oran', timestamp:'2038-01-19 03:14:07', nbr_place: 3, prix: 12345.67, id_conducteur: 85, id_voiture: 2008, details: selectedData === undefined ? [] :selectedData
         }),
       });
       if (response.ok) {
@@ -212,7 +215,7 @@ const AjouterAnnonce = () => {
         <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
       </View>
 
-      <ScrollView ref={scrollViewRef}>
+      <ScrollView ref={scrollViewRef} showsVerticalScrollIndicator={false}>
         <View
           style={[
             styles.ajouterannonce,

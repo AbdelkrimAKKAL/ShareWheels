@@ -78,7 +78,7 @@ const Details = () => {
             </View>
           </View>
         </View>
-        <ScrollView contentContainerStyle={styles.detailsframe}>
+        <ScrollView contentContainerStyle={styles.detailsframe} showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={[styles.BorderInput, { height: 60 }]}>
               <Text style={[styles.ProfileInfoText, styles.TextStyle]}>

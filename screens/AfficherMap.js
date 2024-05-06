@@ -37,8 +37,8 @@
     const fetchCoordinates = async () => {
       setIsLoading(true)
       try {
-        const depart = await Location.geocodeAsync(departStr);
-        const destination = await Location.geocodeAsync(destinationStr);
+        const depart = await Location.geocodeAsync(departStr, { timeout: 10000 });
+        const destination = await Location.geocodeAsync(destinationStr, { timeout: 10000 });
     
         if (depart.length === 0 || destination.length === 0) {
           throw new Error("No coordinates found");

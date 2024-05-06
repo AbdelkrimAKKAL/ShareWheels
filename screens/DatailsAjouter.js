@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import { RechercheStyles } from "./Recherche";
-import { Checkbox } from "react-native-paper"; 
+import { Checkbox } from "react-native-paper";
 
 const fetchDataFromDatabase = async () => {
   // Example data
@@ -32,7 +32,14 @@ const DatailsAjouter = () => {
 
   const [data, setData] = useState([]);
   const [newItemText, setNewItemText] = useState("");
-  const [selectedItems, setSelectedItems] = useState([]); 
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleconfirm = () => {
+    const selectedData = data.filter((item) => selectedItems.includes(item.id));
+    const selectedTexts = selectedData.map((item) => item.text);
+    console.log(selectedTexts);
+    navigation.navigate("AjouterAnnonce", { selectedData: selectedTexts });
+  };
 
   useEffect(() => {
     // Fetch data from the database when the component mounts
@@ -75,8 +82,8 @@ const DatailsAjouter = () => {
       const newItem = { id: data.length + 1, text: newItemText }; // Generate new item
       setData([...data, newItem]); // Add new item to the list
       setNewItemText("");
-    }else{
-    Alert.alert("Alert", "élément Vide!.");
+    } else {
+      Alert.alert("Alert", "élément Vide!.");
     }
   };
 
@@ -86,6 +93,12 @@ const DatailsAjouter = () => {
       <Text style={DetailsScreenStyles.detailsAAjouter}>Details a ajouter</Text>
       <View style={DetailsScreenStyles.main}>
         <FlatList
+          style={{ width: "100%" }}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          showsVerticalScrollIndicator={false}
           data={data}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
@@ -113,7 +126,7 @@ const DatailsAjouter = () => {
           RechercheStyles.buttonfirst,
           { alignItems: "center", marginBottom: 5 },
         ]}
-        onPress={() => navigation.navigate("AjouterAnnonce")}
+        onPress={handleconfirm}
       >
         <Text style={[RechercheStyles.buttonText, { color: "white" }]}>
           Confirmer
