@@ -145,7 +145,7 @@ const ResultatRecherche = () => {
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
-          style={{ width: "100%" }} // Set width to 100%
+          style={{ width: "100%" }}
           contentContainerStyle={{
             justifyContent: "center",
             alignItems: "center",
