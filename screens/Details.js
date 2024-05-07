@@ -13,11 +13,19 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontSize, Color, FontFamily, Border, Padding } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import { RechercheStyles } from "./Recherche";
+import { useAuth } from "../context/AuthContext";
+import env from "../env";
+import { Alert } from "react-native";
+import { useRefresh } from "../context/refresh";
 
 
 const Details = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
+  const {user} = useAuth();
+  const { refreshPage, refresh } = useRefresh();
+
+
 
   const route = useRoute();
   const photo = route.params?.photo;
@@ -33,7 +41,9 @@ const Details = () => {
   const num_tel = route.params?.num_tel;
   const availableSeats = route.params.availableSeats;
   const naissance = route.params.naissance;
-
+  const key = route.params.key;
+  const id_trajet = route.params.id_trajet;
+  const nbr_place = route.params.nbr_place;
 
   const depart = route.params?.depart;
   const destination = route.params?.destination;
@@ -42,6 +52,47 @@ const Details = () => {
   useEffect(() => {
     setData(details);
   }, []);
+
+  const ParticiperFunc = async () => {
+    console.log(id_trajet, nbr_place)
+    try {
+      if (!user) {
+        navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen' } });
+        return;
+      }
+  
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/reserver`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify({
+          id_trajet: id_trajet,
+          id_reserveur: user.user.id_uti,
+          nbr_place: nbr_place 
+        })
+      });
+  
+      if (response.ok) {
+        navigation.navigate('TabNavigator', {
+          screen: 'Search',
+          params: {
+            screen: 'Recherche', 
+          }
+        });
+      navigation.navigate('TabNavigator', {screen: 'Carpools',params: {screen: 'Carpools', }})
+        Alert.alert("Success", "Reservation made successfully");
+      } else {
+        const data = await response.json();
+        Alert.alert("Error", data.error || "Failed to make reservation");
+      }
+    } catch (error) {
+      console.error("Error making reservation:", error);
+      Alert.alert("Error", "Internal server error");
+    }
+    refreshPage();
+  };
 
   return (
     <View style={styles.details}>
@@ -249,12 +300,18 @@ const Details = () => {
               Afficher Map
             </Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={[RechercheStyles.buttonfirst]}>
+          {key === 'Participer' ? ( 
+          <TouchableOpacity style={[RechercheStyles.buttonfirst]} onPress={ParticiperFunc}>
             <Text style={[RechercheStyles.buttonText, { color: "white"}]}>
               Participer
             </Text>
+          </TouchableOpacity>) : (
+            <TouchableOpacity style={[RechercheStyles.buttonfirst, {backgroundColor:'#6FB1EB'}]} disabled={true} >
+              <Text style={[RechercheStyles.buttonText, { color: "white"}]}>
+                Participer
+              </Text>
           </TouchableOpacity>
+          )}
         </ScrollView>
       </View>
     </View>

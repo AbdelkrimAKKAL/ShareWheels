@@ -156,7 +156,7 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(0, 0, 0, 0.15)",
     borderWidth: 1,
     backgroundColor: Color.neutralWhite,
-    height: 180,
+    height: 200,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: Border.br_mini,

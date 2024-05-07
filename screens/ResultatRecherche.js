@@ -14,35 +14,12 @@ import { RechercheStyles } from "./Recherche";
 import NotAuth from "../components/notAuth";
 import axios from "axios";
 import env from "../env";
+import { useRefresh } from "../context/refresh";
+import { useAuth } from "../context/AuthContext";
 
-const renderItem = ({ item }) => {
-  const { date, time } = timestampToDateTime(item.timestamp);
 
-  return (
-    <Annonce
-      trajetId={item.id_trajet}
-      name={item.nom + " " + item.prenom}
-      rating={item.total_rating}
-      nbrRatings={item.num_ratings}
-      startLocation={item.depart}
-      endLocation={item.arrivee}
-      price={item.prix}
-      modele={item.modele}
-      time={time}
-      date={date}
-      availableSeats={item.nbr_place}
-      photo = {item.photo}
-      details = {item.details}
-      genre = {item.genre}
-      couleur = {item.couleur}
-      matricule = {item.matricule}
-      email = {item.email}
-      num_tel = {item.num_tel}
-      naissance= {item.naissance}
-      btnText="Participer"
-    />
-  );
-};
+
+
 export function timestampToDateTime(timestamp) {
   if (!timestamp) {
     return { date: "", time: "" };
@@ -64,9 +41,11 @@ export function timestampToDateTime(timestamp) {
 }
 
 const ResultatRecherche = () => {
+  const { refreshPage, refresh } = useRefresh();
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const {user} = useAuth();
 
   const route = useRoute();
   const date = route.params?.Date;
@@ -87,7 +66,43 @@ const ResultatRecherche = () => {
   const isDatePicked = isDatePickedBool ? true : null;
   const isTimePicked = isTimePickedBool ? true : null;
 
+  const renderItem = ({ item }) => {
+    const { date, time } = timestampToDateTime(item.timestamp);
+  
+    return (
+      <Annonce
+        trajetId={item.id_trajet}
+        name={item.nom + " " + item.prenom}
+        rating={item.total_rating}
+        nbrRatings={item.num_ratings}
+        startLocation={item.depart}
+        endLocation={item.arrivee}
+        price={item.prix}
+        modele={item.modele}
+        time={time}
+        date={date}
+        availableSeats={item.nbr_place}
+        photo = {item.photo}
+        details = {item.details}
+        genre = {item.genre}
+        couleur = {item.couleur}
+        matricule = {item.matricule}
+        email = {item.email}
+        num_tel = {item.num_tel}
+        naissance= {item.naissance}
+        passengers = {passengers}
+        btnText="Participer"
+      />
+    );
+  };
+
   const fetchDataFromDatabase = async () => {
+    let userId;
+if (user && user.user && user.user.id_uti) {
+  userId = user.user.id_uti;
+} else {
+  userId = null;
+}
     try {
       const response = await axios.get(
         "http://" + env.API_IP_ADDRESS + ":3000/api/recherche",
@@ -99,6 +114,7 @@ const ResultatRecherche = () => {
             passengers,
             isDatePicked,
             isTimePicked,
+            userId: userId,
           },
         }
       );
@@ -122,8 +138,8 @@ const ResultatRecherche = () => {
       setData(result);
       setIsLoading(false);
     });
-    console.log(timestamp);
-  }, []);
+    console.log('cc', timestamp);
+  }, [refresh]);
 
   return (
     <View style={[ResultatRechercheStyles.resultatrecherche]}>

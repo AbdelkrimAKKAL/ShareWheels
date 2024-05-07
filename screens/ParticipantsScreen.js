@@ -43,7 +43,7 @@ const ParticipantsScreen = () => {
 
   const renderItem = ({ item }) => (
     <Participants
-      name={item.nom}
+      name={item.nom + " " + item.prenom}
       email={item.email}
       phone={item.num_tel}
       gender={item.genre}

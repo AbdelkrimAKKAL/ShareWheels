@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const { depart, arrivee, timestamp, passengers, isDatePicked, isTimePicked } = req.query;
-    console.log(depart, arrivee, timestamp, passengers, isDatePicked, isTimePicked);
+    const { depart, arrivee, timestamp, passengers, isDatePicked, isTimePicked, userId } = req.query;
+    console.log(depart, arrivee, timestamp, passengers, isDatePicked, isTimePicked, userId);
 
     let query = `
       SELECT *
@@ -33,6 +33,15 @@ router.get("/", async (req, res) => {
         query += ` AND TIME(trajets.timestamp) = ?`;
         queryParams.push(timestamp.split('T')[1]);
       }
+    }
+
+    query += ` AND CURDATE() <= DATE(trajets.timestamp)`;
+
+    // Add filtering condition to exclude rides posted by the user if userId is provided
+    if (userId) {
+      query += ` AND utilisateurs.id_uti != ?`;
+      query += ` AND trajets.id_trajet NOT IN (SELECT id_trajet FROM reservations WHERE id_reserveur = ?)`;
+      queryParams.push(userId, userId);
     }
 
     query += ` ORDER BY trajets.timestamp`;

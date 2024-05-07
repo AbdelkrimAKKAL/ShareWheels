@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused  } from "@react-navigation/native";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 import NotAuth from "../components/notAuth";
@@ -20,6 +20,7 @@ const YourRides = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const isFocused = useIsFocused();
 
   const fetchDataFromDatabase = async () => {
     try {

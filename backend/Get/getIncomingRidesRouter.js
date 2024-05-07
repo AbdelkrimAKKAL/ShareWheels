@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     JOIN reservations ON trajets.id_trajet = reservations.id_trajet
     JOIN utilisateurs ON trajets.id_conducteur = utilisateurs.id_uti
     JOIN Voitures ON trajets.id_voiture = Voitures.matricule
-    WHERE trajets.timestamp > ? AND reservations.id_reserveur IN (SELECT id_uti FROM utilisateurs WHERE email = ?)
+    WHERE trajets.timestamp >= ? AND reservations.id_reserveur IN (SELECT id_uti FROM utilisateurs WHERE email = ?)
     ORDER BY trajets.timestamp;    
     `;
     let queryParams = [currentTime, email];

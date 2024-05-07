@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,9 @@ import env from "../env";
 import { useAuth } from "../context/AuthContext";
 import { useRefresh } from "../context/refresh";
 
+
 const Annonce = (Props) => {
-  const { refreshPage } = useRefresh();
+  const { refreshPage, refresh } = useRefresh();
   const {user} = useAuth();
   const navigation = useNavigation();
 
@@ -38,6 +39,9 @@ const Annonce = (Props) => {
       num_tel : Props.num_tel,
       availableSeats: Props.availableSeats,
       naissance : Props.naissance,
+      key : Props.btnText,
+      id_trajet : Props.trajetId,
+      nbr_place: Props.passengers 
     });
   };};
 
@@ -61,6 +65,7 @@ const Annonce = (Props) => {
           <TouchableOpacity
             style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox]}
             onPress={ParticiperFunc}
+            // disabled={userParticipated}
           >
             <Text
               style={[
@@ -164,12 +169,44 @@ const Annonce = (Props) => {
   };
 
   //Backedn----------------------------------------------------------------------------------------
-  const ParticiperFunc = () => {
-    if (!user){
-      navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})
-    }else{
-      Alert.alert("Participer");
+  const ParticiperFunc = async () => {
+    try {
+      if (!user) {
+        navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen' } });
+        return;
+      }
+  
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/reserver`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
+        body: JSON.stringify({
+          id_trajet: Props.trajetId,
+          id_reserveur: user.user.id_uti,
+          nbr_place: Props.passengers 
+        })
+      });
+  
+      if (response.ok) {
+        navigation.navigate('TabNavigator', {
+          screen: 'Search',
+          params: {
+            screen: 'Recherche', 
+          }
+        });
+      navigation.navigate('TabNavigator', {screen: 'Carpools',params: {screen: 'Carpools', }})
+        Alert.alert("Success", "Reservation made successfully");
+      } else {
+        const data = await response.json();
+        Alert.alert("Error", data.error || "Failed to make reservation");
+      }
+    } catch (error) {
+      console.error("Error making reservation:", error);
+      Alert.alert("Error", "Internal server error");
     }
+    refreshPage();
   };
 
   const SupprimerFunc = async () => {
@@ -210,11 +247,11 @@ const Annonce = (Props) => {
       if (!response.ok) {
         throw new Error('Failed to cancel reservation');
       }
-      refreshPage();
     } catch (error) {
       console.error("Error canceling reservation:", error);
       // Handle error here
     }
+    refreshPage();
   };
 
   //Backedn--------------------------------------------------------------------------------------------
