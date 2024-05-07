@@ -9,10 +9,13 @@ import { ResultatRechercheStyles } from "./ResultatRecherche";
 import NotAuth from "../components/notAuth";
 import { useRefresh } from '../context/refresh';
 import { API_IP_ADDRESS } from "../env";
+import { RefreshControl } from "react-native-gesture-handler";
 
 const ParticipantsScreen = () => {
   const navigation = useNavigation();
   const refresh = useRefresh();
+  const [refreshing, setRefreshing] = useState(false); 
+
 
   const [participants, setParticipants] = useState([]);
 
@@ -54,6 +57,14 @@ const ParticipantsScreen = () => {
     />
   );
 
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchParticipants(id_trajet);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return (
     <View style={[ResultatRechercheStyles.resultatrecherche]}>
       <TopBar />
@@ -63,7 +74,12 @@ const ParticipantsScreen = () => {
         </Text>
         <Text style={ResultatRechercheStyles.heading1}>{date}</Text>
       </View>
-
+      <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={['#0075fd']}
+            progressBackgroundColor='white'
+          >
         <FlatList
           style={{ width: "100%" }}
           contentContainerStyle={{
@@ -75,7 +91,7 @@ const ParticipantsScreen = () => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id_uti.toString()}
           ListEmptyComponent={<NotAuth title="Garde patience !" photo={4} />}
-        />
+        /></RefreshControl>
      
     </View>
   );

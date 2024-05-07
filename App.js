@@ -289,29 +289,29 @@ const TabNavigator = () => {
       <Tab.Screen
         name={YourRidesName}
         component={YourRidesStackScreen}
-        options={{ headerShown: false, unmountOnBlur: true }}
+        options={{ headerShown: false}}
       />
       <Tab.Screen
         name={PublishName}
         component={PublishStackScreen}
-        options={{ headerShown: false, unmountOnBlur: true }}
+        options={{ headerShown: false}}
       />
       <Tab.Screen
         name={CarpoolsName}
         component={CarpoolsStackScreen}
-        options={{ headerShown: false, unmountOnBlur: true }}
+        options={{ headerShown: false}}
       />
 
       {user ? (
         <Tab.Screen
           name={ProfileName}
           component={ProfileScreen}
-          options={{ headerShown: false, unmountOnBlur: true }}
+          options={{ headerShown: false}}
         />
       ) : (<Tab.Screen
         name={ProfileName}
         component={WelcomeScreenComp}
-        options={{ headerShown: false, unmountOnBlur: true }}
+        options={{ headerShown: false}}
       />)}
     </Tab.Navigator>
   );

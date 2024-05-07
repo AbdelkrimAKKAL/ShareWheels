@@ -21,7 +21,7 @@ import axios from "axios";
 import env from "../env";
 import { useRefresh } from "../context/refresh";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, RefreshControl } from "react-native";
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
@@ -36,6 +36,7 @@ const Carpools = () => {
 
   const navigation = useNavigation();
   const { user } = useAuth();
+  const [refreshing, setRefreshing] = useState(false); 
 
   const fetchDataFromDatabasePasses = async () => {
     try {
@@ -89,6 +90,15 @@ const Carpools = () => {
       fetchDataFromDatabaseVenir();
     }
   }, [refresh, user]);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchDataFromDatabaseVenir(); 
+    fetchDataFromDatabasePasses();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
   const renderItemVenir = ({ item }) => {
     const { date, time } = timestampToDateTime(item.timestamp);
@@ -225,6 +235,12 @@ const Carpools = () => {
 
             />
           ) : (
+            <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={['#0075fd']}
+            progressBackgroundColor='white'
+          >
             <FlatList
             showsVerticalScrollIndicator={false}
             style={{ width: "100%" }} // Set width to 100%
@@ -243,7 +259,7 @@ const Carpools = () => {
                   />
                 </View>
               }
-            />
+            /></RefreshControl>
           )
         ) : isLoading ? (
           <ActivityIndicator
@@ -252,6 +268,12 @@ const Carpools = () => {
             style={ResultatRechercheStyles.loadingIndicator}
           />
         ) : (
+          <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          colors={['#0075fd']}
+          progressBackgroundColor='white'
+        >
           <FlatList
           style={{ width: "100%" }} // Set width to 100%
           contentContainerStyle={{
@@ -269,7 +291,7 @@ const Carpools = () => {
                 />
               </View>
             }
-          />
+          /></RefreshControl>
         )}
       </View>
     </View>

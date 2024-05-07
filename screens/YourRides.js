@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, RefreshControl  } from "react-native";
 import { useNavigation, useIsFocused  } from "@react-navigation/native";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
@@ -21,6 +21,16 @@ const YourRides = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
+  const [refreshing, setRefreshing] = useState(false); 
+
+  
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchDataFromDatabase(); // Call the data fetching function here
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
 
   const fetchDataFromDatabase = async () => {
     try {
@@ -91,18 +101,25 @@ const YourRides = () => {
           <ActivityIndicator size="large" color="#0075fd" style={[ResultatRechercheStyles.loadingIndicator]}
           />
         ) : (
-          <FlatList
-          showsVerticalScrollIndicator={false}
-          style={{ width: "100%" }} // Set width to 100%
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-            data={data}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id_trajet.toString()}
-            ListEmptyComponent={<View style={[{marginTop: '40%'}]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={3} /></View>}
-          />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={['#0075fd']}
+            progressBackgroundColor='white'
+          >
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              style={{ width: "100%" }} // Set width to 100%
+              contentContainerStyle={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              data={data}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id_trajet.toString()}
+              ListEmptyComponent={<View style={[{marginTop: '40%'}]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={3} /></View>}
+            />
+          </RefreshControl>
         )}
       </View>
     </View>
