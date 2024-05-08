@@ -5,9 +5,9 @@ import bcrypt from "bcrypt";
 
 
 const router = express.Router();
-router.post("/:email", async (req, res) => {
+router.post("/:id", async (req, res) => {
   try {
-    const { email } = req.params
+    const { id } = req.params
     const { password, oldPassword } = req.body;
     if (password.length < 6) {
       return res.status(400).json({ error: "Password must be at least 6 characters long" });
@@ -15,8 +15,8 @@ router.post("/:email", async (req, res) => {
 
     const connection = await pool.getConnection();
     const [rows] = await connection.query(
-      "SELECT * FROM Utilisateurs WHERE email = ?",
-      [email]
+      "SELECT * FROM Utilisateurs WHERE id_uti = ?",
+      [id]
     );
     connection.release();
 
@@ -37,8 +37,8 @@ router.post("/:email", async (req, res) => {
 
     // Update user's password in the database
     const updateResult = await pool.query(
-      'UPDATE Utilisateurs SET mdp = ? WHERE email = ?',
-      [hashedPassword, email]
+      'UPDATE Utilisateurs SET mdp = ? WHERE id_uti = ?',
+      [hashedPassword, id]
     );
 
       res.status(201).json({ message: "done Verified" });

@@ -52,7 +52,7 @@ app.use("/api/annulerTrajet", annulerTrajetRouter);
 app.use("/api/forgotPassword", forgotPassword);
 app.use("/api/resetPassword", resetPassword);
 
-app.use("api/editPassword", EditPassword)
+app.use("/api/EditPassword", EditPassword)
 
 
 

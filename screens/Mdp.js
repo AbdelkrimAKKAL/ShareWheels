@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
 import { TextInput } from "react-native-gesture-handler";
@@ -17,6 +17,7 @@ const Mdp = () => {
   const [oldPassword, setOldPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
 
   const handleEditPassword = async () => {
     if (password !== confirmPassword) {
@@ -25,7 +26,8 @@ const Mdp = () => {
     }
     setError(null);
     try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/editPassword/${user.user.email}`, {
+      console.log(user.user.id_uti);
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/EditPassword/${user.user.id_uti}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,20 +38,28 @@ const Mdp = () => {
           oldPassword
         })
       });
-  
+      // Log the response
+      console.log(response);
+
       // Handle response
       const data = await response.json();
       if (!response.ok) {
         setError(data.error);
+        setSuccess(false)
         return;
       }
-      // Handle success
-      // Navigate or show success message
+
+      if (response.ok) {
+        setSuccess(true);
+        Alert.alert("Password changed")
+        navigation.navigate('MonProfil')
+        return;
+      }
     } catch (error) {
       console.error("Error modifying up:", error);
     }
   };
-  
+
   return (
     <View style={[pstyles.main, { paddingTop: "20%" }]}>
       <Text style={styles.number}>Ancien mot de passe</Text>
@@ -87,8 +97,8 @@ const Mdp = () => {
 
 const styles = StyleSheet.create({
 
-  error:{
-    margin:5
+  error: {
+    margin: 5
   },
   errorText: {
     color: 'red',
