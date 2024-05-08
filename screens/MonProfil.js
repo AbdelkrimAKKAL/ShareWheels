@@ -111,7 +111,7 @@ const MonProfil = () => {
             </View>
           </View>
           <View style={[pstyles.inputs, pstyles.centrer]}>
-            <Certified bool={data.user.est_certifie} />
+            <Certified bool={false} />
             <View style={[pstyles.rectangle]}>
               <Text style={[pstyles.font]}>{email}</Text>
             </View>

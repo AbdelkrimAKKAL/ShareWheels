@@ -6,12 +6,26 @@ import { pstyles } from "./MonProfil.js";
 import { launchImageLibraryAsync } from 'expo-image-picker';
 import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
 import { useProfile } from '../context/ProfileContext.js';
+import { useAuth } from "../context/AuthContext";
+
+import env from '../env';
 
 const Modifier = () => {
   const navigation = useNavigation();
   const { profileData } = useProfile();
+  const { user, logout, token } = useAuth();
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
+  
+  const [photo, setImgUrl] = useState(profileData.photo);
+  const [data, setData] = useState('')
 
-  const [imgUrl, setImgUrl] = useState(profileData.photo);
+  //user data
+  const [name, setName] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [num_tel, setPhone] = useState("");
+
 
   const openGallery = async () => {
     try {
@@ -26,11 +40,82 @@ const Modifier = () => {
       });
 
       if (!result.canceled && result.assets.length > 0) {
-        const selectedUri = result.assets[0].uri.toString(); 
+        const selectedUri = result.assets[0].uri.toString();
         setImgUrl(selectedUri);
       }
     } catch (error) {
       console.log('Error while opening gallery:', error);
+    }
+  };
+
+  // get user data
+  useEffect(() => {
+    const fetchProfileData = async () => {
+
+      try {
+        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        // data
+        const data = await response.json();
+
+        setData(data);
+
+        setNewEmail(data.user.email);
+        setPhone(data.user.num_tel);
+        setName(data.user.nom);
+        setPrenom(data.user.prenom)
+
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+      }
+      
+    };
+
+    fetchProfileData();
+  }, []);
+
+  const handleEditProfile = async () => {
+
+    setError(null);
+    try {
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/EditUser/${user.user.email}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          name, prenom, newEmail, photo, num_tel
+        }),
+      });
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        setSuccess(true);
+        setError(json.error);
+        return; // Exit function if there's an error
+      }
+
+      if (response.ok) {
+        setSuccess(true);
+        return;
+      }
+
+
+    } catch (error) {
+      console.error("Error modifying up:", error);
+
     }
   };
 
@@ -40,7 +125,7 @@ const Modifier = () => {
         <Image
           style={pstyles.imageIcon}
           resizeMode="cover"
-          source={imgUrl}
+          source={photo}
         />
         <TouchableOpacity style={styles.edtbtn} onPress={openGallery}>
           <Image
@@ -55,16 +140,27 @@ const Modifier = () => {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.titres}>Modifier Nom</Text>
-        <TextInput style={[pstyles.font,pstyles.rectangle]}
-          defaultValue={profileData.name}
+        <TextInput style={[pstyles.font, pstyles.rectangle]}
+
+          value={name}
+          onChangeText={setName}
+        />
+
+        <Text style={styles.titres}>Modifier Prenom</Text>
+        <TextInput style={[pstyles.font, pstyles.rectangle]}
+
+          value={prenom}
+          onChangeText={setPrenom}
         />
 
         <Text style={[styles.titres]}>Modifier mail</Text>
         <TextInput
-          style={[pstyles.font,pstyles.rectangle]}
-          defaultValue={profileData.email}
+          style={[pstyles.font, pstyles.rectangle]}
+
+          value={newEmail}
+          onChangeText={setNewEmail}
         />
-         <Text style={[styles.titres]}>Modifier numéro de téléphone</Text>
+        <Text style={[styles.titres]}>Modifier numéro de téléphone</Text>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>
           <Image
             style={[pstyles.alg]}
@@ -72,25 +168,50 @@ const Modifier = () => {
             source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
           />
           <Text style={[pstyles.signTypo]}>+213</Text>
-          <TextInput 
-          style={[pstyles.font,{width:"60%"}]}
-          defaultValue={profileData.phone}
-          keyboardType="numeric"
+          <TextInput
+            style={[pstyles.font, { width: "60%" }]}
+
+            keyboardType="numeric"
+            value={num_tel}
+            onChangeText={setPhone}
           />
         </View>
         <TouchableOpacity
-        onPress={() => navigation.navigate("Mdp")}
-         style={[pstyles.buttons ]}>
-          <Text style={[ pstyles.signTypo,{textDecorationLine:"underline"}]}>Modifier Mot de passe</Text>
+          onPress={() => navigation.navigate("Mdp")}
+          style={[pstyles.buttons]}>
+          <Text style={[pstyles.signTypo, { textDecorationLine: "underline" }]}>Modifier Mot de passe</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}>
-          <Text style={[pstyles.signTypo,{color:"white"}]}>Confirmer</Text>
+        <View style={[styles.error]}>
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          {success && <Text style={styles.succesText}>modified with success</Text>}
+        </View>
+        
+        <TouchableOpacity
+          onPress={handleEditProfile}
+          style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
+        >
+          <Text style={[pstyles.signTypo, { color: "white" }]}>Confirmer</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  error:{
+    margin:5
+  },
+  succesText:{
+    color: 'green',
+    marginTop: 0,
+    textAlign: 'center',
+    fontFamily: "Poppins-Medium",
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 0,
+    textAlign: 'center',
+    fontFamily: "Poppins-Medium",
+  },
   edtbtn: {
     height: 25,
     width: 25,
@@ -103,10 +224,10 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   titres: {
-    marginLeft:"11%",
+    marginLeft: "11%",
     marginTop: "5%",
-    marginBottom:-12,
-    alignSelf:"baseline",
+    marginBottom: -12,
+    alignSelf: "baseline",
     color: "#5a5a5a",
     fontSize: 16,
     fontFamily: "Poppins-Medium",

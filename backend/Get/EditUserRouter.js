@@ -3,10 +3,10 @@ import { pool } from "../createPool.js";
 
 const router = express.Router();
 
-router.put("/:email", async (req, res) => {
+router.post("/:email", async (req, res) => {
   const { email } = req.params;
   const { name,prenom, newEmail, photo, num_tel } = req.body;
-  console.log(name,prenom, newEmail);
+  console.log(name,prenom, newEmail); 
 
   try {
     const emailCheckConnection = await pool.getConnection();

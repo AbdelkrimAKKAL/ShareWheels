@@ -20,7 +20,7 @@ const SignUp = () => {
     { label: "Homme", value: "m" },
     { label: "Femme", value: "f" },
   ]);
-  const { login } = useAuth();
+  const { user,login } = useAuth();
   const navigation = useNavigation();
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
