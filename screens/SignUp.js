@@ -65,7 +65,7 @@ const SignUp = () => {
           
         },
         body: JSON.stringify({
-          nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre: 'male', naissance: naissance
+          nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre, naissance: naissance
         }),
       });
 

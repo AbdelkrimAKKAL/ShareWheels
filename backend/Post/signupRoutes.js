@@ -52,6 +52,15 @@ router.post("/", async (req, res) => {
       [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, certificat, genre, birthYear]
     );
     insertConnection.release();
+    // Check if the email exists in the database
+    const connectionn = await pool.getConnection();
+    const [rows] = await connection.query(
+      "SELECT * FROM Utilisateurs WHERE email = ?",
+      [email]
+    );
+    connectionn.release();
+    const user = rows[0];
+
 
     // create a token
     const token = jwt.sign({ userTel: num_tel, name: nom }, JWT_SECRET, {
@@ -60,7 +69,7 @@ router.post("/", async (req, res) => {
 
     res.status(200).json({
       message: "Login successful",
-      user: {email: email},
+      user: {email: user.email, id_uti: user.id_uti},
       token,
     });
 

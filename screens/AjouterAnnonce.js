@@ -196,6 +196,7 @@ const AjouterAnnonce = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: 2008, details: selectedData === undefined ? [] :selectedData

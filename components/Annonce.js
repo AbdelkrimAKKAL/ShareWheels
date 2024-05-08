@@ -170,6 +170,8 @@ const Annonce = (Props) => {
 
   //Backedn----------------------------------------------------------------------------------------
   const ParticiperFunc = async () => {
+    console.log(user );
+
     try {
       if (!user) {
         navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen' } });
@@ -242,8 +244,12 @@ const Annonce = (Props) => {
     console.log(Props.id_reservation)
     try {
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`, {
-        method: 'DELETE'
-      });
+        method: 'DELETE',headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },}
+        
+      );
       if (!response.ok) {
         throw new Error('Failed to cancel reservation');
       }
