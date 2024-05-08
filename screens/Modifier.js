@@ -23,8 +23,9 @@ const Modifier = () => {
   //user data
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
-  const [newEmail, setNewEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [num_tel, setPhone] = useState("");
+
 
 
   const openGallery = async () => {
@@ -53,7 +54,7 @@ const Modifier = () => {
     const fetchProfileData = async () => {
 
       try {
-        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`, {
+        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.id_uti}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ const Modifier = () => {
 
         setData(data);
 
-        setNewEmail(data.user.email);
+        setEmail(data.user.email);
         setPhone(data.user.num_tel);
         setName(data.user.nom);
         setPrenom(data.user.prenom)
@@ -88,21 +89,46 @@ const Modifier = () => {
 
     setError(null);
     try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/EditUser/${user.user.email}`, {
+      const updatedFields = {};
+
+    // Check which fields are modified and add them to updatedFields object
+    if (name !== user.user.nom) {
+      updatedFields.name = name;
+    }
+
+    if (prenom !== user.user.prenom) {
+      updatedFields.prenom = prenom;
+    }
+
+    if (email !== user.user.email) {
+      updatedFields.email = email;
+    }
+
+    if (num_tel !== user.user.num_tel) {
+      updatedFields.num_tel = num_tel;
+    }
+
+    // Check if any fields are modified
+    if (Object.keys(updatedFields).length === 0) {
+      setError("No fields are modified");
+      return;
+    }
+      
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/EditUser/${user.user.id_uti}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          name, prenom, newEmail, photo, num_tel
+          name, prenom, email, photo, num_tel
         }),
       });
 
       const json = await response.json();
 
       if (!response.ok) {
-        setSuccess(true);
+        setSuccess(false);
         setError(json.error);
         return; // Exit function if there's an error
       }
@@ -157,8 +183,8 @@ const Modifier = () => {
         <TextInput
           style={[pstyles.font, pstyles.rectangle]}
 
-          value={newEmail}
-          onChangeText={setNewEmail}
+          value={email}
+          onChangeText={setEmail}
         />
         <Text style={[styles.titres]}>Modifier numéro de téléphone</Text>
         <View style={[pstyles.rectangle, { alignItems: "center" }]}>

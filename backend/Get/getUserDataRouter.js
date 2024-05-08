@@ -3,22 +3,22 @@ import { pool } from "../createPool.js"; // Import the pool from createPool.js
 
 const router = express.Router();
 
-router.get("/:email", async (req, res) => {
-  const { email } = req.params;
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
 
   try {
     // Get user information
     const userConnection = await pool.getConnection();
     const [userData] = await userConnection.query(
-      "SELECT * FROM Utilisateurs WHERE email = ?",
-      [email]
+      "SELECT * FROM Utilisateurs WHERE id_uti = ?",
+      [id]
     );
     userConnection.release();
 
     if (userData.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
-    const userId = userData[0].id_uti;
+    const userId = id;
 
     // Get user's cars
     const carsConnection = await pool.getConnection();
