@@ -36,6 +36,7 @@ import { useAuth } from './context/AuthContext';
 import { ProfileProvider } from "./context/ProfileContext";
 import { RefreshProvider } from "./context/refresh";
 import ConfirmDelete from "./screens/ConfimDelete";
+import CertifierCompte from "./screens/CertifierCompte";
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -183,6 +184,11 @@ const App = () => {
                   <Stack.Screen
                     name="ConfirmDelete"
                     component={ConfirmDelete}
+                    options={{ headerShown: false }}
+                  />
+                    <Stack.Screen
+                    name="CertifierCompte"
+                    component={CertifierCompte}
                     options={{ headerShown: false }}
                   />
                 </Stack.Navigator>
@@ -357,6 +363,7 @@ const CarpoolsStackScreen = () => (
 const ProfileScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="MonProfil" component={MonProfil} />
+    <Stack.Screen name="CertifierCompte" component={CertifierCompte} />
     <Stack.Screen name="Modifier" component={Modifier} />
     <Stack.Screen name="Voiture" component={Voiture} />
     <Stack.Screen name="Mdp" component={Mdp} />

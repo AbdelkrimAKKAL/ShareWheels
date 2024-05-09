@@ -21,6 +21,7 @@ import annulerTrajetRouter from './Delete/annulerTrajetRouter.js';
 import forgotPassword from './Post/forgotPassword.js'
 import resetPassword from './Post/resetPassword.js'
 import EditPassword from './Post/EditPassword.js'
+import AjouterID from './Post/AjouterID.js'
 
 
 const app = express();
@@ -53,6 +54,7 @@ app.use("/api/forgotPassword", forgotPassword);
 app.use("/api/resetPassword", resetPassword);
 
 app.use("/api/EditPassword", EditPassword)
+app.use("/api/AjouterID", AjouterID)
 
 
 

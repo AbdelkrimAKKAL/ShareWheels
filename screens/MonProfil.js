@@ -22,6 +22,7 @@ const MonProfil = () => {
   const { user, logout, token } = useAuth();
   const navigation = useNavigation();
   const [open, setOpen] = useState(false);
+  const [certifier, setCertifier] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [photo, setPhoto] = useState(require("../assets/image1.png"))
@@ -38,6 +39,9 @@ const MonProfil = () => {
 
   const { dispatch } = useAuth()
 
+  
+  
+
   const handleLogout = () => {
     AsyncStorage.removeItem('user')
     dispatch({ type: 'LOGOUT' })
@@ -45,7 +49,7 @@ const MonProfil = () => {
   };
 
   const fetchProfileData = async () => {
-    console.log();
+   
     try {
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.id_uti}`, {
         method: 'GET',
@@ -63,7 +67,7 @@ const MonProfil = () => {
       const data = await response.json();
 
       setData(data);
-
+      
       setEmail(data.user.email);
       setPhone(data.user.num_tel);
       setName(data.user.nom + ' ' + data.user.prenom);
@@ -71,6 +75,7 @@ const MonProfil = () => {
       setRating(data.user.total_rating + " (" + data.user.num_ratings + ")");
       updateProfileData({ email: email, phone: phone, name: name, photo: photo, rating: rating, age: age });
       updateCars(data.cars);
+      
     } catch (error) {
       console.error('Error fetching profile data:', error);
     }
@@ -111,7 +116,14 @@ const MonProfil = () => {
               </View>
             </View>
             <View style={[pstyles.inputs, pstyles.centrer]}>
-              <Certified bool={false} />
+
+              <View style={[pstyles.certifier]}>
+                <Certified bool={data.user.est_certifie} />
+              </View>
+              
+              
+              
+
               <View style={[pstyles.rectangle]}>
                 <Text style={[pstyles.font]}>{email}</Text>
               </View>
@@ -175,6 +187,11 @@ const MonProfil = () => {
 
 
 export const pstyles = StyleSheet.create({
+  certifier:{
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 85  
+  },
   addicon: {
     height: 40,
     width: 40,
