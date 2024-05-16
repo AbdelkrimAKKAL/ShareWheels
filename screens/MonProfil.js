@@ -16,6 +16,7 @@ import Certified from "../components/certifier";
 
 
 const MonProfil = () => {
+  
   const { profileData, updateProfileData } = useProfile();
   const { cars, updateCars } = useProfile();
 
@@ -51,7 +52,7 @@ const MonProfil = () => {
   const fetchProfileData = async () => {
    
     try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.id_uti}`, {
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +119,8 @@ const MonProfil = () => {
             <View style={[pstyles.inputs, pstyles.centrer]}>
 
               <View style={[pstyles.certifier]}>
-                <Certified bool={data.user.est_certifie} />
+              <Certified bool={data.user.est_certifie ?? false} />
+
               </View>
               
               
