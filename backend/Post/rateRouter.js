@@ -4,24 +4,28 @@ import { pool } from "../createPool.js";
 const router = express.Router();
 
 // Update user rating endpoint
-router.put("/:email", async (req, res) => {
-  const userId = req.params.email;
+router.put("/:id", async (req, res) => {
+  const userId = req.params.id;
   const { newRating } = req.body;
 
   try {
     // Update user rating
     const userConnection = await pool.getConnection();
     await userConnection.query(
-      "UPDATE utilisateurs SET total_rating = total_rating + ?, num_ratings = num_ratings + 1 WHERE email = ?",
-      [newRating, userId]
+      `UPDATE utilisateurs 
+      SET 
+        total_rating = CASE 
+                         WHEN num_ratings = 0 THEN ? 
+                         ELSE ((total_rating * num_ratings) + ?) / (num_ratings+1)
+                       END,
+        num_ratings = CASE 
+                        WHEN num_ratings = 0 THEN 1 
+                        ELSE num_ratings + 1 
+                      END
+      WHERE id_uti = ?`,
+     [newRating, newRating, userId]
     );
     userConnection.release();
-
-    await userConnection.query(
-        "UPDATE utilisateurs SET total_rating = total_rating / num_ratings WHERE email = ?",
-        [userId]
-      );
-      userConnection.release();
 
     res.status(200).json({ message: "User rating updated successfully" });
   } catch (error) {

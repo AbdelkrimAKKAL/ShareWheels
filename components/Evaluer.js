@@ -16,6 +16,7 @@ import { useAuth } from "../context/AuthContext";
 import { AnnonceStyles } from "./Annonce";
 import { useRefresh } from "../context/refresh";
 import { RechercheStyles } from "../screens/Recherche";
+import env from '../env';
 
 const Evaluer = (Props) => {
   const { refreshPage } = useRefresh();
@@ -36,8 +37,25 @@ const Evaluer = (Props) => {
     }
   };
 
-  const setRating = (stars) => {
-    Alert.alert(`${stars} star sent`);
+  const setRating = async (stars) => {
+    try {
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/Rate/${Props.id_conducteur}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({newRating: stars }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed');
+      }
+      Alert.alert(`${stars} star sent`);
+    } catch (error) {
+      console.error('Error adding new item:', error);
+      Alert.alert("Alert", "Failed to add new item.");
+    }
+    
     setIsSent(true);
   };
 

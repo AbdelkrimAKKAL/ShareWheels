@@ -17,8 +17,8 @@ const SignUp = () => {
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
-    { label: "Homme", value: "m" },
-    { label: "Femme", value: "f" },
+    { label: "Homme", value: "Homme" },
+    { label: "Femme", value: "Femme" },
   ]);
   const { user,login } = useAuth();
   const navigation = useNavigation();
