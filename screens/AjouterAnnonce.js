@@ -141,6 +141,12 @@ const AjouterAnnonce = () => {
       newDate.setMinutes(time.getMinutes());
       return newDate;
     });
+    setDate2((prevDate) => {
+      const newDate = new Date(prevDate);
+      newDate.setHours(time.getHours());
+      newDate.setMinutes(time.getMinutes());
+      return newDate;
+    });
     console.log("A time has been picked: ", time);
     setTimePicked(true);
   };
@@ -189,6 +195,13 @@ const AjouterAnnonce = () => {
   const handleAjouterPress = async () => {
     const timestamp = pickedDate.getTime();
     const formattedDateTime = new Date(timestamp).toISOString().slice(0, 19).replace('T', ' ');
+
+    let formattedDateTime2 = null;
+    if (date2) {
+      const timestamp2 = date2.getTime();
+      formattedDateTime2 = new Date(timestamp2).toISOString().slice(0, 19).replace('T', ' ');
+    }
+
     const prixFloat = parseFloat(prix);
     try {
       if (isDatePicked && isTimePicked && departLocation && destinationLocation && prix){
@@ -199,7 +212,7 @@ const AjouterAnnonce = () => {
           'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: 1, details: selectedData === undefined ? [] :selectedData
+          depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: 1, details: selectedData === undefined ? [] :selectedData, timestamp2: formattedDateTime2
         }),
       });
       if (response.ok) {
