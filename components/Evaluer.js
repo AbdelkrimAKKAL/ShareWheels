@@ -211,7 +211,9 @@ const Evaluer = (Props) => {
 
         <TouchableOpacity
           style={[styles.participer1, styles.participerLayout]}
-          onPress={() => navigation.navigate("Signaler")}
+          onPress={() => navigation.navigate("Signaler", {
+            TargetUserID: Props.id_conducteur
+          })}
         >
           <Text style={[styles.signaler, styles.signalerTypo]}>Signaler</Text>
         </TouchableOpacity>

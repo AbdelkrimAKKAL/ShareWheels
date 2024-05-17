@@ -10,21 +10,22 @@ import {
   Alert,
 } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation , useRoute} from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import { RechercheStyles } from "./Recherche";
-import { Checkbox } from "react-native-paper"; 
-import { DetailsScreenStyles } from "./DatailsAjouter";
+import { Checkbox } from "react-native-paper";
+import { useAuth } from "../context/AuthContext";
+import env from '../env';
 
 const fetchDataFromDatabase = async () => {
   // Example data
   return [
     { id: 1, text: "irrespectueux" },
     { id: 2, text: "fausse informations personnels" },
-    { id: 3, text: "Utilisation du téléphone portable" },
+    { id: 3, text: "Utilisation du téléphone" },
     { id: 4, text: "conduite dangereuse" },
-    { id: 5, text: "Véhicule en mauvais état" },             
+    { id: 5, text: "Véhicule en mauvais état" }, 
   ];
 };
 
@@ -33,7 +34,36 @@ const Signaler = () => {
 
   const [data, setData] = useState([]);
   const [newItemText, setNewItemText] = useState("");
-  const [selectedItems, setSelectedItems] = useState([]); 
+  const [selectedItems, setSelectedItems] = useState([]);
+  const { user } = useAuth();
+
+  const route = useRoute();
+  const TargetUserID = route.params?.TargetUserID;
+
+  const handleconfirm = async () => {
+    const selectedData = data.filter((item) => selectedItems.includes(item.id));
+    const selectedTexts = selectedData.map((item) => item.text);
+    console.log(selectedTexts);
+        try {
+          const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/signaler`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: JSON.stringify({SignalerUserID: user.user.id_uti,TargetUserID:TargetUserID,  Description: selectedTexts }),
+          });
+          if (!response.ok) {
+            throw new Error('Failed to add new item');
+          }
+          Alert.alert("Merci", "Merci.");
+        } catch (error) {
+          console.error('Error adding new item:', error);
+          Alert.alert("Alert", "Failed to add new item.");
+        }
+
+    navigation.goBack();
+  };
 
   useEffect(() => {
     // Fetch data from the database when the component mounts
@@ -76,18 +106,22 @@ const Signaler = () => {
       const newItem = { id: data.length + 1, text: newItemText }; // Generate new item
       setData([...data, newItem]); // Add new item to the list
       setNewItemText("");
-    }else{
-    Alert.alert("Alert", "élément Vide!.");
+    } else {
+      Alert.alert("Alert", "élément Vide!.");
     }
   };
 
   return (
     <View style={[DetailsScreenStyles.datailsajouter]}>
       <TopBar />
-      <Text style={DetailsScreenStyles.detailsAAjouter}>Signaler</Text>
-      <Text style={styles.text}>Pourquoi</Text>
+      <Text style={DetailsScreenStyles.detailsAAjouter}>Details a ajouter</Text>
       <View style={DetailsScreenStyles.main}>
         <FlatList
+          style={{ width: "100%" }}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           showsVerticalScrollIndicator={false}
           data={data}
           renderItem={renderItem}
@@ -116,7 +150,7 @@ const Signaler = () => {
           RechercheStyles.buttonfirst,
           { alignItems: "center", marginBottom: 5 },
         ]}
-        onPress={() => navigation.navigate("CarpoolPasses")}
+        onPress={handleconfirm}
       >
         <Text style={[RechercheStyles.buttonText, { color: "white" }]}>
           Confirmer
@@ -126,17 +160,37 @@ const Signaler = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  text: {
-        marginBottom: 12,
-        fontSize: FontSize.size_mid+3,
-        color: Color.colorBlack,
-        width: 289,
-        height: 22,
-        textAlign: "left",
-        fontFamily: FontFamily.nunitoRegular,
-        lineHeight: 22,
-      },
+export const DetailsScreenStyles = StyleSheet.create({
+  detailsAAjouter: {
+    fontSize: FontSize.size_13xl,
+    fontWeight: "700",
+    fontFamily: FontFamily.nunitoBold,
+    color: Color.colorDarkslategray_100,
+    width: 359,
+    marginVertical: "5%",
+    textAlign: "center",
+  },
+
+  AddItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 70,
+  },
+
+  main: {
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  datailsajouter: {
+    flex: 1,
+    alignItems: "center",
+    overflow: "hidden",
+    width: "100%",
+    backgroundColor: Color.neutralWhite,
+  },
 });
 
 export default Signaler;

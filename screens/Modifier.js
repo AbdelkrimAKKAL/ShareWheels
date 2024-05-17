@@ -54,7 +54,7 @@ const Modifier = () => {
     const fetchProfileData = async () => {
 
       try {
-        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.id_uti}`, {
+        const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

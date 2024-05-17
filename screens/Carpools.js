@@ -148,6 +148,7 @@ const Carpools = () => {
         date={date}
         availableSeats={item.nbr_place}
         id_reservation = {item.id_reservation}
+        id_conducteur = {item.id_conducteur}
       />
     );
   };
