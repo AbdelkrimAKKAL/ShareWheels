@@ -168,57 +168,6 @@ const Details = () => {
             </View>
           </View>
 
-          <Text style={[styles.TextAlign, styles.TextStyle]}>
-            Date et heure
-          </Text>
-          <View style={styles.BorderInput}>
-            <View style={[RechercheStyles.DateHeure]}>
-              <View style={[RechercheStyles.Inputs, { width: 184 }]}>
-                <Image
-                  style={[RechercheStyles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/mappin2.png")}
-                />
-                <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
-                  Date
-                </Text>
-              </View>
-              <View style={[RechercheStyles.Inputs, { width: 99 }]}>
-                <Image
-                  style={[RechercheStyles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/clock31.png")}
-                />
-                <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
-                  Heure
-                </Text>
-              </View>
-            </View>
-
-            <View style={[RechercheStyles.DateHeure]}>
-              <View style={[RechercheStyles.Inputs, { width: 184 }]}>
-                <Image
-                  style={[RechercheStyles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/mappin2.png")}
-                />
-                <Text style={[RechercheStyles.inputText, { marginLeft: 10 }]}>
-                  Date
-                </Text>
-              </View>
-              <View style={[RechercheStyles.Inputs, { width: 99 }]}>
-                <Image
-                  style={[RechercheStyles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/clock31.png")}
-                />
-                <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
-                  Heure
-                </Text>
-              </View>
-            </View>
-          </View>
-
           <Text style={[styles.TextAlign, styles.TextStyle]}>Voiture</Text>
           <View style={styles.BorderInput}>
             <Text style={styles.TitleText}>Model</Text>
