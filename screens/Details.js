@@ -100,9 +100,13 @@ const Details = () => {
       <View style={styles.main}>
         <View style={[styles.userprofile, styles.inputFlexBox]}>
           <Image
-            style={[{ width: 95, height: 95 }]}
+            style={[{width: 95,
+              height: 95,
+              borderWidth: 1,
+              borderRadius: 100,
+              borderColor: "#0075fd"}]}
             contentFit="cover"
-            source={require("../assets/image.png")}
+            source={photo}
           />
           <View style={styles.NameAndRate}>
             <Text style={[styles.nom, { fontSize: 20, fontWeight: "500" }]}>

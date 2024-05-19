@@ -36,14 +36,6 @@ router.get("/:email", async (req, res) => {
         );
         notificationsConnection.release();
         
-        // Convert blobs to Base64 strings
-        notifications.forEach(notification => {
-            if (notification.pdp) {
-                notification.pdp = Buffer.from(notification.pdp).toString('base64');
-            }
-        });
-
-
         console.log(notifications);
 
         res.status(200).json(notifications);

@@ -12,6 +12,8 @@ import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 import env from "../env";
 import { useAuth } from "../context/AuthContext";
 import { useRefresh } from "../context/refresh";
+import * as FileSystem from 'expo-file-system';
+
 
 
 const Annonce = (Props) => {
@@ -104,7 +106,7 @@ const Annonce = (Props) => {
               AnnonceStyles.detailsFlexBox,
               { width: 97, marginLeft: 100 },
             ]}
-            onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete })}
+            onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete})}
           >
             <Text
               style={[
@@ -139,7 +141,7 @@ const Annonce = (Props) => {
       <View style={AnnonceStyles.buttons}>
       <TouchableOpacity
         style={[AnnonceStyles.details, AnnonceStyles.detailsFlexBox, {width: 97,}]}
-        onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete })}
+        onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete})}
       >
         <Text
           style={[
@@ -268,7 +270,7 @@ const Annonce = (Props) => {
         <Image
           style={AnnonceStyles.profilepictureIcon}
           contentFit="cover"
-          source={require("../assets/profilepicture1.png")}
+          source={Props.photo}
         />
         <View style={[AnnonceStyles.infosprofil]}>
           <Text style={[AnnonceStyles.titre, { textAlign: "left" }]}>
@@ -398,6 +400,9 @@ export const AnnonceStyles = StyleSheet.create({
     width: 41,
     height: 41,
     position: "absolute",
+    borderWidth: 1,
+    borderRadius: 100,
+    borderColor: "#0075fd",
   },
 
   infosprofil: {

@@ -7,6 +7,7 @@ import { launchImageLibraryAsync } from 'expo-image-picker';
 import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
 import { useProfile } from '../context/ProfileContext.js';
 import { useAuth } from "../context/AuthContext";
+import * as FileSystem from 'expo-file-system';
 
 import env from '../env';
 
@@ -16,8 +17,7 @@ const Modifier = () => {
   const { user, logout, token } = useAuth();
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
-  
-  const [photo, setImgUrl] = useState(profileData.photo);
+  const [photo, setImgUrl] = useState(null);
   const [data, setData] = useState('')
 
   //user data
@@ -26,6 +26,14 @@ const Modifier = () => {
   const [email, setEmail] = useState("");
   const [num_tel, setPhone] = useState("");
 
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    if (fileExists.exists) {
+      setImgUrl({ uri: path });
+    } else {
+      setImgUrl(require("../assets/image1.png"));
+    }
+  };
 
 
   const openGallery = async () => {
@@ -74,8 +82,8 @@ const Modifier = () => {
         setEmail(data.user.email);
         setPhone(data.user.num_tel);
         setName(data.user.nom);
-        setPrenom(data.user.prenom)
-
+        setPrenom(data.user.prenom);
+        loadImage(data.user.photo)
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }

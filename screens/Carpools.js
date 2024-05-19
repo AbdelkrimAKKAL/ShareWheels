@@ -22,6 +22,7 @@ import env from "../env";
 import { useRefresh } from "../context/refresh";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import { ActivityIndicator, RefreshControl } from "react-native";
+import * as FileSystem from 'expo-file-system';
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
@@ -35,6 +36,15 @@ const Carpools = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false); 
+
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    if (fileExists.exists) {
+      return { uri: path };
+    } else {
+      return require("../assets/image1.png");
+    }
+  };
 
   const fetchDataFromDatabasePasses = async () => {
     try {
@@ -50,6 +60,11 @@ const Carpools = () => {
           },
         }
       );
+
+      if(response.data){for (const item of response.data) {
+        const loadedPhoto = await loadImage(item.photo);
+        item.photo = loadedPhoto;
+      }}
 
       setDataPasses(response.data);
     } catch (error) {
@@ -73,7 +88,10 @@ const Carpools = () => {
           },
         }
       );
-
+      if(response.data){for (const item of response.data) {
+        const loadedPhoto = await loadImage(item.photo);
+        item.photo = loadedPhoto;
+      }}
       setDataVenir(response.data);
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -147,6 +165,7 @@ const Carpools = () => {
         availableSeats={item.nbr_place}
         id_reservation = {item.id_reservation}
         id_conducteur = {item.id_conducteur}
+        photo = {item.photo}
       />
     );
   };

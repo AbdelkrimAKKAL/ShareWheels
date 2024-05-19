@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 
     const connection = await pool.getConnection();
     try {
-      if (!timestamp2) {
+      if (timestamp2 == null) {
         const [result] = await connection.query(
           "INSERT INTO trajets (depart, arrivee, timestamp, nbr_place, prix, id_conducteur, id_voiture, details) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
           [depart, arrivee, timestamp, nbr_place, prix, id_conducteur, id_voiture, JSON.stringify(details)]

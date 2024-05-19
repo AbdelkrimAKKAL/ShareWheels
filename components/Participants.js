@@ -48,7 +48,7 @@ const Participants = (Props) => {
         <Image
           style={[{ width: 35, height: 35, borderRadius: Border.br_9980xl }]}
           contentFit="cover"
-          source={require("../assets/profilepicture1.png")}
+          source={Props.photo}
         />
         <Text
           style={[

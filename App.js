@@ -337,6 +337,8 @@ const SearchStackScreen = () => (
     <Stack.Screen name="Details" component={Details} />
     <Stack.Screen name="SearchBar" component={SearchBar} />
     <Stack.Screen name="AfficherMap" component={AfficherMap} />
+    <Stack.Screen name="Notifications" component={Notifications} />
+
   </Stack.Navigator>
 );
 

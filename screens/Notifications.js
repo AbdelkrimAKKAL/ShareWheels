@@ -8,6 +8,7 @@ import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import axios from "axios";
 import env from "../env";
 import Notification from "../components/Notification";
+import * as FileSystem from 'expo-file-system';
 
 const Notifications = () => {
   const { user } = useAuth();
@@ -16,6 +17,15 @@ const Notifications = () => {
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const [refreshing, setRefreshing] = useState(false);
+
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    if (fileExists.exists) {
+      return { uri: path };
+    } else {
+      return require("../assets/image1.png");
+    }
+  };
 
   const fetchDataFromDatabase = async () => {
     try {
@@ -32,6 +42,11 @@ const Notifications = () => {
       }
 
       const data = await response.json();
+      if (data){for (const item of data) {
+        const loadedPhoto = await loadImage(item.pdp);
+        item.pdp = loadedPhoto;
+      }}
+      console.log(data)
       setNotifications(data);
     } catch (error) {
       console.error('Error fetching profile data:', error);
@@ -56,6 +71,7 @@ const Notifications = () => {
         sender_prenom={item.sender_prenom}
         body={item.body}
         time={item.time}
+        photo = {item.pdp}
       />
     );
   };
@@ -143,6 +159,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
+    marginBottom: "30%"
   },
   textContainer: {
     marginLeft: 10,

@@ -10,6 +10,7 @@ import NotAuth from "../components/notAuth";
 import { useRefresh } from '../context/refresh';
 import { API_IP_ADDRESS } from "../env";
 import { RefreshControl } from "react-native-gesture-handler";
+import * as FileSystem from 'expo-file-system';
 
 const ParticipantsScreen = () => {
   const navigation = useNavigation();
@@ -25,10 +26,19 @@ const ParticipantsScreen = () => {
   const destination = route.params?.destination;
   const id_trajet = route.params?.id_trajet;
   const canDelete = route.params?.canDelete;
-  console.log(id_trajet)
   useEffect(() => {
     fetchParticipants(id_trajet);
   }, [id_trajet, refresh]);
+
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    console.log(fileExists)
+    if (fileExists.exists) {
+      return { uri: path };
+    } else {
+      return require("../assets/image1.png");
+    }
+  };
 
   const fetchParticipants = async (id_trajet) => {
     try {
@@ -37,6 +47,11 @@ const ParticipantsScreen = () => {
         throw new Error('Failed to fetch participants');
       }
       const data = await response.json();
+      console.log('rsp ',data)
+      if(data){for (const item of data) {
+        const loadedPhoto = await loadImage(item.photo);
+        item.photo = loadedPhoto;
+      }}
       setParticipants(data);
     } catch (error) {
       console.error("Error fetching participants information:", error);
@@ -54,6 +69,7 @@ const ParticipantsScreen = () => {
       id_reservation= {item.id_reservation}
       naissance= {item.naissance}
       canDelete = {canDelete}
+      photo = {item.photo}
     />
   );
 

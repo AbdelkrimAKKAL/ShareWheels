@@ -229,7 +229,7 @@ const AjouterAnnonce = () => {
     const formattedDateTime = new Date(timestamp).toISOString().slice(0, 19).replace('T', ' ');
 
     let formattedDateTime2 = null;
-    if (date2) {
+    if (isDatePicked2) {
       const timestamp2 = date2.getTime();
       formattedDateTime2 = new Date(timestamp2).toISOString().slice(0, 19).replace('T', ' ');
     }

@@ -36,7 +36,6 @@ const Evaluer = (Props) => {
       setStars(stars - 1);
     }
   };
-  console.log(("Evaluer.js", user.user.user.email));
   const setRating = async (stars) => {
     try {
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/Rate/${Props.id_conducteur}/${user.user.user.email}`, {
@@ -84,7 +83,7 @@ const Evaluer = (Props) => {
         <Image
           style={AnnonceStyles.profilepictureIcon}
           contentFit="cover"
-          source={require("../assets/profilepicture1.png")}
+          source={Props.photo}
         />
         <View style={[AnnonceStyles.infosprofil]}>
           <Text style={[AnnonceStyles.titre, { textAlign: "left" }]}>

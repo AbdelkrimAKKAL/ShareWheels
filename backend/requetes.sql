@@ -14,13 +14,14 @@ CREATE TABLE Utilisateurs (
     prenom VARCHAR(50),
     mdp VARCHAR(100),
     num_tel VARCHAR(20),
-    photo MEDIUMBLOB,
+    photo varchar(255),
     email VARCHAR(100),
     est_certifie BOOLEAN,
-    certificat VARCHAR(100),
     genre VARCHAR(10),
     total_rating FLOAT(4,1) DEFAULT 2.5,
     num_ratings INT DEFAULT 0,
+    naissance INT,
+    idCard BLOB,
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT unique_num_tel UNIQUE (num_tel)
 );

@@ -6,7 +6,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const { email } = req.query;
-    console.log(email)
 
     let query = `
       SELECT Trajets.*, Utilisateurs.*, Voitures.modele
@@ -21,7 +20,6 @@ router.get("/", async (req, res) => {
     const connection = await pool.getConnection();
     const [trajets] = await connection.query(query, queryParams);
     connection.release();
-    console.log(trajets)
     res.status(200).json(trajets);
   } catch (error) {
     console.error("Error fetching user's posted trajets:", error);

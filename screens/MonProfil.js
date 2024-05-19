@@ -20,6 +20,7 @@ import env from "../env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import Certified from "../components/certifier";
+import * as FileSystem from 'expo-file-system';
 
 const MonProfil = () => {
   const { profileData, updateProfileData } = useProfile();
@@ -30,7 +31,7 @@ const MonProfil = () => {
   const [certifier, setCertifier] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [photo, setPhoto] = useState(require("../assets/image1.png"));
+  const [photo, setPhoto] = useState(null);
   const [email, setEmail] = useState("");
   const [age, setAge] = useState(null);
   const [rating, setRating] = useState(null);
@@ -47,6 +48,7 @@ const MonProfil = () => {
       params: { screen: "WelcomeScreen" },
     });
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -84,6 +86,7 @@ const MonProfil = () => {
         userData.user.total_rating + " (" + userData.user.num_ratings + ")"
       );
       setCertifier(userData.user.est_certifie);
+      await loadImage(userData.user.photo);
       updateProfileData({
         email: email,
         phone: phone,
@@ -109,7 +112,6 @@ const MonProfil = () => {
       }
 
       const carsData = await carsResponse.json();
-      console.log(carsData);
 
       const carItems =
         carsData.length > 0
@@ -118,14 +120,20 @@ const MonProfil = () => {
               value: [car.modele, car.couleur, car.matricule],
             }))
           : [{ label: "no car", value: "no_car" }];
-      console.log(carItems);
       setItems(carItems);
-      console.log(items);
-      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
     setIsLoading(false);
+  };
+
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    if (fileExists.exists) {
+      setPhoto({uri :path});
+    } else {
+      setPhoto(require("../assets/image1.png"));
+    }
   };
 
   useEffect(() => {

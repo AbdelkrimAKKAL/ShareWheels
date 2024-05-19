@@ -16,9 +16,7 @@ import axios from "axios";
 import env from "../env";
 import { useRefresh } from "../context/refresh";
 import { useAuth } from "../context/AuthContext";
-
-
-
+import * as FileSystem from 'expo-file-system';
 
 export function timestampToDateTime(timestamp) {
   if (!timestamp) {
@@ -65,6 +63,15 @@ const ResultatRecherche = () => {
         })();
   const isDatePicked = isDatePickedBool ? true : null;
   const isTimePicked = isTimePickedBool ? true : null;
+
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    if (fileExists.exists) {
+      return { uri: path };
+    } else {
+      return require("../assets/image1.png");
+    }
+  };
 
   const renderItem = ({ item }) => {
     const { date, time } = timestampToDateTime(item.timestamp);
@@ -121,6 +128,10 @@ if (user && user.user && user.user.id_uti) {
 
       // Check if response.data is defined before accessing it
       if (response && response.data) {
+        for (const item of response.data) {
+          const loadedPhoto = await loadImage(item.photo);
+          item.photo = loadedPhoto;
+        }
         return response.data;
       } else {
         console.error("Empty response or missing data property.");

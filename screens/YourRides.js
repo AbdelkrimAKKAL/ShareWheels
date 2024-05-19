@@ -12,6 +12,7 @@ import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import { Image } from "react-native";
 import { useRefresh } from '../context/refresh';
 import ResultatRechercheStyles from "./ResultatRecherche";
+import * as FileSystem from 'expo-file-system';
 
 
 const YourRides = () => {
@@ -22,6 +23,15 @@ const YourRides = () => {
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const [refreshing, setRefreshing] = useState(false); 
+
+  const loadImage = async (path) => {
+    const fileExists = await FileSystem.getInfoAsync(path);
+    if (fileExists.exists) {
+      return { uri: path };
+    } else {
+      return require("../assets/image1.png");
+    }
+  };
 
   
   const handleRefresh = () => {
@@ -43,6 +53,11 @@ const YourRides = () => {
           email : user.user.email
         }
       });
+
+      if(response.data){for (const item of response.data) {
+        const loadedPhoto = await loadImage(item.photo);
+        item.photo = loadedPhoto;
+      }}
       
       setData(response.data);
     } catch (error) {
@@ -59,7 +74,6 @@ const YourRides = () => {
   }, [refresh, user]);
 
   
-  console.log(data);
   const renderItem = ({ item }) => {
     const { date, time } = timestampToDateTime(item.timestamp);
     
@@ -72,6 +86,7 @@ const YourRides = () => {
         startLocation={item.depart}
         endLocation={item.arrivee}
         price={item.prix}
+        photo= {item.photo}
         modele={item.modele}
         time={time}
         date={date}
