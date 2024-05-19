@@ -25,8 +25,6 @@ import { ActivityIndicator, RefreshControl } from "react-native";
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"
-  const [isParticipated, setIsParticipated] = useState(false); //participated or not
-  const [isHistory, setIsHistory] = useState(false); //history available or not
 
   const refresh = useRefresh();
   const [dataVenir, setDataVenir] = useState([]);

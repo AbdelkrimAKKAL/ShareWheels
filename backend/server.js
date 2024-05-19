@@ -22,6 +22,8 @@ import forgotPassword from './Post/forgotPassword.js'
 import resetPassword from './Post/resetPassword.js'
 import EditPassword from './Post/EditPassword.js'
 import AjouterID from './Post/AjouterID.js'
+import getCarsRouter from './Get/getCarsRouter.js'
+import deleteCarRouter from './Delete/deleteCarRouter.js'
 
 
 const app = express();
@@ -47,6 +49,9 @@ app.use("/api/getPassedRides", getPassedRidesRouter);
 app.use("/api/getPostedRides", getPostedRidesRouter);
 app.use("/api/getParticipated", getParticipatedRouter);
 app.use("/api/annulerTrajet", annulerTrajetRouter);
+app.use("/api/getCars", getCarsRouter);
+app.use("/api/deleteCars", deleteCarRouter);
+
 
 
 // ForgotPassword

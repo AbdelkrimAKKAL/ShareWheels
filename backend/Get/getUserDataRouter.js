@@ -18,29 +18,10 @@ router.get("/:email", async (req, res) => {
     if (userData.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
-
-    // get id user
-    const userConnection2 = await pool.getConnection();
-    const [userId] = await userConnection.query(
-      "SELECT id_uti FROM Utilisateurs WHERE email = ?",
-      [email]
-    );
-    userConnection2.release();
-    
-
-    // Get user's cars
-    const carsConnection = await pool.getConnection();
-    const [userCars] = await carsConnection.query(
-      "SELECT * FROM voitures WHERE id_prop = ?",
-      [userId]
-    );
-    carsConnection.release();
-
-
+  
     // Assemble the user information along with their carsjourneys
     const userWithDetails = {
       user: userData[0],
-      cars: userCars,
     };
 
     res.status(200).json(userWithDetails);

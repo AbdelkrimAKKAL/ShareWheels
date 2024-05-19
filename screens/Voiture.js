@@ -1,32 +1,159 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
-import { TextInput } from "react-native-gesture-handler";
-import { TouchableOpacity } from "react-native";
-const Voiture = () => {
-  const navigation = useNavigation();
+import env from '../env';
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
-  return (
-    <View style={pstyles.main}>
-      <Text style={styles.voiture}>Voiture</Text>
-      <Text style={styles.number}>Modéle</Text>
-      <TextInput style={styles.input}
-      defaultValue={"eze"}>
-      </TextInput>
-      <Text style={styles.number}>Matricule</Text>
-      <TextInput style={styles.input}
-      defaultValue="00">
-      </TextInput>
-      <Text style={styles.number}>Couleur</Text>
-      <TextInput style={styles.input}
-      defaultValue="re">
-      </TextInput>
-      <TouchableOpacity style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}>
-        <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>Confirmer</Text>
-      </TouchableOpacity>
-    </View>
-  );
+const Voiture = ({ route }) => {
+  const navigation = useNavigation();
+  const { user } = useAuth();
+  const { car } = route.params;
+
+  const [modele, setModele] = useState(null);
+  const [couleur, setCouleur] = useState(null);
+  const [matricule, setMatricule] = useState(null);
+
+  const handleAdd = () => {
+    fetch(`http://${env.API_IP_ADDRESS}:3000/api/voitures`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+      body: JSON.stringify({      
+        id_prop: user.user.id_uti, 
+        matricule: matricule,
+        modele: modele,
+        couleur: couleur,
+        voiture_est_certifie: 0,
+        voiture_certificat: 123,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        console.error("Error adding car:", data.error);
+        Alert.alert('Error', 'Failed to add car');
+      } else {
+        navigation.navigate('TabNavigator', {
+        screen: 'Search',
+        params: {
+          screen: 'Recherche', 
+        }
+      })
+      navigation.navigate('TabNavigator', {
+        screen: 'Profile',
+        params: {
+          screen: 'MonProfil', 
+        }
+      })
+        Alert.alert('Success', 'Car added successfully');
+      }
+    })
+    .catch((error) => {
+      console.error("Error adding car:", error);
+      Alert.alert('Error', 'Failed to add car');
+    });
+  };
+
+  const handleDelete = () => {
+    fetch(`http://${env.API_IP_ADDRESS}:3000/api/deleteCars/${car[2]}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        console.error("Error deleting car:", data.error);
+        Alert.alert('Error', 'Failed to delete car');
+      } else {
+        navigation.navigate('TabNavigator', {
+          screen: 'Search',
+          params: {
+            screen: 'Recherche', 
+          }
+        })
+        navigation.navigate('TabNavigator', {
+          screen: 'Profile',
+          params: {
+            screen: 'MonProfil', 
+          }
+        })
+        Alert.alert('Success', 'Car deleted successfully');
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting car:", error);
+      Alert.alert('Error', 'Failed to delete car');
+    });
+  };
+
+  const render = () => {
+    if (car == "no_car" || car == undefined) {
+      return (
+        <View style={pstyles.main}>
+          <Text style={styles.voiture}>Voiture</Text>
+          <Text style={styles.number}>Modéle</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Modéle"
+            onChangeText={(text) => setModele(text)}
+            value={modele}
+          />
+          <Text style={styles.number}>Matricule</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            placeholder="Matricule"
+            onChangeText={(text) => setMatricule(text)}
+            value={matricule}
+          />
+          <Text style={styles.number}>Couleur</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Couleur"
+            onChangeText={(text) => setCouleur(text)}
+            value={couleur}
+          />
+          <TouchableOpacity
+            style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
+            onPress={handleAdd}
+          >
+            <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>
+              Confirmer
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View style={pstyles.main}>
+          <Text style={styles.voiture}>Voiture</Text>
+          <Text style={styles.number}>Modéle</Text>
+          <TextInput style={styles.input} editable={false} value={car[0]} />
+          <Text style={styles.number}>Matricule</Text>
+          <TextInput style={styles.input} editable={false} value={car[2]} />
+          <Text style={styles.number}>Couleur</Text>
+          <TextInput style={styles.input} editable={false} value={car[1]} />
+          <TouchableOpacity
+            style={[pstyles.buttons, { backgroundColor: "red" }]}
+            onPress={handleDelete}
+          >
+            <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>
+              Supprimer
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  };
+
+  return <View style={pstyles.main}>{render()}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -44,10 +171,9 @@ const styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
     marginLeft: 50,
   },
-
   input: {
-    paddingLeft:20,
-    color:"#2d2d2d",
+    paddingLeft: 20,
+    color: "#2d2d2d",
     marginBottom: 22,
     width: "75%",
     height: 55,
@@ -55,7 +181,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(124, 124, 124, 0.2)",
     borderRadius: 16,
   },
-
 });
 
 export default Voiture;

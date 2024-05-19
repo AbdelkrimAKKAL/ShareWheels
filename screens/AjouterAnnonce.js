@@ -27,7 +27,7 @@ import { useRefresh } from '../context/refresh';
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
-  const {refreshPage}  = useRefresh();
+  const {refreshPage, refresh}  = useRefresh();
   const { user } = useAuth();
 
   const [departLocation, setDepartLocation] = useState(null);
@@ -40,6 +40,41 @@ const AjouterAnnonce = () => {
   const selectedData = route.params?.selectedData;
 
   useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const carsResponse = await fetch(
+          `http://${env.API_IP_ADDRESS}:3000/api/getCars/${user.user.id_uti}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
+
+        if (!carsResponse.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const carsData = await carsResponse.json();
+        const carItems =
+          carsData.length > 0
+            ? carsData.map((car) => ({
+                label: car.modele,
+                value: car.matricule,
+              }))
+            : [{ label: "no car", value: null }];
+        setItems(carItems);
+      } catch (error) {
+        console.error("Error fetching cars:", error);
+      }
+    };
+
+    fetchCars();
+  }, [user.token, user.user.id_uti]);
+
+  useEffect(() => {
     if (id === "Destination") {
       setDestinationLocation(route.params?.location);
     } else if (id === "Depart") {
@@ -48,11 +83,7 @@ const AjouterAnnonce = () => {
   }, [id, route.params?.location, user]);
 
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState([
-    { label: "POLO", value: "POLO" },
-    { label: "Maruti", value: "Maruti" },
-    { label: "Tmax", value: "Tmax" },
-  ]);
+  const [items, setItems] = useState([]);
   const [selectedValue, setSelectedValue] = useState(null);
 
   // date 1
@@ -212,7 +243,7 @@ const AjouterAnnonce = () => {
           'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: 1, details: selectedData === undefined ? [] :selectedData, timestamp2: formattedDateTime2
+          depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: selectedValue, details: selectedData === undefined ? [] :selectedData, timestamp2: formattedDateTime2
         }),
       });
       if (response.ok) {
@@ -472,17 +503,16 @@ const AjouterAnnonce = () => {
                     />
                   )}
                   open={open}
-                  value={selectedValue} // Use selectedValue as the value prop
+                  value={selectedValue}
                   items={items}
                   setOpen={setOpen}
-                  setValue={setSelectedValue} // Use setSelectedValue as the setValue prop
+                  setValue={setSelectedValue
+                  }
                   setItems={setItems}
                   dropDownContainerStyle={{
-                    borderWidth: 0,
-                    borderColor: "transparent",
-                    backgroundColor: "#A5A5A5",
+                    backgroundColor: "white",
                     width: "95%",
-                    PaddingLeft: "-10",
+                    borderColor: "#b8b8b8",
                   }}
                   dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
                 />

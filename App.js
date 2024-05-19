@@ -114,7 +114,7 @@ const App = () => {
                   <Stack.Screen
                     name="MonProfil"
                     component={MonProfil}
-                    options={{ headerShown: false }}
+                    options={{ headerShown: false}}
                   />
                   <Stack.Screen
                     name="AjouterAnnonce"
@@ -300,7 +300,7 @@ const TabNavigator = () => {
       <Tab.Screen
         name={PublishName}
         component={PublishStackScreen}
-        options={{ headerShown: false}}
+        options={{ headerShown: false, unmountOnBlur: true}}
       />
       <Tab.Screen
         name={CarpoolsName}
@@ -312,7 +312,7 @@ const TabNavigator = () => {
         <Tab.Screen
           name={ProfileName}
           component={ProfileScreen}
-          options={{ headerShown: false}}
+          options={{ headerShown: false, unmountOnBlur: true  }}
         />
       ) : (<Tab.Screen
         name={ProfileName}

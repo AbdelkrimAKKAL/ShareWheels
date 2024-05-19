@@ -1,6 +1,13 @@
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, Pressable, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -8,19 +15,16 @@ import { ScrollView } from "react-native-gesture-handler";
 import TextBox from "react-native-password-eye";
 import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";
-import env from '../env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import env from "../env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = () => {
-
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: "Homme", value: "Homme" },
     { label: "Femme", value: "Femme" },
   ]);
-  const { user,login } = useAuth();
+  const { user, login } = useAuth();
   const navigation = useNavigation();
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -30,23 +34,22 @@ const SignUp = () => {
   const [mdp, setPassword] = useState("");
   const [naissance, setNaissance] = useState("");
 
-
-  const [error, setError] = useState(null)
-  const [isLoading, setIsloading] = useState(null)
-  const { dispatch } = useAuth()
+  const [error, setError] = useState(null);
+  const [isLoading, setIsloading] = useState(null);
+  const { dispatch } = useAuth();
   const setBirthYear = (inputYear) => {
     // Convert input to integer
     const year = parseInt(inputYear);
-  
+
     // Check if the input is a valid number
     if (isNaN(year)) {
       return; // Exit if input is not a valid number
     }
-  
+
     const currentYear = new Date().getFullYear();
     const minYear = 1900;
     const maxYear = currentYear - 18;
-  
+
     if (year < minYear || year > maxYear) {
       setError("Invalid Year");
       setNaissance("");
@@ -58,16 +61,27 @@ const SignUp = () => {
     setIsloading(true);
     setError(null);
     try {
-      const response = await fetch("http://" + env.API_IP_ADDRESS + ":3000/api/signup", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          
-        },
-        body: JSON.stringify({
-          nom, prenom, mdp, num_tel, photo: 'photo.png', email, est_certifie: false, certificat: "123", genre, naissance: naissance
-        }),
-      });
+      const response = await fetch(
+        "http://" + env.API_IP_ADDRESS + ":3000/api/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nom,
+            prenom,
+            mdp,
+            num_tel,
+            photo: "photo.png",
+            email,
+            est_certifie: false,
+            certificat: "123",
+            genre,
+            naissance: naissance,
+          }),
+        }
+      );
 
       const json = await response.json();
 
@@ -78,14 +92,19 @@ const SignUp = () => {
       }
 
       // Sign up successful
-      AsyncStorage.setItem('user', JSON.stringify(json)).then(() => {
-        // Update the auth context
-        dispatch({ type: 'LOGIN', payload: json });
-        navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'MonProfil', }})
-      }).catch((error) => {
-        console.error("Error saving user to AsyncStorage:", error);
-        Alert.alert("Sign Up Failed", "Please try again later");
-      });
+      AsyncStorage.setItem("user", JSON.stringify(json))
+        .then(() => {
+          // Update the auth context
+          dispatch({ type: "LOGIN", payload: json });
+          navigation.navigate("TabNavigator", {
+            screen: "Profile",
+            params: { screen: "MonProfil" },
+          });
+        })
+        .catch((error) => {
+          console.error("Error saving user to AsyncStorage:", error);
+          Alert.alert("Sign Up Failed", "Please try again later");
+        });
 
       setIsloading(false);
     } catch (error) {
@@ -95,11 +114,13 @@ const SignUp = () => {
     }
   };
 
-
   return (
     <View style={[styles.signUp]}>
       <Text style={styles.createAccount}>Create Account</Text>
-      <ScrollView contentContainerStyle={styles.main} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.main}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.container}>
           <Image
             style={[styles.icon]}
@@ -154,38 +175,46 @@ const SignUp = () => {
           />
         </View>
         <Pressable style={styles.container}>
-  <Image
-    style={[styles.icon, { marginBottom: 5 }]}
-    contentFit="cover"
-    source={require("../assets/birthday-cake.png")}
-  />
-  <TextInput
-    style={[styles.numberTypo]}
-    placeholder="année de naissance"
-    keyboardType="numeric" // Set keyboard type to numeric
-    value={naissance}
-    onChangeText={setNaissance} // Call setNaissance directly
-    onBlur={() => setBirthYear(naissance)} // Perform validation onBlur
-  />
-</Pressable>
-        <View style={[styles.container,{zIndex:1000}]}>
+          <Image
+            style={[styles.icon, { marginBottom: 5 }]}
+            contentFit="cover"
+            source={require("../assets/birthday-cake.png")}
+          />
+          <TextInput
+            style={[styles.numberTypo]}
+            placeholder="année de naissance"
+            keyboardType="numeric" // Set keyboard type to numeric
+            value={naissance}
+            onChangeText={setNaissance} // Call setNaissance directly
+            onBlur={() => setBirthYear(naissance)} // Perform validation onBlur
+          />
+        </Pressable>
+        <View style={[styles.container, { zIndex: 1000 }]}>
           <Image
             style={styles.icon}
             contentFit="cover"
             source={require("../assets/group1.png")}
           />
-  <DropDownPicker
-            style={[ { borderWidth:0,width:'95%'}]}
+          <DropDownPicker
+            style={[{ borderWidth: 0, width: "95%" }]}
             placeholder="Genre"
-            placeholderStyle={{color:"#7c7c7c"}}
-             open={open}
+            placeholderStyle={{ color: "#7c7c7c" }}
+            open={open}
             items={items}
             value={genre}
-             setOpen={setOpen}
-             setValue={setGenre}
+            setOpen={setOpen}
+            setValue={setGenre}
             setItems={setItems}
-            dropDownContainerStyle={[styles.container,{marginLeft:-30,width:"105%",elevation:1000 ,height:75,marginTop:3}]}
-       
+            dropDownContainerStyle={[
+              styles.container,
+              {
+                marginLeft: -30,
+                width: "105%",
+                elevation: 1000,
+                height: "150%",
+                marginTop: 3,
+              },
+            ]}
           />
         </View>
 
@@ -195,23 +224,20 @@ const SignUp = () => {
             contentFit="cover"
             source={require("../assets/password.png")}
           />
-          <TextBox onChangeText={setPassword}
-            containerStyles={{ width: "90%", marginLeft: 10, }}
+          <TextBox
+            onChangeText={setPassword}
+            containerStyles={{ width: "90%", marginLeft: 10 }}
             secureTextEntry={true}
             eyeColor="#7c7c7c"
             placeholder="Password"
             placeholderTextColor="#7c7c7c"
             value={mdp}
-
           />
         </View>
         <View style={[styles.error]}>
           {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
-        <TouchableOpacity
-          style={[styles.buttonfirst]}
-          onPress={handleSignUp}
-        >
+        <TouchableOpacity style={[styles.buttonfirst]} onPress={handleSignUp}>
           <Text style={[styles.textTypo]}>Sign up</Text>
         </TouchableOpacity>
         <Pressable
@@ -219,7 +245,7 @@ const SignUp = () => {
           onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.text1}>
-            <Text style={styles.alreadyHaveAn}>Already have an account?  </Text>
+            <Text style={styles.alreadyHaveAn}>Already have an account? </Text>
             <Text style={styles.signIn}>Sign In</Text>
           </Text>
         </Pressable>
@@ -229,13 +255,13 @@ const SignUp = () => {
 };
 
 const styles = StyleSheet.create({
-  error:{
-    margin:5
+  error: {
+    margin: 5,
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginTop: 0,
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: "Poppins-Medium",
   },
   numberTypo: {
@@ -308,7 +334,7 @@ const styles = StyleSheet.create({
 
   signIn: {
     color: "#0075fd",
-    textDecorationLine: "underline"
+    textDecorationLine: "underline",
   },
   text1: {
     fontSize: 16,
@@ -323,7 +349,6 @@ const styles = StyleSheet.create({
     marginTop: "3%",
     alignItems: "center",
     Width: "100%",
-
   },
 
   signUp: {

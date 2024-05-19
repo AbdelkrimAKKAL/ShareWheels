@@ -1,24 +1,28 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { } from "react-native";
+import {} from "react-native";
 import { useAuth } from "../context/AuthContext";
 import { Alert } from "react-native";
 import axios from "axios";
-import { useProfile, cars } from '../context/ProfileContext';
-import env from '../env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useProfile } from "../context/ProfileContext";
+import env from "../env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import Certified from "../components/certifier";
 
-
 const MonProfil = () => {
-  
   const { profileData, updateProfileData } = useProfile();
-  const { cars, updateCars } = useProfile();
 
   const { user, logout, token } = useAuth();
   const navigation = useNavigation();
@@ -26,173 +30,219 @@ const MonProfil = () => {
   const [certifier, setCertifier] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [photo, setPhoto] = useState(require("../assets/image1.png"))
+  const [photo, setPhoto] = useState(require("../assets/image1.png"));
   const [email, setEmail] = useState("");
   const [age, setAge] = useState(null);
   const [rating, setRating] = useState(null);
-  const [items, setItems] = useState([
-    { label: "POLO", value: "POLO" },
-    { label: "Maruti", value: "Maruti" },
-  ]);
+  const [items, setItems] = useState([]);
   const [selectedValue, setSelectedValue] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState('')
-
-  const { dispatch } = useAuth()
-
-  
-  
-
+  const [data, setData] = useState("");
+  const { dispatch } = useAuth();
   const handleLogout = () => {
-    AsyncStorage.removeItem('user')
-    dispatch({ type: 'LOGOUT' })
-    navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen', } })
+    AsyncStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" });
+    navigation.navigate("TabNavigator", {
+      screen: "Profile",
+      params: { screen: "WelcomeScreen" },
+    });
   };
 
-  const fetchProfileData = async () => {
-   
-    try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
-        },
-      });
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+  const fetchData = async () => {
+    try {
+      // Fetch cars data
+      
+
+      // Fetch user data
+      const userResponse = await fetch(
+        `http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if (!userResponse.ok) {
+        throw new Error("Network response was not ok");
       }
 
-      // data
-      const data = await response.json();
+      const userData = await userResponse.json();
 
-      setData(data);
-      
-      setEmail(data.user.email);
-      setPhone(data.user.num_tel);
-      setName(data.user.nom + ' ' + data.user.prenom);
-      setAge(data.user.naissance);
-      setRating(data.user.total_rating + " (" + data.user.num_ratings + ")");
-      updateProfileData({ email: email, phone: phone, name: name, photo: photo, rating: rating, age: age });
-      updateCars(data.cars);
+      setEmail(userData.user.email);
+      setPhone(userData.user.num_tel);
+      setName(userData.user.nom + " " + userData.user.prenom);
+      setAge(userData.user.naissance);
+      setRating(
+        userData.user.total_rating + " (" + userData.user.num_ratings + ")"
+      );
+      setCertifier(userData.user.est_certifie);
+      updateProfileData({
+        email: email,
+        phone: phone,
+        name: name,
+        photo: photo,
+        rating: rating,
+        age: age,
+      });
+
+      const carsResponse = await fetch(
+        `http://${env.API_IP_ADDRESS}:3000/api/getCars/${user.user.id_uti}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if (!carsResponse.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const carsData = await carsResponse.json();
+      console.log(carsData);
+
+      const carItems =
+        carsData.length > 0
+          ? carsData.map((car) => ({
+              label: car.modele,
+              value: [car.modele, car.couleur, car.matricule],
+            }))
+          : [{ label: "no car", value: "no_car" }];
+      console.log(carItems);
+      setItems(carItems);
+      console.log(items);
       
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+      console.error("Error fetching data:", error);
     }
     setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchProfileData()
-  }, []);
-
+    if (selectedValue !== null && selectedValue !== "no_car") {
+      navigation.navigate("Voiture", { car: selectedValue });
+    }
+  }, [selectedValue, navigation]);
 
   return (
     <View style={pstyles.main}>
-     
-        {isLoading ? (
-          <ActivityIndicator
-            size="large"
-            color="#0075fd"
-            style={ResultatRechercheStyles.loadingIndicator}
-          />
-        ) : (
-
-          <View style={[pstyles.main, { paddingTop: 0, paddingBottom: 0, }]} >
-            <View style={[pstyles.userprofile, pstyles.centrer]}>
-              <Image style={pstyles.imageIcon} source={photo} />
-              <View style={[pstyles.centrer]}>
-                <Text style={[pstyles.titleTypo]}>
-                  {name}
-                </Text>
-                <View style={[pstyles.centrer, { flexDirection: "row", width: "40" }]}>
-                  <Image
-                    style={pstyles.vectorIcon}
-                    contentFit="cover"
-                    source={require("../assets/vector3.png")}
-                  />
-                  <Text style={[pstyles.text, { marginRight: 7.5 }]}>{rating}  |  {age} ans </Text>
-                </View>
-              </View>
-            </View>
-            <View style={[pstyles.inputs, pstyles.centrer]}>
-
-              <View style={[pstyles.certifier]}>
-              <Certified bool={data.user.est_certifie ?? false} />
-
-              </View>
-              
-              
-              
-
-              <View style={[pstyles.rectangle]}>
-                <Text style={[pstyles.font]}>{email}</Text>
-              </View>
-              <View style={[pstyles.rectangle, { alignItems: "center" }]}>
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color="#0075fd"
+          style={ResultatRechercheStyles.loadingIndicator}
+        />
+      ) : (
+        <View style={[pstyles.main, { paddingTop: 0, paddingBottom: 0 }]}>
+          <View style={[pstyles.userprofile, pstyles.centrer]}>
+            <Image style={pstyles.imageIcon} source={photo} />
+            <View style={[pstyles.centrer]}>
+              <Text style={[pstyles.titleTypo]}>{name}</Text>
+              <View
+                style={[pstyles.centrer, { flexDirection: "row", width: "40" }]}
+              >
                 <Image
-                  style={[pstyles.alg]}
+                  style={pstyles.vectorIcon}
                   contentFit="cover"
-                  source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
+                  source={require("../assets/vector3.png")}
                 />
-                <Text style={[pstyles.signTypo]}>+213</Text>
-                <Text style={[pstyles.font]}>{phone}</Text>
+                <Text style={[pstyles.text, { marginRight: 7.5 }]}>
+                  {rating}
+                  {"   "}|{"   "}
+                  {age} ans
+                </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
-                <DropDownPicker
-                  style={[pstyles.rectangle, { zIndex: 9, width: "60%" }]}
-                  placeholder="Voitures"
-                  placeholderStyle={pstyles.font}
-                  open={open}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setSelectedValue}
-                  setItems={setItems}
-                  dropDownContainerStyle={pstyles.drop}
-                />
+            </View>
+          </View>
+          <View style={[pstyles.inputs, pstyles.centrer]}>
+            <View style={[pstyles.certifier]}>
+              <Certified bool={certifier ?? false} />
+            </View>
 
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("Voiture")}
-                  style={[pstyles.rectangle, pstyles.addbtn, pstyles.centrer]}
-                >
-                  <Image
-                    style={[pstyles.addicon]}
-                    contentFit="cover"
-                    source={require("../assets/add.svg")}
-                  />
-                </TouchableOpacity>
-              </View>
+            <View style={[pstyles.rectangle]}>
+              <Text style={[pstyles.font]}>{email}</Text>
             </View>
-            <View style={pstyles.btns}>
+            <View style={[pstyles.rectangle, { alignItems: "center" }]}>
+              <Image
+                style={[pstyles.alg]}
+                contentFit="cover"
+                source={require("../assets/flagforflagalgeria-svgrepocom1.png")}
+              />
+              <Text style={[pstyles.signTypo]}>+213</Text>
+              <Text style={[pstyles.font]}>{phone}</Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <DropDownPicker
+                style={[pstyles.rectangle, { zIndex: 9, width: "60%" }]}
+                placeholder="Voitures"
+                placeholderStyle={pstyles.font}
+                open={open}
+                items={items}
+                setOpen={setOpen}
+                setItems={setItems}
+                setValue={(value) => {
+                  setSelectedValue(value);
+                }}
+                dropDownContainerStyle={pstyles.drop}
+              />
+
               <TouchableOpacity
-                style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
-                onPress={() => navigation.navigate("Modifier")}
+                onPress={() =>
+                  navigation.navigate("Voiture", { car: "no_car" })
+                }
+                style={[pstyles.rectangle, pstyles.addbtn, pstyles.centrer]}
               >
-                <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>Modifier</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[pstyles.buttons, pstyles.blue]}
-                onPress={handleLogout}
-              >
-                <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[pstyles.buttons, pstyles.red]} onPress={() => navigation.navigate("ConfirmDelete")}>
-                <Text style={[pstyles.signTypo, pstyles.red]}>Supprimer</Text>
+                <Image
+                  style={[pstyles.addicon]}
+                  contentFit="cover"
+                  source={require("../assets/add.svg")}
+                />
               </TouchableOpacity>
             </View>
-          </View>)}
-      
+          </View>
+          <View style={pstyles.btns}>
+            <TouchableOpacity
+              style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
+              onPress={() => navigation.navigate("Modifier")}
+            >
+              <Text style={[pstyles.signTypo, { color: "#ffffff" }]}>
+                Modifier
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[pstyles.buttons, pstyles.blue]}
+              onPress={handleLogout}
+            >
+              <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[pstyles.buttons, pstyles.red]}
+              onPress={() => navigation.navigate("ConfirmDelete")}
+            >
+              <Text style={[pstyles.signTypo, pstyles.red]}>Supprimer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
-
   );
 };
 
-
 export const pstyles = StyleSheet.create({
-  certifier:{
+  certifier: {
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 85  
+    marginRight: 85,
   },
   addicon: {
     height: 40,
