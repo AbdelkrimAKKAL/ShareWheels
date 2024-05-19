@@ -40,6 +40,7 @@ const AjouterAnnonce = () => {
   const selectedData = route.params?.selectedData;
 
   useEffect(() => {
+    if (user){
     const fetchCars = async () => {
       try {
         const carsResponse = await fetch(
@@ -71,8 +72,8 @@ const AjouterAnnonce = () => {
       }
     };
 
-    fetchCars();
-  }, [user.token, user.user.id_uti]);
+    fetchCars();}
+  }, []);
 
   useEffect(() => {
     if (id === "Destination") {
