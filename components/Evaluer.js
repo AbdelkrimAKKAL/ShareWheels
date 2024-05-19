@@ -61,12 +61,16 @@ const Evaluer = (Props) => {
   const cancelReservation = async () => {
    
     try {
-      const response = await fetch(
-        `http://${API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          key: 'req',
+        }),
+      })
       if (!response.ok) {
         throw new Error("Failed to cancel reservation");
       }

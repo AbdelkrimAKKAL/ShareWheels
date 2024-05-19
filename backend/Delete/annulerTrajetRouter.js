@@ -8,6 +8,8 @@ const router = express.Router();
 router.delete("/:reservationId", async (req, res) => {
   try {
     const { reservationId } = req.params;
+    const {key} = req.body;
+    console.log(key)
 
     // Fetch reservation details
     const reservationQuery = "SELECT id_trajet, nbr_place, id_reserveur FROM reservations WHERE id_reservation = ?";
@@ -64,10 +66,18 @@ router.delete("/:reservationId", async (req, res) => {
     const currentTime = moment().format('YYYY-MM-DD HH:mm');
     const message = `A annuler de participer a ce trajet`;
     const connection2 = await pool.getConnection();
-    await connection2.query(
-      'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
-      [idConducteur, senderId, "Annuler Reservation", message, currentTime]
-    );
+    if (key == 'req'){
+      await connection2.query(
+        'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
+        [idConducteur, senderId, "Annuler Reservation", message, currentTime]
+      );
+    }else{
+      await connection2.query(
+        'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
+        [senderId, idConducteur, "retiré", "t'a retiré de son voyage", currentTime]
+      );
+    }
+
     connection2.release();
 
     res.status(200).json({ message: "Reservation canceled successfully." });

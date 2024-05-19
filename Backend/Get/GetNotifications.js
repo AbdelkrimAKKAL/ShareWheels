@@ -31,7 +31,8 @@ router.get("/:email", async (req, res) => {
             `SELECT notifications.*, senders.nom as sender_name, senders.prenom as sender_prenom, senders.photo as pdp 
              FROM notifications 
              JOIN Utilisateurs as senders ON notifications.id_sender = senders.id_uti 
-             WHERE notifications.id_uti = ?`,
+             WHERE notifications.id_uti = ?
+             ORDER BY time DESC`,
             [userId]
         );
         notificationsConnection.release();
