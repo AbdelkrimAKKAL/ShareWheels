@@ -1,8 +1,15 @@
 import * as React from "react";
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
-import env from '../env';
+import env from "../env";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
@@ -10,52 +17,57 @@ const Voiture = ({ route }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const { car } = route.params;
+  const [error, setError] = useState(null);
 
   const [modele, setModele] = useState(null);
   const [couleur, setCouleur] = useState(null);
   const [matricule, setMatricule] = useState(null);
 
   const handleAdd = () => {
-    fetch(`http://${env.API_IP_ADDRESS}:3000/api/voitures`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-      body: JSON.stringify({      
-        id_prop: user.user.id_uti, 
-        matricule: matricule,
-        modele: modele,
-        couleur: couleur,
-        voiture_est_certifie: 0,
-        voiture_certificat: 123,
-      }),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        console.error("Error adding car:", data.error);
-        Alert.alert('Error', 'Failed to add car');
-      } else {
-        navigation.navigate('TabNavigator', {
-        screen: 'Search',
-        params: {
-          screen: 'Recherche', 
-        }
+    if (matricule && modele && couleur) {
+      fetch(`http://${env.API_IP_ADDRESS}:3000/api/voitures`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({
+          id_prop: user.user.id_uti,
+          matricule: matricule,
+          modele: modele,
+          couleur: couleur,
+          voiture_est_certifie: 0,
+          voiture_certificat: 123,
+        }),
       })
-      navigation.navigate('TabNavigator', {
-        screen: 'Profile',
-        params: {
-          screen: 'MonProfil', 
-        }
-      })
-        Alert.alert('Success', 'Car added successfully');
-      }
-    })
-    .catch((error) => {
-      console.error("Error adding car:", error);
-      Alert.alert('Error', 'Failed to add car');
-    });
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.error("Error adding car:", data.error);
+            Alert.alert("Error", "Failed to add car");
+          } else {
+            navigation.navigate("TabNavigator", {
+              screen: "Search",
+              params: {
+                screen: "Recherche",
+              },
+            });
+            navigation.navigate("TabNavigator", {
+              screen: "Profile",
+              params: {
+                screen: "MonProfil",
+              },
+            });
+            Alert.alert("Success", "Car added successfully");
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding car:", error);
+          Alert.alert("Error", "Failed to add car");
+        });
+    } else {
+      setError("something is messing");
+    }
   };
 
   const handleDelete = () => {
@@ -66,31 +78,31 @@ const Voiture = ({ route }) => {
         Authorization: `Bearer ${user.token}`,
       },
     })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        console.error("Error deleting car:", data.error);
-        Alert.alert('Error', 'Failed to delete car');
-      } else {
-        navigation.navigate('TabNavigator', {
-          screen: 'Search',
-          params: {
-            screen: 'Recherche', 
-          }
-        })
-        navigation.navigate('TabNavigator', {
-          screen: 'Profile',
-          params: {
-            screen: 'MonProfil', 
-          }
-        })
-        Alert.alert('Success', 'Car deleted successfully');
-      }
-    })
-    .catch((error) => {
-      console.error("Error deleting car:", error);
-      Alert.alert('Error', 'Failed to delete car');
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.error("Error deleting car:", data.error);
+          Alert.alert("Error", "Failed to delete car");
+        } else {
+          navigation.navigate("TabNavigator", {
+            screen: "Search",
+            params: {
+              screen: "Recherche",
+            },
+          });
+          navigation.navigate("TabNavigator", {
+            screen: "Profile",
+            params: {
+              screen: "MonProfil",
+            },
+          });
+          Alert.alert("Success", "Car deleted successfully");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting car:", error);
+        Alert.alert("Error", "Failed to delete car");
+      });
   };
 
   const render = () => {
@@ -120,6 +132,11 @@ const Voiture = ({ route }) => {
             onChangeText={(text) => setCouleur(text)}
             value={couleur}
           />
+
+          <View style={[styles.error]}>
+            {error && <Text style={styles.errorText}>{error}</Text>}
+          </View>
+
           <TouchableOpacity
             style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
             onPress={handleAdd}
@@ -157,6 +174,15 @@ const Voiture = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
+  error: {
+    margin: 5,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 0,
+    textAlign: "center",
+    fontFamily: "Poppins-Medium",
+  },
   voiture: {
     fontSize: 32,
     fontWeight: "700",

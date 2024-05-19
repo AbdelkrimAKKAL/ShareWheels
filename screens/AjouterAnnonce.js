@@ -236,7 +236,7 @@ const AjouterAnnonce = () => {
 
     const prixFloat = parseFloat(prix);
     try {
-      if (isDatePicked && isTimePicked && departLocation && destinationLocation && prix){
+      if (isDatePicked && isTimePicked && departLocation && destinationLocation && prix && selectedValue){
       const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/publish", {
         method: "POST",
         headers: {
