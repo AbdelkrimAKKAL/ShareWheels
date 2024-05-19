@@ -58,9 +58,11 @@ const YourRides = () => {
     }
   }, [refresh, user]);
 
+  
+  console.log(data);
   const renderItem = ({ item }) => {
     const { date, time } = timestampToDateTime(item.timestamp);
-
+    
     return (
       <Annonce
         trajetId={item.id_trajet}
@@ -141,6 +143,7 @@ export const YourRidesStyles = StyleSheet.create({
     height: 27,
     width: '100%',
     textAlign: "center",
+    
   },
   main: {
     flex: 1,

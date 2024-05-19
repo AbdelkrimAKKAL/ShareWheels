@@ -37,6 +37,7 @@ import { ProfileProvider } from "./context/ProfileContext";
 import { RefreshProvider } from "./context/refresh";
 import ConfirmDelete from "./screens/ConfimDelete";
 import CertifierCompte from "./screens/CertifierCompte";
+import Notifications from "./screens/Notifications";
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -191,6 +192,12 @@ const App = () => {
                     component={CertifierCompte}
                     options={{ headerShown: false }}
                   />
+                   <Stack.Screen
+                    name="Notifications"
+                    component={Notifications}
+                    options={{ headerShown: false }}
+                  />
+
                 </Stack.Navigator>
               ) : null}
             </NavigationContainer>
@@ -343,6 +350,7 @@ const YourRidesStackScreen = () => (
 const PublishStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="AjouterAnnonce" component={AjouterAnnonce} />
+    <Stack.Screen name="Notifications" component={Notifications} />
     <Stack.Screen name="Dates" component={Dates} />
     <Stack.Screen name="Voiture" component={Voiture} />
     <Stack.Screen name="SearchBar" component={SearchBar} />

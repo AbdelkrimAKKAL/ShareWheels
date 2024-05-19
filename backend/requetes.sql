@@ -70,3 +70,19 @@ CREATE TABLE Signalements (
     FOREIGN KEY (SignalerUserID) REFERENCES Utilisateurs(id_uti),
     FOREIGN KEY (TargetUserID) REFERENCES Utilisateurs(id_uti)
 );
+
+
+-- NEW!!
+
+-- Create Notifications table
+create table notifications(
+	id_notification INT AUTO_INCREMENT PRIMARY KEY,
+    id_uti int,
+    id_sender int,
+	titre varchar(30),
+    body varchar(255),
+    time TIMESTAMP,
+
+    foreign key(id_uti) references utilisateurs(id_uti),
+    foreign key(id_sender) references utilisateurs(id_uti)
+);

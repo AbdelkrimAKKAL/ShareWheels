@@ -24,6 +24,7 @@ import EditPassword from './Post/EditPassword.js'
 import AjouterID from './Post/AjouterID.js'
 import getCarsRouter from './Get/getCarsRouter.js'
 import deleteCarRouter from './Delete/deleteCarRouter.js'
+import GetNotifications from './Get/GetNotifications.js'
 
 
 const app = express();
@@ -60,6 +61,8 @@ app.use("/api/resetPassword", resetPassword);
 
 app.use("/api/EditPassword", EditPassword)
 app.use("/api/AjouterID", AjouterID)
+
+app.use("/api/GetNotifications", GetNotifications)
 
 
 

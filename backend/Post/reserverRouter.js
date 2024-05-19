@@ -1,6 +1,9 @@
 // Assuming you already have express and pool imported
 import express from "express";
 import { pool } from "../createPool.js";
+// import notificationsService from '../notificationsService.js';
+import moment from 'moment';
+const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 const router = express.Router();
 
@@ -10,24 +13,18 @@ router.post("/", async (req, res) => {
     const { id_trajet, id_reserveur, nbr_place } = req.body;
 
     // Validate required fields
-    if (!id_trajet || !id_reserveur || !nbr_place) {
-      return res
-        .status(400)
-        .json({
-          error: "id_trajet, id_reserveur, and nbr_places are required.",
-        });
+    if (!id_trajet || !id_reserveur || !nbr_place ) {
+      return res.status(400).json({
+        error: "id_trajet, id_reserveur, nbr_places, and userToken are required.",
+      });
     }
 
     // Check available seats
-    const availableSeatsQuery =
-      "SELECT nbr_place FROM trajets WHERE id_trajet = ?";
+    const availableSeatsQuery = "SELECT nbr_place FROM trajets WHERE id_trajet = ?";
     const availableSeatsParams = [id_trajet];
 
     const connection = await pool.getConnection();
-    const [result] = await connection.query(
-      availableSeatsQuery,
-      availableSeatsParams
-    );
+    const [result] = await connection.query(availableSeatsQuery, availableSeatsParams);
     connection.release();
 
     if (result.length === 0) {
@@ -41,8 +38,7 @@ router.post("/", async (req, res) => {
     }
 
     // Update available seats in trajets table
-    const updateSeatsQuery =
-      "UPDATE trajets SET nbr_place = nbr_place - ? WHERE id_trajet = ?";
+    const updateSeatsQuery = "UPDATE trajets SET nbr_place = nbr_place - ? WHERE id_trajet = ?";
     const updateSeatsParams = [nbr_place, id_trajet];
 
     const updateConnection = await pool.getConnection();
@@ -50,16 +46,40 @@ router.post("/", async (req, res) => {
     updateConnection.release();
 
     // Insert reservation
-    const insertReservationQuery =
-      "INSERT INTO reservations (id_trajet, id_reserveur, nbr_place) VALUES (?, ?, ?)";
+    const insertReservationQuery = "INSERT INTO reservations (id_trajet, id_reserveur, nbr_place) VALUES (?, ?, ?)";
     const insertReservationParams = [id_trajet, id_reserveur, nbr_place];
 
     const insertConnection = await pool.getConnection();
-    await insertConnection.query(
-      insertReservationQuery,
-      insertReservationParams
-    );
+    await insertConnection.query(insertReservationQuery, insertReservationParams);
     insertConnection.release();
+
+    // Send notification and save it to MySQL
+    // const message = `You have a new booking for your ride: ${nbr_place} seats reserved.`;
+    // await notificationsService.sendNotification(id_trajet, id_reserveur, "New Ride Booking", message);
+
+
+    // Get the id of the conducteur
+    const connection3 = await pool.getConnection();
+    const [conducteurID] = await connection3.query(
+      `SELECT t.id_conducteur 
+   FROM trajets t
+   INNER JOIN reservations r ON t.id_trajet = r.id_trajet
+   WHERE r.id_reserveur = ? AND r.id_trajet = ?`,
+      [id_reserveur, id_trajet]
+    );
+    connection3.release();
+    const id = conducteurID[0].id_conducteur;
+    console.log("conducteur", id);
+    console.log("reserveur", id_reserveur);
+
+    // add a notification
+    const message = `You have a new booking for your ride: ${nbr_place} seats reserved.`;
+    const connection2 = await pool.getConnection();
+    await connection2.query(
+      'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
+      [id, id_reserveur, "Reservation", message, currentTime] // Adjust id_sender as necessary
+    );
+    connection2.release();
 
     res.status(201).json({ message: "Reservation made successfully." });
   } catch (error) {

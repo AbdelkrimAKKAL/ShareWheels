@@ -36,10 +36,10 @@ const Evaluer = (Props) => {
       setStars(stars - 1);
     }
   };
-
+  console.log(("Evaluer.js", user.user.user.email));
   const setRating = async (stars) => {
     try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/Rate/${Props.id_conducteur}`, {
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/Rate/${Props.id_conducteur}/${user.user.user.email}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const Evaluer = (Props) => {
   };
 
   const cancelReservation = async () => {
-    console.log(Props.id_reservation);
+   
     try {
       const response = await fetch(
         `http://${API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`,

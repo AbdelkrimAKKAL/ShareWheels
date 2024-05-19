@@ -45,7 +45,7 @@ const Recherche = () => {
       );
     } else {
       navigation.navigate("ResultatRecherche", {
-        timestampRech : pickedDate.getTime(),
+        timestampRech: pickedDate.getTime(),
         Date: pickedDate.toLocaleDateString(),
         heure: pickedDate.toLocaleTimeString([], {
           hour: "2-digit",
@@ -161,6 +161,18 @@ const Recherche = () => {
         />
       </View>
 
+      <View style={RechercheStyles.notification}>
+        <Pressable onPress={()=>navigation.navigate("Notifications")}>
+          <Image
+            style={RechercheStyles.notificationPng}
+            contentFit="cover"
+            source={require("../assets/notification.png")}
+          />
+        </Pressable>
+
+      </View>
+
+
       <Text style={RechercheStyles.sharewheels}>ShareWheels</Text>
 
       <View style={RechercheStyles.main}>
@@ -244,10 +256,10 @@ const Recherche = () => {
             <Text style={[RechercheStyles.inputText, { marginLeft: 5 }]}>
               {isTimePicked
                 ? pickedDate.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  })
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })
                 : "Heure"}
             </Text>
           </TouchableOpacity>
@@ -296,6 +308,17 @@ const Recherche = () => {
 };
 
 export const RechercheStyles = StyleSheet.create({
+  notification: {
+    marginTop: 30,
+    position: 'absolute',
+    top: 10, // Adjust this value to fine-tune the vertical position
+    right: 10,
+
+  },
+  notificationPng: {
+    height: 45,
+    width: 45
+  },
   buttonText: {
     lineHeight: 24,
     fontSize: FontSize.subheadLgSHLgMedium_size,
@@ -322,7 +345,7 @@ export const RechercheStyles = StyleSheet.create({
     borderStyle: "solid",
     shadowColor: '#7C7C7C',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 1},
+    shadowOffset: { width: 0, height: 1 },
     shadowRadius: 4,
     elevation: 1.5,
     justifyContent: "space-between",
@@ -420,7 +443,7 @@ export const RechercheStyles = StyleSheet.create({
     alignItems: "center",
     shadowColor: '#585858',
     shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 10,
     elevation: 6,
   },
