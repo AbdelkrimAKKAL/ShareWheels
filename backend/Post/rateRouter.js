@@ -5,11 +5,49 @@ import moment from 'moment';
 const router = express.Router();
 
 // Update user rating endpoint
-router.put("/:userId/:emailSender", async (req, res) => {
-  const { userId, emailSender } = req.params;
+router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
+  const { userId, emailSender, idReservation } = req.params;
   const { newRating } = req.body;
 
   try {
+
+    // Get the id of the sender
+    const connection3 = await pool.getConnection();
+    const [senderIdResult] = await connection3.query(
+      `SELECT id_uti 
+       FROM utilisateurs 
+       WHERE email = ?`,
+      [emailSender]
+    );
+    if (senderIdResult.length === 0) {
+      return res.status(404).json({ error: "Sender not found" });
+    }
+    const senderId = senderIdResult[0].id_uti;
+    connection3.release();
+
+    //Check if the rate exists
+
+    const isRated = await pool.getConnection();
+    const [rateResult] = await connection3.query(
+      `SELECT rated 
+       FROM reservations 
+       WHERE id_reservation = ? and id_reserveur= ?`,
+      [idReservation, senderId]
+    );
+    if (rateResult.length === 0) {
+      return res.status(404).json({ error: "Reservation not found" });
+    }
+    const rated = rateResult[0].rated;
+    isRated.release();
+
+    if (rated) {
+      
+      return res.status(400).json({
+        error: "You already rated the ride !",
+      });
+      
+    }
+
     // Update user rating
     const userConnection = await pool.getConnection();
     await userConnection.query(
@@ -28,23 +66,20 @@ router.put("/:userId/:emailSender", async (req, res) => {
     );
     userConnection.release();
 
+    // set rated to True 
+    const checkRate = await pool.getConnection()
+    await checkRate.query(
+      `UPDATE reservations
+        set rated = true where
+        id_reservation = ? and id_reserveur = ?
+      `, [idReservation, senderId]
+    )
+    checkRate.release()
+
+
+
     console.log(emailSender);
 
-    // Get the id of the sender
-    const connection3 = await pool.getConnection();
-    const [senderIdResult] = await connection3.query(
-      `SELECT id_uti 
-       FROM utilisateurs 
-       WHERE email = ?`,
-      [emailSender]
-    );
-    connection3.release();
-
-    if (senderIdResult.length === 0) {
-      return res.status(404).json({ error: "Sender not found" });
-    }
-
-    const senderId = senderIdResult[0].id_uti;
     console.log("userid", userId);
     console.log("senderId", senderId);
     // Add a notification
@@ -57,7 +92,7 @@ router.put("/:userId/:emailSender", async (req, res) => {
     );
     connection2.release();
 
-    res.status(200).json({ message: "User rating updated successfully" });
+    res.status(200).json({ message: "User rating updated successfully", rated: true });
   } catch (error) {
     console.error("Error updating user rating:", error);
     res.status(500).json({ error: "Internal server error" });

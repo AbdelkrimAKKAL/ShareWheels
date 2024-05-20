@@ -24,6 +24,9 @@ const Evaluer = (Props) => {
   const navigation = useNavigation();
   const [stars, setStars] = useState(1);
   const [isSent, setIsSent] = useState(false);
+  const [rated, setRated] = useState(false);
+  const [error, setError] = useState(null);
+
 
   const add = () => {
     if (stars < 5) {
@@ -38,28 +41,34 @@ const Evaluer = (Props) => {
   };
   const setRating = async (stars) => {
     try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/Rate/${Props.id_conducteur}/${user.user.user.email}`, {
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/Rate/${Props.id_conducteur}/${user.user.user.email}/${Props.id_reservation}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify({newRating: stars }),
+        body: JSON.stringify({ newRating: stars }),
       });
+      const responseData = await response.json();
       if (!response.ok) {
-        throw new Error('Failed');
+        setError(responseData.error)
+        return;
       }
+      if (responseData.rated) {
+        setRated(true);
+      }
+      setIsSent(true);
       Alert.alert(`${stars} star sent`);
     } catch (error) {
       console.error('Error adding new item:', error);
-      Alert.alert("Alert", "Failed to add new item.");
+      // Alert.alert("Alert", "Failed to add new item.");
     }
-    
-    setIsSent(true);
+
+
   };
 
   const cancelReservation = async () => {
-   
+
     try {
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/annulerTrajet/${Props.id_reservation}`, {
         method: 'DELETE',
@@ -158,7 +167,7 @@ const Evaluer = (Props) => {
         <View style={[AnnonceStyles.infoBox]}>
           <Text style={[AnnonceStyles.titre]}>Heure</Text>
           <Text
-            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs+1.5 }]}
+            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs + 1.5 }]}
           >
             {Props.time}
           </Text>
@@ -219,6 +228,7 @@ const Evaluer = (Props) => {
         </View>
 
         {!isSent && (
+
           <TouchableOpacity
             style={[styles.participer, styles.participerLayout]}
             onPress={() => setRating(stars)}
@@ -227,7 +237,11 @@ const Evaluer = (Props) => {
             <Text style={[styles.supprimer, styles.signalerTypo]}>
               {isSent ? <Text>{stars}</Text> : "Evaluer"}
             </Text>
+
+            
+           
           </TouchableOpacity>
+
         )}
 
         <TouchableOpacity
@@ -238,12 +252,23 @@ const Evaluer = (Props) => {
         >
           <Text style={[styles.signaler, styles.signalerTypo]}>Signaler</Text>
         </TouchableOpacity>
+        
       </View>
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  error: {
+    margin: 1,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 0,
+    textAlign: "center",
+    fontFamily: "Poppins-Medium",
+  },
   deleteAnnonce: {
     position: "absolute",
     top: -17,
