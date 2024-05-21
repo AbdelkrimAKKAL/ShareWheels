@@ -10,10 +10,11 @@ import env from "../env";
 import Notification from "../components/Notification";
 import * as FileSystem from 'expo-file-system';
 
-const Notifications = ({}) => {
+const Notifications = ({ }) => {
   const { user } = useAuth();
   const navigation = useNavigation();
   const [notifications, setNotifications] = useState([]);
+  const [newId, setNewId] = useState()
   const [nbrNoti, setNbrNoti] = useState()
   const [ifZero, setIfZero] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +45,7 @@ const Notifications = ({}) => {
         throw new Error('Network response was not ok');
       }
 
-      const { notifications, nbr_notifications } = await response.json();
+      const { notifications, notificationIds, nbr_notifications, newNotificationIds } = await response.json();
 
       // Load photos for notifications
       if (notifications) {
@@ -55,13 +56,18 @@ const Notifications = ({}) => {
       }
 
       console.log('Notifications:', notifications);
+      console.log("notifications ids: ", notificationIds);
       console.log('Number of unread notifications:', nbr_notifications);
+      console.log("the ids of the new notifications: ", newNotificationIds);
 
       setNotifications(notifications);
       setNbrNoti(nbr_notifications); // Set the state for the number of unread notifications
+      setNewId(newNotificationIds);
 
       if (nbrNoti == 0) {
         setIfZero(true)
+      } else {
+        setIfZero(false)
       }
     } catch (error) {
       console.error('Error fetching profile data:', error);
@@ -79,14 +85,14 @@ const Notifications = ({}) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`,
         },
-        
+
       });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
 
-      const { notifications,nbr_notifications } = await response.json();
+      const { notifications, nbr_notifications } = await response.json();
 
       // Load photos for notifications
       if (notifications) {
@@ -98,6 +104,7 @@ const Notifications = ({}) => {
       setNotifications(notifications)
       setNbrNoti(nbr_notifications);
       setIfZero(true)
+      setNewId('')
     } catch (error) {
       console.error('Error fetching profile data:', error);
     } finally {
@@ -113,10 +120,15 @@ const Notifications = ({}) => {
   }, [user]);
 
   const renderItem = ({ item }) => {
-
+    // checks the id of the notification is in the array of the 
+    //new notifications ids 
+    
+    const isNew = newId.includes(item.id_notification);
 
     return (
       <Notification
+        id_notification={item.id_notification}
+        isNew={isNew}
         titre={item.titre}
         sender_name={item.sender_name}
         sender_prenom={item.sender_prenom}
@@ -162,12 +174,14 @@ const Notifications = ({}) => {
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={['#0075fd']} progressBackgroundColor='white' />}
             />
           )}
-           {/* button */}
-          
+          {/* button */}
+          {!ifZero && (
             <TouchableOpacity style={styles.markAsRead} onPress={markAsRead}>
               <Text style={styles.nbr}>Mark as read : {nbrNoti}</Text>
             </TouchableOpacity>
-          
+          )}
+
+
 
         </View>
 

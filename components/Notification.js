@@ -29,7 +29,7 @@ const Notification = (Props) => {
         setTimeString(`${timeOfDay}, ${fullDate}`);
     }, [time]);
     return (
-        <View style={styles.notificationContainer}>
+        <View style={[styles.notificationContainer, Props.isNew && styles.newNotification ]}>
             <Image source={Props.photo} style={styles.image} />
             <View style={styles.textContainer}>
                 <Text style={styles.title2}>{Props.titre}</Text>
@@ -43,6 +43,9 @@ const Notification = (Props) => {
 };
 
 export const styles = StyleSheet.create({
+    newNotification: {
+        backgroundColor: '#e0f7fa', // Change this to your desired highlight color
+    },
     notificationContainer: {
         flexDirection: "row",
         padding: 5,
@@ -50,6 +53,7 @@ export const styles = StyleSheet.create({
         borderBottomColor: "#ccc",
         marginHorizontal: '6%',
         marginVertical: '2%',
+        borderRadius: 10
       },
     image: {
         width: 50,
