@@ -3,8 +3,10 @@ import { pool } from "../createPool.js"; // Import the pool from createPool.js
 
 const router = express.Router();
 
-router.get("/:email", async (req, res) => {
-    const { email } = req.params;
+router.get("/:email/:read", async (req, res) => {
+    const { email, read } = req.params;
+    
+    
 
     try {
         // Get user information
@@ -15,16 +17,24 @@ router.get("/:email", async (req, res) => {
         );
         userConnection.release();
 
-
         if (userData.length === 0) {
             return res.status(404).json({ error: "User not found" });
         }
 
         // Get user ID
         const userId = userData[0].id_uti;
-        const userName = userData[0].nom;
 
-        
+        // Update notifications if 'read' is true
+        if (read === "true") {
+            const notificationsConnection3 = await pool.getConnection();
+            await notificationsConnection3.query(
+                "UPDATE notifications SET clicked = true WHERE id_uti = ?",
+                [userId]
+            );
+            notificationsConnection3.release();
+        }
+
+
         // Get notifications along with sender name
         const notificationsConnection = await pool.getConnection();
         const [notifications] = await notificationsConnection.query(
@@ -36,11 +46,17 @@ router.get("/:email", async (req, res) => {
             [userId]
         );
         notificationsConnection.release();
-        
-        console.log(notifications);
 
-        res.status(200).json(notifications);
+        // Get the number of notifications where clicked = false
+        const [rows] = await pool.query(
+            `SELECT COUNT(id_notification) AS notifications_count
+             FROM notifications
+             WHERE id_uti = ? AND clicked = false`,
+            [userId]
+        );
+        const nbr_notifications = rows[0].notifications_count || 0;
 
+        res.status(200).json({ notifications, nbr_notifications }); // Include nbr_notifications in the response
     } catch (error) {
         console.error("Error retrieving user Notifications :", error);
         res.status(500).json({ error: "Internal server error" });

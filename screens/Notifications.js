@@ -10,10 +10,12 @@ import env from "../env";
 import Notification from "../components/Notification";
 import * as FileSystem from 'expo-file-system';
 
-const Notifications = () => {
+const Notifications = ({}) => {
   const { user } = useAuth();
   const navigation = useNavigation();
   const [notifications, setNotifications] = useState([]);
+  const [nbrNoti, setNbrNoti] = useState()
+  const [ifZero, setIfZero] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const [refreshing, setRefreshing] = useState(false);
@@ -29,7 +31,8 @@ const Notifications = () => {
 
   const fetchDataFromDatabase = async () => {
     try {
-      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/GetNotifications/${user.user.email}`, {
+      const read = "false";
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/GetNotifications/${user.user.email}/${read}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -41,19 +44,67 @@ const Notifications = () => {
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
-      if (data){for (const item of data) {
-        const loadedPhoto = await loadImage(item.pdp);
-        item.pdp = loadedPhoto;
-      }}
-      console.log(data)
-      setNotifications(data);
+      const { notifications, nbr_notifications } = await response.json();
+
+      // Load photos for notifications
+      if (notifications) {
+        for (const item of notifications) {
+          const loadedPhoto = await loadImage(item.pdp);
+          item.pdp = loadedPhoto;
+        }
+      }
+
+      console.log('Notifications:', notifications);
+      console.log('Number of unread notifications:', nbr_notifications);
+
+      setNotifications(notifications);
+      setNbrNoti(nbr_notifications); // Set the state for the number of unread notifications
+
+      if (nbrNoti == 0) {
+        setIfZero(true)
+      }
     } catch (error) {
       console.error('Error fetching profile data:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const markAsRead = async () => {
+    try {
+      const read = "true";
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/GetNotifications/${user.user.email}/${read}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const { notifications,nbr_notifications } = await response.json();
+
+      // Load photos for notifications
+      if (notifications) {
+        for (const item of notifications) {
+          const loadedPhoto = await loadImage(item.pdp);
+          item.pdp = loadedPhoto;
+        }
+      }
+      setNotifications(notifications)
+      setNbrNoti(nbr_notifications);
+      setIfZero(true)
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     if (user) {
@@ -62,8 +113,8 @@ const Notifications = () => {
   }, [user]);
 
   const renderItem = ({ item }) => {
-    
-      
+
+
     return (
       <Notification
         titre={item.titre}
@@ -71,7 +122,7 @@ const Notifications = () => {
         sender_prenom={item.sender_prenom}
         body={item.body}
         time={item.time}
-        photo = {item.pdp}
+        photo={item.pdp}
       />
     );
   };
@@ -97,7 +148,7 @@ const Notifications = () => {
   } else {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Notifications</Text>
+        <Text style={styles.title}>Notifications </Text>
         <View style={styles.main}>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0075fd" />
@@ -111,18 +162,49 @@ const Notifications = () => {
               refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} colors={['#0075fd']} progressBackgroundColor='white' />}
             />
           )}
+           {/* button */}
+          
+            <TouchableOpacity style={styles.markAsRead} onPress={markAsRead}>
+              <Text style={styles.nbr}>Mark as read : {nbrNoti}</Text>
+            </TouchableOpacity>
+          
+
         </View>
+
       </View>
     );
   }
 };
 
 const styles = StyleSheet.create({
+
+  markAsRead: {
+    position: 'absolute', // Make the button float
+    bottom: 16, // Position it 16 units from the bottom of the parent
+    right: 16, // Position it 16 units from the right of the parent
+    height: 45,
+    width: 150,
+    backgroundColor: '#0075fd', // Ensure you use the correct color code
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
+  nbr: {
+    color: 'white',
+    fontSize: 15,
+    fontFamily: "Poppins-Medium",
+  },
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: "#fff",
-    marginTop:0,
+    marginTop: 0,
   },
   title: {
     fontSize: FontSize.size_5xl,
@@ -133,7 +215,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: '100%',
     textAlign: "center",
-    marginBottom:15,
+    marginBottom: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc"
   },

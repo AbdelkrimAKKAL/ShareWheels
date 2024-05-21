@@ -12,10 +12,16 @@ import { FontSize, Padding, Color, Border, FontFamily } from "../GlobalStyles";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Alert } from "react-native";
+import { useAuth } from "../context/AuthContext";
+import env from "../env";
 
 
 const Recherche = () => {
   const navigation = useNavigation();
+  const { user } = useAuth();
+  const [nbrNoti, setNbrNoti] = useState()
+  const [ifZero, setIfZero] = useState()
+  const [isLoading, setIsLoading] = useState(true);
 
   //SearchBar Screen par --------------------------------------------------------------------------------------------------
   const route = useRoute();
@@ -146,9 +152,49 @@ const Recherche = () => {
     console.log("A time has been picked: ", time);
     setTimePicked(true);
   };
+  // get number of new notifications
+  const fetchDataFromDatabase = async () => {
+    try {
+      const read = "false";
+      const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/GetNotifications/${user.user.email}/${read}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const { nbr_notifications } = await response.json();
+      setNbrNoti(nbr_notifications);
+      if (nbr_notifications == 0) {
+        setIfZero(true)
+      }else{
+        setIfZero(false)
+      }
+
+       // Set the state for the number of unread notifications
+    } catch (error) {
+      console.error('Error fetching profile data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchDataFromDatabase();
+    }
+  }, [user]);
+
+  // console.log("nbr not:", nbrNoti);
+  // console.log("isZero:", ifZero);
 
   //----------------------------------------------------------------------------------------------------------------
-
+  
   return (
     <View style={RechercheStyles.recherche}>
       <TopBar />
@@ -160,14 +206,20 @@ const Recherche = () => {
           source={require("../assets/image-1.png")}
         />
       </View>
-
+      {/* Notification */}
       <View style={RechercheStyles.notification}>
-        <Pressable onPress={()=>navigation.navigate("Notifications")}>
+        <Pressable onPress={() => navigation.navigate("Notifications")}>
           <Image
             style={RechercheStyles.notificationPng}
             contentFit="cover"
             source={require("../assets/notification.png")}
           />
+          {!ifZero && (
+             <View style={RechercheStyles.redDot}>
+             <Text style={RechercheStyles.dotText}>{nbrNoti}</Text>
+           </View>
+          )}
+
         </Pressable>
 
       </View>
@@ -374,6 +426,17 @@ export const RechercheStyles = StyleSheet.create({
     position: "absolute",
     width: "100%",
     resizeMode: "stretch",
+  },
+  redDot: {
+    position: 'absolute',
+    top: 10, // Adjust this value to position the dot vertically
+    right: 25, // Adjust this value to position the dot horizontally
+    width: 20, // Adjust the size of the dot as needed
+    height: 20,
+    borderRadius: 12,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   carpic: {
     height: "34%",
