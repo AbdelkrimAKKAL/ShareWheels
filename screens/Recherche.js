@@ -214,7 +214,7 @@ const Recherche = () => {
             contentFit="cover"
             source={require("../assets/notification.png")}
           />
-          {!ifZero && (
+          {!ifZero && user && (
              <View style={RechercheStyles.redDot}>
              <Text style={RechercheStyles.dotText}>{nbrNoti}</Text>
            </View>
