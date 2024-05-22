@@ -17,6 +17,7 @@ import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";
 import env from "../env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Select, Box, CheckIcon , NativeBaseProvider } from "native-base";
 
 const SignUp = () => {
   const [open, setOpen] = useState(false);
@@ -189,7 +190,7 @@ const SignUp = () => {
             onBlur={() => setBirthYear(naissance)} // Perform validation onBlur
           />
         </Pressable>
-        <View style={[styles.container, { zIndex: 1000 }]}>
+        {/*<View style={[styles.container, { zIndex: 1000 }]}>
           <Image
             style={styles.icon}
             contentFit="cover"
@@ -216,6 +217,43 @@ const SignUp = () => {
               },
             ]}
           />
+          </View>*/}
+
+          <View style={[styles.container, { zIndex: 1000 }]}>
+          <Image style={styles.icon} contentFit="cover" source={require("../assets/group1.png")} />
+          <NativeBaseProvider>
+          <Box w="100%" >
+            <Select
+              selectedValue={genre}
+              minWidth="200"
+              accessibilityLabel="Genre"
+              placeholder="Genre"
+              color= '#7c7c7c'            
+              fontFamily= "Nunito-Regular"
+              fontSize= {15}
+              _selectedItem={{
+                bg: "#0075fd",
+                borderRadius: 20,
+                endIcon: <CheckIcon size="5" color= 'white'/>,
+                _text: {
+                  color: 'white'
+                }
+              }}
+              _item={{
+                borderRadius: 20,
+                _pressed: {
+                  bg: '#e3ecfa',
+                },
+              }}
+              mt={1}
+              onValueChange={(itemValue) => setGenre(itemValue)}
+              borderWidth={0}
+              marginTop= "0"
+            >
+              <Select.Item label="Homme" value="Homme" />
+              <Select.Item label="Femme" value="Femme" />
+            </Select>
+          </Box></NativeBaseProvider>
         </View>
 
         <View style={[styles.container]}>

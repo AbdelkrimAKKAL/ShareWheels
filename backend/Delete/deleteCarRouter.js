@@ -8,6 +8,18 @@ router.delete("/:carId", async (req, res) => {
 
   try {
     console.log(carId)
+
+    const traietsCnt = await pool.getConnection();
+    await traietsCnt.query(`
+      DELETE reservations
+      FROM reservations
+      JOIN trajets ON trajets.id_trajet = reservations.id_trajet
+      WHERE trajets.id_voiture = ?
+    `, [carId]);
+    
+    await traietsCnt.query("DELETE FROM trajets WHERE id_voiture = ?", [carId]);
+    traietsCnt.release();
+
     // Delete the car
     const carConnection = await pool.getConnection();
     const [deleteResult] = await carConnection.query(

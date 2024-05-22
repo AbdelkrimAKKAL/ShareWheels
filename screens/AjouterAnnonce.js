@@ -8,26 +8,28 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
-  Platform, TouchableOpacity
+  Platform,
+  TouchableOpacity,
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Padding, Border, } from "../GlobalStyles";
+import { Color, FontFamily, FontSize, Padding, Border } from "../GlobalStyles";
 import DropDownPicker from "react-native-dropdown-picker";
 import TopBar from "../components/TopBar";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RechercheStyles } from "./Recherche";
 import { Alert } from "react-native";
-import env from '../env'; 
+import env from "../env";
 import { useAuth } from "../context/AuthContext";
 import { YourRidesStyles } from "./YourRides";
 import NotAuth from "../components/notAuth";
-import { useRefresh } from '../context/refresh';
+import { useRefresh } from "../context/refresh";
+import { NativeBaseProvider, Box, Select, CheckIcon } from "native-base";
 
 const AjouterAnnonce = () => {
   const navigation = useNavigation();
-  const {refreshPage, refresh}  = useRefresh();
+  const { refreshPage, refresh } = useRefresh();
   const { user } = useAuth();
 
   const [departLocation, setDepartLocation] = useState(null);
@@ -40,39 +42,40 @@ const AjouterAnnonce = () => {
   const selectedData = route.params?.selectedData;
 
   useEffect(() => {
-    if (user){
-    const fetchCars = async () => {
-      try {
-        const carsResponse = await fetch(
-          `http://${env.API_IP_ADDRESS}:3000/api/getCars/${user.user.id_uti}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
+    if (user) {
+      const fetchCars = async () => {
+        try {
+          const carsResponse = await fetch(
+            `http://${env.API_IP_ADDRESS}:3000/api/getCars/${user.user.id_uti}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+
+          if (!carsResponse.ok) {
+            throw new Error("Network response was not ok");
           }
-        );
 
-        if (!carsResponse.ok) {
-          throw new Error("Network response was not ok");
+          const carsData = await carsResponse.json();
+          const carItems =
+            carsData.length > 0
+              ? carsData.map((car) => ({
+                  label: car.modele,
+                  value: car.matricule,
+                }))
+              : [{ label: "no car", value: null }];
+          setItems(carItems);
+        } catch (error) {
+          console.error("Error fetching cars:", error);
         }
+      };
 
-        const carsData = await carsResponse.json();
-        const carItems =
-          carsData.length > 0
-            ? carsData.map((car) => ({
-                label: car.modele,
-                value: car.matricule,
-              }))
-            : [{ label: "no car", value: null }];
-        setItems(carItems);
-      } catch (error) {
-        console.error("Error fetching cars:", error);
-      }
-    };
-
-    fetchCars();}
+      fetchCars();
+    }
   }, []);
 
   useEffect(() => {
@@ -164,7 +167,6 @@ const AjouterAnnonce = () => {
     }
   };
 
-  
   const handleTimeConfirm = (time) => {
     hideTimePicker();
     setPickedDate((prevDate) => {
@@ -226,44 +228,69 @@ const AjouterAnnonce = () => {
 
   const handleAjouterPress = async () => {
     const timestamp = pickedDate.getTime();
-    const formattedDateTime = new Date(timestamp).toISOString().slice(0, 19).replace('T', ' ');
+    const formattedDateTime = new Date(timestamp)
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " ");
 
     let formattedDateTime2 = null;
     if (isDatePicked2) {
       const timestamp2 = date2.getTime();
-      formattedDateTime2 = new Date(timestamp2).toISOString().slice(0, 19).replace('T', ' ');
+      formattedDateTime2 = new Date(timestamp2)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
     }
 
     const prixFloat = parseFloat(prix);
     try {
-      if (isDatePicked && isTimePicked && departLocation && destinationLocation && prix && selectedValue){
-      const response = await fetch("http://"+env.API_IP_ADDRESS+":3000/api/publish", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({
-          depart: departLocation, arrivee:destinationLocation, timestamp: formattedDateTime, nbr_place: nbPlaces, prix: prixFloat, id_conducteur: user.user.id_uti, id_voiture: selectedValue, details: selectedData === undefined ? [] :selectedData, timestamp2: formattedDateTime2
-        }),
-      });
-      if (response.ok) {
-        refreshPage();
-        Alert.alert("Success", "Announcement published successfully");
-        navigation.navigate('TabNavigator', {
-          screen: 'Your Rides',
-          params: {
-            screen: 'YourRides', 
+      if (
+        isDatePicked &&
+        isTimePicked &&
+        departLocation &&
+        destinationLocation &&
+        prix &&
+        selectedValue
+      ) {
+        const response = await fetch(
+          "http://" + env.API_IP_ADDRESS + ":3000/api/publish",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: JSON.stringify({
+              depart: departLocation,
+              arrivee: destinationLocation,
+              timestamp: formattedDateTime,
+              nbr_place: nbPlaces,
+              prix: prixFloat,
+              id_conducteur: user.user.id_uti,
+              id_voiture: selectedValue,
+              details: selectedData === undefined ? [] : selectedData,
+              timestamp2: formattedDateTime2,
+            }),
           }
-        });
-        navigation.replace("AjouterAnnonce", {
-          type: id,
-          selectedData: selectedData,
-        });
+        );
+        if (response.ok) {
+          refreshPage();
+          Alert.alert("Success", "Announcement published successfully");
+          navigation.navigate("TabNavigator", {
+            screen: "Your Rides",
+            params: {
+              screen: "YourRides",
+            },
+          });
+          navigation.replace("AjouterAnnonce", {
+            type: id,
+            selectedData: selectedData,
+          });
+        } else {
+          Alert.alert("Error", "Failed to publish announcement");
+        }
       } else {
-        Alert.alert("Error", "Failed to publish announcement");
-      }}else{
-        Alert.alert('alert', 'something is missing');
+        Alert.alert("alert", "something is missing");
       }
     } catch (error) {
       console.error("Error publishing announcement:", error);
@@ -275,220 +302,226 @@ const AjouterAnnonce = () => {
   if (!user) {
     return (
       <View style={YourRidesStyles.container}>
-      <TopBar/>
-      <Text style={[YourRidesStyles.title]}>Publish</Text>
-      <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
-      <View>
-        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})} >
-        <Image
-          style={[{width: 50, height: 50, marginTop: -150}]}
-          contentFit="cover"
-          source={require("../assets/next.png")}
-        />
-        </TouchableOpacity>
-      </View>
+        <TopBar />
+        <Text style={[YourRidesStyles.title]}>Publish</Text>
+        <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
+        <View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("TabNavigator", {
+                screen: "Profile",
+                params: { screen: "WelcomeScreen" },
+              })
+            }
+          >
+            <Image
+              style={[{ width: 50, height: 50, marginTop: -150 }]}
+              contentFit="cover"
+              source={require("../assets/next.png")}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
-  }else{
+  } else {
+    return (
+      <KeyboardAvoidingView
+        behavior="position"
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        <TopBar />
+        <View style={[styles.AddRideTop]}>
+          <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
+        </View>
 
-  return (
-    <KeyboardAvoidingView
-      behavior="position"
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#FFFFFF",
-      }}
-    >
-      <TopBar />
-      <View style={[styles.AddRideTop]}>
-        <Text style={styles.ajouterAnnonce}>Ajouter Annonce</Text>
-      </View>
-
-      <ScrollView ref={scrollViewRef} showsVerticalScrollIndicator={false}>
-        <View
-          style={[
-            styles.ajouterannonce,
-            styles.footerpublishFlexBox,
-            extend ? { height: 750 } : { height:600 },
-          ]}
-        >
-          <View style={[styles.main]}>
-            <View style={styles.inputs}>
-              <Pressable
-                style={styles.input}
-                onPress={() =>
-                  navigation.navigate("SearchBar", {
-                    type: "Depart",
-                    screen: "AjouterAnnonce",
-                  })
-                }
-              >
-                <Image
-                  style={styles.mapPinIcon}
-                  contentFit="cover"
-                  source={require("../assets/mappin3.png")}
-                />
-                <Text
-                  style={{
-                    textAlign: "left",
-                    width: "100%",
-                    marginLeft: 5,
-                    color: Color.colorGray_100,
-                  }}
+        <ScrollView ref={scrollViewRef} showsVerticalScrollIndicator={false}>
+          <View
+            style={[
+              styles.ajouterannonce,
+              styles.footerpublishFlexBox,
+              extend ? { height: 750 } : { height: 600 },
+            ]}
+          >
+            <View style={[styles.main]}>
+              <View style={styles.inputs}>
+                <Pressable
+                  style={styles.input}
+                  onPress={() =>
+                    navigation.navigate("SearchBar", {
+                      type: "Depart",
+                      screen: "AjouterAnnonce",
+                    })
+                  }
                 >
-                  {departLocation ? departLocation : "Depart"}
-                </Text>
-              </Pressable>
-
-              <Pressable
-                style={[styles.input1, styles.inputShadowBox1]}
-                onPress={() =>
-                  navigation.navigate("SearchBar", {
-                    type: "Destination",
-                    screen: "AjouterAnnonce",
-                  })
-                }
-              >
-                <Image
-                  style={styles.mapPinIcon}
-                  contentFit="cover"
-                  source={require("../assets/mappin3.png")}
-                />
-                <Text
-                  style={{
-                    textAlign: "left",
-                    width: "100%",
-                    marginLeft: 5,
-                    color: Color.colorGray_100,
-                  }}
-                >
-                  {destinationLocation ? destinationLocation : "Destination"}
-                </Text>
-              </Pressable>
-              <View>
-                <View style={extend ? styles.styleWhenTrue : false}>
-                  {extend && (
-                    <Text
-                      style={[
-                        styles.number,
-                        styles.numberTypo,
-                        styles.extend,
-                        styles.text,
-                      ]}
-                    >
-                      Start Date
-                    </Text>
-                  )}
-                  <Pressable // Date
-                    style={styles.inputShadowBox}
-                    // onPress={() => { navigation.navigate('Dates') }}
-                    onPress={showDatePicker}
-                  >
-                    <Image
-                      style={[styles.mapPinIcon2, styles.iconLayout]}
-                      contentFit="cover"
-                      source={require("../assets/mappin4.png")}
-                    />
-                    <Text style={[styles.number2, styles.numberTypo]}>
-                      {getDateDisplay(pickedDate, isDatePicked)}
-                    </Text>
-
-                    <Pressable onPress={handleExtend}>
-                      <Image
-                        style={styles.addCircleSvgrepocomIcon}
-                        contentFit="cover"
-                        source={
-                          extend
-                            ? require("../assets/UpArrow.png")
-                            : require("../assets/down-arrow.png")
-                        }
-                      />
-                    </Pressable>
-                  </Pressable>
-
-                  <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    onConfirm={handleDateConfirm}
-                    onCancel={hideDatePicker}
-                    date={new Date(pickedDate)} // Pass current selected date to the date picker
+                  <Image
+                    style={styles.mapPinIcon}
+                    contentFit="cover"
+                    source={require("../assets/mappin3.png")}
                   />
-                  {extend && (
-                    <Text
-                      style={[
-                        styles.number,
-                        styles.numberTypo,
-                        styles.extend,
-                        styles.text,
-                      ]}
-                    >
-                      End Date
-                    </Text>
-                  )}
-                  {extend && (
-                    <View style={styles.frameFlexBox}>
-                      <Pressable //Date
-                        style={styles.inputShadowBox}
-                        onPress={showDatePicker2}
+                  <Text
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      marginLeft: 5,
+                      color: Color.colorGray_100,
+                    }}
+                  >
+                    {departLocation ? departLocation : "Depart"}
+                  </Text>
+                </Pressable>
+
+                <Pressable
+                  style={[styles.input1, styles.inputShadowBox1]}
+                  onPress={() =>
+                    navigation.navigate("SearchBar", {
+                      type: "Destination",
+                      screen: "AjouterAnnonce",
+                    })
+                  }
+                >
+                  <Image
+                    style={styles.mapPinIcon}
+                    contentFit="cover"
+                    source={require("../assets/mappin3.png")}
+                  />
+                  <Text
+                    style={{
+                      textAlign: "left",
+                      width: "100%",
+                      marginLeft: 5,
+                      color: Color.colorGray_100,
+                    }}
+                  >
+                    {destinationLocation ? destinationLocation : "Destination"}
+                  </Text>
+                </Pressable>
+                <View>
+                  <View style={extend ? styles.styleWhenTrue : false}>
+                    {extend && (
+                      <Text
+                        style={[
+                          styles.number,
+                          styles.numberTypo,
+                          styles.extend,
+                          styles.text,
+                        ]}
                       >
-                        <Image
-                          style={[styles.mapPinIcon, styles.iconLayout]}
-                          contentFit="cover"
-                          source={require("../assets/mappin2.png")}
-                        />
-                        <Text style={[styles.number, styles.numberTypo]}>
-                          {getDateDisplay(date2, isDatePicked2)}
-                        </Text>
-                      </Pressable>
-                      <DateTimePickerModal
-                        isVisible={isDatePickerVisible2}
-                        mode="date"
-                        onConfirm={handleDateConfirm2}
-                        onCancel={hideDatePicker2}
-                        date={new Date(date2)} // Pass current selected date to the date picker
+                        Start Date
+                      </Text>
+                    )}
+                    <Pressable // Date
+                      style={styles.inputShadowBox}
+                      // onPress={() => { navigation.navigate('Dates') }}
+                      onPress={showDatePicker}
+                    >
+                      <Image
+                        style={[styles.mapPinIcon2, styles.iconLayout]}
+                        contentFit="cover"
+                        source={require("../assets/mappin4.png")}
                       />
-                    </View>
-                  )}
+                      <Text style={[styles.number2, styles.numberTypo]}>
+                        {getDateDisplay(pickedDate, isDatePicked)}
+                      </Text>
+
+                      <Pressable onPress={handleExtend}>
+                        <Image
+                          style={styles.addCircleSvgrepocomIcon}
+                          contentFit="cover"
+                          source={
+                            extend
+                              ? require("../assets/UpArrow.png")
+                              : require("../assets/down-arrow.png")
+                          }
+                        />
+                      </Pressable>
+                    </Pressable>
+
+                    <DateTimePickerModal
+                      isVisible={isDatePickerVisible}
+                      mode="date"
+                      onConfirm={handleDateConfirm}
+                      onCancel={hideDatePicker}
+                      date={new Date(pickedDate)} // Pass current selected date to the date picker
+                    />
+                    {extend && (
+                      <Text
+                        style={[
+                          styles.number,
+                          styles.numberTypo,
+                          styles.extend,
+                          styles.text,
+                        ]}
+                      >
+                        End Date
+                      </Text>
+                    )}
+                    {extend && (
+                      <View style={styles.frameFlexBox}>
+                        <Pressable //Date
+                          style={styles.inputShadowBox}
+                          onPress={showDatePicker2}
+                        >
+                          <Image
+                            style={[styles.mapPinIcon, styles.iconLayout]}
+                            contentFit="cover"
+                            source={require("../assets/mappin2.png")}
+                          />
+                          <Text style={[styles.number, styles.numberTypo]}>
+                            {getDateDisplay(date2, isDatePicked2)}
+                          </Text>
+                        </Pressable>
+                        <DateTimePickerModal
+                          isVisible={isDatePickerVisible2}
+                          mode="date"
+                          onConfirm={handleDateConfirm2}
+                          onCancel={hideDatePicker2}
+                          date={new Date(date2)} // Pass current selected date to the date picker
+                        />
+                      </View>
+                    )}
+                  </View>
                 </View>
-              </View>
 
-              <Pressable // Heure
-                style={styles.inputShadowBox}
-                onPress={showTimePicker}
-              >
-                <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/clock3.png")}
-                />
-                <Text style={[styles.number2, styles.numberTypo]}>
-                {isTimePicked
-                ? pickedDate.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  })
-                : "Heure"}
-                </Text>
-              </Pressable>
-              <DateTimePickerModal
-                isVisible={isTimePickerVisible}
-                mode="time"
-                onConfirm={handleTimeConfirm}
-                onCancel={hideTimePicker}
-                date={new Date(pickedDate)} // Pass current selected time to the time picker
-              />
-
-              <View style={[styles.inputShadowBox, { zIndex: 1 }]}>
-                <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/mappin5.png")}
+                <Pressable // Heure
+                  style={styles.inputShadowBox}
+                  onPress={showTimePicker}
+                >
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/clock3.png")}
+                  />
+                  <Text style={[styles.number2, styles.numberTypo]}>
+                    {isTimePicked
+                      ? pickedDate.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        })
+                      : "Heure"}
+                  </Text>
+                </Pressable>
+                <DateTimePickerModal
+                  isVisible={isTimePickerVisible}
+                  mode="time"
+                  onConfirm={handleTimeConfirm}
+                  onCancel={hideTimePicker}
+                  date={new Date(pickedDate)} // Pass current selected time to the time picker
                 />
 
-                <DropDownPicker
+                <View style={[styles.inputShadowBox]}>
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/mappin5.png")}
+                  />
+
+                  {/* <DropDownPicker
                   style={{
                     zIndex: 9999,
                     borderWidth: 0,
@@ -516,100 +549,151 @@ const AjouterAnnonce = () => {
                     borderColor: "#b8b8b8",
                   }}
                   dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
-                />
-              </View>
+                /> */}
 
-              <View 
-                style={[styles.inputShadowBox, {alignItems: 'center'}]}
-              >
-                <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/clock32.png")}
-                />
-                <Text style={[{textAlign: "left",
-                    marginLeft: -60,
-                    color: Color.colorGray_100}]}>Places</Text>
-                <View style={[RechercheStyles.nmbrplaces, {marginTop: 0}]}>
-                  <TouchableOpacity onPress={sub}>
-                    <Image
-                      style={RechercheStyles.iconLayout}
-                      contentFit="cover"
-                      source={require("../assets/moins.png")}
-                    />
-                  </TouchableOpacity>
-                  <Text style={[RechercheStyles.heading]}>{nbPlaces}</Text>
-                  <TouchableOpacity onPress={add}>
-                    <Image
-                      style={[RechercheStyles.iconLayout]}
-                      contentFit="cover"
-                      source={require("../assets/plus.png")}
-                    />
-                  </TouchableOpacity>
+                  <Select
+                  // styles= {[styles.number2, styles.numberTypo]}
+                    selectedValue={selectedValue}
+                    minWidth="250"
+                    accessibilityLabel="Choose Car"
+                    placeholder="Choisir voiture"
+                    color= '#7c7c7c'            
+                    fontFamily= "Nunito-Regular"
+                    fontSize= {15}
+                    _selectedItem={{
+                      bg: "#0075fd",
+                      borderRadius: 20,
+                      endIcon: <CheckIcon size="5" color= 'white'/>,
+                      _text: {
+                        color: 'white'
+                      }
+                    }}
+                    _item={{
+                      borderRadius: 20,
+                      _pressed: {
+                        bg: '#e3ecfa',
+                      },
+                    }}
+                    mt={1}
+                    onValueChange={(value) => {
+                      if (value === null){
+                      setSelectedValue(null);
+                      navigation.navigate("Voiture", { car: 'no_car_ad' });}}}
+                    borderWidth={0}
+                    marginTop= "0"
+                    marginLeft={0}
+                  >
+                    {items.map((item) => (
+                      <Select.Item
+                        key={item.value}
+                        label={item.label}
+                        value={item.value}
+                      />
+                    ))}
+                  </Select>
                 </View>
-              </View>
 
-              <View style={{ zIndex: -1 }}>
-                <View // Price
+                <View style={[styles.inputShadowBox, { alignItems: "center" }]}>
+                  <Image
+                    style={[styles.mapPinIcon2, styles.iconLayout]}
+                    contentFit="cover"
+                    source={require("../assets/clock32.png")}
+                  />
+                  <Text
+                    style={[
+                      {
+                        textAlign: "left",
+                        marginLeft: -60,
+                        color: Color.colorGray_100,
+                      },
+                    ]}
+                  >
+                    Places
+                  </Text>
+                  <View style={[RechercheStyles.nmbrplaces, { marginTop: 0 }]}>
+                    <TouchableOpacity onPress={sub}>
+                      <Image
+                        style={RechercheStyles.iconLayout}
+                        contentFit="cover"
+                        source={require("../assets/moins.png")}
+                      />
+                    </TouchableOpacity>
+                    <Text style={[RechercheStyles.heading]}>{nbPlaces}</Text>
+                    <TouchableOpacity onPress={add}>
+                      <Image
+                        style={[RechercheStyles.iconLayout]}
+                        contentFit="cover"
+                        source={require("../assets/plus.png")}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={{ zIndex: -1 }}>
+                  <View // Price
+                    style={styles.inputShadowBox}
+                  >
+                    <Image
+                      style={[styles.mapPinIcon2, styles.iconLayout]}
+                      contentFit="cover"
+                      source={require("../assets/money-icon1.png")}
+                    />
+                    <TextInput
+                      style={[styles.number2, styles.numberTypo]}
+                      placeholder="Prix (DA)"
+                      keyboardType="numeric"
+                      onBlur={handleInputBlur}
+                      onChangeText={(text) => setPrix(text)}
+                      value={prix}
+                    />
+                  </View>
+                </View>
+
+                <TouchableOpacity
                   style={styles.inputShadowBox}
+                  onPress={() => {
+                    navigation.navigate("DatailsAjouter");
+                  }}
                 >
                   <Image
                     style={[styles.mapPinIcon2, styles.iconLayout]}
                     contentFit="cover"
-                    source={require("../assets/money-icon1.png")}
+                    source={require("../assets/add-circle-outline.png")}
                   />
-                  <TextInput
-                    style={[styles.number2, styles.numberTypo]}
-                    placeholder="Prix (DA)"
-                    keyboardType="numeric"
-                    onBlur={handleInputBlur}
-                    onChangeText={(text) => setPrix(text)}
-                    value={prix}
-                  />
-                </View>
+                  <Text style={[styles.number2, styles.numberTypo]}>
+                    Details a ajouter
+                  </Text>
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity
-                style={styles.inputShadowBox}
-                onPress={() => {
-                  navigation.navigate("DatailsAjouter");
-                }}
-              >
-                <Image
-                  style={[styles.mapPinIcon2, styles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/add-circle-outline.png")}
-                />
-                <Text style={[styles.number2, styles.numberTypo]}>
-                  Details a ajouter
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
 
-      <View style={styles.ajouter}>
-        <TouchableOpacity
-          style={[styles.buttonfirst, styles.input1FlexBox, styles.btnAjouter]} onPress={handleAjouterPress}
-        >
-          <Text style={styles.signUp} >
-            Ajouter
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-  );};
+        <View style={styles.ajouter}>
+          <TouchableOpacity
+            style={[
+              styles.buttonfirst,
+              styles.input1FlexBox,
+              styles.btnAjouter,
+            ]}
+            onPress={handleAjouterPress}
+          >
+            <Text style={styles.signUp}>Ajouter</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
   needLogin: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   authenticateButton: {
-    backgroundColor: 'blue', // Example background color for the button
+    backgroundColor: "blue", // Example background color for the button
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
@@ -810,7 +894,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     overflow: "hidden",
     width: "100%",
-    
   },
 });
 

@@ -38,6 +38,7 @@ import { RefreshProvider } from "./context/refresh";
 import ConfirmDelete from "./screens/ConfimDelete";
 import CertifierCompte from "./screens/CertifierCompte";
 import Notifications from "./screens/Notifications";
+import { NativeBaseProvider } from 'native-base';
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -65,6 +66,7 @@ const App = () => {
 
   return (
     <>
+    <NativeBaseProvider>
       <RefreshProvider>
         <ProfileProvider>
           <AuthContextProvider>
@@ -204,6 +206,7 @@ const App = () => {
           </AuthContextProvider>
         </ProfileProvider>
       </RefreshProvider>
+      </NativeBaseProvider>
     </>
   );
 };

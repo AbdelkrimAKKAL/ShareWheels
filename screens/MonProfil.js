@@ -20,7 +20,8 @@ import env from "../env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import Certified from "../components/certifier";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system";
+import { NativeBaseProvider, Box, Select, CheckIcon } from "native-base";
 
 const MonProfil = () => {
   const { profileData, updateProfileData } = useProfile();
@@ -48,19 +49,13 @@ const MonProfil = () => {
       params: { screen: "WelcomeScreen" },
     });
   };
-  
 
   useEffect(() => {
     fetchData();
   }, []);
-  
 
   const fetchData = async () => {
     try {
-      // Fetch cars data
-      
-
-      // Fetch user data
       const userResponse = await fetch(
         `http://${env.API_IP_ADDRESS}:3000/api/getUserData/${user.user.email}`,
         {
@@ -130,14 +125,14 @@ const MonProfil = () => {
   const loadImage = async (path) => {
     const fileExists = await FileSystem.getInfoAsync(path);
     if (fileExists.exists) {
-      setPhoto({uri :path});
+      setPhoto({ uri: path });
     } else {
       setPhoto(require("../assets/image1.png"));
     }
   };
 
   useEffect(() => {
-    if (selectedValue !== null && selectedValue !== "no_car") {
+    if (selectedValue !== null) {
       navigation.navigate("Voiture", { car: selectedValue });
     }
   }, [selectedValue, navigation]);
@@ -189,20 +184,39 @@ const MonProfil = () => {
               <Text style={[pstyles.signTypo]}>+213</Text>
               <Text style={[pstyles.font]}>{phone}</Text>
             </View>
-            <View style={{ flexDirection: "row" }}>
-              <DropDownPicker
-                style={[pstyles.rectangle, { zIndex: 9, width: "60%" }]}
-                placeholder="Voitures"
-                placeholderStyle={pstyles.font}
-                open={open}
-                items={items}
-                setOpen={setOpen}
-                setItems={setItems}
-                setValue={(value) => {
-                  setSelectedValue(value);
-                }}
-                dropDownContainerStyle={pstyles.drop}
-              />
+
+
+            <View style={{ flexDirection: "row", width: '80%',justifyContent: 'space-between'}}>
+              <Box style={[pstyles.rectangle, {width: '80%'}]}>
+                <Select
+                  style={[pstyles.font]}
+                  selectedValue={selectedValue}
+                  minWidth={250}
+                  placeholder="Voitures"
+                  onValueChange={(value) => {
+                    setSelectedValue(value);
+                  }}
+                  color="#7c7c7c"
+                  fontFamily="Nunito-Regular"
+                  fontSize={15}
+                  _item={{
+                    borderRadius: 20,
+                    _pressed: {
+                      bg: "#e3ecfa",
+                    },
+                  }}
+                  mt={1}
+                  borderWidth={0}
+                >
+                  {items.map((item, index) => (
+                    <Select.Item
+                      key={index}
+                      label={item.label}
+                      value={item.value}
+                    />
+                  ))}
+                </Select>
+              </Box>
 
               <TouchableOpacity
                 onPress={() =>
@@ -324,7 +338,7 @@ export const pstyles = StyleSheet.create({
     borderColor: "#b8b8b8",
     width: "80%",
     marginTop: 15,
-    borderRadius: 8,
+    borderRadius: 13,
     flexDirection: "row",
   },
   inputs: {
@@ -356,7 +370,6 @@ export const pstyles = StyleSheet.create({
   addbtn: {
     height: 55,
     width: 55,
-    marginLeft: "-34%",
     marginTop: 17,
   },
   btns: {

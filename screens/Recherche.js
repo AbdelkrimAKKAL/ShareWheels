@@ -208,7 +208,7 @@ const Recherche = () => {
       </View>
       {/* Notification */}
       <View style={RechercheStyles.notification}>
-        <Pressable onPress={() => navigation.navigate("Notifications")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
           <Image
             style={RechercheStyles.notificationPng}
             contentFit="cover"
@@ -220,7 +220,7 @@ const Recherche = () => {
            </View>
           )}
 
-        </Pressable>
+        </TouchableOpacity>
 
       </View>
 
@@ -363,13 +363,15 @@ export const RechercheStyles = StyleSheet.create({
   notification: {
     marginTop: 30,
     position: 'absolute',
-    top: 10, // Adjust this value to fine-tune the vertical position
-    right: 10,
+    top: 16, // Adjust this value to fine-tune the vertical position
+    right: 15,
 
   },
   notificationPng: {
-    height: 45,
-    width: 45
+    height: 40,
+    width: 40,
+    top: 6,
+    right: 5
   },
   buttonText: {
     lineHeight: 24,
@@ -434,9 +436,15 @@ export const RechercheStyles = StyleSheet.create({
     width: 20, // Adjust the size of the dot as needed
     height: 20,
     borderRadius: 12,
-    backgroundColor: 'red',
+    backgroundColor: '#fa5c69',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  dotText: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'white',
+    bottom: 0.5
   },
   carpic: {
     height: "34%",

@@ -46,19 +46,34 @@ const Voiture = ({ route }) => {
             console.error("Error adding car:", data.error);
             Alert.alert("Error", "Failed to add car");
           } else {
-            navigation.navigate("TabNavigator", {
-              screen: "Search",
-              params: {
-                screen: "Recherche",
-              },
-            });
-            navigation.navigate("TabNavigator", {
-              screen: "Profile",
-              params: {
-                screen: "MonProfil",
-              },
-            });
             Alert.alert("Success", "Car added successfully");
+            if (car == 'no_car_ad'){
+              navigation.navigate("TabNavigator", {
+                screen: "Search",
+                params: {
+                  screen: "Recherche",
+                },
+              });
+              navigation.navigate("TabNavigator", {
+                screen: "Publish",
+                params: {
+                  screen: "AjouterAnnonce",
+                },
+              });
+            }else if (car == 'no_car'){
+              navigation.navigate("TabNavigator", {
+                screen: "Search",
+                params: {
+                  screen: "Recherche",
+                },
+              });
+              navigation.navigate("TabNavigator", {
+                screen: "Profile",
+                params: {
+                  screen: "MonProfil",
+                },
+              });
+            }
           }
         })
         .catch((error) => {
@@ -106,7 +121,7 @@ const Voiture = ({ route }) => {
   };
 
   const render = () => {
-    if (car == "no_car" || car == undefined) {
+    if (car == "no_car" || car == undefined || car == 'no_car_ad') {
       return (
         <View style={pstyles.main}>
           <Text style={styles.voiture}>Voiture</Text>
