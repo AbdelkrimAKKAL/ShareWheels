@@ -43,7 +43,9 @@ const Annonce = (Props) => {
       naissance : Props.naissance,
       key : Props.btnText,
       id_trajet : Props.trajetId,
-      nbr_place: Props.passengers 
+      nbr_place: Props.passengers,
+      est_certifie : Props.est_certifie,
+      voiture_est_certifie : Props.voiture_est_certifie
     });
   };};
 

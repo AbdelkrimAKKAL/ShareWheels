@@ -25,9 +25,9 @@ const Certified = props => {
             <TouchableOpacity onPress={handlePress} style={styles.touchable}>
                 <View style={styles.container}>
                     <Image
-                        style={styles.icon}
+                        style={[styles.icon, {width: 20, height: 20}]}
                         contentFit="cover"
-                        source={require("../assets/add.svg")}
+                        source={require("../assets/aperture.png")}
                     />
                     <Text style={styles.title}>Certifie account</Text>
                 </View>
@@ -39,12 +39,15 @@ const Certified = props => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        alignSelf: "flex-start",
-        marginLeft: 45,
+        alignSelf: "center",
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     title: {
-        fontSize: 18,
+        fontSize: 17,
         color: "#0075FD",
+        fontFamily: "Poppins-Medium",
+        marginTop: 2
     },
     icon: {
         height: 25,

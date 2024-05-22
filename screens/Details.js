@@ -17,7 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import env from "../env";
 import { Alert } from "react-native";
 import { useRefresh } from "../context/refresh";
-
+import Certified from "../components/certifier";
 
 const Details = () => {
   const navigation = useNavigation();
@@ -47,7 +47,8 @@ const Details = () => {
 
   const depart = route.params?.depart;
   const destination = route.params?.destination;
-
+  const est_certifie = route.params?.est_certifie;
+  const voiture_est_certifie = route.params.voiture_est_certifie;
 
   useEffect(() => {
     setData(details);
@@ -130,6 +131,9 @@ const Details = () => {
               >
                 {rating + " (" + nbr_ratings + ")"}   -   {naissance} ans
               </Text>
+            </View>
+            <View style={[{marginTop: 5}]}>
+              {est_certifie? (<Certified bool={true} />) : (<Text style={[{color: "#0075fd",fontFamily: "Poppins-Medium"}]}>Utilisateur Non certifiée</Text>)}
             </View>
           </View>
         </View>
@@ -214,6 +218,7 @@ const Details = () => {
                 <Text style={[styles.number11]}>{availableSeats}</Text>
               </View>
             </View>
+            <View style={[{marginTop: 8}]}>{voiture_est_certifie ? (<Text style={[{color: "#0075fd",fontFamily: "Poppins-Medium"}]} >voiture est certifié</Text>) : (<Text style={[{color: "#0075fd",fontFamily: "Poppins-Medium"}]} >voiture n'est pas encore certifié</Text>) }</View>
           </View>
           {details.length === 0 || details === null ? ( <Text style={[styles.TextAlign, styles.TextStyle, {marginBottom: 10}]}>
             No More Details Added 

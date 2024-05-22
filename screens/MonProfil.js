@@ -169,7 +169,7 @@ const MonProfil = () => {
           </View>
           <View style={[pstyles.inputs, pstyles.centrer]}>
             <View style={[pstyles.certifier]}>
-              <Certified bool={certifier ?? false} />
+              <Certified bool={certifier ?? true} />
             </View>
 
             <View style={[pstyles.rectangle]}>
@@ -264,7 +264,7 @@ export const pstyles = StyleSheet.create({
   certifier: {
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 85,
+    width: '35%'
   },
   addicon: {
     height: 40,

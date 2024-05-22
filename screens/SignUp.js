@@ -183,7 +183,7 @@ const SignUp = () => {
           />
           <TextInput
             style={[styles.numberTypo]}
-            placeholder="année de naissance"
+            placeholder="Année de naissance"
             keyboardType="numeric" // Set keyboard type to numeric
             value={naissance}
             onChangeText={setNaissance} // Call setNaissance directly

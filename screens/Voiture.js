@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
 import env from "../env";
 import { useAuth } from "../context/AuthContext";
@@ -23,8 +23,13 @@ const Voiture = ({ route }) => {
   const [couleur, setCouleur] = useState(null);
   const [matricule, setMatricule] = useState(null);
 
+  const imageUri = route.params?.imageUri;
+  const carDes = route.params?.carDes;
+  React.useEffect(() => {
+    console.log(imageUri, car)
+  }, [imageUri]);
   const handleAdd = () => {
-    if (matricule && modele && couleur) {
+    if (matricule && modele && couleur && imageUri) {
       fetch(`http://${env.API_IP_ADDRESS}:3000/api/voitures`, {
         method: "POST",
         headers: {
@@ -37,7 +42,7 @@ const Voiture = ({ route }) => {
           modele: modele,
           couleur: couleur,
           voiture_est_certifie: 0,
-          voiture_certificat: 123,
+          voiture_certificat: imageUri,
         }),
       })
         .then((response) => response.json())
@@ -46,8 +51,8 @@ const Voiture = ({ route }) => {
             console.error("Error adding car:", data.error);
             Alert.alert("Error", "Failed to add car");
           } else {
-            Alert.alert("Success", "Car added successfully");
-            if (car == 'no_car_ad'){
+            Alert.alert("Success", "Car added successfully We will certify your car as soon as possible");
+            if (carDes == 'no_car_ad'){
               navigation.navigate("TabNavigator", {
                 screen: "Search",
                 params: {
@@ -60,7 +65,7 @@ const Voiture = ({ route }) => {
                   screen: "AjouterAnnonce",
                 },
               });
-            }else if (car == 'no_car'){
+            }else if (carDes == 'no_car'){
               navigation.navigate("TabNavigator", {
                 screen: "Search",
                 params: {
@@ -151,6 +156,15 @@ const Voiture = ({ route }) => {
           <View style={[styles.error]}>
             {error && <Text style={styles.errorText}>{error}</Text>}
           </View>
+
+          <TouchableOpacity
+            style={[pstyles.buttons, pstyles.blue, {marginBottom: 20}]}
+            onPress={() => {navigation.navigate("CertifierCar", {carDes: car})}}
+          >
+            <Text style={[pstyles.signTypo, { color: "#0075fd" }]}>
+              Carte grise ou permis
+            </Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}

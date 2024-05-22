@@ -99,6 +99,9 @@ const ResultatRecherche = () => {
         naissance= {item.naissance}
         passengers = {passengers}
         btnText="Participer"
+        est_certifie={item.est_certifie}
+        voiture_est_certifie={item.voiture_est_certifie}
+
       />
     );
   };

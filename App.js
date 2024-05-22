@@ -39,6 +39,7 @@ import ConfirmDelete from "./screens/ConfimDelete";
 import CertifierCompte from "./screens/CertifierCompte";
 import Notifications from "./screens/Notifications";
 import { NativeBaseProvider } from 'native-base';
+import CertifierCar from "./screens/CertifierCar";
 
 const SearchName = "Search";
 const YourRidesName = "Your Rides";
@@ -197,6 +198,12 @@ const App = () => {
                    <Stack.Screen
                     name="Notifications"
                     component={Notifications}
+                    options={{ headerShown: false }}
+                  />
+
+                  <Stack.Screen
+                    name="CertifierCar"
+                    component={CertifierCar}
                     options={{ headerShown: false }}
                   />
 
@@ -360,7 +367,7 @@ const PublishStackScreen = () => (
     <Stack.Screen name="Voiture" component={Voiture} />
     <Stack.Screen name="SearchBar" component={SearchBar} />
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
-
+    <Stack.Screen name="CertifierCar" component={CertifierCar} />
   </Stack.Navigator>
 );
 
@@ -382,6 +389,7 @@ const ProfileScreen = () => (
     <Stack.Screen name="Mdp" component={Mdp} />
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />
     <Stack.Screen name="ConfirmDelete" component={ConfirmDelete} />
+    <Stack.Screen name="CertifierCar" component={CertifierCar} />
   </Stack.Navigator>
 );
 

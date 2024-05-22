@@ -141,6 +141,8 @@ const Carpools = () => {
         num_tel = {item.num_tel}
         id_reservation = {item.id_reservation}
         naissance= {item.naissance}
+        est_certifie={item.est_certifie}
+        voiture_est_certifie = {item.voiture_est_certifie}
         btnText="Annuler"
         canDelete = "f"
       />

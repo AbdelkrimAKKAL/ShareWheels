@@ -25,8 +25,8 @@ router.post("/:id", async (req, res) => {
 
         const connection1 = await pool.getConnection();
         await connection.query(
-          "UPDATE Utilisateurs SET idCard = ?, est_certifie = ? WHERE id_uti = ?",
-          [uri, true, id]
+          "UPDATE Utilisateurs SET idCard = ? WHERE id_uti = ?",
+          [uri, id]
         );
         connection1.release();
     

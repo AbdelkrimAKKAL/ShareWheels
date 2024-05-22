@@ -33,7 +33,7 @@ CREATE TABLE Voitures (
     modele VARCHAR(50),
     couleur VARCHAR(20),
     voiture_est_certifie BOOLEAN,
-    voiture_certificat VARCHAR(100),
+    voiture_certificat BLOB,
     FOREIGN KEY (id_prop) REFERENCES Utilisateurs(id_uti),
     CONSTRAINT unique_matricule UNIQUE (matricule)
 );
