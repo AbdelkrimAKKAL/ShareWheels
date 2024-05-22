@@ -244,14 +244,17 @@ const AjouterAnnonce = () => {
 
     const prixFloat = parseFloat(prix);
     try {
+      console.log(isDatePicked,isTimePicked,departLocation,destinationLocation,prix,selectedValue);
       if (
         isDatePicked &&
         isTimePicked &&
         departLocation &&
         destinationLocation &&
         prix &&
-        selectedValue
+        selectedValue // id car is null
+        
       ) {
+        
         const response = await fetch(
           "http://" + env.API_IP_ADDRESS + ":3000/api/publish",
           {
@@ -576,6 +579,7 @@ const AjouterAnnonce = () => {
                     }}
                     mt={1}
                     onValueChange={(value) => {
+                      setSelectedValue(value);
                       if (value === null){
                       setSelectedValue(null);
                       navigation.navigate("Voiture", { car: 'no_car_ad' });}}}

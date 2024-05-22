@@ -73,7 +73,8 @@ export const styles = StyleSheet.create({
         marginTop: 0,
         fontFamily: "Poppins-Medium",
         fontSize : 12,
-        maxWidth: "98%"
+        maxWidth: "98%",
+        paddingRight:50
     },
     sender: {
         fontFamily: "Poppins-Medium",

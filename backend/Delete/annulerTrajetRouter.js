@@ -62,19 +62,34 @@ router.delete("/:reservationId", async (req, res) => {
     console.log("idCond", idConducteur);
     console.log("issender", senderId);
 
+    // infos ride
+    const getRide = await pool.getConnection()
+    const[rideResult] = await getRide.query(
+      `SELECT depart, arrivee, timestamp
+        FROM trajets where
+        id_trajet = ?
+      `, [id_trajet]
+    )
+    const departTrajet = rideResult[0].depart
+    const destinationTrajet = rideResult[0].arrivee
+    const temps = rideResult[0].timestamp
+    getRide.release()
+    const formattedTime = moment(temps).format('YYYY-MM-DD HH:mm');
+
     // Add a notification
     const currentTime = moment().format('YYYY-MM-DD HH:mm');
-    const message = `A annuler de participer a ce trajet`;
+    const message1 = `Annuler pour participer à ce voyage. Trajet: ${departTrajet} vers ${destinationTrajet} à ${formattedTime}.`;
+    const message2 = `Vous avez été retiré de son voyage. Trajet: ${departTrajet} vers ${destinationTrajet} à ${formattedTime}.`;
     const connection2 = await pool.getConnection();
     if (key == 'req'){
       await connection2.query(
         'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
-        [idConducteur, senderId, "Annuler Reservation", message, currentTime]
+        [idConducteur, senderId, "Annuler Reservation", message1, currentTime]
       );
     }else{
       await connection2.query(
         'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
-        [senderId, idConducteur, "retiré", "t'a retiré de son voyage", currentTime]
+        [senderId, idConducteur, "Retiré", message2, currentTime]
       );
     }
 

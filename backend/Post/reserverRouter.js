@@ -71,9 +71,23 @@ router.post("/", async (req, res) => {
     const id = conducteurID[0].id_conducteur;
     console.log("conducteur", id);
     console.log("reserveur", id_reserveur);
+  
+    // infos ride
+    const getRide = await pool.getConnection()
+    const[rideResult] = await getRide.query(
+      `SELECT depart, arrivee, timestamp
+        FROM trajets where
+        id_trajet = ?
+      `, [id_trajet]
+    )
+    const departTrajet = rideResult[0].depart
+    const destinationTrajet = rideResult[0].arrivee
+    const temps = rideResult[0].timestamp
+    getRide.release()
+    const formattedTime = moment(temps).format('YYYY-MM-DD HH:mm');
 
     // add a notification
-    const message = `You have a new booking for your ride: ${nbr_place} seats reserved.`;
+    const message = `Vous avez une nouvelle réservation pour votre trajet: ${nbr_place} places réservées. Trajet: ${departTrajet} vers ${destinationTrajet} à ${formattedTime}.`;
     const connection2 = await pool.getConnection();
     await connection2.query(
       'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',

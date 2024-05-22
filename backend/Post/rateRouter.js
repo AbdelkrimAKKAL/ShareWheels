@@ -75,22 +75,45 @@ router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
       `, [idReservation, senderId]
     )
     checkRate.release()
+    
+    // get the ride's informations
+    const checkRide = await pool.getConnection()
+    const[idTrajet]=await checkRide.query(
+      `SELECT id_trajet
+        FROM reservations where
+        id_reservation = ? and id_reserveur = ?
+      `, [idReservation, senderId]
+    )
+    const idRide = idTrajet[0].id_trajet;
+    checkRide.release()
+    
 
 
+    const getRide = await pool.getConnection()
+    const[rideResult] = await getRide.query(
+      `SELECT depart, arrivee, timestamp
+        FROM trajets where
+        id_trajet = ?
+      `, [idRide]
+    )
+    const departTrajet = rideResult[0].depart
+    const destinationTrajet = rideResult[0].arrivee
+    const temps = rideResult[0].timestamp
+    getRide.release()
+    const formattedTime = moment(temps).format('YYYY-MM-DD HH:mm');
+    
 
-    console.log(emailSender);
-
-    console.log("userid", userId);
-    console.log("senderId", senderId);
     // Add a notification
     const currentTime = moment().format('YYYY-MM-DD HH:mm');
-    const message = `You have received a new rating of: ${newRating} stars`;
+    const message = `Vous avez reçu une nouvelle note de: ${newRating} étoiles. Trajet: ${departTrajet} vers ${destinationTrajet} à ${formattedTime}.`;
     const connection2 = await pool.getConnection();
     await connection2.query(
       'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
       [userId, senderId, "Rating", message, currentTime]
     );
     connection2.release();
+
+    console.log(message);
 
     res.status(200).json({ message: "User rating updated successfully", rated: true });
   } catch (error) {

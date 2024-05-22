@@ -20,7 +20,7 @@ const Recherche = () => {
   const navigation = useNavigation();
   const { user } = useAuth();
   const [nbrNoti, setNbrNoti] = useState()
-  const [ifZero, setIfZero] = useState()
+  const [ifZero, setIfZero] = useState(true)
   const [isLoading, setIsLoading] = useState(true);
 
   //SearchBar Screen par --------------------------------------------------------------------------------------------------
@@ -439,12 +439,14 @@ export const RechercheStyles = StyleSheet.create({
     backgroundColor: '#fa5c69',
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   dotText: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
     color: 'white',
-    bottom: 0.5
+    bottom: 0.5,
+    marginBottom:1
   },
   carpic: {
     height: "34%",

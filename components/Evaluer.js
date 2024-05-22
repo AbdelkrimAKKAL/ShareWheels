@@ -255,6 +255,7 @@ const Evaluer = (Props) => {
         
       </View>
       {error && <Text style={styles.errorText}>{error}</Text>}
+      
     </View>
   );
 };

@@ -16,7 +16,7 @@ const Notifications = ({ }) => {
   const [notifications, setNotifications] = useState([]);
   const [newId, setNewId] = useState()
   const [nbrNoti, setNbrNoti] = useState()
-  const [ifZero, setIfZero] = useState();
+  const [ifZero, setIfZero] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const [refreshing, setRefreshing] = useState(false);
@@ -64,7 +64,7 @@ const Notifications = ({ }) => {
       setNbrNoti(nbr_notifications); // Set the state for the number of unread notifications
       setNewId(newNotificationIds);
 
-      if (nbrNoti == 0) {
+      if (nbr_notifications == 0) {
         setIfZero(true)
       } else {
         setIfZero(false)
