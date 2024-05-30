@@ -410,7 +410,7 @@ const AjouterAnnonce = () => {
                           styles.text,
                         ]}
                       >
-                        Start Date
+                        Debut Date
                       </Text>
                     )}
                     <Pressable 
@@ -455,7 +455,7 @@ const AjouterAnnonce = () => {
                           styles.text,
                         ]}
                       >
-                        End Date
+                        Fin Date
                       </Text>
                     )}
                     {extend && (

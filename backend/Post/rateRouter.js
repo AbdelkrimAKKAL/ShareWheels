@@ -43,7 +43,7 @@ router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
     if (rated) {
       
       return res.status(400).json({
-        error: "You already rated the ride !",
+        error: "Vous avez déjà noté le trajet !",
       });
       
     }

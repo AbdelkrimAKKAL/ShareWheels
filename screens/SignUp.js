@@ -113,7 +113,7 @@ const SignUp = () => {
 
   return (
     <View style={[styles.signUp]}>
-      <Text style={styles.createAccount}>Create Account</Text>
+      <Text style={styles.createAccount}>Créer un compte</Text>
       <ScrollView
         contentContainerStyle={styles.main}
         showsVerticalScrollIndicator={false}
@@ -243,15 +243,15 @@ const SignUp = () => {
           {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
         <TouchableOpacity style={[styles.buttonfirst]} onPress={handleSignUp}>
-          <Text style={[styles.textTypo]}>Sign up</Text>
+          <Text style={[styles.textTypo]}>S'inscrire</Text>
         </TouchableOpacity>
         <Pressable
           style={styles.alreadyHaveAnContainer}
           onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.text1}>
-            <Text style={styles.alreadyHaveAn}>Already have an account? </Text>
-            <Text style={styles.signIn}>Sign In</Text>
+            <Text style={styles.alreadyHaveAn}>Vous avez déjà un compte? </Text>
+            <Text style={styles.signIn}>Se connecter</Text>
           </Text>
         </Pressable>
       </ScrollView>

@@ -67,7 +67,7 @@ const Login = () => {
 
   return (
     <View style={styles.loginpage}>
-      <Text style={styles.login}>Login</Text>
+      <Text style={styles.login}>Se Connecter</Text>
       <View style={[styles.container]}>
         <Image
           style={styles.iconlylightlock}
@@ -92,7 +92,7 @@ const Login = () => {
           containerStyles={{ width: "88%" }}
           secureTextEntry={true}
           eyeColor="#7c7c7c"
-          placeholder="Password"
+          placeholder="Mot de passe"
           placeholderTextColor="#7c7c7c"
           value={password}
           onChangeText={setPassword}
@@ -103,15 +103,15 @@ const Login = () => {
        {error && <Text style={styles.errorText}>{error}</Text>}
       </View>
       <Pressable onPress={() => navigation.navigate("ForgotPwd")}>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        <Text style={styles.forgotPassword}>Mot de passe oublié?</Text>
       </Pressable>
       <TouchableOpacity style={[styles.buttonfirst]} onPress={handleLogin}>
         <Text style={[styles.textTypo]}>Login</Text>
       </TouchableOpacity>
       <Pressable onPress={() => navigation.navigate("SignUp")}>
         <Text style={styles.text}>
-          <Text style={styles.dontYouHave}>Don't you have an account? </Text>
-          <Text style={styles.log}>Sign Up</Text>
+          <Text style={styles.dontYouHave}>Vous n'avez pas de compte ?</Text>
+          <Text style={styles.log}>S'inscrire</Text>
         </Text>
       </Pressable>
     </View>

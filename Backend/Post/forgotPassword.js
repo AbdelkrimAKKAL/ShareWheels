@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
         connection.release();
 
         if (rows.length === 0) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ error: "Utilisateur non trouvé" });
         }
 
 
@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
                 await connection.query(
                     "ALTER TABLE Utilisateurs ADD COLUMN code varchar(30)",
                 );
-                created = true; // Set the 'created' flag to true
+                created = true; 
                 connection3.release();
             } catch (error) {
                 console.error('Column code already exists');
@@ -76,12 +76,12 @@ router.post("/", async (req, res) => {
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
-            host: 'smtp.gmail.com', // Specify your SMTP server host
-            port: 587, // Specify the port for SMTP (587 is a common port for TLS/STARTTLS)
-            secure: false, // true for 465, false for other ports; if true, TLS/STARTTLS is used
+            host: 'smtp.gmail.com', 
+            port: 587, 
+            secure: false, 
             auth: {
-                user: USER, // Specify your SMTP username
-                pass: APP_PASSWORD, // Specify your SMTP password
+                user: USER,
+                pass: APP_PASSWORD,
             },
             tls: {
                 rejectUnauthorized: false
@@ -93,7 +93,7 @@ router.post("/", async (req, res) => {
                 name: 'ShareWheelsApp',
                 address: USER,
             },
-            to: EMAIL_RECEIVER, // change it later to 'email'
+            to: EMAIL_RECEIVER,
             subject: 'Password Reset',
             text: `This is your verification code : ${code}`,
         };

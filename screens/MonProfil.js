@@ -114,7 +114,7 @@ const MonProfil = () => {
               label: car.modele,
               value: [car.modele, car.couleur, car.matricule],
             }))
-          : [{ label: "no car", value: "no_car" }];
+          : [{ label: "pas de voiture", value: "no_car" }];
       setItems(carItems);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -245,7 +245,7 @@ const MonProfil = () => {
               style={[pstyles.buttons, pstyles.blue]}
               onPress={handleLogout}
             >
-              <Text style={[pstyles.blue, pstyles.signTypo]}>Logout</Text>
+              <Text style={[pstyles.blue, pstyles.signTypo]}>Se déconnecter</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[pstyles.buttons, pstyles.red]}

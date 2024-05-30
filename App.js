@@ -40,11 +40,11 @@ import Notifications from "./screens/Notifications";
 import { NativeBaseProvider } from 'native-base';
 import CertifierCar from "./screens/CertifierCar";
 
-const SearchName = "Search";
-const YourRidesName = "Your Rides";
-const PublishName = "Publish";
+const SearchName = "Recherche";
+const YourRidesName = "Vos Trajets";
+const PublishName = "Publier";
 const CarpoolsName = "Carpools";
-const ProfileName = "Profile";
+const ProfileName = "Profil";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
