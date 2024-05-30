@@ -2,10 +2,6 @@ import express from "express";
 import { pool } from "../createPool.js";
 
 const router = express.Router();
-// Delete user endpoint
-// Delete user endpoint
-// Delete user endpoint
-// Delete user endpoint
 router.delete("/:email", async (req, res) => {
     const { email } = req.params;
   

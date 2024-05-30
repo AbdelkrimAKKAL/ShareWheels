@@ -6,12 +6,11 @@ import {
   Text,
   Pressable,
   TextInput,
-  TouchableOpacity,
+  TouchableOpacity, ScrollView
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { ScrollView } from "react-native-gesture-handler";
 import TextBox from "react-native-password-eye";
 import { Alert } from "react-native";
 import { useAuth } from "../context/AuthContext";

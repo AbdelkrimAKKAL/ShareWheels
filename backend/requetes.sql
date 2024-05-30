@@ -1,9 +1,10 @@
--- Utilisateurs (id_uti, nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre, total_rating, num_ratings);
+-- Utilisateurs (id_uti, nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre, total_rating, 
+-- num_ratings, age);
 -- Voitures (matricule, #id_prop, modele, couleur, voiture_est_certifie, voiture_certificat) ;
--- Trajets (id_trajet, depart, arrivee, timestamp, nbr_place, prix, #id_conducteur, #id_voiture, detailst:JSON);
+-- Trajets (id_trajet, depart, arrivee, timestamp, nbr_place, prix, #id_conducteur, #id_voiture, details:JSON);
 -- Reservations (#id_trajet, #id_reserveur, nbr_place) ;
 -- Signalements (#id_sign, #id_uti, description:JSON);
--- Details (#id_trajet, details_text:JSON)
+-- notifications(id_notification, id_uti, id_sender, titre, body, time)
 
 
 
