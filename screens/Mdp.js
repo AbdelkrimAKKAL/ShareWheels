@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
-import { TextInput } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native";
 import TextBox from 'react-native-password-eye';
 import axios from 'axios';

@@ -1,8 +1,7 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { pstyles } from "./MonProfil";
-import { TextInput } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native";
 import { Alert } from "react-native";
 import { Border, Color, Padding,FontSize, FontFamily } from "../GlobalStyles";

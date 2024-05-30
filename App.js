@@ -40,7 +40,7 @@ import Notifications from "./screens/Notifications";
 import { NativeBaseProvider } from 'native-base';
 import CertifierCar from "./screens/CertifierCar";
 
-const SearchName = "Recherche";
+const SearchName = "Search";
 const YourRidesName = "Vos Trajets";
 const PublishName = "Publier";
 const CarpoolsName = "Carpools";

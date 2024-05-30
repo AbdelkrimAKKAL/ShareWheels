@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, FlatList, Image } from "react-native";
+import { StyleSheet, View, Text, FlatList, Image, RefreshControl } from "react-native";
 import { Color, Border, FontSize, FontFamily, Padding } from "../GlobalStyles";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
@@ -9,7 +9,6 @@ import { ResultatRechercheStyles } from "./ResultatRecherche";
 import NotAuth from "../components/notAuth";
 import { useRefresh } from '../context/refresh';
 import { API_IP_ADDRESS } from "../env";
-import { RefreshControl } from "react-native-gesture-handler";
 import * as FileSystem from 'expo-file-system';
 
 const ParticipantsScreen = () => {

@@ -213,7 +213,7 @@ const Recherche = () => {
           />
           {!ifZero && user && (
              <View style={RechercheStyles.redDot}>
-             <Text style={RechercheStyles.dotText}>{nbrNoti}</Text>
+             <Text style={RechercheStyles.dotText}>2</Text>
            </View>
           )}
 

@@ -162,7 +162,7 @@ const Voiture = ({ route }) => {
             onPress={() => {navigation.navigate("CertifierCar", {carDes: car})}}
           >
             <Text style={[pstyles.signTypo, { color: "#0075fd" }]}>
-              Carte grise ou permis
+              Carte grise
             </Text>
           </TouchableOpacity>
 

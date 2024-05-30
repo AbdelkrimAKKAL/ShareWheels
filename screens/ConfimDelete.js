@@ -45,7 +45,7 @@ const ConfirmDelete = () => {
     };
   return (
     <View style={styles.main}>
-      <Text style={[YourRidesStyles.title, {marginTop: 50, height: 40}]}>suppression du compte</Text>
+      <Text style={[YourRidesStyles.title, {marginTop: 50, height: 40}]}>Suppression du compte</Text>
       <Image
         style={[{width: 290, height: 290}]}
         resizeMode="cover"
@@ -58,7 +58,7 @@ const ConfirmDelete = () => {
           reconnecter ultérieurement. Êtes-vous sûr de vouloir continuer ?
         </Text>
       </View>
-      <TouchableOpacity style={[pstyles.buttons, pstyles.red, {marginBottom: -3}]} onPress={handleDeleteUser}>
+      <TouchableOpacity style={[pstyles.buttons, pstyles.red, {marginBottom: -20}]} onPress={handleDeleteUser}>
         <Text style={[pstyles.signTypo, pstyles.red]}>
           supprimer quand même
         </Text>
