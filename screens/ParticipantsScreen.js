@@ -55,7 +55,6 @@ const ParticipantsScreen = () => {
       setParticipants(data);
     } catch (error) {
       console.error("Error fetching participants information:", error);
-      // Handle error here
     }
   };
 

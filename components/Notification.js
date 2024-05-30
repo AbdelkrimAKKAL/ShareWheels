@@ -44,7 +44,7 @@ const Notification = (Props) => {
 
 export const styles = StyleSheet.create({
     newNotification: {
-        backgroundColor: '#e0f7fa', // Change this to your desired highlight color
+        backgroundColor: '#e0f7fa', 
     },
     notificationContainer: {
         flexDirection: "row",

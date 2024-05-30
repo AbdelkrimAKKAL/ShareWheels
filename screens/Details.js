@@ -230,7 +230,7 @@ const Details = () => {
           <View style={[styles.BorderInput, { marginBottom: 20 }]}>
             {data.map((item, index) => (
               <View
-                key={index} // Assigning unique key prop
+                key={index} 
                 style={[RechercheStyles.Inputs, { width: 284, marginBottom: 8 }]}
               >
                 <Image
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: "center",
     width: "100%",
-    paddingBottom: 20 //gonna fix this
+    paddingBottom: 20 
   },
   main: {
     flex: 1,

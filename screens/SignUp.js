@@ -39,12 +39,10 @@ const SignUp = () => {
   const [isLoading, setIsloading] = useState(null);
   const { dispatch } = useAuth();
   const setBirthYear = (inputYear) => {
-    // Convert input to integer
     const year = parseInt(inputYear);
 
-    // Check if the input is a valid number
     if (isNaN(year)) {
-      return; // Exit if input is not a valid number
+      return; 
     }
 
     const currentYear = new Date().getFullYear();
@@ -89,13 +87,12 @@ const SignUp = () => {
       if (!response.ok) {
         setIsloading(false);
         setError(json.error);
-        return; // Exit function if there's an error
+        return; 
       }
 
       // Sign up successful
       AsyncStorage.setItem("user", JSON.stringify(json))
         .then(() => {
-          // Update the auth context
           dispatch({ type: "LOGIN", payload: json });
           navigation.navigate("TabNavigator", {
             screen: "Profile",
@@ -184,41 +181,12 @@ const SignUp = () => {
           <TextInput
             style={[styles.numberTypo]}
             placeholder="Année de naissance"
-            keyboardType="numeric" // Set keyboard type to numeric
+            keyboardType="numeric" 
             value={naissance}
-            onChangeText={setNaissance} // Call setNaissance directly
-            onBlur={() => setBirthYear(naissance)} // Perform validation onBlur
+            onChangeText={setNaissance} 
+            onBlur={() => setBirthYear(naissance)} 
           />
         </Pressable>
-        {/*<View style={[styles.container, { zIndex: 1000 }]}>
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/group1.png")}
-          />
-          <DropDownPicker
-            style={[{ borderWidth: 0, width: "95%" }]}
-            placeholder="Genre"
-            placeholderStyle={{ color: "#7c7c7c" }}
-            open={open}
-            items={items}
-            value={genre}
-            setOpen={setOpen}
-            setValue={setGenre}
-            setItems={setItems}
-            dropDownContainerStyle={[
-              styles.container,
-              {
-                marginLeft: -30,
-                width: "105%",
-                elevation: 1000,
-                height: "150%",
-                marginTop: 3,
-              },
-            ]}
-          />
-          </View>*/}
-
           <View style={[styles.container, { zIndex: 1000 }]}>
           <Image style={styles.icon} contentFit="cover" source={require("../assets/group1.png")} />
           <NativeBaseProvider>

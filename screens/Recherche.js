@@ -129,7 +129,6 @@ const Recherche = () => {
     }
   };
 
-  // Time state and handlers
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
   const [isTimePicked, setTimePicked] = useState(false);
 
@@ -152,7 +151,6 @@ const Recherche = () => {
     console.log("A time has been picked: ", time);
     setTimePicked(true);
   };
-  // get number of new notifications
   const fetchDataFromDatabase = async () => {
     try {
       const read = "false";
@@ -176,7 +174,6 @@ const Recherche = () => {
         setIfZero(false)
       }
 
-       // Set the state for the number of unread notifications
     } catch (error) {
       console.error('Error fetching profile data:', error);
     } finally {
@@ -363,7 +360,7 @@ export const RechercheStyles = StyleSheet.create({
   notification: {
     marginTop: 30,
     position: 'absolute',
-    top: 16, // Adjust this value to fine-tune the vertical position
+    top: 16,
     right: 15,
 
   },
@@ -431,9 +428,9 @@ export const RechercheStyles = StyleSheet.create({
   },
   redDot: {
     position: 'absolute',
-    top: 10, // Adjust this value to position the dot vertically
-    right: 25, // Adjust this value to position the dot horizontally
-    width: 20, // Adjust the size of the dot as needed
+    top: 10, 
+    right: 25, 
+    width: 20, 
     height: 20,
     borderRadius: 12,
     backgroundColor: '#fa5c69',

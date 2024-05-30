@@ -11,7 +11,7 @@ const images = {
 };
 
 const NotAuth = ({ title, photo }) => {
-  const [dir, setDir] = useState(images[photo]); // Use preloaded images directly
+  const [dir, setDir] = useState(images[photo]);
 
   if (!dir) {
     return (

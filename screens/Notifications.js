@@ -47,7 +47,6 @@ const Notifications = ({ }) => {
 
       const { notifications, notificationIds, nbr_notifications, newNotificationIds } = await response.json();
 
-      // Load photos for notifications
       if (notifications) {
         for (const item of notifications) {
           const loadedPhoto = await loadImage(item.pdp);
@@ -61,7 +60,7 @@ const Notifications = ({ }) => {
       console.log("the ids of the new notifications: ", newNotificationIds);
 
       setNotifications(notifications);
-      setNbrNoti(nbr_notifications); // Set the state for the number of unread notifications
+      setNbrNoti(nbr_notifications); 
       setNewId(newNotificationIds);
 
       if (nbr_notifications == 0) {
@@ -93,8 +92,6 @@ const Notifications = ({ }) => {
       }
 
       const { notifications, nbr_notifications } = await response.json();
-
-      // Load photos for notifications
       if (notifications) {
         for (const item of notifications) {
           const loadedPhoto = await loadImage(item.pdp);
@@ -120,9 +117,6 @@ const Notifications = ({ }) => {
   }, [user]);
 
   const renderItem = ({ item }) => {
-    // checks the id of the notification is in the array of the 
-    //new notifications ids 
-    
     const isNew = newId.includes(item.id_notification);
 
     return (
@@ -141,7 +135,7 @@ const Notifications = ({ }) => {
 
   const handleRefresh = () => {
     setRefreshing(true);
-    fetchDataFromDatabase(); // Call the data fetching function here
+    fetchDataFromDatabase();
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -193,12 +187,12 @@ const Notifications = ({ }) => {
 const styles = StyleSheet.create({
 
   markAsRead: {
-    position: 'absolute', // Make the button float
-    bottom: 16, // Position it 16 units from the bottom of the parent
-    right: 16, // Position it 16 units from the right of the parent
+    position: 'absolute', 
+    bottom: 16, 
+    right: 16, 
     height: 45,
     width: 150,
-    backgroundColor: '#0075fd', // Ensure you use the correct color code
+    backgroundColor: '#0075fd', 
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,

@@ -47,13 +47,11 @@ const Login = () => {
       if (!response.ok) {
         setIsloading(false);
         setError(json.error);
-        return; // Exit function if there's an error
+        return; 
       }
 
       if (response.ok) {
-        //save the user to local storage
         AsyncStorage.setItem('user', JSON.stringify(json))
-        // Update the authContext
         dispatch({type: 'LOGIN', payload: json})
 
         setIsloading(false)

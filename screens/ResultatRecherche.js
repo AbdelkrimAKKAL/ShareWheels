@@ -23,10 +23,10 @@ export function timestampToDateTime(timestamp) {
     return { date: "", time: "" };
   }
 
-  const date = new Date(Date.parse(timestamp)); // Convert seconds to milliseconds
+  const date = new Date(Date.parse(timestamp));
 
   const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are 0-based
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); 
   const day = date.getDate().toString().padStart(2, "0");
 
   const hours = date.getHours().toString().padStart(2, "0");
@@ -129,7 +129,6 @@ if (user && user.user && user.user.id_uti) {
         }
       );
 
-      // Check if response.data is defined before accessing it
       if (response && response.data) {
         for (const item of response.data) {
           const loadedPhoto = await loadImage(item.photo);
@@ -147,7 +146,6 @@ if (user && user.user && user.user.id_uti) {
   };
 
   useEffect(() => {
-    // Fetch data from the database when the component mounts
     fetchDataFromDatabase().then((result) => {
       setData(result);
       setIsLoading(false);

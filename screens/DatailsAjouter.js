@@ -42,16 +42,14 @@ const DatailsAjouter = () => {
   };
 
   useEffect(() => {
-    // Fetch data from the database when the component mounts
     fetchDataFromDatabase().then((result) => setData(result));
   }, []);
 
   const toggleItem = (id) => {
-    // Toggle the selected status of the item with the given id
     if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((item) => item !== id)); // Remove if already selected
+      setSelectedItems(selectedItems.filter((item) => item !== id));
     } else {
-      setSelectedItems([...selectedItems, id]); // Add if not selected
+      setSelectedItems([...selectedItems, id]); 
     }
   };
 
@@ -69,7 +67,7 @@ const DatailsAjouter = () => {
               ? Color.colorRoyalblue_100
               : Color.colorGray
           }
-          status={selectedItems.includes(item.id) ? "checked" : "unchecked"} // Check if item is selected
+          status={selectedItems.includes(item.id) ? "checked" : "unchecked"} 
           onPress={() => toggleItem(item.id)}
         />
         <Text style={RechercheStyles.inputText}>{item.text}</Text>
@@ -79,8 +77,8 @@ const DatailsAjouter = () => {
 
   const addNewItem = () => {
     if (newItemText !== "") {
-      const newItem = { id: data.length + 1, text: newItemText }; // Generate new item
-      setData([...data, newItem]); // Add new item to the list
+      const newItem = { id: data.length + 1, text: newItemText }; 
+      setData([...data, newItem]);
       setNewItemText("");
     } else {
       Alert.alert("Alert", "élément Vide!.");

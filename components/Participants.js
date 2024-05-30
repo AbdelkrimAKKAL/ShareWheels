@@ -39,7 +39,6 @@ const Participants = (Props) => {
       refreshPage();
     } catch (error) {
       console.error("Error canceling reservation:", error);
-      // Handle error here
     }
   };
 

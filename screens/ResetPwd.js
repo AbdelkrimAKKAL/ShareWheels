@@ -27,7 +27,6 @@ const ResetPwd = ({ route }) => {
         
         setIsloading(true)
         setError(null)
-        // Validate passwords
         if (password !== confirmPassword) {
             setError("Passwords needs to be matched");
             return;
@@ -52,7 +51,7 @@ const ResetPwd = ({ route }) => {
                 setIsloading(false);
                 setError(json.error);
                 console.log(json.error);
-                return; // Exit function if there's an error
+                return; 
             }
 
             if (response.ok) {

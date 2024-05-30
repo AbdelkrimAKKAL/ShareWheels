@@ -34,7 +34,7 @@ const ForgotPwd = () => {
       if (!response.ok) {
         setIsloading(false);
         setError(json.error);
-        return; // Exit function if there's an error
+        return; 
       }
 
       if (response.ok) {

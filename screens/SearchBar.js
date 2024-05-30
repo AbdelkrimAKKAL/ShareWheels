@@ -102,7 +102,7 @@ const SearchBar = () => {
               </Pressable>
             )}
             keyExtractor={(item) => item.id.toString()}
-            keyboardShouldPersistTaps='"always"' // Add this prop
+            keyboardShouldPersistTaps='"always"' 
           />
         </View>
       )}

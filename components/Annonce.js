@@ -69,7 +69,6 @@ const Annonce = (Props) => {
           <TouchableOpacity
             style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox]}
             onPress={ParticiperFunc}
-            // disabled={userParticipated}
           >
             <Text
               style={[
@@ -230,14 +229,11 @@ const Annonce = (Props) => {
       );
 
       if (response.ok) {
-        // Trajet deleted successfully
         Alert.alert("Success", "Trajet deleted successfully");
       } else {
-        // Error deleting trajet
         Alert.alert("Error", "Failed to delete trajet");
       }
     } catch (error) {
-      // Internal server error or network error
       console.error("Error deleting trajet:", error);
       Alert.alert("Error", "Internal server error");
     }
@@ -254,7 +250,6 @@ const Annonce = (Props) => {
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          // Your request payload here
           key: 'req',
         }),
       })
@@ -264,7 +259,6 @@ const Annonce = (Props) => {
       }
     } catch (error) {
       console.error("Error canceling reservation:", error);
-      // Handle error here
     }
     refreshPage();
   };

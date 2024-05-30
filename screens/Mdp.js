@@ -38,7 +38,6 @@ const Mdp = () => {
           oldPassword
         })
       });
-      // Log the response
       console.log(response);
 
       // Handle response

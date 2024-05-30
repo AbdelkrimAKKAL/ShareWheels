@@ -36,7 +36,7 @@ const YourRides = () => {
   
   const handleRefresh = () => {
     setRefreshing(true);
-    fetchDataFromDatabase(); // Call the data fetching function here
+    fetchDataFromDatabase();
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -126,7 +126,7 @@ const YourRides = () => {
           >
             <FlatList
               showsVerticalScrollIndicator={false}
-              style={{ width: "100%" }} // Set width to 100%
+              style={{ width: "100%" }} 
               contentContainerStyle={{
                 justifyContent: "center",
                 alignItems: "center",

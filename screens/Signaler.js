@@ -19,7 +19,6 @@ import { useAuth } from "../context/AuthContext";
 import env from '../env';
 
 const fetchDataFromDatabase = async () => {
-  // Example data
   return [
     { id: 1, text: "irrespectueux" },
     { id: 2, text: "fausse informations personnels" },
@@ -66,16 +65,14 @@ const Signaler = () => {
   };
 
   useEffect(() => {
-    // Fetch data from the database when the component mounts
     fetchDataFromDatabase().then((result) => setData(result));
   }, []);
 
   const toggleItem = (id) => {
-    // Toggle the selected status of the item with the given id
     if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((item) => item !== id)); // Remove if already selected
+      setSelectedItems(selectedItems.filter((item) => item !== id)); 
     } else {
-      setSelectedItems([...selectedItems, id]); // Add if not selected
+      setSelectedItems([...selectedItems, id]); 
     }
   };
 
@@ -103,7 +100,7 @@ const Signaler = () => {
 
   const addNewItem = () => {
     if (newItemText !== "") {
-      const newItem = { id: data.length + 1, text: newItemText }; // Generate new item
+      const newItem = { id: data.length + 1, text: newItemText }; 
       setData([...data, newItem]); // Add new item to the list
       setNewItemText("");
     } else {

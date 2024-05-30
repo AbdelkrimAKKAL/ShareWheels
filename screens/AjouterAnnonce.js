@@ -100,13 +100,11 @@ const AjouterAnnonce = () => {
     setDatePicker2(false);
   };
   useEffect(() => {
-    // Scroll to default position when extend becomes false
     if (!extend && scrollViewRef.current) {
       scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
     }
   }, [extend]);
   const handleInputBlur = () => {
-    // Scroll back to default position
     scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
   };
 
@@ -119,12 +117,12 @@ const AjouterAnnonce = () => {
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
-    setTimePickerVisibility(false); // Hide time picker when showing date picker
+    setTimePickerVisibility(false); 
   };
 
   const showTimePicker = () => {
     setTimePickerVisibility(true);
-    setDatePickerVisibility(false); // Hide date picker when showing time picker
+    setDatePickerVisibility(false); 
   };
 
   const hideDatePicker = () => {
@@ -192,7 +190,6 @@ const AjouterAnnonce = () => {
 
   const showDatePicker2 = () => {
     setDatePickerVisibility2(true);
-    // Hide time picker when showing date picker
   };
 
   const hideDatePicker2 = () => {
@@ -301,7 +298,6 @@ const AjouterAnnonce = () => {
     }
   };
 
-  // verify if user exists, iif not it shows this
   if (!user) {
     return (
       <View style={YourRidesStyles.container}>
@@ -417,9 +413,8 @@ const AjouterAnnonce = () => {
                         Start Date
                       </Text>
                     )}
-                    <Pressable // Date
+                    <Pressable 
                       style={styles.inputShadowBox}
-                      // onPress={() => { navigation.navigate('Dates') }}
                       onPress={showDatePicker}
                     >
                       <Image
@@ -449,7 +444,7 @@ const AjouterAnnonce = () => {
                       mode="date"
                       onConfirm={handleDateConfirm}
                       onCancel={hideDatePicker}
-                      date={new Date(pickedDate)} // Pass current selected date to the date picker
+                      date={new Date(pickedDate)} 
                     />
                     {extend && (
                       <Text
@@ -483,7 +478,7 @@ const AjouterAnnonce = () => {
                           mode="date"
                           onConfirm={handleDateConfirm2}
                           onCancel={hideDatePicker2}
-                          date={new Date(date2)} // Pass current selected date to the date picker
+                          date={new Date(date2)} 
                         />
                       </View>
                     )}
@@ -514,7 +509,7 @@ const AjouterAnnonce = () => {
                   mode="time"
                   onConfirm={handleTimeConfirm}
                   onCancel={hideTimePicker}
-                  date={new Date(pickedDate)} // Pass current selected time to the time picker
+                  date={new Date(pickedDate)} 
                 />
 
                 <View style={[styles.inputShadowBox]}>
@@ -524,38 +519,7 @@ const AjouterAnnonce = () => {
                     source={require("../assets/mappin5.png")}
                   />
 
-                  {/* <DropDownPicker
-                  style={{
-                    zIndex: 9999,
-                    borderWidth: 0,
-                    borderColor: "transparent",
-                    width: "95%",
-                  }}
-                  placeholder="Voiture"
-                  ArrowDownIconComponent={({ style }) => (
-                    <Image
-                      style={[styles.iconLayout]}
-                      contentFit="cover"
-                      source={require("../assets/down-arrow.png")}
-                    />
-                  )}
-                  open={open}
-                  value={selectedValue}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setSelectedValue
-                  }
-                  setItems={setItems}
-                  dropDownContainerStyle={{
-                    backgroundColor: "white",
-                    width: "95%",
-                    borderColor: "#b8b8b8",
-                  }}
-                  dropDownStyle={{ borderWidth: 0, borderColor: "transparent" }}
-                /> */}
-
                   <Select
-                  // styles= {[styles.number2, styles.numberTypo]}
                     selectedValue={selectedValue}
                     minWidth="250"
                     accessibilityLabel="Choose Car"
@@ -697,7 +661,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   authenticateButton: {
-    backgroundColor: "blue", // Example background color for the button
+    backgroundColor: "blue", 
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,

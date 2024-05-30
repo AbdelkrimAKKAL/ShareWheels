@@ -263,7 +263,7 @@ const Carpools = () => {
           >
             <FlatList
             showsVerticalScrollIndicator={false}
-            style={{ width: "100%" }} // Set width to 100%
+            style={{ width: "100%" }}
             contentContainerStyle={{
               justifyContent: "center",
               alignItems: "center",
@@ -295,7 +295,7 @@ const Carpools = () => {
           progressBackgroundColor='white'
         >
           <FlatList
-          style={{ width: "100%" }} // Set width to 100%
+          style={{ width: "100%" }} 
           contentContainerStyle={{
             justifyContent: "center",
             alignItems: "center",
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   authenticateButton: {
-    backgroundColor: "blue", // Example background color for the button
+    backgroundColor: "blue",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
