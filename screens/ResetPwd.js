@@ -56,13 +56,13 @@ const ResetPwd = ({ route }) => {
 
             if (response.ok) {
                 setIsloading(false); 
-                Alert.alert("Password changed successfully");
+                Alert.alert("Le mot de passe a été changé avec succès");
                 navigation.navigate('Login')
             }
 
         } catch (error) {
             console.error("Error resetting password :", error);
-            Alert.alert("Error", "An error occurred while resetting password");
+            Alert.alert("Erreur", "Une erreur s'est produite lors de la réinitialisation du mot de passe");
         }
     };
 
@@ -72,17 +72,17 @@ const ResetPwd = ({ route }) => {
 
             <Text style={styles.Soustitre}>Code de verification:</Text>
             <View style={styles.Input}>
-                <TextInput placeholder="Code" style={{ width: 277 }} value={verificationCode} onChangeText={(text) => setVerificationCode(text)} />
+                <TextInput placeholder="Code de verification" style={{ width: 277 }} value={verificationCode} onChangeText={(text) => setVerificationCode(text)} />
             </View>
 
             <Text style={styles.Soustitre}>Nouveau mot de pass :</Text>
             <View style={styles.Input}>
-                <TextInput placeholder="password" style={{ width: 277 }} value={password} onChangeText={(text) => setPassword(text)} />
+                <TextInput placeholder="Mot de passe" style={{ width: 277 }} value={password} onChangeText={(text) => setPassword(text)} />
             </View>
 
             <Text style={styles.Soustitre}>Confirmer le mot de pass:</Text>
             <View style={styles.Input}>
-                <TextInput placeholder="confirm password" style={{ width: 277 }} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} />
+                <TextInput placeholder="Confirmer Mot de passe" style={{ width: 277 }} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} />
             </View>
 
             <View style={[styles.error]}>

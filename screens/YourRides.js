@@ -101,7 +101,7 @@ const YourRides = () => {
     return (
       <View style={YourRidesStyles.container}>
         <TopBar />
-        <Text style={YourRidesStyles.title}>Your Rides</Text>
+        <Text style={YourRidesStyles.title}>Vos Trajets</Text>
         <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
         <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})} >
           <Image style={YourRidesStyles.image} source={require("../assets/next.png")} />
@@ -112,7 +112,7 @@ const YourRides = () => {
   return (
     <View style={YourRidesStyles.container}>
       <TopBar />
-      <Text style={YourRidesStyles.title}>Your Rides</Text>
+      <Text style={YourRidesStyles.title}>Vos Trajets</Text>
       <View style={YourRidesStyles.main}>
         {isLoading ? (
           <ActivityIndicator size="large" color="#0075fd" style={[ResultatRechercheStyles.loadingIndicator]}

@@ -10,7 +10,6 @@ import Modifier from "./screens/Modifier";
 import Voiture from "./screens/Voiture";
 import Signaler from "./screens/Signaler";
 import DatailsAjouter from "./screens/DatailsAjouter";
-import Dates from "./screens/Dates";
 import CarpoolPasses from "./screens/Carpools";
 import MonProfil from "./screens/MonProfil";
 import AjouterAnnonce from "./screens/AjouterAnnonce";
@@ -41,11 +40,11 @@ import Notifications from "./screens/Notifications";
 import { NativeBaseProvider } from 'native-base';
 import CertifierCar from "./screens/CertifierCar";
 
-const SearchName = "Search";
-const YourRidesName = "Your Rides";
-const PublishName = "Publish";
+const SearchName = "Recherche";
+const YourRidesName = "Vos Trajets";
+const PublishName = "Publier";
 const CarpoolsName = "Carpools";
-const ProfileName = "Profile";
+const ProfileName = "Profil";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
@@ -103,11 +102,6 @@ const App = () => {
                   <Stack.Screen
                     name="DatailsAjouter"
                     component={DatailsAjouter}
-                    options={{ headerShown: false }}
-                  />
-                  <Stack.Screen
-                    name="Dates"
-                    component={Dates}
                     options={{ headerShown: false }}
                   />
                   <Stack.Screen
@@ -363,7 +357,7 @@ const PublishStackScreen = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="AjouterAnnonce" component={AjouterAnnonce} />
     <Stack.Screen name="Notifications" component={Notifications} />
-    <Stack.Screen name="Dates" component={Dates} />
+    
     <Stack.Screen name="Voiture" component={Voiture} />
     <Stack.Screen name="SearchBar" component={SearchBar} />
     <Stack.Screen name="DatailsAjouter" component={DatailsAjouter} />

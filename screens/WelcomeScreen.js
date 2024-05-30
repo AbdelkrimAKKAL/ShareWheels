@@ -36,13 +36,13 @@ const WelcomeScreen = () => {
             style={[styles.buttonfirst, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("Login")}
           >
-            <Text style={[styles.signUp, styles.signTypo]}>Login</Text>
+            <Text style={[styles.signUp, styles.signTypo]}>Se connecter</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonsecondary, styles.buttonfirstFlexBox]}
             onPress={() => navigation.navigate("SignUp")}
           >
-            <Text style={[styles.signUp1, styles.signTypo]}>Sign up</Text>
+            <Text style={[styles.signUp1, styles.signTypo]}>S'inscrire</Text>
           </TouchableOpacity>
         </View>
       </View>

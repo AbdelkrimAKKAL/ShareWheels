@@ -17,7 +17,7 @@ const Certified = props => {
                     contentFit="cover"
                     source={require("../assets/certified.png")}
                 />
-                <Text style={styles.title}>Certified Account</Text>
+                <Text style={styles.title}>Compte certifié</Text>
             </View>
         );
     } else {
