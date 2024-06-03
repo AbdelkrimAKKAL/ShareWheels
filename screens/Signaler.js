@@ -111,7 +111,7 @@ const Signaler = () => {
   return (
     <View style={[DetailsScreenStyles.datailsajouter]}>
       <TopBar />
-      <Text style={DetailsScreenStyles.detailsAAjouter}>Details a ajouter</Text>
+      <Text style={DetailsScreenStyles.detailsAAjouter}>Signaler</Text>
       <View style={DetailsScreenStyles.main}>
         <FlatList
           style={{ width: "100%" }}

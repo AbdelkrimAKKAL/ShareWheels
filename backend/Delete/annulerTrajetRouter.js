@@ -4,14 +4,12 @@ import moment from 'moment';
 
 const router = express.Router();
 
-// Route to cancel a reservation and update available seats
 router.delete("/:reservationId", async (req, res) => {
   try {
     const { reservationId } = req.params;
     const {key} = req.body;
     console.log(key)
 
-    // Fetch reservation details
     const reservationQuery = "SELECT id_trajet, nbr_place, id_reserveur FROM reservations WHERE id_reservation = ?";
     const reservationParams = [reservationId];
 
@@ -25,7 +23,7 @@ router.delete("/:reservationId", async (req, res) => {
 
     const { id_trajet, nbr_place } = reservationResult[0];
     const senderId = reservationResult[0].id_reserveur;
-      // get id conducteur
+
       const connection3 = await pool.getConnection();
       const [conducteurID] = await connection3.query(
         `SELECT id_conducteur 
@@ -62,7 +60,6 @@ router.delete("/:reservationId", async (req, res) => {
     console.log("idCond", idConducteur);
     console.log("issender", senderId);
 
-    // infos ride
     const getRide = await pool.getConnection()
     const[rideResult] = await getRide.query(
       `SELECT depart, arrivee, timestamp

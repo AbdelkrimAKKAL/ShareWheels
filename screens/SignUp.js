@@ -167,6 +167,7 @@ const SignUp = () => {
           <TextInput
             style={[styles.number2, styles.numberTypo]}
             placeholder="Numero de Telephone"
+            keyboardType="numeric" 
             value={num_tel}
             onChangeText={setPhoneNumber}
           />

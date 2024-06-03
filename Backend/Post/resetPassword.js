@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import { pool } from "../createPool.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
 
@@ -35,16 +35,13 @@ router.post("/:email", async (req, res) => {
    
 
     
-     // Check if verification code matches
      if (verificationCode !== code) {
       return res.status(400).json({ error: "Code de vérification invalide" });
     }
     
 
-    // Hash the new password before updating it in the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Update user's password in the database
     const updateResult = await pool.query(
       'UPDATE Utilisateurs SET mdp = ? WHERE email = ?',
       [hashedPassword, email]

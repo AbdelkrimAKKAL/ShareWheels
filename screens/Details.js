@@ -58,7 +58,7 @@ const Details = () => {
     console.log(id_trajet, nbr_place)
     try {
       if (!user) {
-        navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen' } });
+        navigation.navigate('TabNavigator', { screen: 'Profil', params: { screen: 'WelcomeScreen' } });
         return;
       }
   

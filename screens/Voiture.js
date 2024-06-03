@@ -60,12 +60,13 @@ const Voiture = ({ route }) => {
                 },
               });
               navigation.navigate("TabNavigator", {
-                screen: "Publish",
+                screen: "Publier",
                 params: {
                   screen: "AjouterAnnonce",
                 },
               });
             }else if (carDes == 'no_car'){
+              console.log('hh')
               navigation.navigate("TabNavigator", {
                 screen: "Search",
                 params: {
@@ -73,7 +74,7 @@ const Voiture = ({ route }) => {
                 },
               });
               navigation.navigate("TabNavigator", {
-                screen: "Profile",
+                screen: "Profil",
                 params: {
                   screen: "MonProfil",
                 },
@@ -111,7 +112,7 @@ const Voiture = ({ route }) => {
             },
           });
           navigation.navigate("TabNavigator", {
-            screen: "Profile",
+            screen: "Profil",
             params: {
               screen: "MonProfil",
             },

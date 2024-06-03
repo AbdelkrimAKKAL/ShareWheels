@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import { pool } from "../createPool.js"; 
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcrypt";
 import nodemailer from 'nodemailer'
@@ -12,7 +12,6 @@ import { USER, APP_PASSWORD, EMAIL_RECEIVER } from '../../env.js';
 const router = express.Router();
     let created = false
 
-// Function to generate a random verification code
 function generateVerificationCode() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let verificationCode = '';

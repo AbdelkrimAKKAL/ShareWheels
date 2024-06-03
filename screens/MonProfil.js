@@ -45,7 +45,7 @@ const MonProfil = () => {
     AsyncStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
     navigation.navigate("TabNavigator", {
-      screen: "Profile",
+      screen: "Profil",
       params: { screen: "WelcomeScreen" },
     });
   };

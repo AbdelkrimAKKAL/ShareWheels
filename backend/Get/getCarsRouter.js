@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import { pool } from "../createPool.js"; 
 
 const router = express.Router();
 
@@ -8,7 +8,6 @@ router.get("/:id_prop", async (req, res) => {
 
   try {
     
-    // Get user's cars
     const carsConnection = await pool.getConnection();
     const [cars] = await carsConnection.query(
       "SELECT * FROM voitures WHERE id_prop = ?",

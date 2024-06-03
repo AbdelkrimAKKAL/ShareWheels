@@ -23,7 +23,7 @@ const Annonce = (Props) => {
 
   const goToDetails = () => {
     if(!user){
-      navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})
+      navigation.navigate('TabNavigator', {screen: 'Profil',params: {screen: 'WelcomeScreen', }})
     }else{
     navigation.navigate("Details", {
       depart: Props.startLocation,
@@ -177,7 +177,7 @@ const Annonce = (Props) => {
 
     try {
       if (!user) {
-        navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen' } });
+        navigation.navigate('TabNavigator', { screen: 'Profil', params: { screen: 'WelcomeScreen' } });
         return;
       }
   

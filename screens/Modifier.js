@@ -57,7 +57,6 @@ const Modifier = () => {
     }
   };
 
-  // get user data
   useEffect(() => {
     const fetchProfileData = async () => {
 
@@ -74,7 +73,6 @@ const Modifier = () => {
           throw new Error('Network response was not ok');
         }
 
-        // data
         const data = await response.json();
 
         setData(data);
@@ -99,7 +97,6 @@ const Modifier = () => {
     try {
       const updatedFields = {};
 
-    // Check which fields are modified and add them to updatedFields object
     if (name !== user.user.nom) {
       updatedFields.name = name;
     }
@@ -116,10 +113,14 @@ const Modifier = () => {
       updatedFields.num_tel = num_tel;
     }
 
-    // Check if any fields are modified
     if (Object.keys(updatedFields).length === 0) {
       setError("No fields are modified");
       return;
+    }
+
+    let photoUri = photo;
+    if (photo && photo.uri !== undefined) {
+      photoUri = photo.uri;
     }
       
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/EditUser/${user.user.id_uti}`, {
@@ -129,16 +130,17 @@ const Modifier = () => {
           'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          name, prenom, email, photo, num_tel
+          name, prenom, email, photo: photoUri, num_tel
         }),
       });
 
       const json = await response.json();
+      console.log(ph)
 
       if (!response.ok) {
         setSuccess(false);
         setError(json.error);
-        return; // Exit function if there's an error
+        return; 
       }
 
       if (response.ok) {

@@ -103,7 +103,7 @@ const YourRides = () => {
         <TopBar />
         <Text style={YourRidesStyles.title}>Vos Trajets</Text>
         <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
-        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'WelcomeScreen', }})} >
+        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profil',params: {screen: 'WelcomeScreen', }})} >
           <Image style={YourRidesStyles.image} source={require("../assets/next.png")} />
         </TouchableOpacity>
       </View>

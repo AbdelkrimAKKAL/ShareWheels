@@ -277,9 +277,9 @@ const AjouterAnnonce = () => {
           refreshPage();
           Alert.alert("Success", "Announcement published successfully");
           navigation.navigate("TabNavigator", {
-            screen: "Your Rides",
+            screen: "Vos Trajets",
             params: {
-              screen: "YourRides",
+              screen: "Vos Trajets",
             },
           });
           navigation.replace("AjouterAnnonce", {
@@ -308,7 +308,7 @@ const AjouterAnnonce = () => {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("TabNavigator", {
-                screen: "Profile",
+                screen: "Profil",
                 params: { screen: "WelcomeScreen" },
               })
             }

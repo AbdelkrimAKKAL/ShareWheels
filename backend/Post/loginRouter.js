@@ -1,4 +1,3 @@
-// Import necessary modules
 import express from "express";
 import { pool } from "../createPool.js";
 import bcrypt from "bcrypt";
@@ -9,17 +8,14 @@ const {JWT_LIFETIME, JWT_SECRET} = env
 
 const router = express.Router();
 
-// Route to handle login requests
 router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if email and password are provided
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    // Check if the email exists in the database
     const connection = await pool.getConnection();
     const [rows] = await connection.query(
       "SELECT * FROM Utilisateurs WHERE email = ?",
@@ -33,14 +29,12 @@ router.post("/", async (req, res) => {
 
     const user = rows[0];
 
-    // Check if the provided password matches the stored password
     
     const isMatch = await bcrypt.compare(password, user.mdp)
     if (!isMatch) {
       return res.status(401).json({ error: "Incorrect password" });
     }
 
-    // create a token
     const token = jwt.sign({userTel:user.num_tel, name:user.nom}, JWT_SECRET,{
       expiresIn:JWT_LIFETIME,
     })

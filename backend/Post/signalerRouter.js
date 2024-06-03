@@ -3,23 +3,17 @@ import { pool } from "../createPool.js";
 
 const router = express.Router();
 
-// Middleware to parse JSON bodies
 router.use(express.json());
 
-// Endpoint to receive and store reported user data
 router.post("/", async (req, res) => {
-  // Extract the selected items and id_trajet from the request body
   const { SignalerUserID, TargetUserID, Description } = req.body;
 
   try {
-    // Get a database connection from the pool
     const connection = await pool.getConnection();
 
-    // Begin a transaction
     await connection.beginTransaction();
 
     try {
-      // Insert the reported user data into the Signalements table
       await connection.query(
         "INSERT INTO Signalements (SignalerUserID, TargetUserID, Description) VALUES (?, ?, ?)",
         [SignalerUserID, TargetUserID, JSON.stringify(Description)]

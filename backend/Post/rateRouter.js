@@ -4,14 +4,12 @@ import moment from 'moment';
 
 const router = express.Router();
 
-// Update user rating endpoint
 router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
   const { userId, emailSender, idReservation } = req.params;
   const { newRating } = req.body;
 
   try {
 
-    // Get the id of the sender
     const connection3 = await pool.getConnection();
     const [senderIdResult] = await connection3.query(
       `SELECT id_uti 
@@ -25,7 +23,6 @@ router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
     const senderId = senderIdResult[0].id_uti;
     connection3.release();
 
-    //Check if the rate exists
 
     const isRated = await pool.getConnection();
     const [rateResult] = await connection3.query(
@@ -48,7 +45,6 @@ router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
       
     }
 
-    // Update user rating
     const userConnection = await pool.getConnection();
     await userConnection.query(
       `UPDATE utilisateurs 
@@ -66,7 +62,6 @@ router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
     );
     userConnection.release();
 
-    // set rated to True 
     const checkRate = await pool.getConnection()
     await checkRate.query(
       `UPDATE reservations
@@ -76,7 +71,6 @@ router.put("/:userId/:emailSender/:idReservation", async (req, res) => {
     )
     checkRate.release()
     
-    // get the ride's informations
     const checkRide = await pool.getConnection()
     const[idTrajet]=await checkRide.query(
       `SELECT id_trajet

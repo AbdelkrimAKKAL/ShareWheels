@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import { pool } from "../createPool.js"; 
 
 const router = express.Router();
 
@@ -7,7 +7,6 @@ router.get("/:email", async (req, res) => {
   const { email } = req.params;
 
   try {
-    // Get user information
     const userConnection = await pool.getConnection();
     const [userData] = await userConnection.query(
       "SELECT * FROM Utilisateurs WHERE email = ?",
@@ -19,7 +18,6 @@ router.get("/:email", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
   
-    // Assemble the user information along with their carsjourneys
     const userWithDetails = {
       user: userData[0],
     };

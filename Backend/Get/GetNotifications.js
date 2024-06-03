@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import { pool } from "../createPool.js"; 
 
 const router = express.Router();
 
@@ -9,7 +9,6 @@ router.get("/:email/:read", async (req, res) => {
     
 
     try {
-        // Get user information
         const userConnection = await pool.getConnection();
         const [userData] = await userConnection.query(
             "SELECT * FROM Utilisateurs WHERE email = ?",
@@ -24,7 +23,6 @@ router.get("/:email/:read", async (req, res) => {
         // Get user ID
         const userId = userData[0].id_uti;
 
-        // Update notifications if 'read' is true
         if (read === "true") {
             const notificationsConnection3 = await pool.getConnection();
             await notificationsConnection3.query(
@@ -47,7 +45,7 @@ router.get("/:email/:read", async (req, res) => {
         );
         notificationsConnection.release();
         const notificationIds = notifications.map(notification => notification.id_notification);
-        // Get the number of notifications where clicked = false
+        // Get the number of notifications 
         const [rows] = await pool.query(
             `SELECT COUNT(id_notification) AS notifications_count, GROUP_CONCAT(id_notification) AS new_notification_ids
              FROM notifications
@@ -58,7 +56,7 @@ router.get("/:email/:read", async (req, res) => {
         const newNotificationIds = rows[0].new_notification_ids ? rows[0].new_notification_ids.split(',').map(Number) : [];
         console.log("IDS :",newNotificationIds);
 
-        res.status(200).json({ notifications, notificationIds, nbr_notifications, newNotificationIds }); // Include nbr_notifications in the response
+        res.status(200).json({ notifications, notificationIds, nbr_notifications, newNotificationIds }); 
     } catch (error) {
         console.error("Error retrieving user Notifications :", error);
         res.status(500).json({ error: "Internal server error" });

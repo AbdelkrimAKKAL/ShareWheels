@@ -1,18 +1,14 @@
-// Assuming you already have express and pool imported
 import express from "express";
 import { pool } from "../createPool.js";
-// import notificationsService from '../notificationsService.js';
 import moment from 'moment';
 const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
 
 const router = express.Router();
 
-// Route to handle making a reservation
 router.post("/", async (req, res) => {
   try {
     const { id_trajet, id_reserveur, nbr_place } = req.body;
 
-    // Validate required fields
     if (!id_trajet || !id_reserveur || !nbr_place ) {
       return res.status(400).json({
         error: "id_trajet, id_reserveur, nbr_places, and userToken are required.",
@@ -53,12 +49,6 @@ router.post("/", async (req, res) => {
     await insertConnection.query(insertReservationQuery, insertReservationParams);
     insertConnection.release();
 
-    // Send notification and save it to MySQL
-    // const message = `You have a new booking for your ride: ${nbr_place} seats reserved.`;
-    // await notificationsService.sendNotification(id_trajet, id_reserveur, "New Ride Booking", message);
-
-
-    // Get the id of the conducteur
     const connection3 = await pool.getConnection();
     const [conducteurID] = await connection3.query(
       `SELECT t.id_conducteur 
@@ -72,7 +62,6 @@ router.post("/", async (req, res) => {
     console.log("conducteur", id);
     console.log("reserveur", id_reserveur);
   
-    // infos ride
     const getRide = await pool.getConnection()
     const[rideResult] = await getRide.query(
       `SELECT depart, arrivee, timestamp
@@ -91,7 +80,7 @@ router.post("/", async (req, res) => {
     const connection2 = await pool.getConnection();
     await connection2.query(
       'INSERT INTO notifications (id_uti, id_sender, titre, body, time) VALUES (?, ?, ?, ?, ?)',
-      [id, id_reserveur, "Reservation", message, currentTime] // Adjust id_sender as necessary
+      [id, id_reserveur, "Reservation", message, currentTime] 
     );
     connection2.release();
 

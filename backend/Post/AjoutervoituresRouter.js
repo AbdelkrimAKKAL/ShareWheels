@@ -3,7 +3,6 @@ import { pool } from "../createPool.js";
 
 const router = express.Router();
 
-// Route to add a car
 router.post("/", async (req, res) => {
   try {
     const {
@@ -15,21 +14,18 @@ router.post("/", async (req, res) => {
       voiture_certificat,
     } = req.body;
 
-    // Validate required fields
     if (!matricule || !modele || !couleur) {
       return res
         .status(400)
         .json({ error: "Matricule, modele, and couleur are required." });
     }
 
-    // Check if matricule already exists
     const matriculeExistsQuery = "SELECT * FROM voitures WHERE matricule = ?";
     const [existingCar] = await pool.query(matriculeExistsQuery, [matricule]);
     if (existingCar.length > 0) {
       return res.status(400).json({ error: "Matricule already exists." });
     }
 
-    // Insert query
     const insertQuery =
       "INSERT INTO voitures (matricule, id_prop, modele, couleur, voiture_est_certifie, voiture_certificat) VALUES (?, ?, ?, ?, ?, ?)";
     const insertParams = [

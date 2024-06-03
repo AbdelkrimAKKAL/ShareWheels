@@ -185,7 +185,7 @@ const Carpools = () => {
         <View>
           <TouchableOpacity
             onPress={() => navigation.navigate('TabNavigator', {
-              screen: 'Profile',
+              screen: 'Profil',
               params: {
                 screen: 'WelcomeScreen', 
               }

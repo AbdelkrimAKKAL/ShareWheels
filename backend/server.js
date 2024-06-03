@@ -17,7 +17,6 @@ import getPassedRidesRouter from './Get/getPassedRidesRouter.js';
 import getPostedRidesRouter from './Get/getPostedRidesRouter.js';
 import getParticipatedRouter from './Get/getParticipatedRouter.js';
 import annulerTrajetRouter from './Delete/annulerTrajetRouter.js';
-
 import forgotPassword from './Post/forgotPassword.js'
 import resetPassword from './Post/resetPassword.js'
 import EditPassword from './Post/EditPassword.js'
@@ -52,20 +51,11 @@ app.use("/api/getParticipated", getParticipatedRouter);
 app.use("/api/annulerTrajet", annulerTrajetRouter);
 app.use("/api/getCars", getCarsRouter);
 app.use("/api/deleteCars", deleteCarRouter);
-
-
-
-// ForgotPassword
 app.use("/api/forgotPassword", forgotPassword);
 app.use("/api/resetPassword", resetPassword);
-
 app.use("/api/EditPassword", EditPassword)
 app.use("/api/AjouterID", AjouterID)
-
 app.use("/api/GetNotifications", GetNotifications)
-
-
-
 
 
 

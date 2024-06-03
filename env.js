@@ -2,7 +2,7 @@
 //npm install -g eas-cli
 //eas build -p android
 
-const API_IP_ADDRESS = '192.168.1.107';
+const API_IP_ADDRESS = '192.168.1.101';
 const MYSQL_HOST = "127.0.0.1";
 const MYSQL_USER = "root";
 const MYSQL_PASSWORD = "Amine/2002";

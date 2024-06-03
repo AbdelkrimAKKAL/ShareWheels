@@ -28,7 +28,6 @@ router.get("/", async (req, res) => {
         queryParams.push(timestamp.split('T')[0]);
       }
       
-      // If only isTimePicked is true, search for rides with the same time and ignore the date
       if (isTimePicked) {
         query += ` AND TIME(trajets.timestamp) = ?`;
         queryParams.push(timestamp.split('T')[1]);
@@ -37,7 +36,6 @@ router.get("/", async (req, res) => {
 
     query += ` AND CURDATE() <= DATE(trajets.timestamp)`;
 
-    // Add filtering condition to exclude rides posted by the user if userId is provided
     if (userId) {
       query += ` AND utilisateurs.id_uti != ?`;
       query += ` AND trajets.id_trajet NOT IN (SELECT id_trajet FROM reservations WHERE id_reserveur = ?)`;

@@ -146,7 +146,7 @@ const Notifications = ({ }) => {
       <View style={styles.container}>
         <Text style={styles.title}>Notifications</Text>
         <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
-        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', { screen: 'Profile', params: { screen: 'WelcomeScreen' } })} >
+        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', { screen: 'Profil', params: { screen: 'WelcomeScreen' } })} >
           <Image style={styles.image} source={require("../assets/next.png")} />
         </TouchableOpacity>
       </View>

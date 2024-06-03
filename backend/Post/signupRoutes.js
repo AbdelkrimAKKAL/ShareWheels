@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../createPool.js"; // Import the pool from createPool.js
+import { pool } from "../createPool.js"; 
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import env from '../../env.js';
@@ -20,12 +20,10 @@ router.post("/", async (req, res) => {
       genre, naissance
     } = req.body;
 
-    // Check if required fields are provided
     if (!nom || !prenom || !mdp || !email || !num_tel || naissance==="") {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Check if email or phone number already exists
     const connection = await pool.getConnection();
     const [existingUsers] = await connection.query(
       "SELECT * FROM Utilisateurs WHERE email = ? OR num_tel = ?",
@@ -43,7 +41,6 @@ router.post("/", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(mdp, 10)
 
-    // If email and phone number are unique, proceed with insertion
     const currentYear = new Date().getFullYear();
     const birthYear = currentYear-parseInt(naissance);
     const insertConnection = await pool.getConnection();
@@ -52,7 +49,7 @@ router.post("/", async (req, res) => {
       [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, certificat, genre, birthYear]
     );
     insertConnection.release();
-    // Check if the email exists in the database
+
     const connectionn = await pool.getConnection();
     const [rows] = await connection.query(
       "SELECT * FROM Utilisateurs WHERE email = ?",
@@ -62,7 +59,6 @@ router.post("/", async (req, res) => {
     const user = rows[0];
 
 
-    // create a token
     const token = jwt.sign({ userTel: num_tel, name: nom }, JWT_SECRET, {
       expiresIn: JWT_LIFETIME,
     })

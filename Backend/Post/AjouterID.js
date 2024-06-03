@@ -3,7 +3,6 @@ import { pool } from "../createPool.js";
 
 const router = express.Router();
 
-// Route to add a car
 router.post("/:id", async (req, res) => {
     try {
         const { id } = req.params

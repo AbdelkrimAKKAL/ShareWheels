@@ -3,7 +3,6 @@ import { pool } from "../createPool.js";
 
 const router = express.Router();
 
-// Delete trajet endpoint
 router.delete("/:id_trajet", async (req, res) => {
   const trajetId = req.params.id_trajet;
 

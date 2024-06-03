@@ -56,7 +56,7 @@ const Login = () => {
 
         setIsloading(false)
 
-        navigation.navigate('TabNavigator', {screen: 'Profile',params: {screen: 'MonProfil', }})
+        navigation.navigate('TabNavigator', {screen: 'Profil',params: {screen: 'MonProfil', }})
       }
       
     } catch (error) {

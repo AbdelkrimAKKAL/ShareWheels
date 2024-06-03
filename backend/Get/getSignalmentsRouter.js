@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
         "SELECT SignalerUserID, TargetUserID, Description FROM signalements"
       );
 
-      //   const detailsText = result[0][0].Description;
       console.log(result[0]);
       const result0 = result[0];
       res.status(200).json({ result0 });
