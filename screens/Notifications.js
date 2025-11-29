@@ -8,7 +8,7 @@ import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import axios from "axios";
 import env from "../env";
 import Notification from "../components/Notification";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 const Notifications = ({ }) => {
   const { user } = useAuth();
@@ -69,7 +69,7 @@ const Notifications = ({ }) => {
         setIfZero(false)
       }
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+      console.error('Error fetching notifications:', error);
     } finally {
       setIsLoading(false);
     }
