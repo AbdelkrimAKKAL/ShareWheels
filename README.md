@@ -15,11 +15,8 @@ A modern React Native car‑pooling and ride‑sharing application built with Ex
 ## 🛠️ Tech Stack
 
 - **React Native** with **Expo** (v54)
-- **React Navigation** (stack & bottom tabs)
-- **Native Base** for UI components
-- **Axios** for API calls
-- **Firebase** for authentication & storage
-- **Expo Camera & Image Picker** for document uploads
+- **MySQL Workbench** for authentication & storage
+- **Node.js Express** for backend
 
 ## 📂 Project Structure (high‑level)
 
@@ -54,9 +51,6 @@ npm install
 npx expo start
 ```
 
-- Press **`i`** to open the iOS simulator (macOS only) or scan the QR code with the Expo Go app.
-- Press **`a`** to open the Android emulator or scan the QR code with your Android device.
-
 ## 📖 Usage
 
 1. **Sign up / Login** – Create an account or log in with email & password.
@@ -64,15 +58,7 @@ npx expo start
 3. **Publish** – Add a new ride via the **Publish** tab.
 4. **My Rides** – View and manage your own rides and participants.
 5. **Profile** – Edit personal information, certify your car, and change password.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request. Follow the existing code style and run `npm run lint` before committing.
-
-## 📄 License
-
-This project is licensed under the MIT License.
+6. **Rating users** – rate the user
 
 ---
-
 *Happy riding! 🚗💨*
