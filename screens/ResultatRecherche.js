@@ -16,7 +16,7 @@ import axios from "axios";
 import env from "../env";
 import { useRefresh } from "../context/refresh";
 import { useAuth } from "../context/AuthContext";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 export function timestampToDateTime(timestamp) {
   if (!timestamp) {

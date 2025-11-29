@@ -7,7 +7,7 @@ import { launchImageLibraryAsync } from 'expo-image-picker';
 import { requestMediaLibraryPermissionsAsync } from 'expo-image-picker';
 import { useProfile } from '../context/ProfileContext.js';
 import { useAuth } from "../context/AuthContext";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 import env from '../env';
 
@@ -85,7 +85,7 @@ const Modifier = () => {
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
-      
+
     };
 
     fetchProfileData();
@@ -97,32 +97,32 @@ const Modifier = () => {
     try {
       const updatedFields = {};
 
-    if (name !== user.user.nom) {
-      updatedFields.name = name;
-    }
+      if (name !== user.user.nom) {
+        updatedFields.name = name;
+      }
 
-    if (prenom !== user.user.prenom) {
-      updatedFields.prenom = prenom;
-    }
+      if (prenom !== user.user.prenom) {
+        updatedFields.prenom = prenom;
+      }
 
-    if (email !== user.user.email) {
-      updatedFields.email = email;
-    }
+      if (email !== user.user.email) {
+        updatedFields.email = email;
+      }
 
-    if (num_tel !== user.user.num_tel) {
-      updatedFields.num_tel = num_tel;
-    }
+      if (num_tel !== user.user.num_tel) {
+        updatedFields.num_tel = num_tel;
+      }
 
-    if (Object.keys(updatedFields).length === 0) {
-      setError("No fields are modified");
-      return;
-    }
+      if (Object.keys(updatedFields).length === 0) {
+        setError("No fields are modified");
+        return;
+      }
 
-    let photoUri = photo;
-    if (photo && photo.uri !== undefined) {
-      photoUri = photo.uri;
-    }
-      
+      let photoUri = photo;
+      if (photo && photo.uri !== undefined) {
+        photoUri = photo.uri;
+      }
+
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/EditUser/${user.user.id_uti}`, {
         method: 'POST',
         headers: {
@@ -140,7 +140,7 @@ const Modifier = () => {
       if (!response.ok) {
         setSuccess(false);
         setError(json.error);
-        return; 
+        return;
       }
 
       if (response.ok) {
@@ -221,7 +221,7 @@ const Modifier = () => {
           {error && <Text style={styles.errorText}>{error}</Text>}
           {success && <Text style={styles.succesText}>modified with success</Text>}
         </View>
-        
+
         <TouchableOpacity
           onPress={handleEditProfile}
           style={[pstyles.buttons, { backgroundColor: "#0075fd" }]}
@@ -233,10 +233,10 @@ const Modifier = () => {
   );
 };
 const styles = StyleSheet.create({
-  error:{
-    margin:5
+  error: {
+    margin: 5
   },
-  succesText:{
+  succesText: {
     color: 'green',
     marginTop: 0,
     textAlign: 'center',

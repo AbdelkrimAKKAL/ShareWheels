@@ -12,42 +12,43 @@ import { Border, FontFamily, Color, FontSize, Padding } from "../GlobalStyles";
 import env from "../env";
 import { useAuth } from "../context/AuthContext";
 import { useRefresh } from "../context/refresh";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 
 
 const Annonce = (Props) => {
   const { refreshPage, refresh } = useRefresh();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const navigation = useNavigation();
 
   const goToDetails = () => {
-    if(!user){
-      navigation.navigate('TabNavigator', {screen: 'Profil',params: {screen: 'WelcomeScreen', }})
-    }else{
-    navigation.navigate("Details", {
-      depart: Props.startLocation,
-      destination: Props.endLocation,
-      rating: Props.rating,
-      nbr_ratings: Props.nbrRatings,
-      name: Props.name,
-      photo: Props.photo,
-      details: Props.details,
-      genre: Props.genre,
-      couleur: Props.couleur,
-      matricule: Props.matricule,
-      email : Props.email,
-      modele : Props.modele,
-      num_tel : Props.num_tel,
-      availableSeats: Props.availableSeats,
-      naissance : Props.naissance,
-      key : Props.btnText,
-      id_trajet : Props.trajetId,
-      nbr_place: Props.passengers,
-      est_certifie : Props.est_certifie,
-      voiture_est_certifie : Props.voiture_est_certifie
-    });
-  };};
+    if (!user) {
+      navigation.navigate('TabNavigator', { screen: 'Profil', params: { screen: 'WelcomeScreen', } })
+    } else {
+      navigation.navigate("Details", {
+        depart: Props.startLocation,
+        destination: Props.endLocation,
+        rating: Props.rating,
+        nbr_ratings: Props.nbrRatings,
+        name: Props.name,
+        photo: Props.photo,
+        details: Props.details,
+        genre: Props.genre,
+        couleur: Props.couleur,
+        matricule: Props.matricule,
+        email: Props.email,
+        modele: Props.modele,
+        num_tel: Props.num_tel,
+        availableSeats: Props.availableSeats,
+        naissance: Props.naissance,
+        key: Props.btnText,
+        id_trajet: Props.trajetId,
+        nbr_place: Props.passengers,
+        est_certifie: Props.est_certifie,
+        voiture_est_certifie: Props.voiture_est_certifie
+      });
+    };
+  };
 
   const renderButtons = () => {
     if (Props.btnText === "Participer") {
@@ -107,7 +108,7 @@ const Annonce = (Props) => {
               AnnonceStyles.detailsFlexBox,
               { width: 97, marginLeft: 100 },
             ]}
-            onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete})}
+            onPress={() => navigation.navigate("ParticipantsScreen", { id_trajet: Props.trajetId, depart: Props.startLocation, destination: Props.endLocation, date: Props.date, canDelete: Props.canDelete })}
           >
             <Text
               style={[
@@ -139,29 +140,30 @@ const Annonce = (Props) => {
       );
     } else if (Props.btnText === "Supprimer") {
       return (
-      <View style={AnnonceStyles.buttons}>
-      <TouchableOpacity
-        style={[AnnonceStyles.details, AnnonceStyles.detailsFlexBox, {width: 97,}]}
-        onPress={() => navigation.navigate("ParticipantsScreen", {id_trajet : Props.trajetId, depart:Props.startLocation, destination : Props.endLocation, date : Props.date, canDelete : Props.canDelete})}
-      >
-        <Text
-          style={[
-            AnnonceStyles.ButtonText,
-            { color: Color.colorRoyalblue_100, width: 77 },
-          ]}
-        >
-          Participants
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox, {backgroundColor: Color.colorTomato,left: 209,}]} onPress={AnnulerSup}>
-        <Text
-          style={[AnnonceStyles.ButtonText, { color: Color.neutralWhite, width: 67 }]}>
-          {Props.btnText}
-        </Text>
-      </TouchableOpacity>
-    </View>
-    );
-  };}
+        <View style={AnnonceStyles.buttons}>
+          <TouchableOpacity
+            style={[AnnonceStyles.details, AnnonceStyles.detailsFlexBox, { width: 97, }]}
+            onPress={() => navigation.navigate("ParticipantsScreen", { id_trajet: Props.trajetId, depart: Props.startLocation, destination: Props.endLocation, date: Props.date, canDelete: Props.canDelete })}
+          >
+            <Text
+              style={[
+                AnnonceStyles.ButtonText,
+                { color: Color.colorRoyalblue_100, width: 77 },
+              ]}
+            >
+              Participants
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[AnnonceStyles.participer, AnnonceStyles.detailsFlexBox, { backgroundColor: Color.colorTomato, left: 209, }]} onPress={AnnulerSup}>
+            <Text
+              style={[AnnonceStyles.ButtonText, { color: Color.neutralWhite, width: 67 }]}>
+              {Props.btnText}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    };
+  }
 
   const AnnulerSup = () => {
     if (Props.btnText === "Supprimer") {
@@ -173,14 +175,14 @@ const Annonce = (Props) => {
 
   //Backedn----------------------------------------------------------------------------------------
   const ParticiperFunc = async () => {
-    console.log(user );
+    console.log(user);
 
     try {
       if (!user) {
         navigation.navigate('TabNavigator', { screen: 'Profil', params: { screen: 'WelcomeScreen' } });
         return;
       }
-  
+
       const response = await fetch(`http://${env.API_IP_ADDRESS}:3000/api/reserver`, {
         method: 'POST',
         headers: {
@@ -190,18 +192,18 @@ const Annonce = (Props) => {
         body: JSON.stringify({
           id_trajet: Props.trajetId,
           id_reserveur: user.user.id_uti,
-          nbr_place: Props.passengers 
+          nbr_place: Props.passengers
         })
       });
-  
+
       if (response.ok) {
         navigation.navigate('TabNavigator', {
           screen: 'Search',
           params: {
-            screen: 'Recherche', 
+            screen: 'Recherche',
           }
         });
-      navigation.navigate('TabNavigator', {screen: 'Carpools',params: {screen: 'Carpools', }})
+        navigation.navigate('TabNavigator', { screen: 'Carpools', params: { screen: 'Carpools', } })
         Alert.alert("Success", "Reservation made successfully");
       } else {
         const data = await response.json();
@@ -216,7 +218,7 @@ const Annonce = (Props) => {
 
   const SupprimerFunc = async () => {
     try {
-      const trajetId = Props.trajetId; 
+      const trajetId = Props.trajetId;
       const response = await fetch(
         `http://${env.API_IP_ADDRESS}:3000/api/deleteTrajet/${trajetId}`,
         {
@@ -253,7 +255,7 @@ const Annonce = (Props) => {
           key: 'req',
         }),
       })
-        
+
       if (!response.ok) {
         throw new Error('Failed to cancel reservation');
       }
@@ -333,7 +335,7 @@ const Annonce = (Props) => {
         <View style={[AnnonceStyles.infoBox]}>
           <Text style={[AnnonceStyles.titre]}>Heure</Text>
           <Text
-            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs+1.5 }]}
+            style={[AnnonceStyles.infoTypo, { fontSize: FontSize.size_xs + 1.5 }]}
           >
             {Props.time}
           </Text>
@@ -370,7 +372,7 @@ export const AnnonceStyles = StyleSheet.create({
 
   LocationTextStyle: {
     color: Color.colorSilver_200,
-    fontSize: FontSize.size_4xs+1,
+    fontSize: FontSize.size_4xs + 1,
     fontFamily: "Poppins-Medium",
     textAlign: "center",
     position: "absolute",

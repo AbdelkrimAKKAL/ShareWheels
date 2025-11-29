@@ -20,7 +20,7 @@ import env from "../env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import Certified from "../components/certifier";
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from 'expo-file-system/legacy';
 import { NativeBaseProvider, Box, Select, CheckIcon } from "native-base";
 
 const MonProfil = () => {
@@ -41,6 +41,8 @@ const MonProfil = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState("");
   const { dispatch } = useAuth();
+
+  // LOGOUT
   const handleLogout = () => {
     AsyncStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
@@ -54,6 +56,7 @@ const MonProfil = () => {
     fetchData();
   }, []);
 
+  // Recuperer donnees perso
   const fetchData = async () => {
     try {
       const userResponse = await fetch(
@@ -72,6 +75,7 @@ const MonProfil = () => {
       }
 
       const userData = await userResponse.json();
+      console.log(userData)
 
       setEmail(userData.user.email);
       setPhone(userData.user.num_tel);

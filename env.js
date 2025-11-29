@@ -2,10 +2,10 @@
 //npm install -g eas-cli
 //eas build -p android
 
-const API_IP_ADDRESS = '192.168.1.101';
+const API_IP_ADDRESS = '192.168.1.95';
 const MYSQL_HOST = "127.0.0.1";
 const MYSQL_USER = "root";
-const MYSQL_PASSWORD = "Amine/2002";
+const MYSQL_PASSWORD = "root";
 const MYSQL_DATABASE = "sharewheels";
 
 const JWT_SECRET = "bI4Ygtdx4ayp1dI2Es6ppl8DI3JPUKOR";
@@ -15,7 +15,7 @@ const JWT_LIFETIME = "30d";
 const USER="sharewheelsapp@gmail.com"
 const APP_PASSWORD="afwm auug zmbz ooiz"
 
-const EMAIL_RECEIVER="meddouri06@gmail.com"
+const EMAIL_RECEIVER="abdelkrimakkal5@gmail.com"
 
 
 module.exports = {

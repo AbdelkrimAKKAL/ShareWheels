@@ -22,7 +22,7 @@ import env from "../env";
 import { useRefresh } from "../context/refresh";
 import { ResultatRechercheStyles } from "./ResultatRecherche";
 import { ActivityIndicator, RefreshControl } from "react-native";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 const Carpools = () => {
   const [activeButton, setActiveButton] = useState(0); // "venir" or "passes"

@@ -26,7 +26,29 @@ import Mdp from "./screens/Mdp";
 import ForgotPwd from "./screens/ForgotPwd";
 import ResetPwd from "./screens/ResetPwd";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity, Image } from "react-native";
+import { View, Text, Pressable, TouchableOpacity, Image, BackHandler } from "react-native";
+
+// Polyfill for BackHandler.removeEventListener (required for native-base)
+if (BackHandler && !BackHandler.removeEventListener) {
+  const originalAddEventListener = BackHandler.addEventListener;
+  const subscriptions = new Map();
+
+  BackHandler.addEventListener = (eventName, handler) => {
+    const subscription = originalAddEventListener(eventName, handler);
+    if (handler) {
+      subscriptions.set(handler, subscription);
+    }
+    return subscription;
+  };
+
+  BackHandler.removeEventListener = (eventName, handler) => {
+    const subscription = subscriptions.get(handler);
+    if (subscription) {
+      subscription.remove();
+      subscriptions.delete(handler);
+    }
+  };
+}
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Padding } from "./GlobalStyles";
 import ParticipantsScreen from "./screens/ParticipantsScreen";
@@ -207,7 +229,7 @@ const App = () => {
           </AuthContextProvider>
         </ProfileProvider>
       </RefreshProvider>
-      </NativeBaseProvider>
+    </NativeBaseProvider>
     </>
   );
 };
