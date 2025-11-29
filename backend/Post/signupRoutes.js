@@ -1,9 +1,9 @@
 import express from "express";
-import { pool } from "../createPool.js"; 
+import { pool } from "../createPool.js";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import env from '../../env.js';
-const {JWT_LIFETIME, JWT_SECRET} = env
+const { JWT_LIFETIME, JWT_SECRET } = env
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
       genre, naissance
     } = req.body;
 
-    if (!nom || !prenom || !mdp || !email || !num_tel || naissance==="") {
+    if (!nom || !prenom || !mdp || !email || !num_tel || naissance === "") {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -42,11 +42,11 @@ router.post("/", async (req, res) => {
     const hashedPassword = await bcrypt.hash(mdp, 10)
 
     const currentYear = new Date().getFullYear();
-    const birthYear = currentYear-parseInt(naissance);
+    const birthYear = currentYear - parseInt(naissance);
     const insertConnection = await pool.getConnection();
     const [result] = await insertConnection.query(
-      "INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email, est_certifie, certificat, genre, naissance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, certificat, genre, birthYear]
+      "INSERT INTO Utilisateurs (nom, prenom, mdp, num_tel, photo, email, est_certifie, genre, naissance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [nom, prenom, hashedPassword, num_tel, photo, email, est_certifie, genre, birthYear]
     );
     insertConnection.release();
 
@@ -65,7 +65,7 @@ router.post("/", async (req, res) => {
 
     res.status(200).json({
       message: "Login successful",
-      user: {email: user.email, id_uti: user.id_uti, nom: user.nom, prenom: user.prenom },
+      user: { email: user.email, id_uti: user.id_uti, nom: user.nom, prenom: user.prenom },
       token,
     });
 

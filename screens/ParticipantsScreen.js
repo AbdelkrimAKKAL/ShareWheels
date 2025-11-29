@@ -9,12 +9,12 @@ import { ResultatRechercheStyles } from "./ResultatRecherche";
 import NotAuth from "../components/notAuth";
 import { useRefresh } from '../context/refresh';
 import { API_IP_ADDRESS } from "../env";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 const ParticipantsScreen = () => {
   const navigation = useNavigation();
   const refresh = useRefresh();
-  const [refreshing, setRefreshing] = useState(false); 
+  const [refreshing, setRefreshing] = useState(false);
 
 
   const [participants, setParticipants] = useState([]);
@@ -46,11 +46,13 @@ const ParticipantsScreen = () => {
         throw new Error('Failed to fetch participants');
       }
       const data = await response.json();
-      console.log('rsp ',data)
-      if(data){for (const item of data) {
-        const loadedPhoto = await loadImage(item.photo);
-        item.photo = loadedPhoto;
-      }}
+      console.log('rsp ', data)
+      if (data) {
+        for (const item of data) {
+          const loadedPhoto = await loadImage(item.photo);
+          item.photo = loadedPhoto;
+        }
+      }
       setParticipants(data);
     } catch (error) {
       console.error("Error fetching participants information:", error);
@@ -64,10 +66,10 @@ const ParticipantsScreen = () => {
       phone={item.num_tel}
       gender={item.genre}
       nbr_place={item.nbr_place}
-      id_reservation= {item.id_reservation}
-      naissance= {item.naissance}
-      canDelete = {canDelete}
-      photo = {item.photo}
+      id_reservation={item.id_reservation}
+      naissance={item.naissance}
+      canDelete={canDelete}
+      photo={item.photo}
     />
   );
 
@@ -89,11 +91,11 @@ const ParticipantsScreen = () => {
         <Text style={ResultatRechercheStyles.heading1}>{date}</Text>
       </View>
       <RefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-            colors={['#0075fd']}
-            progressBackgroundColor='white'
-          >
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        colors={['#0075fd']}
+        progressBackgroundColor='white'
+      >
         <FlatList
           style={{ width: "100%" }}
           contentContainerStyle={{
@@ -106,7 +108,7 @@ const ParticipantsScreen = () => {
           keyExtractor={(item) => item.id_uti.toString()}
           ListEmptyComponent={<NotAuth title="Garde patience !" photo={4} />}
         /></RefreshControl>
-     
+
     </View>
   );
 };

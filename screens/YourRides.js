@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, RefreshControl  } from "react-native";
-import { useNavigation, useIsFocused  } from "@react-navigation/native";
+import { View, Text, ActivityIndicator, FlatList, StyleSheet, TouchableOpacity, RefreshControl } from "react-native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import Annonce from "../components/Annonce";
 import TopBar from "../components/TopBar";
 import NotAuth from "../components/notAuth";
@@ -12,7 +12,7 @@ import { Color, FontFamily, FontSize } from "../GlobalStyles";
 import { Image } from "react-native";
 import { useRefresh } from '../context/refresh';
 import ResultatRechercheStyles from "./ResultatRecherche";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 
 const YourRides = () => {
@@ -22,7 +22,7 @@ const YourRides = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
-  const [refreshing, setRefreshing] = useState(false); 
+  const [refreshing, setRefreshing] = useState(false);
 
   const loadImage = async (path) => {
     const fileExists = await FileSystem.getInfoAsync(path);
@@ -33,7 +33,7 @@ const YourRides = () => {
     }
   };
 
-  
+
   const handleRefresh = () => {
     setRefreshing(true);
     fetchDataFromDatabase();
@@ -49,16 +49,18 @@ const YourRides = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`,
         },
-        params:{
-          email : user.user.email
+        params: {
+          email: user.user.email
         }
       });
 
-      if(response.data){for (const item of response.data) {
-        const loadedPhoto = await loadImage(item.photo);
-        item.photo = loadedPhoto;
-      }}
-      
+      if (response.data) {
+        for (const item of response.data) {
+          const loadedPhoto = await loadImage(item.photo);
+          item.photo = loadedPhoto;
+        }
+      }
+
       setData(response.data);
     } catch (error) {
       console.error('Error fetching profile data:', error);
@@ -68,15 +70,15 @@ const YourRides = () => {
   };
 
   useEffect(() => {
-    if (user){
+    if (user) {
       fetchDataFromDatabase();
     }
   }, [refresh, user]);
 
-  
+
   const renderItem = ({ item }) => {
     const { date, time } = timestampToDateTime(item.timestamp);
-    
+
     return (
       <Annonce
         trajetId={item.id_trajet}
@@ -86,13 +88,13 @@ const YourRides = () => {
         startLocation={item.depart}
         endLocation={item.arrivee}
         price={item.prix}
-        photo= {item.photo}
+        photo={item.photo}
         modele={item.modele}
         time={time}
         date={date}
         availableSeats={item.nbr_place}
         btnText="Supprimer"
-        canDelete = "t"
+        canDelete="t"
       />
     );
   };
@@ -103,45 +105,46 @@ const YourRides = () => {
         <TopBar />
         <Text style={YourRidesStyles.title}>Vos Trajets</Text>
         <NotAuth title="Besoin de se connecter/s'inscrire" photo={2} />
-        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', {screen: 'Profil',params: {screen: 'WelcomeScreen', }})} >
+        <TouchableOpacity onPress={() => navigation.navigate('TabNavigator', { screen: 'Profil', params: { screen: 'WelcomeScreen', } })} >
           <Image style={YourRidesStyles.image} source={require("../assets/next.png")} />
         </TouchableOpacity>
       </View>
     );
-  }else{
-  return (
-    <View style={YourRidesStyles.container}>
-      <TopBar />
-      <Text style={YourRidesStyles.title}>Vos Trajets</Text>
-      <View style={YourRidesStyles.main}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0075fd" style={[ResultatRechercheStyles.loadingIndicator]}
-          />
-        ) : (
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-            colors={['#0075fd']}
-            progressBackgroundColor='white'
-          >
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              style={{ width: "100%" }} 
-              contentContainerStyle={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id_trajet.toString()}
-              ListEmptyComponent={<View style={[{marginTop: '40%'}]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={3} /></View>}
+  } else {
+    return (
+      <View style={YourRidesStyles.container}>
+        <TopBar />
+        <Text style={YourRidesStyles.title}>Vos Trajets</Text>
+        <View style={YourRidesStyles.main}>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#0075fd" style={[ResultatRechercheStyles.loadingIndicator]}
             />
-          </RefreshControl>
-        )}
+          ) : (
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              colors={['#0075fd']}
+              progressBackgroundColor='white'
+            >
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                style={{ width: "100%" }}
+                contentContainerStyle={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id_trajet.toString()}
+                ListEmptyComponent={<View style={[{ marginTop: '40%' }]}><NotAuth title={'Les prochains trajets publiés\napparaîtront ici'} photo={3} /></View>}
+              />
+            </RefreshControl>
+          )}
+        </View>
       </View>
-    </View>
-  );
-};};
+    );
+  };
+};
 
 export const YourRidesStyles = StyleSheet.create({
   container: {
@@ -158,7 +161,7 @@ export const YourRidesStyles = StyleSheet.create({
     height: 27,
     width: '100%',
     textAlign: "center",
-    
+
   },
   main: {
     flex: 1,

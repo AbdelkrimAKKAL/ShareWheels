@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { Camera } from 'expo-camera';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert, Button } from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import env from "../env";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const CertifierCar = () => {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = useCameraPermissions();
   const [imageUri, setImageUri] = useState(null);
   const cameraRef = useRef(null);
   const { user } = useAuth();
@@ -14,21 +14,23 @@ const CertifierCar = () => {
 
   const route = useRoute();
   const carDes = route.params?.carDes;
+
   useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+    if (permission && !permission.granted && permission.canAskAgain) {
+      requestPermission();
+    }
+  }, [permission]);
 
   const handleScanIDCard = async () => {
-    if (!hasPermission) {
+    if (!permission || !permission.granted) {
       Alert.alert('Permission Required', 'Please enable camera permissions to scan ID card.');
       return;
     }
 
-    const { uri } = await cameraRef.current.takePictureAsync();
-    setImageUri(uri);
+    if (cameraRef.current) {
+      const photo = await cameraRef.current.takePictureAsync();
+      setImageUri(photo.uri);
+    }
   };
 
   const handleSendImage = () => {
@@ -39,44 +41,54 @@ const CertifierCar = () => {
 
     console.log('Image uploaded successfully');
     Alert.alert('Card saved', 'Image uploaded successfully');
-    navigation.navigate('Voiture', {imageUri :imageUri, carDes: carDes });
+    navigation.navigate('Voiture', { imageUri: imageUri, carDes: carDes });
   };
 
   const handleRetakeImage = () => {
     setImageUri(null);
   };
 
+  if (!permission) {
+    // Camera permissions are still loading.
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {hasPermission ? (
-        <>
-          {imageUri ? (
-            <>
-              <View style={styles.imageContainer}>
-                <Image source={{ uri: imageUri }} style={styles.image} />
-              </View>
-              <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={[styles.button]} onPress={handleSendImage}>
+      <>
+        {imageUri ? (
+          <>
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: imageUri }} style={styles.image} />
+            </View>
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity style={[styles.button]} onPress={handleSendImage}>
                 <Image source={require('../assets/SendButton.png')} style={styles.cameraIcon} />
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.retakeButton]} onPress={handleRetakeImage}>
-                <Image source={require('../assets/RetakeButton.png')} style={styles.cameraIcon} />
-                </TouchableOpacity>
-              </View>
-            </>
-          ) : (
-            <>
-              <Camera style={styles.camera} type={Camera.Constants.Type.back} ref={cameraRef} />
-              <TouchableOpacity style={styles.scanButton} onPress={handleScanIDCard}>
-                <Image source={require('../assets/CameraButton.png')} style={styles.cameraIcon} />
               </TouchableOpacity>
-
-            </>
-          )}
-        </>
-      ) : (
-        <Text>No access to camera</Text>
-      )}
+              <TouchableOpacity style={[styles.button, styles.retakeButton]} onPress={handleRetakeImage}>
+                <Image source={require('../assets/RetakeButton.png')} style={styles.cameraIcon} />
+              </TouchableOpacity>
+            </View>
+          </>
+        ) : (
+          <>
+            <CameraView style={styles.camera} facing={'back'} ref={cameraRef}>
+            </CameraView>
+            <TouchableOpacity style={styles.scanButton} onPress={handleScanIDCard}>
+              <Image source={require('../assets/CameraButton.png')} style={styles.cameraIcon} />
+            </TouchableOpacity>
+          </>
+        )}
+      </>
     </View>
   );
 };
@@ -98,7 +110,6 @@ const styles = StyleSheet.create({
   scanButton: {
     marginTop: 25,
     padding: 10,
-   
     borderRadius: 5,
   },
   buttonText: {
@@ -130,7 +141,6 @@ const styles = StyleSheet.create({
   sendButton: {
     backgroundColor: 'green',
   },
-
 });
 
 export default CertifierCar;
