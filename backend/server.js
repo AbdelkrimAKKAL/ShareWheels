@@ -61,5 +61,5 @@ app.use("/api/GetNotifications", GetNotifications)
 
 
 app.listen(port, () => {
-  console.log(`Server is running on http://192.168.1.107:${port}`);
+  console.log(`Server is running on http://192.168.1.95:${port}`);
 });

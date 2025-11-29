@@ -207,7 +207,7 @@ const App = () => {
           </AuthContextProvider>
         </ProfileProvider>
       </RefreshProvider>
-      </NativeBaseProvider>
+    </NativeBaseProvider>
     </>
   );
 };
