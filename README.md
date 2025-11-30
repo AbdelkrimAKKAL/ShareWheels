@@ -18,6 +18,12 @@ A modern React Native car‑pooling and ride‑sharing application built with Ex
 - **MySQL Workbench** for authentication & storage
 - **Node.js Express** for backend
 
+## 📸 App Preview
+
+| Login / Sign Up | Search Screen | Publish a Ride | Map View | Notifications |
+| :---: | :---: | :---: | :---: | :---: |
+| ![Login and Sign Up Screen](assets/Signup-login.PNG) | ![Ride Search Results Screen](assets/Recherche.PNG) | ![Add Ride/Publish Screen](assets/addRide.PNG) | ![In-App Map Location Selection](assets/map.PNG) | ![Real-time Notifications Screen](assets/notification_screen.PNG) |
+
 ## 📂 Project Structure (high‑level)
 
 ```
